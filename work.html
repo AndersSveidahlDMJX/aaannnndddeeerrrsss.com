@@ -241,7 +241,6 @@
   </div>
   <button class="mute-toggle" id="muteBtn">🔇 unmute</button>
   <script>
-    var player;
     var muted = true;
 
     var videos = [
@@ -252,45 +251,26 @@
 
     document.getElementById('still').style.backgroundImage = "url('" + chosen.still + "')";
 
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('yt-player', {
-        videoId: chosen.id,
-        playerVars: {
-          autoplay: 1,
-          mute: 1,
-          controls: 0,
-          loop: 1,
-          playlist: chosen.id,
-          playsinline: 1,
-          disablekb: 1,
-          modestbranding: 1,
-          rel: 0
-        },
-        events: {
-          onReady: function(e) {
-            e.target.playVideo();
-            setTimeout(function() {
-              document.getElementById('yt-player').classList.add('visible');
-            }, 2000);
-          }
-        }
-      });
-    }
+    var iframe = document.getElementById('yt-player');
+    iframe.src = 'https://www.youtube.com/embed/' + chosen.id +
+      '?autoplay=1&mute=1&loop=1&playlist=' + chosen.id +
+      '&controls=0&playsinline=1&disablekb=1&modestbranding=1&rel=0&enablejsapi=1';
+
+    iframe.addEventListener('load', function() {
+      setTimeout(function() {
+        iframe.classList.add('visible');
+      }, 2000);
+    });
 
     document.getElementById('muteBtn').addEventListener('click', function() {
-      if (!player) return;
-      if (muted) {
-        player.unMute();
-        player.setVolume(100);
-        this.textContent = '🔊 mute';
-      } else {
-        player.mute();
-        this.textContent = '🔇 unmute';
-      }
+      var func = muted ? 'unMute' : 'mute';
+      iframe.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: func, args: [] }), '*'
+      );
+      this.textContent = muted ? '🔊 mute' : '🔇 unmute';
       muted = !muted;
     });
   </script>
-  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     window.addEventListener('load', function() {
       document.querySelector('.grid').classList.add('visible');
