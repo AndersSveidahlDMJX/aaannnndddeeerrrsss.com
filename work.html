@@ -254,13 +254,34 @@
     var iframe = document.getElementById('yt-player');
     iframe.src = 'https://www.youtube.com/embed/' + chosen.id +
       '?autoplay=1&mute=1&loop=1&playlist=' + chosen.id +
-      '&controls=0&playsinline=1&disablekb=1&modestbranding=1&rel=0&enablejsapi=1';
+      '&controls=0&playsinline=1&disablekb=1&modestbranding=1&rel=0&enablejsapi=1' +
+      '&origin=' + encodeURIComponent(location.origin);
 
-    iframe.addEventListener('load', function() {
-      setTimeout(function() {
-        iframe.classList.add('visible');
-      }, 2000);
+    var revealed = false;
+    function revealPlayer() {
+      if (revealed) return;
+      revealed = true;
+      setTimeout(function() { iframe.classList.add('visible'); }, 500);
+    }
+
+    // Listen for YouTube player ready/state events and force play + mute (Safari fix)
+    window.addEventListener('message', function(e) {
+      if (e.origin !== 'https://www.youtube.com') return;
+      try {
+        var data = JSON.parse(e.data);
+        if (data.event === 'onReady') {
+          iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'mute', args: [] }), '*');
+          iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
+          revealPlayer();
+        }
+        if (data.event === 'infoDelivery' && data.info && data.info.playerState === 1) {
+          revealPlayer();
+        }
+      } catch(err) {}
     });
+
+    // Fallback: reveal after 4s regardless
+    setTimeout(revealPlayer, 4000);
 
     document.getElementById('muteBtn').addEventListener('click', function() {
       var func = muted ? 'unMute' : 'mute';
