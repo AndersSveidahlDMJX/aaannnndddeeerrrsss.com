@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>aaannndddeeerrrsss</title>
+  <style>
+    @font-face {
+      font-family: 'ImpactLabel';
+      src: url('fonts/ImpactLabel.ttf') format('truetype');
+    }
+
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffffff;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+
+    .bg {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 100vh;
+      transform: translate(-50%, -50%) rotate(180deg) scaleX(-1) scaleY(-1);
+      object-fit: fill;
+      z-index: -1;
+    }
+
+    .work {
+      position: fixed;
+      left: 50%;
+      bottom: 25%;
+      transform: translateX(-50%);
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      color: #000000;
+    }
+
+    a:has(.toshiba-wrap) {
+      display: contents;
+    }
+
+    .toshiba-wrap {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+
+    .toshiba-wrap:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .toshiba2 {
+      display: block;
+      max-width: 25vw;
+      max-height: 45vh;
+      width: auto;
+      height: auto;
+    }
+
+    .toshiba1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      pointer-events: none;
+    }
+
+    .work-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(4deg);
+      font-family: 'ImpactLabel', Impact, sans-serif;
+      font-size: 2rem;
+      text-transform: uppercase;
+      color: #000000;
+      background-color: #ffffff;
+      padding: 2px 8px;
+      clip-path: inset(0 10px 0 8px);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    @keyframes migSlideIn {
+      from {
+        transform: translateX(calc(-50% + 400px)) translateY(60vh) rotate(90deg);
+      }
+      to {
+        transform: translateX(calc(-50% + 400px)) translateY(100px) rotate(90deg);
+      }
+    }
+
+    .mig-wrap {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(calc(-50% + 400px)) translateY(100px) rotate(90deg);
+      transform-origin: center center;
+      z-index: 1;
+      display: inline-block;
+      animation: migSlideIn 5s linear forwards;
+      cursor: pointer;
+    }
+
+    .mig-wrap.arrived {
+      animation: none;
+      transform: translateX(calc(-50% + 400px)) translateY(100px) rotate(90deg);
+      transition: transform 0.3s ease;
+    }
+
+    .mig-wrap.arrived:hover {
+      transform: translateX(calc(-50% + 400px)) translateY(100px) rotate(90deg) scale(1.05);
+    }
+
+    .mig {
+      height: 60vh;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0px 6px 12px rgba(0,0,0,0.45));
+    }
+
+    .mig-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(calc(-50% + 28px), calc(-50% + 14px)) rotate(270deg);
+      font-family: 'ImpactLabel', Impact, sans-serif;
+      font-size: 2rem;
+      text-transform: uppercase;
+      color: #000000;
+      background-color: #ffffff;
+      padding: 2px 8px;
+      clip-path: inset(0 10px 0 8px);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .usb-wrap {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(calc(-50% - 339px), calc(-50% - 20px)) rotate(51deg);
+      display: inline-block;
+      cursor: default;
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+
+    .usb-wrap:hover {
+      transform: translate(calc(-50% - 339px), calc(-50% - 20px)) rotate(51deg) scale(1.05);
+    }
+
+    .usb-img {
+      height: 25vh;
+      width: auto;
+      display: block;
+      filter: drop-shadow(2px 5px 5px rgba(0,0,0,2));
+    }
+
+    .notwork-label {
+      position: absolute;
+      top: 55%;
+      left: 51%;
+      transform: translate(-50%, -30%) rotate(-90deg);
+      font-family: 'ImpactLabel', Impact, sans-serif;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      color: #000000;
+      background-color: #ffffff;
+      padding: 1px 8px;
+      clip-path: inset(0 10px 0 8px);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+  </style>
+</head>
+<body>
+  <img class="bg" src="images/baggrundweb.png" alt="" />
+  <a href="not-work.html" style="display: contents;">
+  <div class="usb-wrap">
+    <img class="usb-img" src="images/usb.png" alt="" />
+    <span class="notwork-label">not work</span>
+  </div>
+  </a>
+  <a href="about-me.html" style="display: contents;">
+  <div class="mig-wrap">
+    <img class="mig" src="images/mig.png" alt="" />
+    <span class="mig-label">me</span>
+  </div>
+  </a>
+  <a href="work.html"><div class="toshiba-wrap">
+    <img class="toshiba2" src="images/toshiba2.png" alt="" />
+    <img class="toshiba1" src="images/toshiba1.png" alt="" />
+    <span class="work-label">work</span>
+  </div></a>
+  <script>
+    const wrap = document.querySelector('.toshiba-wrap');
+    const t2 = wrap.querySelector('.toshiba2');
+    const t1 = wrap.querySelector('.toshiba1');
+    let loopTimeout = null;
+    let hovering = false;
+
+    function loop() {
+      if (!hovering) return;
+      t1.style.display = 'block';
+      loopTimeout = setTimeout(() => {
+        t1.style.display = 'none';
+        loopTimeout = setTimeout(() => {
+          loop();
+        }, 500);
+      }, 500);
+    }
+
+    wrap.addEventListener('mouseenter', () => {
+      hovering = true;
+      loopTimeout = setTimeout(loop, 300);
+    });
+
+    wrap.addEventListener('mouseleave', () => {
+      hovering = false;
+      clearTimeout(loopTimeout);
+      t1.style.display = 'none';
+    });
+
+    const migWrap = document.querySelector('.mig-wrap');
+    setTimeout(() => migWrap.classList.add('arrived'), 5000);
+
+  </script>
+</html>
