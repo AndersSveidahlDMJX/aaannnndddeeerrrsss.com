@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Noter</title>
+    <style>
+        @font-face {
+            font-family: "MyFont";
+            src: url("fonts/AppleGaramond-Light.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Fullscreen video background */
+        #bgVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        body {
+            margin: 0;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            margin-top: 40px;
+            font-size: 50px;
+            letter-spacing: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            font-family: "", serif;
+            position: relative;
+            z-index: 1;
+        }
+
+        header img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        /* 💫 Move the right header GIF manually */
+        .right-gif {
+            position: relative;
+            left: -10px;
+            /* Move left/right (negative = left, positive = right) */
+            top: 0px;
+            /* Move up/down (negative = up, positive = down) */
+        }
+
+        .iphone-container {
+            position: relative;
+            width: 360px;
+            height: 640px;
+            margin-top: 40px;
+            margin-bottom: 60px;
+            cursor: default;
+            z-index: 1;
+        }
+
+        .iphone-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            user-select: none;
+            z-index: 10;
+        }
+
+        .screen-area {
+            position: absolute;
+            top: 80px;
+            left: 45px;
+            right: 50px;
+            bottom: 80px;
+            overflow: hidden;
+            border-radius: 10px;
+            background: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-sizing: border-box;
+            gap: 3px;
+        }
+
+        .screen-area img {
+            width: 30%;
+            height: auto;
+            object-fit: contain;
+            transition: opacity 0.3s ease;
+            display: block;
+            cursor: pointer;
+            min-height: 50px;
+        }
+
+        .image-label {
+            color: white;
+            font-size: 16px;
+            font-family: "MyFont", sans-serif;
+            user-select: none;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* Fullscreen overlay */
+        .fullscreen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.3);
+            align-items: center;
+            justify-content: center;
+            z-index: 10003;
+            user-select: none;
+        }
+
+        .fullscreen-overlay.active {
+            display: flex;
+        }
+
+        /* Wrapper fills overlay and centers content */
+        .fullscreen-image-wrapper {
+            position: relative;
+            max-height: 100vh;
+            max-width: calc(100vh / 1.414);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+
+        /* Fullscreen image with A4 aspect ratio */
+        .fullscreen-image {
+            max-height: 100vh;
+            max-width: calc(100vh / 1.414);
+            object-fit: contain;
+            border-radius: 0;
+            transition: opacity 0.3s ease;
+            cursor: default;
+            user-select: none;
+            -webkit-user-drag: none;
+            display: block;
+            position: relative;
+        }
+
+        /* Arrows positioned INSIDE image edges */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.3s;
+            z-index: 10004;
+            padding: 0 10px;
+            border-radius: 50%;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        .arrow:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .arrow-left {
+            left: 10px;
+        }
+
+        .arrow-right {
+            right: 10px;
+        }
+
+        /* Close button */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.3s;
+            z-index: 10005;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        /* Scrolling footer */
+        .scrolling-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: black;
+            overflow: hidden;
+            height: 30px;
+            border-top: 1px solid #444;
+            display: flex;
+            align-items: center;
+            z-index: 10002;
+        }
+
+        .scrolling-text {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: scrollContinuous 15s linear infinite;
+            font-size: 18px;
+            color: white;
+            letter-spacing: 2px;
+            font-family: "MyFont", sans-serif;
+        }
+
+        .scrolling-text span {
+            padding-right: 40px;
+            display: inline-block;
+        }
+
+        @keyframes scrollContinuous {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+  <a href="../other-stuff.html" style="position:fixed;top:20px;left:24px;color:#fff;font-size:1.5rem;text-decoration:none;opacity:0.7;z-index:99999;transition:opacity 0.2s ease;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">←</a>
+  <!-- Background video --> <video autoplay muted loop playsinline id="bgVideo">
+        <source src="videoer/steve_jobs.mp4" type="video/mp4" /> Your browser does not support the video tag.
+    </video> <audio id="bgMusic" src="lyd/blueface.mp3" loop></audio>
+    <script> const bgMusic = document.getElementById("bgMusic"); const bgVideo = document.getElementById("bgVideo"); // On page load, video starts automatically (autoplay attribute takes care of this) // On first click, play music, and switch background video to BluefaceVid starting at 1:29 document.body.addEventListener('click', () => { bgMusic.currentTime = 40.7; bgMusic.play(); // Switch video source to BluefaceVid.mp4 bgVideo.pause(); bgVideo.src = "videoer/BluefaceVid.mp4"; bgVideo.load(); bgVideo.addEventListener('loadedmetadata', () => { bgVideo.currentTime = 89; // 1 minute 29 seconds bgVideo.play(); }, { once: true }); }, { once: true }); </script>
+    <header> <img src="billeder/apple_spin.gif" alt="Left GIF" /> <span>IPHONE NOTER</span> <img
+            src="billeder/apple_spin.gif" alt="Right GIF" class="right-gif" /> </header>
+    <!-- iPhone container on page -->
+    <div class="iphone-container" id="iphoneContainer" title="Click to open gallery">
+        <div class="screen-area"> <img id="galleryImage" src="billeder/notes_app.png" alt="Gallery Image" />
+            <div class="image-label" id="imageLabel">Noter</div>
+        </div> <img class="iphone-frame" src="billeder/iphone_frame.png" alt="iPhone Frame" />
+    </div> <!-- Fullscreen overlay -->
+    <div class="fullscreen-overlay" id="fullscreenOverlay" title="Click arrows to navigate, X to close">
+        <div class="close-btn" id="closeBtn">&times;</div>
+        <div class="fullscreen-image-wrapper">
+            <div class="arrow arrow-left" id="prev">&#10094;</div> <img class="fullscreen-image" id="fullscreenImage"
+                src="billeder/1.png" alt="Fullscreen Image" />
+            <div class="arrow arrow-right" id="next">&#10095;</div>
+        </div>
+    </div> <!-- Scrolling footer -->
+    <footer class="scrolling-footer">
+        <div class="scrolling-text"> <span>ANDERS! ! ! IPHONE 4S !5GGGGGG !! FUUUUUUCKKKKK !!NDERS! ! ! IPHONE 4S
+                !5GGGGGG !! FUUUUUUCKKKKK!!ANDERS! ! ! IPHONE 4S !5GGGGGG !! FUUUUUUCKKKKK !!NDERS! ! ! IPHONE 4S
+                !5GGGGGG !! FUUUUUUCKKKKK!!</span> <span>ANDERS! ! ! IPHONE 4S !5GGGGGG !! FUUUUUUCKKKKK !!NDERS! ! !
+                IPHONE 4S !5GGGGGG !! FUUUUUUCKKKKK!!ANDERS! ! ! IPHONE 4S !5GGGGGG !! FUUUUUUCKKKKK !!NDERS! ! ! IPHONE
+                4S !5GGGGGG !! FUUUUUUCKKKKK!!</span> </div>
+    </footer>
+    <script> const images = ["billeder/1.png", "billeder/2.png", "billeder/3.png", "billeder/4.png", "billeder/5.png", "billeder/6.png",]; let current = 0; const galleryImage = document.getElementById("galleryImage"); const imageLabel = document.getElementById("imageLabel"); const fullscreenImage = document.getElementById("fullscreenImage"); const fullscreenOverlay = document.getElementById("fullscreenOverlay"); const closeBtn = document.getElementById("closeBtn"); const prevBtn = document.getElementById("prev"); const nextBtn = document.getElementById("next"); function updateImages() { fullscreenImage.style.opacity = 0; setTimeout(() => { fullscreenImage.src = images[current]; fullscreenImage.style.opacity = 1; }, 0); } function openFullscreen() { fullscreenOverlay.classList.add("active"); updateImages(); } galleryImage.addEventListener("click", openFullscreen); imageLabel.addEventListener("click", openFullscreen); closeBtn.addEventListener("click", () => { fullscreenOverlay.classList.remove("active"); current = 0; updateImages(); }); prevBtn.addEventListener("click", (e) => { e.stopPropagation(); current = (current - 1 + images.length) % images.length; updateImages(); }); nextBtn.addEventListener("click", (e) => { e.stopPropagation(); current = (current + 1) % images.length; updateImages(); }); fullscreenOverlay.addEventListener("click", (e) => { if (e.target === fullscreenOverlay || e.target === closeBtn) { fullscreenOverlay.classList.remove("active"); current = 0; updateImages(); } }); updateImages(); </script>
+</body>
+
+</html>
