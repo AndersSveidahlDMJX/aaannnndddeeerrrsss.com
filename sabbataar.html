@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>I tvivl om hvad du skal efter dit sabbatår?</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.css" />
   <style>
     @font-face {
       font-family: 'SFProDisplay';
@@ -25,11 +26,29 @@
       font-size: 1.5rem;
       opacity: 0.8;
       transition: opacity 0.2s ease;
+      z-index: 10;
     }
     .back:hover { opacity: 1; }
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 80px 20px 40px;
+    }
+    lite-youtube {
+      width: 100%;
+      max-width: 960px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
   <a class="back" href="other-stuff.html">←</a>
+  <div class="video-container">
+    <lite-youtube videoid="wIWTj9DKNC8" playlabel="Play"></lite-youtube>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.js"></script>
 </body>
 </html>
