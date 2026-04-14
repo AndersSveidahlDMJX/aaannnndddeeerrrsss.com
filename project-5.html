@@ -30,12 +30,46 @@
       position: sticky;
       top: 0;
       height: 100vh;
-      overflow-y: auto;
+      overflow: hidden;
       padding: 90px 40px 40px;
       border-right: 1px solid #e0e0e0;
       box-shadow: 2px 0 12px rgba(0,0,0,0.07);
       background: #fff;
+      transition: width 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
     }
+    .sidebar.collapsed {
+      width: 0;
+      padding: 0;
+      border-color: transparent;
+      box-shadow: none;
+    }
+    /* ── Sidebar toggle tab ── */
+    .sidebar-toggle {
+      position: fixed;
+      top: 50vh;
+      left: 360px;
+      transform: translate(0, -50%);
+      z-index: 20;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-left: none;
+      box-shadow: 3px 0 10px rgba(0,0,0,0.10);
+      border-radius: 0 6px 6px 0;
+      width: 18px;
+      height: 52px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: #999;
+      transition: left 0.35s ease, color 0.15s ease, box-shadow 0.15s ease;
+      padding: 0;
+      user-select: none;
+      line-height: 1;
+    }
+    .sidebar-toggle:hover { color: #333; box-shadow: 4px 0 14px rgba(0,0,0,0.18); }
+    .sidebar-toggle.collapsed { left: 0; }
     .section { padding: 32px 0; border-top: 1px solid #e0e0e0; }
     .section:first-child { border-top: none; padding-top: 0; }
     .section-label {
@@ -157,6 +191,7 @@
 
       /* Back arrow */
       .back { top: 16px; left: 16px; }
+      .sidebar-toggle { display: none; }
     }
     /* Lightbox */
     #pg-lb {
@@ -209,6 +244,7 @@
 </head>
 <body>
   <a class="back" href="work.html">←</a>
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">&#8249;</button>
   <div class="layout">
     <aside class="sidebar">
       <div class="section">
@@ -289,6 +325,26 @@
       if (e.key === 'Escape') closeLb();
       if (e.key === 'ArrowLeft') prev();
       if (e.key === 'ArrowRight') next();
+    });
+
+    // ── Sidebar toggle ──────────────────────────────────────────────────────
+    const sidebar   = document.querySelector('.sidebar');
+    const toggleBtn = document.getElementById('sidebarToggle');
+    function setSidebar(collapsed) {
+      if (collapsed) {
+        sidebar.classList.add('collapsed');
+        toggleBtn.classList.add('collapsed');
+        toggleBtn.innerHTML = '&#8250;';
+        document.body.classList.add('sb-collapsed');
+      } else {
+        sidebar.classList.remove('collapsed');
+        toggleBtn.classList.remove('collapsed');
+        toggleBtn.innerHTML = '&#8249;';
+        document.body.classList.remove('sb-collapsed');
+      }
+    }
+    toggleBtn.addEventListener('click', () => {
+      setSidebar(!sidebar.classList.contains('collapsed'));
     });
   </script>
 <script src="lang.js"></script>
