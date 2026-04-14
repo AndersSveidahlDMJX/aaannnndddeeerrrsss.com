@@ -546,6 +546,13 @@
     aldiLightbox.addEventListener('click', (e) => {
       if (e.target === aldiLightbox) aldiLightbox.classList.remove('active');
     });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        colorLightbox.classList.remove('active');
+        aldiLightbox.classList.remove('active');
+      }
+    });
   </script>
 <script src="lang.js"></script>
 </body>
