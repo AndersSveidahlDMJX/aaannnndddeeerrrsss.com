@@ -3,11 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Twix</title>
+  <title>Twix — aaannndddeeerrrsss</title>
+  <meta name="description" content="Twix brand project by Anders. Visual identity and packaging design." />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.css" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fff; }
+    html { scrollbar-width: none; }
+    html::-webkit-scrollbar { width: 0; display: none; }
+    body { background: #e11f27; font-family: sans-serif; position: relative; }
+    #sb-track {
+      position: fixed;
+      right: 5px;
+      top: 0;
+      width: 27px;
+      height: 100vh;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    #sb-track.visible { opacity: 1; }
+    #sb-thumb {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 27px;
+      pointer-events: auto;
+      cursor: grab;
+    }
+    #sb-thumb.dragging { cursor: grabbing; }
+    #sb-thumb img {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 27px;
+      width: auto;
+      transform-origin: 0 0;
+    }
     .back {
       position: fixed;
       top: 30px;
@@ -20,26 +53,401 @@
       z-index: 10;
     }
     .back:hover { opacity: 1; }
-    .video-container {
+    .layout {
       display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
-      padding: 80px 20px 40px;
+    }
+    .sidebar {
+      width: 360px;
+      flex-shrink: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 90px 40px 40px;
+      border-right: 1px solid #e0e0e0;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.35);
+      background: #fff;
+      z-index: 2;
+    }
+    .section {
+      padding: 32px 0;
+      border-top: 1px solid #e0e0e0;
+    }
+    .section:first-child { border-top: none; padding-top: 0; }
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 12px;
+    }
+    .section-body {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #111;
+    }
+    .section-body p + p { margin-top: 0.9rem; }
+    .header-img {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      display: block;
+      margin-top: -8px;
+      margin-bottom: 32px;
+    }
+    .twixbar {
+      position: absolute;
+      height: 36.57vh;
+      width: auto;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .twixbar-left  { left: 360px; }
+    .twixbar-right { right: 0; bottom: -350px; transform: scaleX(-1); }
+    .twix-mockup {
+      position: absolute;
+      height: 27.39vh;
+      width: auto;
+      pointer-events: auto;
+      cursor: pointer;
+      z-index: 1;
+      right: calc(39vh + 320px);
+      bottom: -275px;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.5));
+      border-radius: 8px;
+      transition: transform 0.25s ease;
+    }
+    .twix-mockup:hover { transform: scale(1.06); }
+    .ticket-stack {
+      position: absolute;
+      left: calc(360px + (100vw - 360px) / 2 + 250px);
+      transform: translateX(-50%);
+      width: 49.5vh;
+      height: 49.5vh;
+      z-index: 3;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    .ticket-back {
+      position: absolute;
+      width: 49.5vh;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%) rotate(0deg);
+      transition: transform 0.3s ease;
+    }
+    .ticket-front {
+      position: absolute;
+      width: 49.5vh;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) rotate(0deg);
+      transition: transform 0.3s ease;
+    }
+    .ticket-stack:hover .ticket-back  { transform: translateX(-50%) rotate(-5deg); }
+    .ticket-stack:hover .ticket-front { transform: translateX(-50%) rotate(5deg); }
+    /* Lightbox */
+    .lb-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .lb-overlay.open { display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .lb-overlay img {
+      max-height: 88vh;
+      max-width: 90vw;
+      width: auto;
+      border-radius: 6px;
+      object-fit: contain;
+      cursor: default;
+    }
+    .lb-overlay .lb-pair {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+    .lb-overlay .lb-pair img {
+      width: min(112.5vh, 120vw);
+      height: auto;
+    }
+    .lb-overlay .lb-pair img:first-child {
+      margin-bottom: calc(-39vh + 18px);
+    }
+    .lb-overlay .lb-pair img:last-child {
+      margin-top: calc(-38.5vh + 18px);
+    }
+    .lb-close {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 201;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .lb-close:hover { opacity: 1; }
+    body.lb-open { overflow: hidden; }
+    .scroll-hint {
+      position: fixed;
+      bottom: 29px;
+      left: calc(360px + (100vw - 360px) / 2);
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      pointer-events: none;
+      opacity: 0.85;
+      z-index: 60;
+      transition: opacity 0.5s ease;
+      animation: scroll-bounce 1.6s ease-in-out infinite;
+    }
+    .scroll-hint.hidden { opacity: 0 !important; }
+    .scroll-hint span {
+      display: block;
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(45deg);
+    }
+    .scroll-hint span:nth-child(2) { opacity: 0.6; margin-top: -6px; }
+    @keyframes scroll-bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+    .content {
+      flex: 1;
+      margin-left: 360px;
+      padding: 80px 60px 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     lite-youtube {
       width: 100%;
-      max-width: 960px;
+      max-width: 800px;
       border-radius: 8px;
       overflow: hidden;
+      margin-top: 35px;
+    }
+    .image-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-top: 40px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .image-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      /* Body scrolls naturally */
+      body { overflow-y: auto; }
+
+      /* Stack layout vertically */
+      .layout { flex-direction: column; }
+      .sidebar {
+        position: static;
+        height: auto;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.25);
+        padding: 72px 24px 32px;
+        box-shadow: none;
+      }
+      .content {
+        margin-left: 0;
+        padding: 32px 20px 80px;
+      }
+
+      /* Hide desktop-only decorative elements */
+      .twixbar,
+      .ticket-stack,
+      .twix-mockup,
+      .scroll-hint { display: none !important; }
+
+      /* Hide custom scrollbar */
+      #sb-track { display: none !important; }
+
+      /* Back arrow stays visible */
+      .back { position: fixed; top: 16px; left: 16px; }
     }
   </style>
 </head>
 <body>
+  <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Twix — Brand Project</h1>
+  <div id="sb-track"><div id="sb-thumb"><img src="images/twix scrollbar.png" id="sb-img" alt="" /><img src="images/twix scrollbar.png" id="sb-img2" alt="" /></div></div>
+  <!-- Tickets lightbox -->
+  <div class="lb-overlay" id="lbTickets">
+    <span class="lb-close" id="lbTicketsClose">&times;</span>
+    <div class="lb-pair">
+      <img src="images/golden ticket.png" alt="Ticket front" />
+      <img src="images/golden ticket bagfra1.png" alt="Ticket back" />
+    </div>
+  </div>
+  <!-- Mockup lightbox -->
+  <div class="lb-overlay" id="lbMockup">
+    <span class="lb-close" id="lbMockupClose">&times;</span>
+    <img src="images/twix mockup.png" alt="Twix mockup" />
+  </div>
+  <img class="twixbar twixbar-left"  src="images/twixbar.png" alt="" />
+  <img class="twixbar twixbar-right" src="images/twixbar.png" alt="" />
+  <img class="twix-mockup" src="images/twix mockup.png" alt="" />
+  <div class="ticket-stack">
+    <img class="ticket-back"  src="images/golden ticket bagfra1.png" alt="" />
+    <img class="ticket-front" src="images/golden ticket.png" alt="" />
+  </div>
+  <div class="scroll-hint"><span></span><span></span></div>
   <a class="back" href="work.html">←</a>
-  <div class="video-container">
-    <lite-youtube videoid="Vx2cLPkVi0s" playlabel="Play Twix"></lite-youtube>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="section">
+        <div class="section-label">Insight</div>
+        <div class="section-body">
+          <p>We live in a culture where the best experiences are often singular. Theme parks are the pinnacle of this frustration: you wait in line for a long time&nbsp;&mdash; for a short thrill.</p>
+          <p>Twix has always been about the double joy and if one bar is never enough, one ride shouldn&rsquo;t be either.</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-label">Solution / Idea</div>
+        <div class="section-body">
+          <p>Twix hijacks Groundhog Day to turn the &ldquo;unsharable&rdquo; nature of Twix into the most sharable experience in Orlando. A total theme park takeover where everything, from the rides to the prizes comes in pairs.</p>
+        </div>
+      </div>
+    </aside>
+    <main class="content">
+      <img class="header-img" src="images/twice the fun.png" alt="Twice the Fun" />
+      <lite-youtube videoid="Vx2cLPkVi0s" playlabel="Play Twix"></lite-youtube>
+      <div class="image-grid">
+      </div>
+    </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.js"></script>
+  <script>
+    // Lightbox
+    function openLb(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.classList.add('lb-open');
+    }
+    function closeLb(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.classList.remove('lb-open');
+    }
+    function closeAllLb() {
+      document.querySelectorAll('.lb-overlay').forEach(lb => lb.classList.remove('open'));
+      document.body.classList.remove('lb-open');
+    }
+    document.querySelector('.ticket-stack').addEventListener('click', () => openLb('lbTickets'));
+    document.querySelector('.twix-mockup').addEventListener('click', () => openLb('lbMockup'));
+    document.getElementById('lbTicketsClose').addEventListener('click', (e) => { e.stopPropagation(); closeLb('lbTickets'); });
+    document.getElementById('lbMockupClose').addEventListener('click', (e) => { e.stopPropagation(); closeLb('lbMockup'); });
+    document.querySelectorAll('.lb-overlay').forEach(lb => {
+      lb.addEventListener('click', (e) => { if (e.target === lb) closeAllLb(); });
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAllLb(); });
+
+    // Custom scrollbar
+    const sbThumb = document.getElementById('sb-thumb');
+    const sbImg = document.getElementById('sb-img');
+    const sbImg2 = document.getElementById('sb-img2');
+    const THUMB_H = Math.round(27 * 8280 / 1559); // natural aspect ratio ≈ 143px
+    sbThumb.style.height = (THUMB_H * 2) + 'px';
+    // rotate(90deg) from origin 0,0 puts image at x:-27..0, translateX(27px) shifts it into the track
+    sbImg.style.transform  = 'translateX(27px) rotate(90deg)';
+    sbImg2.style.transform = 'translateX(27px) translateY(' + THUMB_H + 'px) rotate(90deg)';
+    function updateScrollbar() {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const fraction = scrollable > 0 ? window.scrollY / scrollable : 0;
+      const travel = Math.max(0, window.innerHeight - THUMB_H * 2 - 10);
+      const top = 5 + Math.round(fraction * travel);
+      sbThumb.style.top = top + 'px';
+    }
+    window.addEventListener('scroll', updateScrollbar, { passive: true });
+    window.addEventListener('resize', updateScrollbar);
+    window.addEventListener('load', updateScrollbar);
+    updateScrollbar();
+
+    // Drag to scroll
+    let dragStartY = 0, dragStartScrollY = 0;
+    sbThumb.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      dragStartY = e.clientY;
+      dragStartScrollY = window.scrollY;
+      sbThumb.classList.add('dragging');
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('mouseup', onDragEnd);
+    });
+    function onDrag(e) {
+      const travel = Math.max(0, window.innerHeight - THUMB_H * 2 - 10);
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const delta = e.clientY - dragStartY;
+      const scrollDelta = travel > 0 ? (delta / travel) * scrollable : 0;
+      window.scrollTo(0, Math.min(Math.max(0, dragStartScrollY + scrollDelta), scrollable));
+    }
+    function onDragEnd() {
+      sbThumb.classList.remove('dragging');
+      document.removeEventListener('mousemove', onDrag);
+      document.removeEventListener('mouseup', onDragEnd);
+    }
+
+    // Scrollbar fade
+    const sbTrack = document.getElementById('sb-track');
+    let sbFadeTimer;
+    function showScrollbar() {
+      sbTrack.classList.add('visible');
+      clearTimeout(sbFadeTimer);
+      sbFadeTimer = setTimeout(() => sbTrack.classList.remove('visible'), 1200);
+    }
+    window.addEventListener('scroll', showScrollbar, { passive: true });
+    // Also show while dragging
+    sbThumb.addEventListener('mousedown', () => {
+      sbTrack.classList.add('visible');
+      clearTimeout(sbFadeTimer);
+    });
+    document.addEventListener('mouseup', () => {
+      sbFadeTimer = setTimeout(() => sbTrack.classList.remove('visible'), 1200);
+    });
+
+    const scrollHint = document.querySelector('.scroll-hint');
+    function checkScroll() {
+      scrollHint.classList.toggle('hidden', window.scrollY >= 10);
+    }
+    window.addEventListener('scroll', checkScroll, { passive: true });
+
+    function positionDecorations() {
+      const top = window.scrollY + window.innerHeight + 40;
+      const left = document.querySelector('.twixbar-left');
+      const tickets = document.querySelector('.ticket-stack');
+      left.style.top = top + 'px';
+      left.style.bottom = 'auto';
+      tickets.style.top = (top - 70) + 'px';
+      tickets.style.bottom = 'auto';
+    }
+    window.addEventListener('load', positionDecorations);
+    window.addEventListener('resize', positionDecorations);
+  </script>
 </body>
 </html>

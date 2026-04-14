@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>project 5</title>
+  <title>Monotype × Penguin — aaannndddeeerrrsss</title>
+  <meta name="description" content="Monotype x Penguin — a typography and book design project by Anders." />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fff; }
+    body { background: #ff6600; font-family: sans-serif; }
     .back {
       position: fixed;
       top: 30px;
@@ -16,11 +17,276 @@
       font-size: 1.5rem;
       opacity: 0.8;
       transition: opacity 0.2s ease;
+      z-index: 10;
     }
     .back:hover { opacity: 1; }
+    .layout { display: flex; height: 100vh; overflow: hidden; }
+    .sidebar {
+      width: 360px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 90px 40px 40px;
+      border-right: 1px solid #e0e0e0;
+      box-shadow: 2px 0 12px rgba(0,0,0,0.07);
+      background: #fff;
+    }
+    .section { padding: 32px 0; border-top: 1px solid #e0e0e0; }
+    .section:first-child { border-top: none; padding-top: 0; }
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 12px;
+    }
+    .section-body { font-size: 0.95rem; line-height: 1.75; color: #111; }
+    .section-body p + p { margin-top: 0.9rem; }
+    .content { flex: 1; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: visible; }
+    .page-title {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+      font-size: 3.5rem;
+      font-weight: normal;
+      letter-spacing: 0.05em;
+      margin: 0;
+      color: #111;
+      text-align: center;
+      position: fixed;
+      top: 28px;
+      left: 360px;
+      right: 0;
+      z-index: 5;
+    }
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: min(97.5vh, 90%);
+      flex: none;
+      margin-top: 25px;
+      overflow: visible;
+    }
+    .image-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0px rgba(0,0,0,0.6);
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .image-grid img:hover {
+      z-index: 10;
+      transform: translateY(-8px) translateX(-8px);
+      box-shadow: 12px 12px 0px rgba(0,0,0,0.6);
+    }
+    .page-footer {
+      position: fixed;
+      bottom: 20px;
+      left: 360px;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      z-index: 5;
+    }
+    .page-footer img {
+      height: 48px;
+      width: auto;
+    }
+    @media (max-width: 768px) {
+      /* Allow page to scroll */
+      .layout {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+      }
+      .sidebar {
+        position: static;
+        height: auto;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 72px 24px 32px;
+      }
+      .content {
+        height: auto;
+        padding: 20px 16px 80px;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      /* Reposition title to flow with content */
+      .page-title {
+        position: static;
+        font-size: 2.2rem;
+        text-align: center;
+        padding: 20px 0 8px;
+      }
+
+      /* 2-column grid on mobile */
+      .image-grid {
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+        gap: 8px;
+        margin-top: 12px;
+        overflow: visible;
+      }
+
+      /* Disable hover lift on mobile (touch) */
+      .image-grid img:hover {
+        transform: none;
+        box-shadow: 4px 4px 0px rgba(0,0,0,0.6);
+      }
+
+      /* Footer: flow below grid */
+      .page-footer {
+        position: static;
+        margin-top: 24px;
+        margin-bottom: 24px;
+      }
+
+      /* Back arrow */
+      .back { top: 16px; left: 16px; }
+    }
+    /* Lightbox */
+    #pg-lb {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+    #pg-lb.open { display: flex; }
+    #pg-lb-img {
+      max-height: 88vh;
+      max-width: 80vw;
+      border-radius: 4px;
+      object-fit: contain;
+      user-select: none;
+    }
+    #pg-lb-close {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      opacity: 0.8;
+      z-index: 501;
+      line-height: 1;
+      transition: opacity 0.2s;
+    }
+    #pg-lb-close:hover { opacity: 1; }
+    .pg-lb-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.5rem;
+      color: #fff;
+      cursor: pointer;
+      opacity: 0.7;
+      z-index: 501;
+      padding: 12px;
+      user-select: none;
+      transition: opacity 0.2s;
+    }
+    .pg-lb-arrow:hover { opacity: 1; }
+    #pg-lb-prev { left: 24px; }
+    #pg-lb-next { right: 24px; }
   </style>
 </head>
 <body>
   <a class="back" href="work.html">←</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="section">
+        <div class="section-label">Brief</div>
+        <div class="section-body"><p></p></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Insight</div>
+        <div class="section-body"><p></p></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Solution</div>
+        <div class="section-body"><p></p></div>
+      </div>
+    </aside>
+    <main class="content">
+      <h1 class="page-title">Penguin</h1>
+      <div class="image-grid">
+        <img src="images/penguin/nothing.png" alt="Nothing" />
+        <img src="images/penguin/nothing keeping.png" alt="Nothing Keeping" />
+        <img src="images/penguin/no limits.png" alt="No Limits" />
+        <img src="images/penguin/reading.png" alt="Reading" />
+        <img src="images/penguin/there.png" alt="There" />
+        <img src="images/penguin/truly.png" alt="Truly" />
+        <img src="images/penguin/the world.png" alt="The World" />
+        <img src="images/penguin/reading hvid.png" alt="Reading Hvid" />
+        <img src="images/penguin/the freedom.png" alt="The Freedom" />
+      </div>
+      <div class="page-footer">
+        <img src="images/penguin/penguin logo.png" alt="Penguin logo" />
+      </div>
+    </main>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="pg-lb">
+    <span id="pg-lb-close">&times;</span>
+    <span class="pg-lb-arrow" id="pg-lb-prev">&#8592;</span>
+    <img id="pg-lb-img" src="" alt="" />
+    <span class="pg-lb-arrow" id="pg-lb-next">&#8594;</span>
+  </div>
+
+  <script>
+    const gridImgs = Array.from(document.querySelectorAll('.image-grid img'));
+    const lb = document.getElementById('pg-lb');
+    const lbImg = document.getElementById('pg-lb-img');
+    let current = 0;
+
+    function openLb(index) {
+      current = index;
+      lbImg.src = gridImgs[current].src;
+      lbImg.alt = gridImgs[current].alt;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLb() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function prev() {
+      current = (current - 1 + gridImgs.length) % gridImgs.length;
+      lbImg.src = gridImgs[current].src;
+      lbImg.alt = gridImgs[current].alt;
+    }
+    function next() {
+      current = (current + 1) % gridImgs.length;
+      lbImg.src = gridImgs[current].src;
+      lbImg.alt = gridImgs[current].alt;
+    }
+
+    gridImgs.forEach((img, i) => img.addEventListener('click', () => openLb(i)));
+    document.getElementById('pg-lb-close').addEventListener('click', closeLb);
+    document.getElementById('pg-lb-prev').addEventListener('click', prev);
+    document.getElementById('pg-lb-next').addEventListener('click', next);
+    lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    });
+  </script>
 </body>
 </html>

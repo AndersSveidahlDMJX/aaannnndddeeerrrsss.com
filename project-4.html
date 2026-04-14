@@ -3,24 +3,542 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>project 4</title>
+  <title>Le Ice — aaannndddeeerrrsss</title>
+  <meta name="description" content="Le Ice — brand identity and packaging design project by Anders." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fff; }
+    body { background: #fff; font-family: sans-serif; }
+
+    /* ── Newspaper texture overlay ── */
+    body::after {
+      display: none;
+    }
     .back {
-      position: fixed;
-      top: 30px;
-      left: 30px;
-      text-decoration: none;
-      color: #000;
-      font-size: 1.5rem;
-      opacity: 0.8;
-      transition: opacity 0.2s ease;
+      position: fixed; top: 30px; left: 30px;
+      text-decoration: none; color: #000; font-size: 1.5rem;
+      opacity: 0.8; transition: opacity 0.2s ease; z-index: 10;
     }
     .back:hover { opacity: 1; }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 360px; flex-shrink: 0; position: sticky;
+      top: 0; height: 100vh; overflow-y: auto;
+      padding: 90px 40px 40px; border-right: 1px solid #e0e0e0;
+      background: #fff;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.18);
+      z-index: 2;
+    }
+    .section { padding: 32px 0; border-top: 1px solid #e0e0e0; }
+    .section:first-child { border-top: none; padding-top: 0; }
+    .section-label {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #999; margin-bottom: 12px;
+    }
+    .section-body { font-size: 0.95rem; line-height: 1.75; color: #111; }
+    .section-body p + p { margin-top: 0.9rem; }
+    .content { flex: 1; background: #00ADEE; position: relative; }
+    .content::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      background-image:
+        radial-gradient(circle, rgba(0,0,0,0.18) 1px, transparent 1px);
+      background-size: 3px 3px;
+      mix-blend-mode: multiply;
+    }
+    /* ── Hero (viewport-height first screen) ── */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .columns { display: flex; flex: 1; min-height: 0; }
+    .col-left { flex: 1; display: flex; flex-direction: column; }
+    .col-right {
+      flex: 1; display: flex; align-items: center;
+      justify-content: center; position: relative;
+    }
+    .cell {
+      flex: 1; display: flex; align-items: center;
+      justify-content: center; position: relative;
+    }
+    /* ── Logo header ── */
+    .logo-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 27px 0 9px;
+      background: #00ADEE;
+    }
+    .logo-header img {
+      height: 104px;
+      width: auto;
+      display: block;
+    }
+
+    .cell .back-img, .cell .front-img,
+    .col-right .back-img, .col-right .front-img {
+      position: absolute; width: 34%;
+      filter: drop-shadow(0px 12px 24px rgba(0,0,0,0.35));
+    }
+    .cell .back-img, .col-right .back-img {
+      top: 50%; left: 50%; transform: translate(-35%, -45%); z-index: 1;
+    }
+    .cell .front-img, .col-right .front-img {
+      top: 50%; left: 50%; transform: translate(-65%, -55%); z-index: 2;
+    }
+    /* ── Colorway group ── */
+    .colorway-group {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.4s ease;
+      pointer-events: none;
+    }
+    .colorway-group img { pointer-events: auto; }
+    .cell:has(.colorway-group img:hover) .colorway-group,
+    .col-right:has(.colorway-group img:hover) .colorway-group {
+      transform: scale(1.2);
+      z-index: 10;
+    }
+    .cell, .col-right { cursor: default; }
+    .colorway-group img { cursor: pointer; }
+
+    /* ── Backdrop container (for including overlay) ── */
+    .backdrop-container {
+      position: relative;
+    }
+    .including-img {
+      position: absolute;
+      top: 0;
+      right: 5%;
+      transform: translateY(-25%);
+      width: 30%;
+      z-index: 5;
+      pointer-events: none;
+      filter: drop-shadow(0px 9px 19px rgba(0,0,0,4.45));
+    }
+
+    /* ── Backdrop cropped ── */
+    .backdrop-wrap {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding-top: 44.8%; /* 74.67% natural AR × 60% visible = 44.8% */
+    }
+    .backdrop-wrap img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    /* ── ALDI row ── */
+    .aldi-section {
+      background: #00ADEE;
+      display: flex;
+      align-items: center;
+      min-height: 400px;
+      padding: 90px 60px;
+    }
+    .aldi-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      position: relative;
+      transform: translateY(-50px);
+    }
+    .aldi-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .aldi-seen-text {
+      font-family: 'Caveat', cursive;
+      font-size: 5.5rem;
+      color: #fff;
+      white-space: nowrap;
+      display: block;
+      transform: rotate(-20deg);
+      transform-origin: center center;
+      margin-bottom: 10px;
+    }
+    .aldi-arrow {
+      display: block;
+      width: 160px;
+      margin-top: 8px;
+      transform: translateX(170px) rotate(0deg);
+      transform-origin: center center;
+    }
+    .aldi-logo-wrap {
+      display: inline-block;
+      animation: pulse-aldi 1.8s ease-in-out infinite;
+      filter: brightness(0.8);
+      transition: filter 0.3s ease;
+    }
+    .aldi-logo-wrap:has(img:hover) {
+      filter: brightness(1);
+    }
+    .aldi-logo-wrap img { cursor: pointer; }
+
+    @keyframes pulse-aldi {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.1); }
+    }
+    .scroll-hint {
+      position: fixed;
+      bottom: 29px;
+      left: calc(360px + (100vw - 360px) / 2);
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      pointer-events: none;
+      opacity: 0.85;
+      z-index: 60;
+      transition: opacity 0.5s ease;
+      animation: scroll-bounce 1.6s ease-in-out infinite;
+    }
+    .scroll-hint.hidden { opacity: 0 !important; }
+    .scroll-hint span {
+      display: block;
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(45deg);
+    }
+    .scroll-hint span:nth-child(2) { opacity: 0.6; margin-top: -6px; }
+    @keyframes scroll-bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+    .aldi-logo-wrap img { width: 648px; display: block; }
+
+    /* ── Le Ice labels ── */
+    .label-group {
+      position: absolute;
+      left: calc(65% + 5px);
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 3;
+      text-align: left;
+    }
+    .cell-label {
+      display: block;
+      font-family: Impact, 'Arial Narrow', sans-serif;
+      font-size: 2.2rem;
+      color: #fff;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1;
+      opacity: 0.9;
+    }
+    .cell-sublabel {
+      display: block;
+      font-family: Impact, 'Arial Narrow', sans-serif;
+      font-size: 1rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-top: 4px;
+    }
+    .col-right .label-group {
+      left: calc(65% + 5px);
+    }
+
+    /* ── Packshot ── */
+    .packshot-section {
+      position: relative;
+      width: 100%;
+      padding-top: 36%;
+      overflow: hidden;
+    }
+    .packshot-section img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-inner img {
+      object-fit: contain;
+      display: block;
+    }
+    #aldiLightbox .lightbox-inner img {
+      height: 88vh;
+      width: auto;
+      max-width: 95vw;
+    }
+    /* ── Lightbox pair (colorways) ── */
+    .lightbox-pair {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 32px;
+    }
+    .lb-back, .lb-front {
+      height: 70vh;
+      width: auto;
+      max-width: 45vw;
+      object-fit: contain;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+    .lb-back:hover, .lb-front:hover { transform: scale(1.03); }
+    .lb-solo {
+      height: 88vh;
+      width: auto;
+      max-width: 92vw;
+      object-fit: contain;
+      display: none;
+      transform: scale(1.785);
+    }
+    .lightbox-back {
+      position: fixed;
+      top: 24px; left: 32px;
+      font-size: 2.5rem;
+      color: #fff;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 200;
+      display: none;
+      user-select: none;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 24px; right: 32px;
+      font-size: 2.5rem;
+      color: #fff;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 200;
+    }
+
+    @media (max-width: 768px) {
+      .layout { flex-direction: column; }
+      .sidebar {
+        position: static;
+        height: auto;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 72px 24px 32px;
+      }
+      .columns { flex-direction: column; }
+      .col-left, .col-right { min-height: 50vh; }
+      .aldi-section { padding: 60px 24px; flex-direction: column; }
+      .aldi-logo-wrap img { width: 100%; max-width: 320px; }
+      /* Recentre scroll-hint (sidebar no longer 360px wide) */
+      .scroll-hint {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .back { top: 16px; left: 16px; }
+    }
   </style>
 </head>
 <body>
-  <a class="back" href="work.html">←</a>
+  <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Le Ice — Brand Project</h1>
+  <a class="back" href="work.html">&larr;</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="section">
+        <div class="section-label">Brief</div>
+        <div class="section-body">
+          <p>Create a brand identity and packaging for Le Ice &mdash; a new ice lolly brand launching exclusively in ALDI stores.</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-label">Insight</div>
+        <div class="section-body">
+          <p>Budget ice lollies are often perceived as cheap and generic. But the people buying them aren&rsquo;t &mdash; they&rsquo;re families and young adults who still want something that feels good to hold and be seen with.</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-label">Solution</div>
+        <div class="section-body">
+          <p>A bold, colour-coded identity built around the three flavours. Bright, confident packaging that punches well above its price point on the shelf.</p>
+        </div>
+      </div>
+    </aside>
+    <main class="content">
+      <div class="hero">
+        <div class="logo-header">
+          <img src="images/Le ice portfolio/le ice logo.png" alt="Le Ice" />
+        </div>
+        <div class="columns">
+        <div class="col-left">
+          <div class="cell" data-front="images/Le ice portfolio/Pink front.png" data-back="images/Le ice portfolio/pink bagfra.png">
+            <div class="colorway-group">
+              <img class="back-img"  src="images/Le ice portfolio/pink bagfra.png" alt="Pink back" />
+              <img class="front-img" src="images/Le ice portfolio/Pink front.png"  alt="Pink front" />
+            </div>
+            <div class="label-group"><span class="cell-label">le ice</span><span class="cell-sublabel">Regular Cubes</span></div>
+          </div>
+          <div class="cell" data-front="images/Le ice portfolio/Orange front.png" data-back="images/Le ice portfolio/orange bagfra.png">
+            <div class="colorway-group">
+              <img class="back-img"  src="images/Le ice portfolio/orange bagfra.png" alt="Orange back" />
+              <img class="front-img" src="images/Le ice portfolio/Orange front.png"  alt="Orange front" />
+            </div>
+            <div class="label-group"><span class="cell-label">le ice</span><span class="cell-sublabel">Crushed Ice</span></div>
+          </div>
+        </div>
+        <div class="col-right" data-front="images/Le ice portfolio/Grøn front.png" data-back="images/Le ice portfolio/grøn bagfra.png">
+          <div class="colorway-group">
+            <img class="back-img"  src="images/Le ice portfolio/grøn bagfra.png" alt="Green back" />
+            <img class="front-img" src="images/Le ice portfolio/Grøn front.png"  alt="Green front" />
+          </div>
+          <div class="label-group"><span class="cell-label">le ice</span><span class="cell-sublabel">Large Cubes</span></div>
+        </div>
+      </div>
+        <div class="scroll-hint"><span></span><span></span></div>
+      </div><!-- /.hero -->
+
+      <!-- Backdrop cropped 20% top & bottom -->
+      <div class="backdrop-container">
+        <img class="including-img" src="images/Le ice portfolio/including.png" alt="" />
+        <div class="backdrop-wrap">
+          <img src="images/Le ice portfolio/alle le tongs is backdrop.png" alt="Le Ice backdrop" />
+        </div>
+      </div>
+
+      <!-- ALDI section -->
+      <div class="aldi-section">
+        <div class="aldi-left">
+          <span class="aldi-seen-text">as seen in</span>
+          <img class="aldi-arrow" src="images/Le ice portfolio/arrow.png" alt="" />
+        </div>
+        <div class="aldi-right">
+          <div class="aldi-logo-wrap" id="aldiLogoWrap">
+            <img src="images/Le ice portfolio/Aldi-Logo.png" alt="ALDI" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Samlet packshot -->
+      <div class="packshot-section">
+        <img src="images/Le ice portfolio/samlet packshot.png" alt="Le Ice packshot" />
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Lightbox for colorways -->
+  <div class="lightbox" id="colorLightbox">
+    <span class="lightbox-close" id="colorClose">&times;</span>
+    <span class="lightbox-back" id="colorBack">&#8249;</span>
+    <div class="lightbox-inner">
+      <div class="lightbox-pair" id="lightboxPair">
+        <img class="lb-front" id="lbFrontImg" src="" alt="" />
+        <img class="lb-back"  id="lbBackImg"  src="" alt="" />
+      </div>
+      <img class="lb-solo" id="lbSoloImg" src="" alt="" />
+    </div>
+  </div>
+
+  <!-- Lightbox for ALDI -->
+  <div class="lightbox" id="aldiLightbox">
+    <span class="lightbox-close" id="aldiClose">&times;</span>
+    <div class="lightbox-inner">
+      <img src="images/Le ice portfolio/Le ice aldi tilbudsavis.png" alt="ALDI tilbudsavis" />
+    </div>
+  </div>
+
+  <script>
+    // Scroll hint hide on scroll, show at top
+    const scrollHint = document.querySelector('.scroll-hint');
+    function checkScrollBottom() {
+      const atTop = window.scrollY < 10;
+      scrollHint.classList.toggle('hidden', !atTop);
+    }
+    window.addEventListener('scroll', checkScrollBottom, { passive: true });
+
+    // Colorway lightbox
+    const colorLightbox = document.getElementById('colorLightbox');
+    const lbFrontImg    = document.getElementById('lbFrontImg');
+    const lbBackImg     = document.getElementById('lbBackImg');
+    const lightboxPair  = document.getElementById('lightboxPair');
+    const lbSoloImg     = document.getElementById('lbSoloImg');
+    const colorBack     = document.getElementById('colorBack');
+
+    function showPair() {
+      lightboxPair.style.display = 'flex';
+      lbSoloImg.style.display    = 'none';
+      colorBack.style.display    = 'none';
+    }
+    function showSolo(src) {
+      lbSoloImg.src              = src;
+      lightboxPair.style.display = 'none';
+      lbSoloImg.style.display    = 'block';
+      colorBack.style.display    = 'block';
+    }
+
+    document.querySelectorAll('.cell, .col-right').forEach(el => {
+      el.addEventListener('click', (e) => {
+        if (!e.target.closest('.colorway-group img')) return;
+        lbFrontImg.src = el.dataset.front;
+        lbBackImg.src  = el.dataset.back;
+        showPair();
+        colorLightbox.classList.add('active');
+      });
+    });
+
+    lbFrontImg.addEventListener('click', (e) => { e.stopPropagation(); showSolo(lbFrontImg.src); });
+    lbBackImg.addEventListener('click',  (e) => { e.stopPropagation(); showSolo(lbBackImg.src);  });
+    colorBack.addEventListener('click',  (e) => { e.stopPropagation(); showPair(); });
+
+    document.getElementById('colorClose').addEventListener('click', () => {
+      colorLightbox.classList.remove('active');
+    });
+    colorLightbox.addEventListener('click', (e) => {
+      if (e.target === colorLightbox) colorLightbox.classList.remove('active');
+    });
+
+    // ALDI lightbox
+    const aldiLightbox = document.getElementById('aldiLightbox');
+    document.getElementById('aldiLogoWrap').addEventListener('click', () => {
+      aldiLightbox.classList.add('active');
+    });
+    document.getElementById('aldiClose').addEventListener('click', () => {
+      aldiLightbox.classList.remove('active');
+    });
+    aldiLightbox.addEventListener('click', (e) => {
+      if (e.target === aldiLightbox) aldiLightbox.classList.remove('active');
+    });
+  </script>
 </body>
 </html>

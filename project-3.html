@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bones</title>
+  <title>Bones — aaannndddeeerrrsss</title>
+  <meta name="description" content="Bones — a brand and visual identity project by Anders." />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.css" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fff; }
+    body { background: #fff; font-family: sans-serif; }
     .back {
       position: fixed;
       top: 30px;
@@ -20,25 +21,104 @@
       z-index: 10;
     }
     .back:hover { opacity: 1; }
-    .video-container {
+    .layout {
       display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
-      padding: 80px 20px 40px;
+    }
+    .sidebar {
+      width: 360px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 90px 40px 40px;
+      border-right: 1px solid #e0e0e0;
+      box-shadow: 2px 0 12px rgba(0,0,0,0.07);
+    }
+    .section {
+      padding: 32px 0;
+      border-top: 1px solid #e0e0e0;
+    }
+    .section:first-child { border-top: none; padding-top: 0; }
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 12px;
+    }
+    .section-body {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #111;
+    }
+    .content {
+      flex: 1;
+      padding: 80px 60px 80px;
     }
     lite-youtube {
       width: 100%;
-      max-width: 960px;
       border-radius: 8px;
       overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .image-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      .layout { flex-direction: column; }
+      .sidebar {
+        position: static;
+        height: auto;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 72px 24px 32px;
+      }
+      .content { padding: 32px 20px 60px; }
+      .back { top: 16px; left: 16px; }
     }
   </style>
 </head>
 <body>
+  <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Bones — Brand Project</h1>
   <a class="back" href="work.html">←</a>
-  <div class="video-container">
-    <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="section">
+        <div class="section-label">Problem</div>
+        <div class="section-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</div>
+      </div>
+      <div class="section">
+        <div class="section-label">Insight</div>
+        <div class="section-body">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</div>
+      </div>
+      <div class="section">
+        <div class="section-label">Solution</div>
+        <div class="section-body">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</div>
+      </div>
+    </aside>
+    <main class="content">
+      <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
+      <div class="image-grid">
+        <img src="images/bones plakat1.png" alt="Bones Plakat 1" />
+        <img src="images/bones plakat2.png" alt="Bones Plakat 2" />
+        <img src="images/bones plakat3.png" alt="Bones Plakat 3" />
+        <img src="images/bella bones.png" alt="Bella Bones" />
+        <img src="images/t shirt bag.png" alt="T-Shirt Bag" />
+        <img src="images/bones tyggegummi.png" alt="Bones Tyggegummi" />
+      </div>
+    </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.js"></script>
 </body>

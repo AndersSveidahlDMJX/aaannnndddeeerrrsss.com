@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>work</title>
+  <title>Work — aaannndddeeerrrsss</title>
+  <meta name="description" content="Selected work by Anders. Brand identity, print, and digital design projects." />
   <style>
     @font-face {
       font-family: 'SFProDisplay';
@@ -120,6 +121,9 @@
     .card-link:nth-child(1) .card img {
       transform: translateY(5px) scale(1.1);
     }
+    .card-link:nth-child(2) .card img {
+      transform: translateY(15px) scale(0.9);
+    }
     .card-link:nth-child(3) .card {
       background: rgba(255,255,255,1);
       transition: background 0.3s ease;
@@ -135,8 +139,12 @@
       background: #ec702e;
     }
     .card-link:nth-child(4) .card img {
-      object-fit: contain;
-      transform: scale(0.90) translateY(10px);
+      object-fit: cover;
+      transform: scale(0.93);
+    }
+    .card-link:nth-child(5) .card img {
+      object-fit: cover;
+      transform: translateY(8px) scale(0.95);
     }
     .card {
       width: 250px;
@@ -217,9 +225,82 @@
       z-index: 0;
       pointer-events: none;
     }
+
+    @media (max-width: 768px) {
+      body {
+        background: #111;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+        padding: 72px 16px 48px;
+      }
+
+      #yt-player,
+      #still { display: none; }
+
+      .mute-toggle { display: none; }
+
+      .shadow-grid { display: none; }
+
+      .back {
+        top: 20px;
+        left: 20px;
+        font-size: 2rem;
+      }
+
+      .grid {
+        position: static;
+        transform: none;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 12px;
+        row-gap: 20px;
+        width: 100%;
+        opacity: 1;
+      }
+
+      .card-link { width: 100%; }
+
+      .card-wrap { width: 100%; }
+
+      .card {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+      }
+
+      /* Reset all per-card desktop img transforms */
+      .card-link:nth-child(1) .card img,
+      .card-link:nth-child(2) .card img,
+      .card-link:nth-child(3) .card img,
+      .card-link:nth-child(4) .card img,
+      .card-link:nth-child(5) .card img {
+        transform: none;
+      }
+
+      /* Labels always visible on mobile */
+      .card-label {
+        opacity: 1;
+        filter: blur(0px);
+        font-size: 0.85rem;
+        margin-top: 4px;
+      }
+
+      /* No hover effects on mobile */
+      .card-wrap:hover .card {
+        -webkit-mask-image: url('images/folder_icon.svg');
+        mask-image: url('images/folder_icon.svg');
+      }
+      .card-wrap:hover .card::after { opacity: 1; }
+      .grid:has(.card-wrap:hover) .card-wrap:not(:hover) .card::after {
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+      }
+    }
   </style>
 </head>
 <body>
+  <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Work — aaannndddeeerrrsss</h1>
   <a class="back" href="index.html">←</a>
   <iframe id="yt-player" allow="autoplay; encrypted-media" frameborder="0"></iframe>
   <div id="still"></div>
@@ -233,10 +314,10 @@
   </div>
   <div class="grid">
     <a class="card-link" href="project-1.html"><div class="card-wrap"><div class="card"><img src="images/twix%20.jpg" alt="" /></div><span class="card-label">Twix</span></div></a>
-    <a class="card-link" href="project-2.html"><div class="card-wrap"><div class="card"><img src="images/knorr.jpg" alt="" /></div><span class="card-label">Knorr</span></div></a>
+    <a class="card-link" href="project-2.html"><div class="card-wrap"><div class="card"><img src="images/The Fizz Cap Lockup.jpg" alt="" /></div><span class="card-label">The Fizz Cap</span></div></a>
     <a class="card-link" href="project-3.html"><div class="card-wrap"><div class="card"><img src="images/Bones.png" alt="" /></div><span class="card-label">Bones</span></div></a>
-    <a class="card-link" href="project-4.html"><div class="card-wrap"><div class="card"><img src="images/Monotype_penguin.png" alt="" /></div><span class="card-label">Monotype. x Penguin</span></div></a>
-    <a class="card-link" href="project-5.html"><div class="card-wrap"><div class="card"><img src="images/wolt.avif" alt="" /></div><span class="card-label">Wolt</span></div></a>
+    <a class="card-link" href="project-4.html"><div class="card-wrap"><div class="card"><img src="images/le_ice.png" alt="" /></div><span class="card-label">Le Ice</span></div></a>
+    <a class="card-link" href="project-5.html"><div class="card-wrap"><div class="card"><img src="images/penguin thumbnail.jpg" alt="" /></div><span class="card-label">Penguin</span></div></a>
     <a class="card-link" href="project-6.html"><div class="card-wrap"><div class="card"><img src="images/mex&amp;co.png" alt="" /></div><span class="card-label">Mex&amp;Co</span></div></a>
   </div>
   <button class="mute-toggle" id="muteBtn">🔇 unmute</button>

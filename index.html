@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>aaannndddeeerrrsss</title>
+  <title>aaannndddeeerrrsss — Portfolio</title>
+  <meta name="description" content="Portfolio of Anders — graphic designer and creative. Projects in branding, typography, and visual identity." />
   <style>
     @font-face {
       font-family: 'ImpactLabel';
@@ -187,11 +188,92 @@
       white-space: nowrap;
     }
 
+    @media (max-width: 768px) {
+      body {
+        background: #fff;
+        height: auto;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 60px 40px;
+      }
+
+      .bg { display: none; }
+
+      /* Kill all fixed positioning on nav items */
+      .toshiba-wrap {
+        position: static;
+        transform: none !important;
+        transition: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .toshiba-wrap:hover { transform: none !important; }
+      .toshiba2, .toshiba1 { display: none; }
+      .work-label {
+        position: static;
+        transform: none;
+        clip-path: none;
+        font-size: 3rem;
+        background: #fff;
+        padding: 4px 12px;
+        color: #000;
+      }
+
+      .mig-wrap,
+      .mig-wrap.arrived {
+        position: static;
+        transform: none !important;
+        animation: none;
+        transition: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .mig-wrap.arrived:hover { transform: none !important; }
+      .mig { display: none; }
+      .mig-label {
+        position: static;
+        transform: none;
+        clip-path: none;
+        font-size: 3rem;
+        background: #fff;
+        padding: 4px 12px;
+        color: #000;
+      }
+
+      .usb-wrap {
+        position: static;
+        transform: none !important;
+        transition: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .usb-wrap:hover { transform: none !important; }
+      .usb-img { display: none; }
+      .notwork-label {
+        position: static;
+        transform: none;
+        clip-path: none;
+        font-size: 3rem;
+        background: #fff;
+        padding: 4px 12px;
+        color: #000;
+      }
+    }
+
   </style>
 </head>
 <body>
+  <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">aaannndddeeerrrsss — Portfolio</h1>
   <img class="bg" src="images/baggrundweb.jpg" alt="" />
-  <a href="not-work.html" style="display: contents;">
+  <a href="other-stuff.html" style="display: contents;">
   <div class="usb-wrap">
     <img class="usb-img" src="images/usb.png" alt="" />
     <span class="notwork-label">not work</span>
