@@ -115,6 +115,8 @@
     body.sb-collapsed .scroll-hint {
       left: 50vw;
     }
+    body.sb-collapsed .twixbar-left { left: 0; }
+    body.sb-collapsed .ticket-stack { left: calc(50vw + 250px); }
     .section {
       padding: 32px 0;
       border-top: 1px solid #e0e0e0;
@@ -149,7 +151,7 @@
       pointer-events: none;
       z-index: 1;
     }
-    .twixbar-left  { left: 360px; }
+    .twixbar-left  { left: 360px; transition: left 0.35s ease; }
     .twixbar-right { right: 0; bottom: -350px; transform: scaleX(-1); }
     .twix-mockup {
       position: absolute;
@@ -174,6 +176,7 @@
       z-index: 3;
       pointer-events: auto;
       cursor: pointer;
+      transition: left 0.35s ease;
     }
     .ticket-back {
       position: absolute;

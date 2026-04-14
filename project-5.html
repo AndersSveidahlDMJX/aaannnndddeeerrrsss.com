@@ -70,6 +70,8 @@
     }
     .sidebar-toggle:hover { color: #333; box-shadow: 4px 0 14px rgba(0,0,0,0.18); }
     .sidebar-toggle.collapsed { left: 0; }
+    body.sb-collapsed .page-title { left: 0; }
+    body.sb-collapsed .page-footer { left: 0; }
     .section { padding: 32px 0; border-top: 1px solid #e0e0e0; }
     .section:first-child { border-top: none; padding-top: 0; }
     .section-label {
@@ -96,6 +98,7 @@
       left: 360px;
       right: 0;
       z-index: 5;
+      transition: left 0.35s ease;
     }
     .image-grid {
       display: grid;
@@ -132,6 +135,7 @@
       display: flex;
       justify-content: center;
       z-index: 5;
+      transition: left 0.35s ease;
     }
     .page-footer img {
       height: 48px;
