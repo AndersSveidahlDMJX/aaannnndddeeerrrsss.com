@@ -278,19 +278,19 @@
   <a href="other-stuff.html" style="display: contents;">
   <div class="usb-wrap">
     <img class="usb-img" src="images/usb.webp" alt="" />
-    <span class="notwork-label">not work</span>
+    <span class="notwork-label" data-i18n="notwork">not work</span>
   </div>
   </a>
   <a href="about-me.html" style="display: contents;">
   <div class="mig-wrap">
     <img class="mig" src="images/mig.webp" alt="" />
-    <span class="mig-label">me</span>
+    <span class="mig-label" data-i18n="nav-me">me</span>
   </div>
   </a>
   <a href="work.html"><div class="toshiba-wrap">
     <img class="toshiba2" src="images/toshiba2.webp" alt="" />
     <img class="toshiba1" src="images/toshiba1.webp" alt="" />
-    <span class="work-label">work</span>
+    <span class="work-label" data-i18n="nav-work">work</span>
   </div></a>
   <script>
     const wrap = document.querySelector('.toshiba-wrap');
@@ -325,4 +325,5 @@
     setTimeout(() => migWrap.classList.add('arrived'), 5000);
 
   </script>
+<script src="lang.js"></script>
 </html>
