@@ -247,21 +247,26 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 60px 40px;
+        padding: 0 20px 8vh;
       }
 
       .bg { display: none; }
+      .usb-fixed { display: none; }
 
       .items-row {
         position: static;
         transform: none;
         flex-direction: column;
-        gap: 4px;
+        gap: 0;
         width: 100%;
         align-items: center;
+        order: 1;
       }
 
-      .usb-fixed { display: none; }
+      /* Work (2nd child in markup) floats to top */
+      .item-col:nth-child(2) { order: -1; }
+      .item-col:nth-child(1) { order: 1; }  /* About Me */
+      .item-col:nth-child(3) { order: 2; }  /* Contact */
 
       .usb-wrap,
       .diary-wrap,
@@ -275,20 +280,25 @@
       .iphone-img,
       .iphone-on { display: none; }
 
-      /* Shrink title to fit viewport width */
+      /* site-title: in normal flow, below items, stacked two lines */
       .site-title {
-        font-size: 7vw;
-        white-space: normal;
+        position: static;
+        transform: none;
+        width: 100%;
         text-align: center;
-        width: 92%;
-        top: 1.2rem;
-        line-height: 1.15;
+        font-size: 17vw;
+        line-height: 0.88;
+        white-space: normal;
+        order: 2;
+        margin-top: 5vh;
+        pointer-events: none;
       }
+      .site-title span { display: block; }
 
-      /* Make full cell area tappable */
+      /* Tappable cell */
       .item-col {
         position: relative;
-        width: 80%;
+        width: 90%;
         margin: 0 auto;
       }
       .item-col > a {
@@ -298,23 +308,28 @@
         z-index: 2;
       }
 
+      /* About Me + Contact: small */
       .item-label {
         display: block;
         position: relative;
         z-index: 1;
-        font-size: 3rem;
+        font-size: 8vw;
         text-align: center;
-        padding: 22px 16px;
+        padding: 10px 16px;
         pointer-events: none;
       }
-      .work-label { font-size: 3.6rem; }
+      /* Work: big and centered */
+      .work-label {
+        font-size: 22vw;
+        padding: 12px 16px;
+      }
     }
 
   </style>
 </head>
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">aaannndddeeerrrsss — Portfolio</h1>
-  <div class="site-title">Anders Sveidahl</div>
+  <div class="site-title"><span>Anders</span><span>Sveidahl</span></div>
   <img class="bg" src="images/baggrundweb.webp" alt="" />
 
   <div class="usb-fixed">
