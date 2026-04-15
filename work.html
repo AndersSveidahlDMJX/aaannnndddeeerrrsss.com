@@ -718,7 +718,7 @@
     if (y >= yMax) { y = yMax; vy = -Math.abs(vy); by = true; }
 
     if (bx && by && !cornerHit) { cornerHit = true; celebrate(); }
-    if (bx || by) setThumb(thumbIdx + 1);
+    else if (bx || by) setThumb(thumbIdx + 1);
 
     setPos();
     rafId = requestAnimationFrame(tick);
