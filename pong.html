@@ -84,10 +84,10 @@
     const BALL_R    = 36;        // ball radius
     const PAD_OFFSET= 48;        // paddle x from screen edge
     const WIN_SCORE = 5;
-    const BASE_SPEED= 560;       // px / s
-    const MAX_SPEED = 980;       // px / s
-    const SPEED_INC = 32;        // px / s per player paddle hit
-    const CPU_SPEED = 310;       // px / s for cpu movement
+    const BASE_SPEED= 720;       // px / s
+    const MAX_SPEED = 1300;      // px / s
+    const SPEED_INC = 48;        // px / s per player paddle hit
+    const CPU_SPEED = 390;       // px / s for cpu movement
 
     /* ─── project thumbnails (cycle on player-paddle hit) ─── */
     const THUMB_SRCS = [
@@ -116,7 +116,7 @@
     }
 
     /* ─── game state ─── */
-    let state       = 'intro'; // 'intro' | 'playing' | 'point' | 'won' | 'lost'
+    let state       = 'intro'; // 'intro' | 'playing' | 'paused' | 'won' | 'lost'
     let playerScore = 0;
     let cpuScore    = 0;
     let thumbIdx    = 0;
@@ -163,7 +163,9 @@
     window.addEventListener('mouseout',  function ()  { mouseY = null; });
     window.addEventListener('keydown',   function (e) {
       keys[e.key] = true;
-      if ((e.key === ' ' || e.key === 'Enter') && state === 'intro') startGame();
+      if ((e.key === ' ' || e.key === 'Enter') && state === 'intro') { startGame(); return; }
+      if (e.key === ' ' && state === 'playing') { state = 'paused'; lastTime = null; return; }
+      if (e.key === ' ' && state === 'paused')  { state = 'playing'; return; }
       if (e.key === 'Escape') window.location.href = 'work.html';
     });
     window.addEventListener('keyup', function (e) { delete keys[e.key]; });
@@ -458,16 +460,34 @@
       drawDashedCentreLine();
       drawScore();
 
-      if (state === 'playing' || state === 'won' || state === 'lost') {
+      if (state === 'playing' || state === 'paused' || state === 'won' || state === 'lost') {
         drawPaddle(PAD_OFFSET, player.y, '#00fff2');
         drawPaddle(W - PAD_OFFSET - PW, cpu.y, '#ff2d78');
       }
-      if (state === 'playing') {
+      if (state === 'playing' || state === 'paused') {
         drawBall();
       }
       if (state === 'intro') {
         drawOverlay(0.38);
         drawIntro(elapsed);
+      }
+      if (state === 'paused') {
+        drawOverlay(0.55);
+        ctx.textAlign    = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font  = 'bold 80px Impact, "Arial Narrow", sans-serif';
+        ctx.shadowColor  = '#00fff2'; ctx.shadowBlur = 40;
+        ctx.fillStyle    = '#ffffff';
+        ctx.fillText('PAUSED', W / 2, GH / 2 - 30);
+        ctx.shadowBlur   = 0;
+        const pulse = Math.sin(elapsed * 2.6) * 0.28 + 0.52;
+        ctx.globalAlpha  = pulse;
+        ctx.font         = '17px Impact, "Arial Narrow", sans-serif';
+        ctx.letterSpacing = '3px';
+        ctx.fillStyle    = '#fff';
+        ctx.fillText('PRESS SPACE TO RESUME', W / 2, GH / 2 + 36);
+        ctx.globalAlpha  = 1;
+        ctx.letterSpacing = '0px';
       }
       if (state === 'won')  drawEndScreen(true,  elapsed);
       if (state === 'lost') drawEndScreen(false, elapsed);
