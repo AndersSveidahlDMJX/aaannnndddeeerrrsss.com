@@ -33,20 +33,20 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      gap: clamp(24px, 4.2vw, 96px);
+      gap: max(24px, 4.2vw);
     }
     .app-icon {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: clamp(6px, 0.6vw, 12px);
+      gap: max(6px, 0.6vw);
       text-decoration: none;
-      width: clamp(120px, 13.9vw, 240px);
+      width: max(120px, 13.9vw);
     }
     .app-icon img {
-      width: clamp(80px, 9.5vw, 180px);
-      height: clamp(80px, 9.5vw, 180px);
-      border-radius: clamp(18px, 2.1vw, 42px);
+      width: max(80px, 9.5vw);
+      height: max(80px, 9.5vw);
+      border-radius: max(18px, 2.1vw);
       display: block;
       transition: filter 0.15s ease;
     }
@@ -58,7 +58,7 @@
       transition: filter 0s;
     }
     .app-icon span {
-      font-size: clamp(13px, 1.45vw, 26px);
+      font-size: max(13px, 1.45vw);
       font-weight: 400;
       color: #fff;
       text-align: center;

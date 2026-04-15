@@ -15,7 +15,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       /* 360px at 1512px (MacBook 14"), scales with viewport */
-      --sw: clamp(280px, 23.8vw, 460px);
+      --sw: max(280px, 23.8vw);
     }
     html { scrollbar-width: none; }
     html::-webkit-scrollbar { width: 0; display: none; }

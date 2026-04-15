@@ -19,9 +19,9 @@
     }
     :root {
       /* 250px at 1512px (MacBook 14"), scales up/down with viewport */
-      --card: clamp(180px, 16.53vw, 340px);
-      --col-gap: clamp(11px, 1.26vw, 26px);
-      --row-gap: clamp(5px, 0.60vw, 12px);
+      --card: max(180px, 16.53vw);
+      --col-gap: max(11px, 1.26vw);
+      --row-gap: max(5px, 0.60vw);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
