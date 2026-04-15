@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style id="page-load-bg">body{background:#000!important}</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
+  <title>My Favorite Emoji — aaannndddeeerrrsss</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.5rem;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+      z-index: 10;
+    }
+    .back:hover { opacity: 1; }
+    .emoji-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .emoji-wrap img {
+      width: max(120px, 20vw);
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <a class="back" href="other-stuff.html">‹</a>
+  <div class="emoji-wrap">
+    <img src="images/fly emoji.webp" alt="🪰" />
+  </div>
+<script src="lang.js"></script>
+</body>
+</html>
