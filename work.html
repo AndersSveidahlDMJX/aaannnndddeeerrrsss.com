@@ -485,17 +485,6 @@
     transition: opacity 1.2s ease;
   }
   #dvd-saver.active { opacity: 1; pointer-events: all; }
-  /* White hairlines framing the nav and ticker zones */
-  #dvd-line-top {
-    position: absolute;
-    top: 54px; left: 0; right: 0;
-    height: 1px; background: rgba(255,255,255,0.55);
-  }
-  #dvd-line-bottom {
-    position: absolute;
-    bottom: 44px; left: 0; right: 0;
-    height: 1px; background: rgba(255,255,255,0.55);
-  }
   /* Keep ticker above screensaver when active */
   body.dvd-active .ticker { z-index: 501; }
   #dvd-folder {
@@ -528,8 +517,6 @@
   }
 </style>
 <div id="dvd-saver">
-  <div id="dvd-line-top"></div>
-  <div id="dvd-line-bottom"></div>
   <div id="dvd-folder">
     <div id="dvd-folder-inner">
       <div id="dvd-folder-bg"></div>
@@ -553,6 +540,9 @@
   var SPEED      = 300;  // px/s resultant
   var NAV_BOTTOM = 56;   // px — below the top nav bar
   var TICKER_H   = 44;   // px — ticker height at bottom
+  // SVG viewBox=2585×2585; visible path starts ≈100px in L/R, ≈285px in T/B
+  // → at 220px scale: ~9px horizontal margin, ~24px vertical margin each side
+  var PAD_X = 9, PAD_T = 24, PAD_B = 24;
 
   var saver   = document.getElementById('dvd-saver');
   var folder  = document.getElementById('dvd-folder');
@@ -578,8 +568,8 @@
     active   = true;
     // random start position, diagonal direction
     var W = window.innerWidth, H = window.innerHeight;
-    var yMin = NAV_BOTTOM, yMax = H - TICKER_H - SIZE;
-    x  = Math.random() * (W - SIZE);
+    var yMin = NAV_BOTTOM - PAD_T, yMax = H - TICKER_H - SIZE + PAD_B;
+    x  = -PAD_X + Math.random() * (W - SIZE + PAD_X * 2);
     y  = yMin + Math.random() * (yMax - yMin);
     var ang = Math.PI / 4;
     vx = Math.cos(ang) * SPEED * (Math.random() < 0.5 ? 1 : -1);
@@ -614,10 +604,10 @@
     y += vy * dt;
 
     var bounced = false;
-    if (x <= 0)        { x = 0;        vx =  Math.abs(vx); bounced = true; }
-    if (x + SIZE >= W) { x = W - SIZE; vx = -Math.abs(vx); bounced = true; }
-    if (y <= yMin)     { y = yMin;     vy =  Math.abs(vy); bounced = true; }
-    if (y >= yMax)     { y = yMax;     vy = -Math.abs(vy); bounced = true; }
+    if (x <= -PAD_X)           { x = -PAD_X;           vx =  Math.abs(vx); bounced = true; }
+    if (x + SIZE - PAD_X >= W) { x = W - SIZE + PAD_X;  vx = -Math.abs(vx); bounced = true; }
+    if (y <= yMin)              { y = yMin;              vy =  Math.abs(vy); bounced = true; }
+    if (y >= yMax)              { y = yMax;              vy = -Math.abs(vy); bounced = true; }
 
     if (bounced) setThumb(thumbIdx + 1);
 
