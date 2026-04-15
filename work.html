@@ -636,7 +636,7 @@
     // Numerically simulate a candidate trajectory (same discrete steps as tick()).
     // Returns time of first corner hit (bx && by in same frame), or Infinity.
     function simulate(sx, sy, svx, svy) {
-      for (var t = DT; t < 305; t += DT) {
+      for (var t = DT; t < 125; t += DT) {
         sx += svx * DT; sy += svy * DT;
         var bx = false, by = false;
         if (sx <= xMin) { sx = xMin; svx =  Math.abs(svx); bx = true; }
@@ -658,11 +658,11 @@
       var tx  = xMin + Math.random() * (xMax - xMin);
       var ty  = yMin + Math.random() * (yMax - yMin);
       var hit = simulate(tx, ty, tvx, tvy);
-      if (hit >= 120 && hit <= 300) {
+      if (hit >= 60 && hit <= 120) {
         x = tx; y = ty; vx = tvx; vy = tvy;
         best = null; break;
       }
-      var dist = hit < 120 ? (120 - hit) : (hit - 300);
+      var dist = hit < 60 ? (60 - hit) : (hit - 120);
       if (dist < bestDist) { bestDist = dist; best = {x:tx, y:ty, vx:tvx, vy:tvy}; }
     }
     if (best) { x = best.x; y = best.y; vx = best.vx; vy = best.vy; }
