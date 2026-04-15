@@ -517,6 +517,18 @@
     width: 100%; height: 100%;
     object-fit: cover; display: block;
   }
+  #dvd-label {
+    position: absolute;
+    width: 220px;
+    text-align: center;
+    font-family: sans-serif;
+    color: #fff;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 0px 10px rgba(0,0,0,0.5);
+    pointer-events: none;
+    will-change: left, top;
+  }
 </style>
 <div id="dvd-saver">
   <div id="dvd-folder">
@@ -525,6 +537,7 @@
       <img id="dvd-img" src="" alt="" />
     </div>
   </div>
+  <div id="dvd-label"></div>
 </div>
 <script>
 (function () {
@@ -537,6 +550,7 @@
     'images/mex&co.webp',
   ];
   var BONES_IDX  = 2;
+  var NAMES = ['Twice the FUN','The Fizz Cap','Bones','Le Ice','Penguin','Mex\u0026Co'];
   var IDLE_MS    = 5000;  // 5 seconds
   var SIZE       = 220;  // folder px
   var SPEED      = 300;  // px/s resultant
@@ -548,6 +562,7 @@
   var folder  = document.getElementById('dvd-folder');
   var img     = document.getElementById('dvd-img');
   var bg      = document.getElementById('dvd-folder-bg');
+  var label   = document.getElementById('dvd-label');
 
   var thumbIdx = 0;
   var x = 0, y = 0, vx = 0, vy = 0;
@@ -559,8 +574,16 @@
   function setThumb(idx) {
     thumbIdx = ((idx % THUMBS.length) + THUMBS.length) % THUMBS.length;
     img.src = THUMBS[thumbIdx];
+    label.textContent = NAMES[thumbIdx];
     if (thumbIdx === BONES_IDX) bg.classList.add('show');
     else                         bg.classList.remove('show');
+  }
+
+  function setPos() {
+    folder.style.left = x + 'px';
+    folder.style.top  = y + 'px';
+    label.style.left  = x + 'px';
+    label.style.top   = (y + SIZE - PAD_B + 6) + 'px';
   }
 
   function show() {
@@ -576,8 +599,7 @@
     vx = Math.cos(ang) * SPEED * (Math.random() < 0.5 ? 1 : -1);
     vy = Math.sin(ang) * SPEED * (Math.random() < 0.5 ? 1 : -1);
     setThumb(Math.floor(Math.random() * THUMBS.length));
-    folder.style.left = x + 'px';
-    folder.style.top  = y + 'px';
+    setPos();
     saver.classList.add('active');
     document.body.classList.add('dvd-active');
     lastTime = null;
@@ -613,8 +635,7 @@
 
     if (bounced) setThumb(thumbIdx + 1);
 
-    folder.style.left = x + 'px';
-    folder.style.top  = y + 'px';
+    setPos();
     rafId = requestAnimationFrame(tick);
   }
 

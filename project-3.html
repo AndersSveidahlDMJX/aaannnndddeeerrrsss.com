@@ -204,18 +204,20 @@
   #dvd-folder-bg{position:absolute;inset:0;background:#fff;opacity:0;transition:opacity 0.1s}
   #dvd-folder-bg.show{opacity:1}
   #dvd-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  #dvd-label{position:absolute;width:220px;text-align:center;font-family:sans-serif;color:#fff;font-size:1rem;letter-spacing:0.02em;text-shadow:0 1px 4px rgba(0,0,0,0.8),0 0px 10px rgba(0,0,0,0.5);pointer-events:none;will-change:left,top}
 </style>
-<div id="dvd-saver"><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" /></div></div></div>
+<div id="dvd-saver"><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" /></div></div><div id="dvd-label"></div></div>
 <script>
 (function(){
   var THUMBS=['images/twice the fun thumbnail.webp','images/The Fizz Cap Lockup.webp','images/Bones.webp','images/le_ice.webp','images/penguin thumbnail.webp','images/mex&co.webp'];
+  var NAMES=['Twice the FUN','The Fizz Cap','Bones','Le Ice','Penguin','Mex\u0026Co'];
   var BONES_IDX=2,IDLE_MS=5000,SIZE=220,SPEED=300,PAD_X=9,PAD_T=24,PAD_B=24;
-  var saver=document.getElementById('dvd-saver'),folder=document.getElementById('dvd-folder'),img=document.getElementById('dvd-img'),bg=document.getElementById('dvd-folder-bg');
+  var saver=document.getElementById('dvd-saver'),folder=document.getElementById('dvd-folder'),img=document.getElementById('dvd-img'),bg=document.getElementById('dvd-folder-bg'),label=document.getElementById('dvd-label');
   var thumbIdx=0,x=0,y=0,vx=0,vy=0,active=false,lastTime=null,rafId=null,idleTimer=null;
-  function setThumb(idx){thumbIdx=((idx%THUMBS.length)+THUMBS.length)%THUMBS.length;img.src=THUMBS[thumbIdx];if(thumbIdx===BONES_IDX)bg.classList.add('show');else bg.classList.remove('show');}
-  function show(){if(active)return;active=true;var W=window.innerWidth,H=window.innerHeight,xMin=-PAD_X,xMax=W-SIZE+PAD_X,yMin=-PAD_T,yMax=H-SIZE+PAD_B;x=xMin+Math.random()*(xMax-xMin);y=yMin+Math.random()*(yMax-yMin);var ang=Math.PI/4;vx=Math.cos(ang)*SPEED*(Math.random()<0.5?1:-1);vy=Math.sin(ang)*SPEED*(Math.random()<0.5?1:-1);setThumb(Math.floor(Math.random()*THUMBS.length));folder.style.left=x+'px';folder.style.top=y+'px';saver.classList.add('active');document.body.classList.add('dvd-active');lastTime=null;rafId=requestAnimationFrame(tick);}
+  function setThumb(idx){thumbIdx=((idx%THUMBS.length)+THUMBS.length)%THUMBS.length;img.src=THUMBS[thumbIdx];label.textContent=NAMES[thumbIdx];if(thumbIdx===BONES_IDX)bg.classList.add('show');else bg.classList.remove('show');}function setPos(){folder.style.left=x+'px';folder.style.top=y+'px';label.style.left=x+'px';label.style.top=(y+SIZE-PAD_B+6)+'px';}
+  function show(){if(active)return;active=true;var W=window.innerWidth,H=window.innerHeight,xMin=-PAD_X,xMax=W-SIZE+PAD_X,yMin=-PAD_T,yMax=H-SIZE+PAD_B;x=xMin+Math.random()*(xMax-xMin);y=yMin+Math.random()*(yMax-yMin);var ang=Math.PI/4;vx=Math.cos(ang)*SPEED*(Math.random()<0.5?1:-1);vy=Math.sin(ang)*SPEED*(Math.random()<0.5?1:-1);setThumb(Math.floor(Math.random()*THUMBS.length));setPos();saver.classList.add('active');document.body.classList.add('dvd-active');lastTime=null;rafId=requestAnimationFrame(tick);}
   function hide(){if(!active)return;active=false;saver.classList.remove('active');document.body.classList.remove('dvd-active');if(rafId){cancelAnimationFrame(rafId);rafId=null;}resetIdle();}
-  function tick(now){if(!active)return;if(lastTime===null)lastTime=now;var dt=Math.min((now-lastTime)/1000,0.05);lastTime=now;var W=window.innerWidth,H=window.innerHeight,xMin=-PAD_X,xMax=W-SIZE+PAD_X,yMin=-PAD_T,yMax=H-SIZE+PAD_B;x+=vx*dt;y+=vy*dt;var b=false;if(x<=xMin){x=xMin;vx=Math.abs(vx);b=true;}if(x>=xMax){x=xMax;vx=-Math.abs(vx);b=true;}if(y<=yMin){y=yMin;vy=Math.abs(vy);b=true;}if(y>=yMax){y=yMax;vy=-Math.abs(vy);b=true;}if(b)setThumb(thumbIdx+1);folder.style.left=x+'px';folder.style.top=y+'px';rafId=requestAnimationFrame(tick);}
+  function tick(now){if(!active)return;if(lastTime===null)lastTime=now;var dt=Math.min((now-lastTime)/1000,0.05);lastTime=now;var W=window.innerWidth,H=window.innerHeight,xMin=-PAD_X,xMax=W-SIZE+PAD_X,yMin=-PAD_T,yMax=H-SIZE+PAD_B;x+=vx*dt;y+=vy*dt;var b=false;if(x<=xMin){x=xMin;vx=Math.abs(vx);b=true;}if(x>=xMax){x=xMax;vx=-Math.abs(vx);b=true;}if(y<=yMin){y=yMin;vy=Math.abs(vy);b=true;}if(y>=yMax){y=yMax;vy=-Math.abs(vy);b=true;}if(b)setThumb(thumbIdx+1);setPos();rafId=requestAnimationFrame(tick);}
   function resetIdle(){clearTimeout(idleTimer);idleTimer=setTimeout(show,IDLE_MS);}
   ['mousemove','mousedown','keydown','touchstart','wheel'].forEach(function(ev){window.addEventListener(ev,function(){if(active){hide();return;}resetIdle();},{passive:true});});
   THUMBS.forEach(function(s){var i=new Image();i.src=s;});
