@@ -635,7 +635,7 @@
     // Guarantee a corner hit at a random time between 1 and 5 minutes.
     // Technique: "unfold" the reflections into a straight line, then
     // compute the start position that lands on the target corner at t_c.
-    var t_c = 60 + Math.random() * 240;          // 1–5 min
+    var t_c = 120 + Math.random() * 180;          // 1–5 min
     var v   = SPEED * Math.cos(Math.PI / 4);     // component speed (45°)
     var tx  = Math.random() < 0.5 ? 0 : Lx;     // target x wall: left or right
     var ty  = Math.random() < 0.5 ? 0 : Ly;     // target y wall: top or bottom
