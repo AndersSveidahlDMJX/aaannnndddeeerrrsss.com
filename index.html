@@ -247,11 +247,32 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 0 20px 8vh;
+        padding: 70px 20px 8vh;
       }
 
       .bg { display: none; }
       .usb-fixed { display: none; }
+
+      /* Title fixed at top as header */
+      .site-title {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        transform: none;
+        text-align: center;
+        font-size: 7vw;
+        line-height: 1.1;
+        white-space: normal;
+        padding: 10px 0 8px;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 100;
+        pointer-events: none;
+      }
+      .site-title span { display: inline; }
+      .site-title span:first-child::after { content: ' '; }
 
       .items-row {
         position: static;
@@ -260,13 +281,12 @@
         gap: 0;
         width: 100%;
         align-items: center;
-        order: 1;
       }
 
-      /* Work (2nd child in markup) floats to top */
-      .item-col:nth-child(2) { order: -1; }
-      .item-col:nth-child(1) { order: 1; }  /* About Me */
-      .item-col:nth-child(3) { order: 2; }  /* Contact */
+      /* Order: Work first, About Me second, Contact third */
+      .item-col:nth-child(2) { order: 1; }  /* Work */
+      .item-col:nth-child(1) { order: 2; }  /* About Me */
+      .item-col:nth-child(3) { order: 3; }  /* Contact */
 
       .usb-wrap,
       .diary-wrap,
@@ -279,21 +299,6 @@
       .toshiba1,
       .iphone-img,
       .iphone-on { display: none; }
-
-      /* site-title: in normal flow, below items, stacked two lines */
-      .site-title {
-        position: static;
-        transform: none;
-        width: 100%;
-        text-align: center;
-        font-size: 17vw;
-        line-height: 0.88;
-        white-space: normal;
-        order: 2;
-        margin-top: 5vh;
-        pointer-events: none;
-      }
-      .site-title span { display: block; }
 
       /* Tappable cell */
       .item-col {
