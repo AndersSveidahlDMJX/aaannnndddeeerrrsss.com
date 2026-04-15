@@ -275,12 +275,39 @@
       .iphone-img,
       .iphone-on { display: none; }
 
-      .item-label {
-        font-size: 2.4rem;
-        padding: 4px 12px;
-        pointer-events: auto;
+      /* Shrink title to fit viewport width */
+      .site-title {
+        font-size: 7vw;
+        white-space: normal;
+        text-align: center;
+        width: 92%;
+        top: 1.2rem;
+        line-height: 1.15;
       }
-      .work-label { font-size: 3rem; }
+
+      /* Make full cell area tappable */
+      .item-col {
+        position: relative;
+        width: 80%;
+        margin: 0 auto;
+      }
+      .item-col > a {
+        display: block;
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+      }
+
+      .item-label {
+        display: block;
+        position: relative;
+        z-index: 1;
+        font-size: 3rem;
+        text-align: center;
+        padding: 22px 16px;
+        pointer-events: none;
+      }
+      .work-label { font-size: 3.6rem; }
     }
 
   </style>

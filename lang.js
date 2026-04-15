@@ -207,6 +207,7 @@
       '}',
       '#lang-toggle a.pong-neon{opacity:1;animation:neon-cycle 2.4s linear infinite;}',
       '#lang-toggle a.pong-neon:hover{opacity:1;font-weight:700;}',
+      '@media(max-width:768px){#lang-toggle a.pong-neon,#lang-toggle a.pong-neon+.i18n-sep{display:none;}}',
       '#nav-shortcuts{',
         'position:fixed;top:24px;left:24px;z-index:9999;',
         'display:flex;align-items:center;gap:2px;',
