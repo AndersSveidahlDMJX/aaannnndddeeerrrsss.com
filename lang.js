@@ -171,6 +171,7 @@
     var path = location.pathname;
     var isIndex   = path === '/' || /index\.html$/.test(path);
     var isContact = /contact\.html$/.test(path);
+    var isWork    = /work\.html$/.test(path);
     var hasShortcuts = !isIndex && !isContact;
 
     var style = document.createElement('style');
@@ -198,6 +199,14 @@
         'opacity:0.5;transition:opacity 0.15s;',
       '}',
       '#lang-toggle a.nav-shortcut:hover{opacity:0.85;font-weight:700;}',
+      '@keyframes neon-cycle{',
+        '0%{color:#ff2d78;text-shadow:0 0 6px #ff2d78,0 0 18px #ff2d78}',
+        '33%{color:#00fff2;text-shadow:0 0 6px #00fff2,0 0 18px #00fff2}',
+        '66%{color:#39ff14;text-shadow:0 0 6px #39ff14,0 0 18px #39ff14}',
+        '100%{color:#ff2d78;text-shadow:0 0 6px #ff2d78,0 0 18px #ff2d78}',
+      '}',
+      '#lang-toggle a.pong-neon{opacity:1;animation:neon-cycle 2.4s linear infinite;}',
+      '#lang-toggle a.pong-neon:hover{opacity:1;font-weight:700;}',
       '#nav-shortcuts{',
         'position:fixed;top:24px;left:24px;z-index:9999;',
         'display:flex;align-items:center;gap:2px;',
@@ -221,7 +230,11 @@
       ? '<a class="nav-shortcut" href="contact.html" data-i18n="nav-contact">contact</a>'
         + '<span class="i18n-sep" style="margin:0 4px;">|</span>'
       : '';
-    div.innerHTML = contactLink
+    var pongLink = isWork
+      ? '<a class="nav-shortcut pong-neon" href="pong.html">pong</a>'
+        + '<span class="i18n-sep" style="margin:0 4px;">|</span>'
+      : '';
+    div.innerHTML = contactLink + pongLink
                   + '<button data-lang="en">EN</button>'
                   + '<span class="i18n-sep">/</span>'
                   + '<button data-lang="da">DA</button>';
