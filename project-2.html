@@ -199,9 +199,13 @@
   #dvd-corner-msg.show{opacity:1;pointer-events:all}
   #dvd-corner-main{font-family:sans-serif;color:#fff;font-size:clamp(1.4rem,3.5vw,3.2rem);font-weight:700;margin:0 0 0.5em;text-shadow:0 2px 14px rgba(0,0,0,0.7);letter-spacing:-0.01em;line-height:1.1}
   #dvd-corner-sub{font-family:sans-serif;color:rgba(255,255,255,0.65);font-size:clamp(0.75rem,1.4vw,1.1rem);margin:0;text-shadow:0 1px 6px rgba(0,0,0,0.5)}
+  #dvd-corner-sub a{color:inherit;text-decoration:underline;text-underline-offset:3px;opacity:0.85}
+  #dvd-corner-sub a:hover{opacity:1}
+  #dvd-corner-close{position:absolute;top:20px;right:24px;background:none;border:none;color:rgba(255,255,255,0.45);font-size:1.3rem;cursor:pointer;line-height:1;padding:4px 6px;transition:color 0.2s}
+  #dvd-corner-close:hover{color:#fff}
   @media(max-width:768px){#dvd-saver{display:none!important}}
 </style>
-<div id="dvd-saver"><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" /></div></div><div id="dvd-corner-msg"><p id="dvd-corner-main">okay you seem pretty invested already</p><p id="dvd-corner-sub">text me?</p></div></div>
+<div id="dvd-saver"><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" /></div></div><div id="dvd-corner-msg"><button id="dvd-corner-close" aria-label="Close">✕</button><p id="dvd-corner-main">okay you seem pretty invested already</p><p id="dvd-corner-sub"><a href="about.html">text me?</a></p></div></div>
 <script>
 (function(){
   var THUMBS=['images/twice the fun thumbnail.webp','images/The Fizz Cap Lockup.webp','images/Bones.webp','images/le_ice.webp','images/penguin thumbnail.webp','images/mex&co.webp'];
@@ -211,12 +215,12 @@
   var thumbIdx=0,x=0,y=0,vx=0,vy=0,active=false,lastTime=null,rafId=null,idleTimer=null,cornerHit=false,celebTimer1=null,celebTimer2=null;
   function setThumb(idx){thumbIdx=((idx%THUMBS.length)+THUMBS.length)%THUMBS.length;var s=STYLES[thumbIdx];img.src=THUMBS[thumbIdx];img.style.objectFit=s.fit;img.style.transform=s.t;bg.style.background=s.bg||'#fff';bg.style.opacity=s.bg?'1':'0';}
   function setPos(){folder.style.left=x+'px';folder.style.top=y+'px';}
-  function celebrate(){folder.style.transition='opacity 3s ease';folder.style.opacity='0';celebTimer1=setTimeout(function(){cornerMsg.classList.add('show');},3000);celebTimer2=setTimeout(function(){cornerMsg.classList.remove('show');setTimeout(function(){hide();},950);},8000);}
+  function celebrate(){folder.style.transition='opacity 3s ease';folder.style.opacity='0';celebTimer1=setTimeout(function(){cornerMsg.classList.add('show');},3000);}
   function show(){if(active)return;active=true;var W=window.innerWidth,H=window.innerHeight,xMin=-PAD_X,xMax=W-SIZE+PAD_X,yMin=-PAD_T,yMax=H-SIZE+PAD_B;x=xMin+Math.random()*(xMax-xMin);y=yMin+Math.random()*(yMax-yMin);var ang=Math.PI/4;vx=Math.cos(ang)*SPEED*(Math.random()<0.5?1:-1);vy=Math.sin(ang)*SPEED*(Math.random()<0.5?1:-1);setThumb(Math.floor(Math.random()*THUMBS.length));setPos();saver.classList.add('active');document.body.classList.add('dvd-active');lastTime=null;rafId=requestAnimationFrame(tick);}
   function hide(){if(!active)return;active=false;cornerHit=false;clearTimeout(celebTimer1);clearTimeout(celebTimer2);celebTimer1=celebTimer2=null;folder.style.transition='';folder.style.opacity='';cornerMsg.classList.remove('show');saver.classList.remove('active');document.body.classList.remove('dvd-active');if(rafId){cancelAnimationFrame(rafId);rafId=null;}resetIdle();}
   function tick(now){if(!active)return;if(lastTime===null)lastTime=now;var dt=Math.min((now-lastTime)/1000,0.05);lastTime=now;var W=window.innerWidth,H=window.innerHeight,xMin=-PAD_X,xMax=W-SIZE+PAD_X,yMin=-PAD_T,yMax=H-SIZE+PAD_B;x+=vx*dt;y+=vy*dt;var bx=false,by=false;if(x<=xMin){x=xMin;vx=Math.abs(vx);bx=true;}if(x>=xMax){x=xMax;vx=-Math.abs(vx);bx=true;}if(y<=yMin){y=yMin;vy=Math.abs(vy);by=true;}if(y>=yMax){y=yMax;vy=-Math.abs(vy);by=true;}if(bx&&by&&!cornerHit){cornerHit=true;celebrate();}if(bx||by)setThumb(thumbIdx+1);setPos();rafId=requestAnimationFrame(tick);}
   function resetIdle(){clearTimeout(idleTimer);idleTimer=setTimeout(show,IDLE_MS);}
-  ['mousemove','mousedown','keydown','touchstart','wheel'].forEach(function(ev){window.addEventListener(ev,function(){if(active){hide();return;}resetIdle();},{passive:true});});
+  ['mousemove','mousedown','touchstart','wheel'].forEach(function(ev){window.addEventListener(ev,function(){if(active&&!cornerHit){hide();return;}if(!active)resetIdle();},{passive:true});});window.addEventListener('keydown',function(e){if(!active){resetIdle();return;}if(e.key==='Escape'){hide();}else if(!cornerHit){hide();}});document.getElementById('dvd-corner-close').addEventListener('click',function(){if(active)hide();});
   THUMBS.forEach(function(s){var i=new Image();i.src=s;});
   resetIdle();
 })();

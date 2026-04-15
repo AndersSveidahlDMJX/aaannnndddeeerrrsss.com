@@ -543,6 +543,19 @@
     font-size: clamp(0.75rem, 1.4vw, 1.1rem);
     margin: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.5);
   }
+  #dvd-corner-sub a {
+    color: inherit; text-decoration: underline;
+    text-underline-offset: 3px; opacity: 0.85;
+  }
+  #dvd-corner-sub a:hover { opacity: 1; }
+  #dvd-corner-close {
+    position: absolute; top: 20px; right: 24px;
+    background: none; border: none;
+    color: rgba(255,255,255,0.45); font-size: 1.3rem;
+    cursor: pointer; line-height: 1; padding: 4px 6px;
+    transition: color 0.2s;
+  }
+  #dvd-corner-close:hover { color: #fff; }
 </style>
 <div id="dvd-saver">
   <div id="dvd-folder">
@@ -552,8 +565,9 @@
     </div>
   </div>
   <div id="dvd-corner-msg">
+    <button id="dvd-corner-close" aria-label="Close">✕</button>
     <p id="dvd-corner-main">okay you seem pretty invested already</p>
-    <p id="dvd-corner-sub">text me?</p>
+    <p id="dvd-corner-sub"><a href="about.html">text me?</a></p>
   </div>
 </div>
 <script>
@@ -638,10 +652,6 @@
     celebTimer1 = setTimeout(function () {
       cornerMsg.classList.add('show');
     }, 3000);
-    celebTimer2 = setTimeout(function () {
-      cornerMsg.classList.remove('show');
-      setTimeout(function () { hide(); }, 950);
-    }, 8000);
   }
 
   function hide() {
@@ -689,12 +699,20 @@
     idleTimer = setTimeout(show, IDLE_MS);
   }
 
-  // Dismiss on any interaction
-  ['mousemove','mousedown','keydown','touchstart','wheel'].forEach(function (ev) {
+  // During normal screensaver dismiss on any interaction; during celebration only Escape or X dismisses
+  ['mousemove','mousedown','touchstart','wheel'].forEach(function (ev) {
     window.addEventListener(ev, function () {
-      if (active) { hide(); return; }
-      resetIdle();
+      if (active && !cornerHit) { hide(); return; }
+      if (!active) resetIdle();
     }, { passive: true });
+  });
+  window.addEventListener('keydown', function (e) {
+    if (!active) { resetIdle(); return; }
+    if (e.key === 'Escape') { hide(); }
+    else if (!cornerHit) { hide(); }
+  });
+  document.getElementById('dvd-corner-close').addEventListener('click', function () {
+    if (active) hide();
   });
 
   // Pre-load thumbnails
