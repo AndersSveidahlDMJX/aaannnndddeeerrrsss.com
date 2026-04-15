@@ -17,6 +17,12 @@
       font-family: 'SFProDisplay';
       src: url('fonts/SFPRODISPLAYREGULAR.OTF') format('opentype');
     }
+    :root {
+      /* 250px at 1512px (MacBook 14"), scales up/down with viewport */
+      --card: clamp(180px, 16.53vw, 340px);
+      --col-gap: clamp(11px, 1.26vw, 26px);
+      --row-gap: clamp(5px, 0.60vw, 12px);
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       width: 100vw;
@@ -64,10 +70,10 @@
       left: 50%;
       transform: translate(-50%, -50%);
       display: grid;
-      grid-template-columns: repeat(3, 250px);
-      grid-template-rows: repeat(2, 250px);
-      column-gap: 19px;
-      row-gap: 9px;
+      grid-template-columns: repeat(3, var(--card));
+      grid-template-rows: repeat(2, var(--card));
+      column-gap: var(--col-gap);
+      row-gap: var(--row-gap);
       z-index: 5;
     }
     .shadow-grid {
@@ -76,17 +82,17 @@
       left: 50%;
       transform: translate(calc(-50% - 4px), calc(-50% + 4px));
       display: grid;
-      grid-template-columns: repeat(3, 250px);
-      grid-template-rows: repeat(2, 250px);
-      column-gap: 19px;
-      row-gap: 9px;
+      grid-template-columns: repeat(3, var(--card));
+      grid-template-rows: repeat(2, var(--card));
+      column-gap: var(--col-gap);
+      row-gap: var(--row-gap);
       z-index: 4;
       pointer-events: none;
       overflow: visible;
     }
     .shadow-card {
-      width: 250px;
-      height: 250px;
+      width: var(--card);
+      height: var(--card);
       filter: blur(13px);
       overflow: visible;
     }
@@ -103,7 +109,7 @@
     }
     .card-wrap {
       position: relative;
-      width: 250px;
+      width: var(--card);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -130,7 +136,7 @@
       filter: blur(2.5px);
     }
     a.card-link, a.card-link * { text-decoration: none; }
-    .card-link { width: 250px; }
+    .card-link { width: var(--card); }
     .card-link:nth-child(1) .card img {
       transform: translateY(5px) scale(1.1);
     }
@@ -160,8 +166,8 @@
       transform: translateY(8px) scale(0.95);
     }
     .card {
-      width: 250px;
-      height: 250px;
+      width: var(--card);
+      height: var(--card);
       position: relative;
       -webkit-mask-image: url('images/folder_icon.svg');
       -webkit-mask-size: 100% 100%;
@@ -435,23 +441,26 @@
 
         var singleW = copies[0].offsetWidth;
         var pos = window.innerWidth;
-        var speed = 1.2;
+        // px per second — time-delta keeps speed identical on 60 Hz, 120 Hz, Safari, Chrome
+        var speed = 90;
 
-        function tick() {
-          pos -= speed;
+        var lastTime = null;
+        function tick(now) {
+          if (lastTime === null) lastTime = now;
+          var delta = Math.min(now - lastTime, 50); // cap delta so tab-switch doesn't jump
+          lastTime = now;
+          pos -= speed * delta / 1000;
           if (pos <= -singleW) {
             pos += singleW;
-            // copy[0] just scrolled fully off — give it a new color different from copy[1]'s current
             colorIdxA = (colorIdxB + 1) % neonColors.length;
             copies[0].className = 'neon-copy ' + neonColors[colorIdxA];
-            // swap so next time copy[1] is the one that scrolled off
             copies.push(copies.shift());
             var tmp = colorIdxA; colorIdxA = colorIdxB; colorIdxB = tmp;
           }
           track.style.transform = 'translateX(' + pos + 'px)';
           requestAnimationFrame(tick);
         }
-        tick();
+        requestAnimationFrame(tick);
       });
     })();
   </script>

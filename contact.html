@@ -33,20 +33,20 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      gap: 64px;
+      gap: clamp(24px, 4.2vw, 96px);
     }
     .app-icon {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: clamp(6px, 0.6vw, 12px);
       text-decoration: none;
-      width: 210px;
+      width: clamp(120px, 13.9vw, 240px);
     }
     .app-icon img {
-      width: 144px;
-      height: 144px;
-      border-radius: 32px;
+      width: clamp(80px, 9.5vw, 180px);
+      height: clamp(80px, 9.5vw, 180px);
+      border-radius: clamp(18px, 2.1vw, 42px);
       display: block;
       transition: filter 0.15s ease;
     }
@@ -58,7 +58,7 @@
       transition: filter 0s;
     }
     .app-icon span {
-      font-size: 22px;
+      font-size: clamp(13px, 1.45vw, 26px);
       font-weight: 400;
       color: #fff;
       text-align: center;

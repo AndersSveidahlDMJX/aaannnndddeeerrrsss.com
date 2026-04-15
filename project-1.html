@@ -13,6 +13,10 @@
   <link rel="preload" href="images/twix%20mockup.webp" as="image" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      /* 360px at 1512px (MacBook 14"), scales with viewport */
+      --sw: clamp(280px, 23.8vw, 460px);
+    }
     html { scrollbar-width: none; }
     html::-webkit-scrollbar { width: 0; display: none; }
     body { background: #e11f27; font-family: sans-serif; position: relative; }
@@ -63,7 +67,7 @@
       min-height: 100vh;
     }
     .sidebar {
-      width: 360px;
+      width: var(--sw);
       flex-shrink: 0;
       position: fixed;
       top: 0;
@@ -87,7 +91,7 @@
     .sidebar-toggle {
       position: fixed;
       top: 50vh;
-      left: 360px;
+      left: var(--sw);
       transform: translate(0, -50%);
       z-index: 20;
       background: #fff;
@@ -117,8 +121,8 @@
       left: 50vw;
     }
     body.sb-collapsed .twixbar-left { left: 0; }
-    body.sb-collapsed .mockup-wrap { right: calc(39vh + 680px); }
-    body.sb-collapsed .ticket-stack { left: calc(50vw + 250px); }
+    body.sb-collapsed .mockup-wrap { right: calc(39vh + 21.2vw + var(--sw)); }
+    body.sb-collapsed .ticket-stack { left: calc(50vw + 16.5vw); }
     .section {
       padding: 32px 0;
       border-top: 1px solid #e0e0e0;
@@ -153,11 +157,11 @@
       pointer-events: none;
       z-index: 1;
     }
-    .twixbar-left  { left: 360px; transition: left 0.35s ease; }
+    .twixbar-left  { left: var(--sw); transition: left 0.35s ease; }
     .twixbar-right { right: 0; bottom: -350px; transform: scaleX(-1); }
     .mockup-wrap {
       position: absolute;
-      right: calc(39vh + 320px);
+      right: calc(39vh + 21.2vw);
       bottom: -275px;
       z-index: 1;
       transition: right 0.35s ease;
@@ -192,7 +196,7 @@
     }
     .ticket-stack {
       position: absolute;
-      left: calc(360px + (100vw - 360px) / 2 + 250px);
+      left: calc(var(--sw) + (100vw - var(--sw)) / 2 + 16.5vw);
       transform: translateX(-50%);
       width: 49.5vh;
       height: 49.5vh;
@@ -241,14 +245,14 @@
     }
     .lb-overlay .lb-pair {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
-      gap: 2.5vh;
+      gap: 3vw;
     }
     .lb-overlay .lb-pair img {
-      max-height: 40vh;
-      max-width: 88vw;
+      max-height: 82vh;
+      max-width: 44vw;
       width: auto;
       height: auto;
     }
@@ -278,7 +282,7 @@
     .scroll-hint {
       position: fixed;
       bottom: 29px;
-      left: calc(360px + (100vw - 360px) / 2);
+      left: calc(var(--sw) + (100vw - var(--sw)) / 2);
       transform: translateX(-50%);
       display: flex;
       flex-direction: column;
@@ -306,7 +310,7 @@
     }
     .content {
       flex: 1;
-      margin-left: 360px;
+      margin-left: var(--sw);
       padding: 80px 60px 400px;
       display: flex;
       flex-direction: column;
