@@ -8,57 +8,55 @@
   <title>PONG — aaannndddeeerrrsss</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      background: #000 url('images/maldiverne.webp') center / cover no-repeat;
+    body { width: 100vw; height: 100vh; overflow: hidden; background: #000; }
+
+    /* ── YouTube background ── */
+    #bg-video {
+      position: fixed;
+      top: 50%; left: 50%;
+      width: 100vw; height: 56.25vw;
+      min-height: 100vh; min-width: 177.78vh;
+      transform: translate(-50%, -50%);
+      border: none; pointer-events: none;
+      z-index: 1; opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+    #bg-video.visible { opacity: 1; }
+    #bg-still {
+      position: fixed;
+      top: 50%; left: 50%;
+      width: 100vw; height: 56.25vw;
+      min-height: 100vh; min-width: 177.78vh;
+      transform: translate(-50%, -50%);
+      background: url('images/maldiverne.webp') center / cover no-repeat;
+      z-index: 0; pointer-events: none;
     }
     canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 5;
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; z-index: 5;
     }
     .back {
-      position: fixed;
-      top: 30px;
-      left: 30px;
-      text-decoration: none;
-      color: #fff;
-      font-size: 1.5rem;
-      z-index: 20;
-      opacity: 0.7;
-      transition: opacity 0.2s ease;
+      position: fixed; top: 30px; left: 30px;
+      text-decoration: none; color: #fff; font-size: 1.5rem;
+      z-index: 20; opacity: 0.7; transition: opacity 0.2s ease;
     }
     .back:hover { opacity: 1; }
 
-    /* ── neon ticker (identical to work.html) ── */
+    /* ── neon ticker ── */
     .ticker {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100vw;
-      height: 44px;
-      overflow: hidden;
-      z-index: 20;
-      background: #000;
+      position: fixed; bottom: 0; left: 0;
+      width: 100vw; height: 44px; overflow: hidden;
+      z-index: 20; background: #000;
       border-top: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      align-items: center;
-      pointer-events: none;
+      display: flex; align-items: center; pointer-events: none;
     }
     .ticker-track {
-      display: inline-flex;
-      align-items: center;
-      white-space: nowrap;
-      will-change: transform;
+      display: inline-flex; align-items: center;
+      white-space: nowrap; will-change: transform;
     }
     .ticker-track span {
       font-family: Impact, 'Arial Narrow', sans-serif;
-      font-size: 1.05rem;
-      letter-spacing: 0.12em;
-      padding: 0 6px;
+      font-size: 1.05rem; letter-spacing: 0.12em; padding: 0 6px;
     }
     .neon-pink  { color:#ff2d78; text-shadow: 0 0 6px #ff2d78, 0 0 18px #ff2d78; }
     .neon-cyan  { color:#00fff2; text-shadow: 0 0 6px #00fff2, 0 0 18px #00fff2; }
@@ -66,6 +64,8 @@
   </style>
 </head>
 <body>
+  <div id="bg-still"></div>
+  <iframe id="bg-video" allow="autoplay; encrypted-media" frameborder="0"></iframe>
   <canvas id="game"></canvas>
   <a href="work.html" class="back">←</a>
   <div class="ticker" aria-hidden="true">
@@ -75,21 +75,54 @@
     </div>
   </div>
 
+  <!-- Background video -->
   <script>
   (function () {
-    /* ─── constants ─── */
-    const TICKER_H  = 44;        // reserved height for ticker
-    const PW        = 14;        // paddle width
-    const PH        = 90;        // paddle height
-    const BALL_R    = 36;        // ball radius
-    const PAD_OFFSET= 48;        // paddle x from screen edge
-    const WIN_SCORE = 5;
-    const BASE_SPEED= 720;       // px / s
-    const MAX_SPEED = 1300;      // px / s
-    const SPEED_INC = 48;        // px / s per player paddle hit
-    const CPU_SPEED = 390;       // px / s for cpu movement
+    var YT_ID = 'Thtj8Ht7Z_c';
+    var iframe = document.getElementById('bg-video');
+    iframe.src = 'https://www.youtube.com/embed/' + YT_ID +
+      '?autoplay=1&mute=1&loop=1&playlist=' + YT_ID +
+      '&controls=0&playsinline=1&disablekb=1&modestbranding=1&rel=0&enablejsapi=1' +
+      '&origin=' + encodeURIComponent(location.origin);
+    var revealed = false;
+    function reveal() {
+      if (revealed) return; revealed = true;
+      setTimeout(function () { iframe.classList.add('visible'); }, 500);
+    }
+    window.addEventListener('message', function (e) {
+      if (e.origin !== 'https://www.youtube.com') return;
+      try {
+        var d = JSON.parse(e.data);
+        if (d.event === 'onReady') {
+          iframe.contentWindow.postMessage(JSON.stringify({ event:'command', func:'mute',      args:[] }), '*');
+          iframe.contentWindow.postMessage(JSON.stringify({ event:'command', func:'playVideo', args:[] }), '*');
+          reveal();
+        }
+        if (d.event === 'infoDelivery' && d.info && d.info.playerState === 1) reveal();
+      } catch (err) {}
+    });
+    setTimeout(reveal, 4000);
+  })();
+  </script>
 
-    /* ─── project thumbnails (cycle on player-paddle hit) ─── */
+  <!-- PONG game -->
+  <script>
+  (function () {
+
+    /* ── constants ── */
+    const TICKER_H   = 44;
+    const PW         = 14;
+    const PH         = 90;
+    const BALL_R     = 36;
+    const PAD_OFFSET = 48;
+    const WIN_SCORE  = 5;
+    const BASE_SPEED = 800;
+    const MAX_SPEED  = 1500;
+    const SPEED_INC  = 55;
+    const CPU_SPEED  = 430;
+    const BONES_IDX  = 2;   // thumbnail index that needs white backing
+
+    /* ── thumbnails ── */
     const THUMB_SRCS = [
       'images/twice the fun thumbnail.webp',
       'images/The Fizz Cap Lockup.webp',
@@ -102,68 +135,96 @@
       var i = new Image(); i.src = s; return i;
     });
 
-    /* ─── canvas ─── */
-    const canvas = document.getElementById('game');
-    const ctx    = canvas.getContext('2d');
-    let W = 0, H = 0, GH = 0; // GH = game height (above ticker)
-
-    function resize() {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      GH = H - TICKER_H;
-      canvas.width  = W;
-      canvas.height = H;
+    /* ── Web Audio sound effects ── */
+    var audioCtx = null;
+    function ac() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      return audioCtx;
+    }
+    function beep(freq, type, dur, vol, when) {
+      try {
+        var ctx = ac();
+        var t   = when != null ? when : ctx.currentTime;
+        var osc = ctx.createOscillator();
+        var g   = ctx.createGain();
+        osc.connect(g); g.connect(ctx.destination);
+        osc.type = type;
+        osc.frequency.value = freq;
+        g.gain.setValueAtTime(vol, t);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        osc.start(t); osc.stop(t + dur + 0.01);
+      } catch (e) {}
+    }
+    function sndWall()         { beep(500, 'square',   0.055, 0.12); }
+    function sndHitPlayer()    { beep(680, 'square',   0.065, 0.22); }
+    function sndHitCPU()       { beep(380, 'square',   0.065, 0.18); }
+    function sndScore()        { beep(160, 'sawtooth', 0.22,  0.30); }
+    function sndWin() {
+      var t = ac().currentTime;
+      [523, 659, 784, 1047].forEach(function (f, i) { beep(f, 'square',   0.18, 0.22, t + i * 0.14); });
+    }
+    function sndLose() {
+      var t = ac().currentTime;
+      [330, 262, 220, 165].forEach(function (f, i) { beep(f, 'sawtooth', 0.22, 0.26, t + i * 0.17); });
     }
 
-    /* ─── game state ─── */
-    let state       = 'intro'; // 'intro' | 'playing' | 'paused' | 'won' | 'lost'
-    let playerScore = 0;
-    let cpuScore    = 0;
-    let thumbIdx    = 0;
-    let ballSpeed   = BASE_SPEED;
-    let pointTimer  = 0;   // seconds to show "POINT" flash
-    let endTimer    = 0;   // seconds until redirect
-    let lastTime    = null;
+    /* ── canvas ── */
+    const canvas = document.getElementById('game');
+    const ctx    = canvas.getContext('2d');
+    let W = 0, H = 0, GH = 0;
 
-    /* ─── entities ─── */
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight; GH = H - TICKER_H;
+      canvas.width = W; canvas.height = H;
+    }
+
+    /* ── state ── */
+    let state          = 'intro';
+    let playerScore    = 0;
+    let cpuScore       = 0;
+    let thumbIdx       = 0;
+    let ballSpeed      = BASE_SPEED;
+    let endTimer       = 0;
+    let lastTime       = null;
+    let endSoundPlayed = false;
+
+    /* ── entities ── */
     let player = { y: 0 };
     let cpu    = { y: 0 };
-    let ball   = { x: 0, y: 0, vx: 0, vy: 0 };
+    let ball   = { x: 0, y: 0, vx: 0, vy: 0, angle: 0, spin: 0 };
 
-    function resetPositions() {
+    function resetPos() {
       player.y = GH / 2 - PH / 2;
       cpu.y    = GH / 2 - PH / 2;
     }
 
-    function launchBall(towardsPlayer) {
-      ballSpeed = BASE_SPEED;
-      ball.x = W / 2;
-      ball.y = GH / 2 + (Math.random() * 60 - 30);
-      const dir = towardsPlayer ? -1 : 1;
-      const ang = (Math.random() * 0.4 - 0.2); // ±~11.5°
-      ball.vx = ballSpeed * Math.cos(ang) * dir;
-      ball.vy = ballSpeed * Math.sin(ang);
+    function launch(toPlayer) {
+      ballSpeed   = BASE_SPEED;
+      ball.x      = W / 2;
+      ball.y      = GH / 2 + (Math.random() * 60 - 30);
+      ball.angle  = 0;
+      ball.spin   = 0;
+      var dir     = toPlayer ? -1 : 1;
+      var ang     = Math.random() * 0.4 - 0.2;
+      ball.vx     = ballSpeed * Math.cos(ang) * dir;
+      ball.vy     = ballSpeed * Math.sin(ang);
     }
 
     function startGame() {
-      playerScore = 0;
-      cpuScore    = 0;
-      thumbIdx    = 0;
-      resetPositions();
-      launchBall(true);
-      state = 'playing';
+      playerScore = 0; cpuScore = 0; thumbIdx = 0; endSoundPlayed = false;
+      resetPos(); launch(true); state = 'playing';
+      try { ac(); } catch (e) {}
     }
 
-    /* ─── input ─── */
-    let mouseY  = null;
-    let touchY  = null;
-    const keys  = {};
+    /* ── input ── */
+    let mouseY = null, touchY = null;
+    const keys = {};
 
     window.addEventListener('mousemove', function (e) { mouseY = e.clientY; });
     window.addEventListener('mouseout',  function ()  { mouseY = null; });
-    window.addEventListener('keydown',   function (e) {
+    window.addEventListener('keydown', function (e) {
       keys[e.key] = true;
-      if ((e.key === ' ' || e.key === 'Enter') && state === 'intro') { startGame(); return; }
+      if ((e.key === ' ' || e.key === 'Enter') && state === 'intro')  { startGame(); return; }
       if (e.key === ' ' && state === 'playing') { state = 'paused'; lastTime = null; return; }
       if (e.key === ' ' && state === 'paused')  { state = 'playing'; return; }
       if (e.key === 'Escape') window.location.href = 'work.html';
@@ -173,367 +234,262 @@
       if (state === 'intro') { startGame(); return; }
       touchY = e.touches[0].clientY;
     });
-    window.addEventListener('touchmove', function (e) {
-      e.preventDefault();
-      touchY = e.touches[0].clientY;
-    }, { passive: false });
-    window.addEventListener('touchend', function () { touchY = null; });
-    canvas.addEventListener('click', function () {
-      if (state === 'intro') startGame();
-    });
+    window.addEventListener('touchmove',  function (e) { e.preventDefault(); touchY = e.touches[0].clientY; }, { passive: false });
+    window.addEventListener('touchend',   function ()  { touchY = null; });
+    canvas.addEventListener('click', function () { if (state === 'intro') startGame(); });
 
-    /* ─── update ─── */
+    /* ── update ── */
     function update(dt) {
       if (state !== 'playing') return;
 
-      /* ── player paddle ── */
-      const activeY = mouseY !== null ? mouseY : touchY;
-      if (activeY !== null) {
-        // Smooth track: move paddle centre towards cursor
-        const target = activeY - PH / 2;
-        player.y += (target - player.y) * Math.min(1, 18 * dt);
+      /* player paddle */
+      var aY = mouseY !== null ? mouseY : touchY;
+      if (aY !== null) {
+        player.y += (aY - PH / 2 - player.y) * Math.min(1, 18 * dt);
       } else {
-        if (keys['ArrowUp']   || keys['w'] || keys['W']) player.y -= 520 * dt;
-        if (keys['ArrowDown'] || keys['s'] || keys['S']) player.y += 520 * dt;
+        if (keys['ArrowUp']   || keys['w'] || keys['W']) player.y -= 540 * dt;
+        if (keys['ArrowDown'] || keys['s'] || keys['S']) player.y += 540 * dt;
       }
       player.y = Math.max(0, Math.min(GH - PH, player.y));
 
-      /* ── cpu paddle (AI) ── */
-      const cpuCenter = cpu.y + PH / 2;
-      const diff = ball.y - cpuCenter;
-      const step = Math.sign(diff) * Math.min(Math.abs(diff), CPU_SPEED * dt);
-      cpu.y += step;
-      cpu.y = Math.max(0, Math.min(GH - PH, cpu.y));
+      /* CPU */
+      var diff = ball.y - (cpu.y + PH / 2);
+      cpu.y += Math.sign(diff) * Math.min(Math.abs(diff), CPU_SPEED * dt);
+      cpu.y  = Math.max(0, Math.min(GH - PH, cpu.y));
 
-      /* ── ball movement ── */
-      ball.x += ball.vx * dt;
-      ball.y += ball.vy * dt;
+      /* ball */
+      ball.x     += ball.vx   * dt;
+      ball.y     += ball.vy   * dt;
+      ball.angle += ball.spin * dt;
 
-      /* ── top / bottom wall ── */
+      /* wall bounce */
       if (ball.y - BALL_R < 0) {
-        ball.y = BALL_R;
-        ball.vy = Math.abs(ball.vy);
+        ball.y   = BALL_R; ball.vy = Math.abs(ball.vy);
+        ball.spin *= -0.55; sndWall();
       }
       if (ball.y + BALL_R > GH) {
-        ball.y = GH - BALL_R;
-        ball.vy = -Math.abs(ball.vy);
+        ball.y   = GH - BALL_R; ball.vy = -Math.abs(ball.vy);
+        ball.spin *= -0.55; sndWall();
       }
 
-      /* ── player paddle collision (left) ── */
-      const playerPadR = PAD_OFFSET + PW;
+      /* player paddle */
+      var ppR = PAD_OFFSET + PW;
       if (ball.vx < 0 &&
-          ball.x - BALL_R < playerPadR &&
+          ball.x - BALL_R < ppR &&
           ball.x + BALL_R > PAD_OFFSET &&
           ball.y + BALL_R > player.y &&
           ball.y - BALL_R < player.y + PH) {
-        ball.x = playerPadR + BALL_R;
-        const rel = Math.max(-1, Math.min(1,
-          (ball.y - (player.y + PH / 2)) / (PH / 2 + BALL_R * 0.4)));
-        const ang = rel * (Math.PI * 0.38); // max ~68°
+        ball.x = ppR + BALL_R;
+        var rel = Math.max(-1, Math.min(1, (ball.y - (player.y + PH/2)) / (PH/2 + BALL_R * 0.4)));
+        var ang = rel * Math.PI * 0.38;
         ballSpeed = Math.min(ballSpeed + SPEED_INC, MAX_SPEED);
-        ball.vx = ballSpeed * Math.cos(ang);
-        ball.vy = ballSpeed * Math.sin(ang);
-        // Cycle thumbnail
-        thumbIdx = (thumbIdx + 1) % imgs.length;
+        ball.vx   = ballSpeed * Math.cos(ang);
+        ball.vy   = ballSpeed * Math.sin(ang);
+        ball.spin = (ball.vy / BALL_R) * 1.4 + rel * 9;
+        thumbIdx  = (thumbIdx + 1) % imgs.length;
+        sndHitPlayer();
       }
 
-      /* ── cpu paddle collision (right) ── */
-      const cpuPadL = W - PAD_OFFSET - PW;
+      /* CPU paddle */
+      var cpL = W - PAD_OFFSET - PW;
       if (ball.vx > 0 &&
-          ball.x + BALL_R > cpuPadL &&
-          ball.x - BALL_R < cpuPadL + PW &&
+          ball.x + BALL_R > cpL &&
+          ball.x - BALL_R < cpL + PW &&
           ball.y + BALL_R > cpu.y &&
           ball.y - BALL_R < cpu.y + PH) {
-        ball.x = cpuPadL - BALL_R;
-        const rel = Math.max(-1, Math.min(1,
-          (ball.y - (cpu.y + PH / 2)) / (PH / 2 + BALL_R * 0.4)));
-        const ang = rel * (Math.PI * 0.38);
-        ballSpeed = Math.min(ballSpeed + 8, MAX_SPEED);
-        ball.vx = -ballSpeed * Math.cos(ang);
-        ball.vy  = ballSpeed * Math.sin(ang);
+        ball.x = cpL - BALL_R;
+        var rel2 = Math.max(-1, Math.min(1, (ball.y - (cpu.y + PH/2)) / (PH/2 + BALL_R * 0.4)));
+        var ang2 = rel2 * Math.PI * 0.38;
+        ballSpeed  = Math.min(ballSpeed + 12, MAX_SPEED);
+        ball.vx    = -ballSpeed * Math.cos(ang2);
+        ball.vy    =  ballSpeed * Math.sin(ang2);
+        ball.spin  = (ball.vy / BALL_R) * 1.4 + rel2 * 9;
+        sndHitCPU();
       }
 
-      /* ── scoring ── */
+      /* scoring */
       if (ball.x + BALL_R < 0) {
-        // CPU scores
-        cpuScore++;
-        thumbIdx = (thumbIdx + 1) % imgs.length;
-        if (cpuScore >= WIN_SCORE) {
-          state = 'lost';
-          endTimer = 3.6;
-        } else {
-          resetPositions();
-          launchBall(false); // next ball goes toward CPU
-        }
+        cpuScore++; thumbIdx = (thumbIdx + 1) % imgs.length; sndScore();
+        if (cpuScore >= WIN_SCORE) { state = 'lost'; endTimer = 3.8; endSoundPlayed = false; }
+        else { resetPos(); launch(false); }
       }
       if (ball.x - BALL_R > W) {
-        // Player scores
-        playerScore++;
-        if (playerScore >= WIN_SCORE) {
-          state = 'won';
-          endTimer = 3.6;
-        } else {
-          resetPositions();
-          launchBall(true); // next ball goes toward player
-        }
+        playerScore++; sndScore();
+        if (playerScore >= WIN_SCORE) { state = 'won'; endTimer = 3.8; endSoundPlayed = false; }
+        else { resetPos(); launch(true); }
       }
     }
 
-    /* ─── drawing helpers ─── */
-    function glow(color, blur) {
-      ctx.shadowColor = color;
-      ctx.shadowBlur  = blur;
-    }
-    function noGlow() { ctx.shadowBlur = 0; }
+    /* ── draw helpers ── */
+    function glow(col, blur) { ctx.shadowColor = col; ctx.shadowBlur = blur; }
+    function noGlow()         { ctx.shadowBlur = 0; }
 
-    function drawPaddle(x, y, glowCol) {
-      glow(glowCol, 20);
-      ctx.fillStyle = '#ffffff';
-      const radius = 6;
-      ctx.beginPath();
-      ctx.roundRect(x, y, PW, PH, radius);
-      ctx.fill();
-      noGlow();
+    function drawPaddle(x, y, col) {
+      glow(col, 22); ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.roundRect(x, y, PW, PH, 6); ctx.fill(); noGlow();
     }
 
     function drawBall() {
-      const img = imgs[thumbIdx];
+      var img = imgs[thumbIdx];
+
       ctx.save();
-      ctx.beginPath();
-      ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
+      ctx.translate(ball.x, ball.y);
+      ctx.rotate(ball.angle);
+
+      // White circle backing for Bones thumbnail
+      if (thumbIdx === BONES_IDX) {
+        ctx.beginPath(); ctx.arc(0, 0, BALL_R, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff'; ctx.fill();
+      }
+
+      // Thumbnail clipped to circle
       if (img.complete && img.naturalWidth > 0) {
-        ctx.clip();
-        ctx.drawImage(img, ball.x - BALL_R, ball.y - BALL_R, BALL_R * 2, BALL_R * 2);
+        ctx.save();
+        ctx.beginPath(); ctx.arc(0, 0, BALL_R, 0, Math.PI * 2); ctx.clip();
+        ctx.drawImage(img, -BALL_R, -BALL_R, BALL_R * 2, BALL_R * 2);
         ctx.restore();
       } else {
-        ctx.restore();
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
-        ctx.fillStyle = '#fff';
-        ctx.fill();
-        ctx.restore();
+        ctx.beginPath(); ctx.arc(0, 0, BALL_R, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff'; ctx.fill();
       }
-      // Glowing ring
-      ctx.beginPath();
-      ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
-      glow('#ffffff', 16);
-      ctx.stroke();
-      noGlow();
+
+      ctx.restore();
+
+      // Glow ring (not rotated)
+      ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
+      ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(255,255,255,0.86)';
+      glow('#fff', 18); ctx.stroke(); noGlow();
     }
 
-    function drawDashedCentreLine() {
+    function drawCentreLine() {
       ctx.save();
       ctx.setLineDash([14, 20]);
-      ctx.strokeStyle = 'rgba(255,255,255,0.22)';
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(W / 2, 0);
-      ctx.lineTo(W / 2, GH);
-      ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(W/2, 0); ctx.lineTo(W/2, GH); ctx.stroke();
       ctx.restore();
     }
 
     function drawScore() {
-      ctx.textAlign    = 'center';
-      ctx.textBaseline = 'top';
-      ctx.font         = 'bold 88px Impact, "Arial Narrow", sans-serif';
-      ctx.letterSpacing = '0px';
-      // Player score (left)
-      glow('#00fff2', 28);
-      ctx.fillStyle = '#fff';
-      ctx.fillText(playerScore, W / 4, 28);
-      // CPU score (right)
-      glow('#ff2d78', 28);
-      ctx.fillText(cpuScore, (3 * W) / 4, 28);
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.font = 'bold 88px Impact, "Arial Narrow", sans-serif';
+      glow('#00fff2', 28); ctx.fillStyle = '#fff'; ctx.fillText(playerScore, W/4, 28);
+      glow('#ff2d78', 28);                          ctx.fillText(cpuScore, 3*W/4, 28);
       noGlow();
-
-      // Labels
-      ctx.font         = '15px Impact, "Arial Narrow", sans-serif';
-      ctx.letterSpacing = '3px';
-      ctx.fillStyle    = 'rgba(255,255,255,0.32)';
-      ctx.fillText('PLAYER', W / 4, 126);
-      ctx.fillText('CPU', (3 * W) / 4, 126);
+      ctx.font = '15px Impact, "Arial Narrow", sans-serif'; ctx.letterSpacing = '3px';
+      ctx.fillStyle = 'rgba(255,255,255,0.32)';
+      ctx.fillText('PLAYER', W/4, 126); ctx.fillText('CPU', 3*W/4, 126);
       ctx.letterSpacing = '0px';
     }
 
-    function drawOverlay(alpha) {
-      ctx.fillStyle = 'rgba(0,0,0,' + alpha + ')';
-      ctx.fillRect(0, 0, W, GH);
-    }
+    function overlay(a) { ctx.fillStyle = 'rgba(0,0,0,' + a + ')'; ctx.fillRect(0, 0, W, GH); }
 
     function drawIntro(t) {
-      ctx.textAlign    = 'center';
-      ctx.textBaseline = 'middle';
-
-      // Big PONG title
-      ctx.font  = 'bold 96px Impact, "Arial Narrow", sans-serif';
-      glow('#00fff2', 50);
-      ctx.fillStyle = '#ffffff';
-      ctx.fillText('PONG', W / 2, GH / 2 - 80);
-      noGlow();
-
-      // Subtitle
-      ctx.font      = '19px Impact, "Arial Narrow", sans-serif';
-      ctx.letterSpacing = '3px';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = 'bold 96px Impact, "Arial Narrow", sans-serif';
+      glow('#00fff2', 50); ctx.fillStyle = '#fff'; ctx.fillText('PONG', W/2, GH/2 - 80); noGlow();
+      ctx.font = '19px Impact, "Arial Narrow", sans-serif'; ctx.letterSpacing = '3px';
       ctx.fillStyle = 'rgba(255,255,255,0.45)';
-      ctx.fillText('FIRST TO ' + WIN_SCORE + ' WINS', W / 2, GH / 2 - 10);
-      ctx.letterSpacing = '0px';
-
-      // Pulsing "start" prompt
-      const pulse = Math.sin(t * 2.4) * 0.35 + 0.65;
-      ctx.globalAlpha = pulse;
-      ctx.font        = '20px Impact, "Arial Narrow", sans-serif';
-      ctx.letterSpacing = '2px';
-      ctx.fillStyle   = '#fff';
-      ctx.fillText('PRESS SPACE  ·  CLICK  ·  TAP', W / 2, GH / 2 + 48);
-      ctx.globalAlpha = 1;
-      ctx.letterSpacing = '0px';
+      ctx.fillText('FIRST TO ' + WIN_SCORE + ' WINS', W/2, GH/2 - 10); ctx.letterSpacing = '0px';
+      ctx.globalAlpha = Math.sin(t * 2.4) * 0.35 + 0.65;
+      ctx.font = '20px Impact, "Arial Narrow", sans-serif'; ctx.letterSpacing = '2px';
+      ctx.fillStyle = '#fff';
+      ctx.fillText('PRESS SPACE  ·  CLICK  ·  TAP', W/2, GH/2 + 48);
+      ctx.globalAlpha = 1; ctx.letterSpacing = '0px';
     }
 
-    function drawEndScreen(won, t) {
-      drawOverlay(0.55);
-      ctx.textAlign    = 'center';
-      ctx.textBaseline = 'middle';
+    function drawPaused(t) {
+      overlay(0.55); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = 'bold 80px Impact, "Arial Narrow", sans-serif';
+      glow('#00fff2', 40); ctx.fillStyle = '#fff'; ctx.fillText('PAUSED', W/2, GH/2 - 30); noGlow();
+      ctx.globalAlpha = Math.sin(t * 2.6) * 0.28 + 0.52;
+      ctx.font = '17px Impact, "Arial Narrow", sans-serif'; ctx.letterSpacing = '3px';
+      ctx.fillStyle = '#fff'; ctx.fillText('PRESS SPACE TO RESUME', W/2, GH/2 + 36);
+      ctx.globalAlpha = 1; ctx.letterSpacing = '0px';
+    }
 
-      if (won) {
-        ctx.font  = 'bold 82px Impact, "Arial Narrow", sans-serif';
-        glow('#39ff14', 50);
-        ctx.fillStyle = '#39ff14';
-        ctx.fillText('YOU WIN!', W / 2, GH / 2 - 46);
-        noGlow();
-      } else {
-        ctx.font  = 'bold 82px Impact, "Arial Narrow", sans-serif';
-        glow('#ff2d78', 50);
-        ctx.fillStyle = '#ff2d78';
-        ctx.fillText('GAME OVER', W / 2, GH / 2 - 46);
-        noGlow();
-      }
-
-      // Final score
-      ctx.font      = '26px Impact, "Arial Narrow", sans-serif';
-      ctx.letterSpacing = '2px';
+    function drawEnd(won, t) {
+      overlay(0.55); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = 'bold 82px Impact, "Arial Narrow", sans-serif';
+      if (won) { glow('#39ff14', 50); ctx.fillStyle = '#39ff14'; ctx.fillText('YOU WIN!',  W/2, GH/2 - 46); }
+      else     { glow('#ff2d78', 50); ctx.fillStyle = '#ff2d78'; ctx.fillText('GAME OVER', W/2, GH/2 - 46); }
+      noGlow();
+      ctx.font = '26px Impact, "Arial Narrow", sans-serif'; ctx.letterSpacing = '2px';
       ctx.fillStyle = 'rgba(255,255,255,0.6)';
-      ctx.fillText(playerScore + '   —   ' + cpuScore, W / 2, GH / 2 + 18);
-      ctx.letterSpacing = '0px';
-
-      // Returning text
-      const pulse = Math.sin(t * 2.8) * 0.25 + 0.45;
-      ctx.globalAlpha = pulse;
-      ctx.font        = '16px Impact, "Arial Narrow", sans-serif';
-      ctx.letterSpacing = '2px';
-      ctx.fillStyle   = 'rgba(255,255,255,0.8)';
-      ctx.fillText('RETURNING TO WORK...', W / 2, GH / 2 + 60);
-      ctx.globalAlpha = 1;
-      ctx.letterSpacing = '0px';
+      ctx.fillText(playerScore + '   —   ' + cpuScore, W/2, GH/2 + 18); ctx.letterSpacing = '0px';
+      ctx.globalAlpha = Math.sin(t * 2.8) * 0.25 + 0.45;
+      ctx.font = '16px Impact, "Arial Narrow", sans-serif'; ctx.letterSpacing = '2px';
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.fillText('RETURNING TO WORK...', W/2, GH/2 + 60);
+      ctx.globalAlpha = 1; ctx.letterSpacing = '0px';
     }
 
-    /* ─── main loop ─── */
-    let elapsed = 0; // total running time for animations
+    /* ── main loop ── */
+    var elapsed = 0;
 
     function loop(now) {
       if (lastTime === null) lastTime = now;
-      const dt = Math.min((now - lastTime) / 1000, 0.05);
-      lastTime  = now;
-      elapsed  += dt;
+      var dt = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now; elapsed += dt;
 
-      // Handle end-state countdown
       if ((state === 'won' || state === 'lost') && endTimer > 0) {
-        endTimer -= dt;
-        if (endTimer <= 0) {
-          window.location.href = 'work.html';
-          return;
+        if (!endSoundPlayed) {
+          endSoundPlayed = true;
+          if (state === 'won') sndWin(); else sndLose();
         }
+        endTimer -= dt;
+        if (endTimer <= 0) { window.location.href = 'work.html'; return; }
       }
 
       update(dt);
 
-      /* ── draw ── */
       ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = 'rgba(0,0,0,0.50)'; ctx.fillRect(0, 0, W, H);
 
-      // Dark overlay on background
-      ctx.fillStyle = 'rgba(0,0,0,0.52)';
-      ctx.fillRect(0, 0, W, H);
-
-      drawDashedCentreLine();
+      drawCentreLine();
       drawScore();
 
-      if (state === 'playing' || state === 'paused' || state === 'won' || state === 'lost') {
+      if (state !== 'intro') {
         drawPaddle(PAD_OFFSET, player.y, '#00fff2');
         drawPaddle(W - PAD_OFFSET - PW, cpu.y, '#ff2d78');
       }
-      if (state === 'playing' || state === 'paused') {
-        drawBall();
-      }
-      if (state === 'intro') {
-        drawOverlay(0.38);
-        drawIntro(elapsed);
-      }
-      if (state === 'paused') {
-        drawOverlay(0.55);
-        ctx.textAlign    = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.font  = 'bold 80px Impact, "Arial Narrow", sans-serif';
-        ctx.shadowColor  = '#00fff2'; ctx.shadowBlur = 40;
-        ctx.fillStyle    = '#ffffff';
-        ctx.fillText('PAUSED', W / 2, GH / 2 - 30);
-        ctx.shadowBlur   = 0;
-        const pulse = Math.sin(elapsed * 2.6) * 0.28 + 0.52;
-        ctx.globalAlpha  = pulse;
-        ctx.font         = '17px Impact, "Arial Narrow", sans-serif';
-        ctx.letterSpacing = '3px';
-        ctx.fillStyle    = '#fff';
-        ctx.fillText('PRESS SPACE TO RESUME', W / 2, GH / 2 + 36);
-        ctx.globalAlpha  = 1;
-        ctx.letterSpacing = '0px';
-      }
-      if (state === 'won')  drawEndScreen(true,  elapsed);
-      if (state === 'lost') drawEndScreen(false, elapsed);
+      if (state === 'playing' || state === 'paused') drawBall();
+      if (state === 'intro')  { overlay(0.38); drawIntro(elapsed); }
+      if (state === 'paused') drawPaused(elapsed);
+      if (state === 'won')    drawEnd(true,  elapsed);
+      if (state === 'lost')   drawEnd(false, elapsed);
 
-      // Ticker gap — solid black strip to hide any canvas bleed below game
-      ctx.fillStyle = '#000';
-      ctx.fillRect(0, GH, W, TICKER_H);
+      // Black ticker strip
+      ctx.fillStyle = '#000'; ctx.fillRect(0, GH, W, TICKER_H);
 
       requestAnimationFrame(loop);
     }
 
-    window.addEventListener('resize', function () {
-      resize();
-      if (state !== 'playing') resetPositions();
-    });
-
-    resize();
-    resetPositions();
+    window.addEventListener('resize', function () { resize(); if (state !== 'playing') resetPos(); });
+    resize(); resetPos();
     requestAnimationFrame(loop);
   })();
   </script>
 
-  <!-- Neon ticker (matches work.html) -->
+  <!-- Neon ticker -->
   <script>
   (function () {
     var track = document.getElementById('tickerTrack');
     window.addEventListener('load', function () {
-      var copies      = Array.from(track.querySelectorAll('.neon-copy'));
-      var neonColors  = ['neon-pink', 'neon-cyan', 'neon-green'];
-      var colorIdxA   = 0;
-      var colorIdxB   = 1;
-      var singleW     = copies[0].offsetWidth;
-      var pos         = window.innerWidth;
-      var speed       = 90;
-      var lastTime    = null;
+      var copies = Array.from(track.querySelectorAll('.neon-copy'));
+      var neonColors = ['neon-pink','neon-cyan','neon-green'];
+      var ciA = 0, ciB = 1;
+      var singleW = copies[0].offsetWidth;
+      var pos = window.innerWidth, speed = 90, lt = null;
       function tick(now) {
-        if (lastTime === null) lastTime = now;
-        var delta = Math.min(now - lastTime, 50);
-        lastTime  = now;
-        pos -= speed * delta / 1000;
+        if (lt === null) lt = now;
+        var d = Math.min(now - lt, 50); lt = now;
+        pos -= speed * d / 1000;
         if (pos <= -singleW) {
           pos += singleW;
-          colorIdxA = (colorIdxB + 1) % neonColors.length;
-          copies[0].className = 'neon-copy ' + neonColors[colorIdxA];
+          ciA = (ciB + 1) % neonColors.length;
+          copies[0].className = 'neon-copy ' + neonColors[ciA];
           copies.push(copies.shift());
-          var tmp = colorIdxA; colorIdxA = colorIdxB; colorIdxB = tmp;
+          var tmp = ciA; ciA = ciB; ciB = tmp;
         }
         track.style.transform = 'translateX(' + pos + 'px)';
         requestAnimationFrame(tick);
@@ -543,7 +499,6 @@
   })();
   </script>
 
-  <!-- Remove load-bg overlay -->
   <script>
     window.addEventListener('load', function () {
       var el = document.getElementById('page-load-bg');
