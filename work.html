@@ -627,16 +627,26 @@
 
   function show() {
     if (active) return;
-    active   = true;
-    // random start position, diagonal direction
+    active = true;
     var W = window.innerWidth, H = window.innerHeight;
-    var xMin = -PAD_X,   xMax = W - SIZE + PAD_X;
-    var yMin = -PAD_T,   yMax = H - SIZE + PAD_B;
-    x  = xMin + Math.random() * (xMax - xMin);
-    y  = yMin + Math.random() * (yMax - yMin);
-    var ang = Math.PI / 4;
-    vx = Math.cos(ang) * SPEED * (Math.random() < 0.5 ? 1 : -1);
-    vy = Math.sin(ang) * SPEED * (Math.random() < 0.5 ? 1 : -1);
+    var xMin = -PAD_X,  xMax = W - SIZE + PAD_X;
+    var yMin = -PAD_T,  yMax = H - SIZE + PAD_B;
+    var Lx = xMax - xMin, Ly = yMax - yMin;
+    // Guarantee a corner hit at a random time between 1 and 5 minutes.
+    // Technique: "unfold" the reflections into a straight line, then
+    // compute the start position that lands on the target corner at t_c.
+    var t_c = 60 + Math.random() * 240;          // 1–5 min
+    var v   = SPEED * Math.cos(Math.PI / 4);     // component speed (45°)
+    var tx  = Math.random() < 0.5 ? 0 : Lx;     // target x wall: left or right
+    var ty  = Math.random() < 0.5 ? 0 : Ly;     // target y wall: top or bottom
+    // Unfolded start u: the point in [0, 2L) such that u + v*t_c ≡ tx (mod 2Lx)
+    var ux  = ((tx - (v * t_c) % (2 * Lx)) % (2 * Lx) + 2 * Lx) % (2 * Lx);
+    var uy  = ((ty - (v * t_c) % (2 * Ly)) % (2 * Ly) + 2 * Ly) % (2 * Ly);
+    // Fold back: if u > L the start is in the reflected half → flip velocity
+    x  = xMin + (ux <= Lx ? ux : 2 * Lx - ux);
+    y  = yMin + (uy <= Ly ? uy : 2 * Ly - uy);
+    vx = v * (ux <= Lx ? 1 : -1);
+    vy = v * (uy <= Ly ? 1 : -1);
     setThumb(Math.floor(Math.random() * THUMBS.length));
     setPos();
     saver.classList.add('active');
