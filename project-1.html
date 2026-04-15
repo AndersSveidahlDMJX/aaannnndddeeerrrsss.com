@@ -117,7 +117,7 @@
       left: 50vw;
     }
     body.sb-collapsed .twixbar-left { left: 0; }
-    body.sb-collapsed .twix-mockup { right: calc(39vh + 680px); }
+    body.sb-collapsed .mockup-wrap { right: calc(39vh + 680px); }
     body.sb-collapsed .ticket-stack { left: calc(50vw + 250px); }
     .section {
       padding: 32px 0;
@@ -155,20 +155,41 @@
     }
     .twixbar-left  { left: 360px; transition: left 0.35s ease; }
     .twixbar-right { right: 0; bottom: -350px; transform: scaleX(-1); }
-    .twix-mockup {
+    .mockup-wrap {
       position: absolute;
+      right: calc(39vh + 320px);
+      bottom: -275px;
+      z-index: 1;
+      transition: right 0.35s ease;
+      text-align: center;
+    }
+    .twix-mockup {
+      display: block;
       height: 27.39vh;
       width: auto;
       pointer-events: auto;
       cursor: pointer;
-      z-index: 1;
-      right: calc(39vh + 320px);
-      bottom: -275px;
       filter: drop-shadow(0 6px 16px rgba(0,0,0,0.5));
       border-radius: 8px;
-      transition: transform 0.25s ease, right 0.35s ease;
+      transition: transform 0.25s ease;
     }
     .twix-mockup:hover { transform: scale(1.06); }
+    .mockup-caption, .ticket-caption {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .mockup-caption { margin-top: 7px; }
+    .ticket-caption {
+      position: absolute;
+      bottom: -1.75rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
     .ticket-stack {
       position: absolute;
       left: calc(360px + (100vw - 360px) / 2 + 250px);
@@ -366,10 +387,14 @@
   </div>
   <img class="twixbar twixbar-left"  src="images/twixbar.webp" alt="" />
   <img class="twixbar twixbar-right" src="images/twixbar.webp" alt="" />
-  <img class="twix-mockup" src="images/twix mockup.webp" alt="" />
+  <div class="mockup-wrap">
+    <img class="twix-mockup" src="images/twix mockup.webp" alt="" />
+    <div class="mockup-caption">In store showcase</div>
+  </div>
   <div class="ticket-stack">
     <img class="ticket-back"  src="images/golden ticket bagfra1.webp" alt="" />
     <img class="ticket-front" src="images/golden ticket.webp" alt="" />
+    <div class="ticket-caption">Golden ticket</div>
   </div>
   <div class="scroll-hint"><span></span><span></span></div>
   <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">&#8249;</button>
