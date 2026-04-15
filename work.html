@@ -18,10 +18,10 @@
       src: url('fonts/SFPRODISPLAYREGULAR.OTF') format('opentype');
     }
     :root {
-      /* 250px at 1512px (MacBook 14"), scales up/down with viewport */
-      --card: max(180px, 16.53vw);
-      --col-gap: max(11px, 1.26vw);
-      --row-gap: max(5px, 0.60vw);
+      /* 250px at 1512px (MacBook 14"), clamped so layout locks above that width */
+      --card: clamp(180px, 16.53vw, 250px);
+      --col-gap: clamp(11px, 1.26vw, 19px);
+      --row-gap: clamp(5px, 0.60vw, 9px);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {

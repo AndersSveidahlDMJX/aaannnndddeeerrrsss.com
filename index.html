@@ -105,14 +105,14 @@
 
     /* ── images ── */
     .usb-img {
-      height: 25vh;
+      height: clamp(150px, 25vh, 245px);
       width: auto;
       display: block;
       filter: drop-shadow(2px 5px 5px rgba(0,0,0,0.5));
     }
 
     .diary-img {
-      height: 56vh;
+      height: clamp(320px, 56vh, 550px);
       width: auto;
       display: block;
       filter: drop-shadow(2px 5px 8px rgba(0,0,0,0.35));
@@ -138,7 +138,7 @@
 
     .iphone-img,
     .iphone-on {
-      height: 30vh;
+      height: clamp(180px, 30vh, 295px);
       width: auto;
       display: block;
       filter: drop-shadow(2px 5px 10px rgba(0,0,0,0.4));
