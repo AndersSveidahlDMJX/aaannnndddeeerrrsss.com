@@ -552,8 +552,8 @@
     </div>
   </div>
   <div id="dvd-corner-msg">
-    <p id="dvd-corner-main">yay it finally hit the corner!</p>
-    <p id="dvd-corner-sub">we should celebrate with a cup of coffee</p>
+    <p id="dvd-corner-main">okay you seem pretty invested already</p>
+    <p id="dvd-corner-sub">text me?</p>
   </div>
 </div>
 <script>
@@ -594,6 +594,7 @@
   var rafId     = null;
   var idleTimer = null;
   var cornerHit = false;
+  var celebTimer1 = null, celebTimer2 = null;
 
   function setThumb(idx) {
     thumbIdx = ((idx % THUMBS.length) + THUMBS.length) % THUMBS.length;
@@ -631,18 +632,26 @@
   }
 
   function celebrate() {
-    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-    cornerMsg.classList.add('show');
-    setTimeout(function () {
+    // folder fades to black over 3s while still bouncing
+    folder.style.transition = 'opacity 3s ease';
+    folder.style.opacity = '0';
+    celebTimer1 = setTimeout(function () {
+      cornerMsg.classList.add('show');
+    }, 3000);
+    celebTimer2 = setTimeout(function () {
       cornerMsg.classList.remove('show');
       setTimeout(function () { hide(); }, 950);
-    }, 5000);
+    }, 8000);
   }
 
   function hide() {
     if (!active) return;
     active = false;
     cornerHit = false;
+    clearTimeout(celebTimer1); clearTimeout(celebTimer2);
+    celebTimer1 = celebTimer2 = null;
+    folder.style.transition = '';
+    folder.style.opacity = '';
     cornerMsg.classList.remove('show');
     saver.classList.remove('active');
     document.body.classList.remove('dvd-active');
@@ -668,7 +677,7 @@
     if (y <= yMin) { y = yMin; vy =  Math.abs(vy); by = true; }
     if (y >= yMax) { y = yMax; vy = -Math.abs(vy); by = true; }
 
-    if (bx && by && !cornerHit) { cornerHit = true; setPos(); celebrate(); return; }
+    if (bx && by && !cornerHit) { cornerHit = true; celebrate(); }
     if (bx || by) setThumb(thumbIdx + 1);
 
     setPos();
