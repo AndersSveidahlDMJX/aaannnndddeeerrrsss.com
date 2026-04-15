@@ -498,7 +498,7 @@
     mask-image: url('images/folder_icon.svg');
     mask-size: 100% 100%;
     mask-repeat: no-repeat;
-    will-change: transform;
+    will-change: left, top;
   }
   #dvd-folder-inner {
     width: 100%; height: 100%;
@@ -571,7 +571,8 @@
     vx = Math.cos(ang) * SPEED * (Math.random() < 0.5 ? 1 : -1);
     vy = Math.sin(ang) * SPEED * (Math.random() < 0.5 ? 1 : -1);
     setThumb(Math.floor(Math.random() * THUMBS.length));
-    folder.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    folder.style.left = x + 'px';
+    folder.style.top  = y + 'px';
     saver.classList.add('active');
     document.body.classList.add('dvd-active');
     lastTime = null;
@@ -605,7 +606,8 @@
 
     if (bounced) setThumb(thumbIdx + 1);
 
-    folder.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    folder.style.left = x + 'px';
+    folder.style.top  = y + 'px';
     rafId = requestAnimationFrame(tick);
   }
 
