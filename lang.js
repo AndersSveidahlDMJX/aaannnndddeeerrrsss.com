@@ -234,7 +234,7 @@
       ? '<a class="nav-shortcut pong-neon" href="pong.html">pong</a>'
         + '<span class="i18n-sep" style="margin:0 4px;">|</span>'
       : '';
-    div.innerHTML = contactLink + pongLink
+    div.innerHTML = pongLink + contactLink
                   + '<button data-lang="en">EN</button>'
                   + '<span class="i18n-sep">/</span>'
                   + '<button data-lang="da">DA</button>';
