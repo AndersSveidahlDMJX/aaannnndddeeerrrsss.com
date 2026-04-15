@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style id="page-load-bg">body{background:#000!important}</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
+  <title>Contact — aaannndddeeerrrsss</title>
+  <meta name="description" content="Get in touch with Anders." />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000 url('images/ios wallpaper.webp') center center / cover no-repeat fixed;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    }
+    .back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.5rem;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+      z-index: 10;
+    }
+    .back:hover { opacity: 1; }
+    .icons-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 64px;
+    }
+    .app-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      width: 210px;
+    }
+    .app-icon img {
+      width: 144px;
+      height: 144px;
+      border-radius: 32px;
+      display: block;
+      transition: filter 0.15s ease;
+    }
+    .app-icon:hover img {
+      filter: brightness(0.73);
+    }
+    .app-icon:active img {
+      filter: brightness(0.50);
+      transition: filter 0s;
+    }
+    .app-icon span {
+      font-size: 22px;
+      font-weight: 400;
+      color: #fff;
+      text-align: center;
+      letter-spacing: 0.01em;
+      line-height: 1.3;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+      white-space: nowrap;
+    }
+    .toast {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1c1c1e;
+      color: #fff;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    @media (max-width: 480px) {
+      .icons-row { gap: 24px; }
+      .app-icon img { width: 112px; height: 112px; border-radius: 25px; }
+      .app-icon span { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="icons-row">
+      <a class="app-icon" id="mailIcon" href="mailto:a.sveidahl@gmail.com">
+        <img src="images/gmail.webp" alt="Gmail" />
+        <span>a.sveidahl@gmail.com</span>
+      </a>
+      <a class="app-icon" href="sms:+4522121846">
+        <img src="images/sms.webp" alt="SMS" />
+        <span>+45 2212 1846</span>
+      </a>
+      <a class="app-icon" href="https://linkedin.com/in/anders-sveidahl-058272294/?skipRedirect=true" target="_blank" rel="noopener">
+        <img src="images/linkedin.webp" alt="LinkedIn" />
+        <span>/anderssveidahl</span>
+      </a>
+    </div>
+  </main>
+  <div class="toast" id="toast">a.sveidahl@gmail.com — copied!</div>
+<script>
+  document.getElementById('mailIcon').addEventListener('click', function() {
+    // Small delay to let mailto: attempt first, then show toast as fallback hint
+    setTimeout(function() {
+      const toast = document.getElementById('toast');
+      navigator.clipboard && navigator.clipboard.writeText('a.sveidahl@gmail.com').catch(()=>{});
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }, 300);
+  });
+</script>
+<script src="lang.js"></script>
+</body>
+</html>

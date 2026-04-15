@@ -2,14 +2,61 @@
    lang.js  —  EN / DA toggle for aaannndddeeerrrsss.com
    Uses data-i18n="key" attributes on elements. Persists choice in localStorage.
 ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Universal page-transition fade ── */
+(function () {
+  // Viewport-proportional rem scale: 16px at 1512px (MacBook 14" M1 reference).
+  // This makes all rem-based values scale consistently on any screen width.
+  // Font-smoothing unifies antialiasing between Safari and Chrome on macOS.
+  var earlyStyle = document.createElement('style');
+  earlyStyle.textContent =
+    'html{font-size:clamp(12px,1.0583vw,22px)}' +
+    '*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}';
+  document.head.appendChild(earlyStyle);
+
+  // Solid black overlay covers page until window.load fires, then fades out.
+  // Prevents any flash of content or background colour during page transitions.
+  var overlay = document.createElement('div');
+  overlay.id = 'page-fade-overlay';
+  overlay.style.cssText = [
+    'position:fixed', 'top:0', 'left:0', 'width:100%', 'height:100%',
+    'background:#000', 'z-index:99999', 'pointer-events:none',
+    'opacity:1', 'transition:opacity 1.1s ease'
+  ].join(';');
+  document.body.appendChild(overlay);
+
+  function startFade() {
+    // Remove the per-page pre-load background style before revealing content.
+    // It was body{background:#000!important} injected in each page's <head>
+    // to prevent any white/coloured flash before this overlay activates.
+    var pl = document.getElementById('page-load-bg');
+    if (pl && pl.parentNode) pl.parentNode.removeChild(pl);
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        overlay.style.opacity = '0';
+        setTimeout(function () {
+          if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+        }, 1200);
+      });
+    });
+  }
+
+  if (document.readyState === 'complete') {
+    startFade();
+  } else {
+    window.addEventListener('load', startFade);
+  }
+})();
+
 (function () {
 
   const T = {
     en: {
       /* ── index ── */
-      'notwork':       'random USB',
+      'notwork':       'Random USB',
       'nav-me':        'me',
-      'nav-work':      'work',
+      'nav-work':      'Work',
 
       /* ── shared section labels ── */
       'lbl-brief':         'Brief',
@@ -29,8 +76,12 @@
       'p4-sol': 'A bold, colour-coded identity built around the three flavours. Bright, confident packaging that punches well above its price point on the shelf.',
 
       /* ── about ── */
-      'h-about':    'about me',
+      'h-about':    'About Me',
       'h-about-me': 'About Me',
+
+      /* ── nav shortcuts ── */
+      'nav-home':    'home',
+      'nav-contact': 'Contact',
 
       /* ── other-stuff nav links ── */
       'os-link1': 'Unsure what to do after your gap year?',
@@ -47,9 +98,9 @@
 
     da: {
       /* ── index ── */
-      'notwork':  'random USB',
+      'notwork':  'Random USB',
       'nav-me':   'mig',
-      'nav-work': 'arbejde',
+      'nav-work': 'Arbejde',
 
       /* ── shared section labels ── */
       'lbl-brief':         'Brief',
@@ -69,8 +120,12 @@
       'p4-sol': 'En dristig, farvekoderet identitet bygget op om de tre smagsvarianter. Frisk, selvsikker emballage der sl&aring;r langt over sin prispunkt p&aring; hylden.',
 
       /* ── about ── */
-      'h-about':    'om mig',
-      'h-about-me': 'Om mig',
+      'h-about':    'Om Mig',
+      'h-about-me': 'Om Mig',
+
+      /* ── nav shortcuts ── */
+      'nav-home':    'hjem',
+      'nav-contact': 'Kontakt',
 
       /* ── other-stuff nav links ── */
       'os-link1': 'I tvivl om hvad du skal efter dit sabbat&aring;r?',
@@ -105,35 +160,86 @@
 
   /* ── initialise: inject styles + toggle button, then apply lang ── */
   function init() {
+    var path = location.pathname;
+    var isIndex   = path === '/' || /index\.html$/.test(path);
+    var isContact = /contact\.html$/.test(path);
+    var hasShortcuts = !isIndex && !isContact;
+
     var style = document.createElement('style');
     style.textContent = [
       '#lang-toggle{',
         'position:fixed;top:24px;right:24px;z-index:9999;',
         'display:flex;align-items:center;gap:2px;',
-        'font-size:0.68rem;font-family:sans-serif;',
-        'letter-spacing:0.1em;text-transform:uppercase;',
+        'font-size:0.75rem;font-family:sans-serif;',
+        'letter-spacing:0.06em;text-transform:uppercase;font-weight:500;',
+        'color:#fff;',
       '}',
       '#lang-toggle button{',
         'background:none;border:none;cursor:pointer;',
         'padding:3px 5px;font-size:inherit;font-family:inherit;',
-        'letter-spacing:inherit;text-transform:inherit;',
-        'color:inherit;opacity:0.35;transition:opacity 0.15s;',
+        'letter-spacing:inherit;text-transform:inherit;font-weight:inherit;',
+        'color:inherit;opacity:0.5;transition:opacity 0.15s;',
       '}',
-      '#lang-toggle button:hover{opacity:0.65;}',
+      '#lang-toggle button:hover{opacity:0.85;font-weight:700;}',
       '#lang-toggle button.i18n-active{opacity:1;font-weight:700;}',
-      '#lang-toggle .i18n-sep{opacity:0.25;font-size:0.6rem;line-height:1;}',
+      '#lang-toggle .i18n-sep{opacity:0.3;font-size:0.6rem;line-height:1;}',
+      '#lang-toggle a.nav-shortcut{',
+        'color:inherit;text-decoration:none;',
+        'padding:3px 5px;font-size:inherit;font-family:inherit;',
+        'letter-spacing:inherit;text-transform:inherit;font-weight:inherit;',
+        'opacity:0.5;transition:opacity 0.15s;',
+      '}',
+      '#lang-toggle a.nav-shortcut:hover{opacity:0.85;font-weight:700;}',
+      '#nav-shortcuts{',
+        'position:fixed;top:24px;left:24px;z-index:9999;',
+        'display:flex;align-items:center;gap:2px;',
+        'font-size:0.75rem;font-family:sans-serif;',
+        'letter-spacing:0.06em;text-transform:uppercase;font-weight:500;',
+        'color:#fff;transition:left 0.35s ease;',
+      '}',
+      '#nav-shortcuts a{',
+        'color:inherit;text-decoration:none;',
+        'padding:3px 5px;opacity:0.5;transition:opacity 0.15s;',
+      '}',
+      '#nav-shortcuts a:hover{opacity:0.85;font-weight:700;}',
+      '#nav-shortcuts .i18n-sep{opacity:0.3;font-size:0.6rem;line-height:1;}',
     ].join('');
     document.head.appendChild(style);
 
+    /* ── lang toggle (right side) — contact shortcut + EN/DA ── */
     var div = document.createElement('div');
     div.id = 'lang-toggle';
-    div.innerHTML = '<button data-lang="en">EN</button>'
+    var contactLink = hasShortcuts
+      ? '<a class="nav-shortcut" href="contact.html" data-i18n="nav-contact">contact</a>'
+        + '<span class="i18n-sep" style="margin:0 4px;">|</span>'
+      : '';
+    div.innerHTML = contactLink
+                  + '<button data-lang="en">EN</button>'
                   + '<span class="i18n-sep">/</span>'
                   + '<button data-lang="da">DA</button>';
     div.querySelectorAll('button').forEach(function (btn) {
       btn.addEventListener('click', function () { apply(btn.dataset.lang); });
     });
     document.body.appendChild(div);
+
+    /* ── home shortcut (left side) ── */
+    if (!isIndex) {
+      var navDiv = document.createElement('div');
+      navDiv.id = 'nav-shortcuts';
+      navDiv.innerHTML = '<a href="index.html" data-i18n="nav-home">home</a>';
+      document.body.appendChild(navDiv);
+
+      /* sidebar-aware left position */
+      var sidebar = document.querySelector('.sidebar');
+      if (sidebar) {
+        var sbWidth = sidebar.offsetWidth || 360;
+        navDiv.style.left = (sbWidth + 24) + 'px';
+        new MutationObserver(function () {
+          var collapsed = document.body.classList.contains('sb-collapsed');
+          navDiv.style.left = collapsed ? '24px' : (sbWidth + 24) + 'px';
+        }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      }
+    }
 
     apply(lang);
   }

@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <style id="page-load-bg">body{background:#000!important}</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <title>Bones — aaannndddeeerrrsss</title>
   <meta name="description" content="Bones — a brand and visual identity project by Anders." />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.css" />
+  <link rel="preload" href="images/BONES%20LOGO.webp" as="image" />
   <link rel="preload" href="images/bones%20plakat1.webp" as="image" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fff; font-family: sans-serif; }
+    body {
+      background: url('images/bones baggrund.webp') center center / cover no-repeat fixed;
+      font-family: sans-serif;
+    }
     .back {
       position: fixed;
       top: 30px;
@@ -35,6 +40,7 @@
       height: 100vh;
       overflow: hidden;
       padding: 90px 40px 40px;
+      background: #fff;
       border-right: 1px solid #e0e0e0;
       box-shadow: 2px 0 12px rgba(0,0,0,0.07);
       transition: width 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
@@ -94,11 +100,20 @@
       flex: 1;
       padding: 80px 60px 80px;
     }
+    .header-img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      display: block;
+      margin: 0 auto 32px;
+    }
     lite-youtube {
       width: 100%;
+      max-width: 800px;
       border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 40px;
+      margin: 0 auto 40px;
+      display: block;
     }
     .image-grid {
       display: grid;
@@ -122,6 +137,7 @@
         padding: 72px 24px 32px;
       }
       .content { padding: 32px 20px 60px; }
+      .header-img { max-width: 280px; }
       .back { top: 16px; left: 16px; }
       .sidebar-toggle { display: none; }
     }
@@ -129,7 +145,6 @@
 </head>
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Bones — Brand Project</h1>
-  <a class="back" href="work.html">←</a>
   <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">&#8249;</button>
   <div class="layout">
     <aside class="sidebar">
@@ -147,15 +162,12 @@
       </div>
     </aside>
     <main class="content">
-      <div class="video-center">
-        <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
-      </div>
+      <img class="header-img" src="images/BONES LOGO.webp" alt="Bones Logo" />
+      <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
       <div class="image-grid">
         <img src="images/bones plakat1.webp" alt="Bones Plakat 1" />
         <img src="images/bones plakat2.webp" alt="Bones Plakat 2" loading="lazy" />
         <img src="images/bones plakat3.webp" alt="Bones Plakat 3" loading="lazy" />
-        <img src="images/bella bones.webp" alt="Bella Bones" loading="lazy" />
-        <img src="images/t shirt bag.webp" alt="T-Shirt Bag" loading="lazy" />
         <img src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
       </div>
     </main>

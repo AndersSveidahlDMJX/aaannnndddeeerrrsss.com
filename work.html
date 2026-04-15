@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <style id="page-load-bg">body{background:#000!important}</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <link rel="preload" href="images/folder_icon.svg" as="image" type="image/svg+xml" />
@@ -36,7 +37,7 @@
     .back:hover { opacity: 1; }
     .mute-toggle {
       position: fixed;
-      bottom: 30px;
+      bottom: 74px;
       right: 30px;
       z-index: 10;
       background: rgba(255,255,255,0.15);
@@ -64,7 +65,7 @@
       transform: translate(-50%, -50%);
       display: grid;
       grid-template-columns: repeat(3, 250px);
-      grid-template-rows: repeat(2, auto);
+      grid-template-rows: repeat(2, 250px);
       column-gap: 19px;
       row-gap: 9px;
       z-index: 5;
@@ -102,6 +103,7 @@
     }
     .card-wrap {
       position: relative;
+      width: 250px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -124,6 +126,7 @@
       filter: blur(0px);
     }
     a.card-link, a.card-link * { text-decoration: none; }
+    .card-link { width: 250px; }
     .card-link:nth-child(1) .card img {
       transform: translateY(5px) scale(1.1);
     }
@@ -232,6 +235,38 @@
       pointer-events: none;
     }
 
+    /* ── neon ticker ── */
+    .ticker {
+      position: fixed;
+      bottom: 0;
+      top: auto;
+      left: 0;
+      width: 100vw;
+      height: 44px;
+      overflow: hidden;
+      z-index: 20;
+      background: #000;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: none;
+      display: flex;
+      align-items: center;
+    }
+    .ticker-track {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      will-change: transform;
+    }
+    .ticker-track span {
+      font-family: Impact, 'Arial Narrow', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.12em;
+      padding: 0 6px;
+    }
+    .neon-pink  { color:#ff2d78; text-shadow: 0 0 6px #ff2d78, 0 0 18px #ff2d78; }
+    .neon-cyan  { color:#00fff2; text-shadow: 0 0 6px #00fff2, 0 0 18px #00fff2; }
+    .neon-green { color:#39ff14; text-shadow: 0 0 6px #39ff14, 0 0 18px #39ff14; }
+
     @media (max-width: 768px) {
       body {
         background: #111;
@@ -307,7 +342,9 @@
 </head>
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Work — aaannndddeeerrrsss</h1>
-  <a class="back" href="index.html">←</a>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack"><span class="neon-copy neon-pink" data-copy="0">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue. And a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span><span class="neon-copy neon-cyan" data-copy="1">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue. And a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span></div>
+  </div>
   <iframe id="yt-player" allow="autoplay; encrypted-media" frameborder="0"></iframe>
   <div id="still"></div>
   <div class="shadow-grid">
@@ -330,11 +367,7 @@
   <script>
     var muted = true;
 
-    var videos = [
-      { id: '8kEzFZvtLzM', still: 'images/livestream_still.webp' },
-      { id: 'Thtj8Ht7Z_c', still: 'images/maldiverne.webp' }
-    ];
-    var chosen = videos[Math.floor(Math.random() * videos.length)];
+    var chosen = { id: 'Thtj8Ht7Z_c', still: 'images/maldiverne.webp' };
 
     document.getElementById('still').style.backgroundImage = "url('" + chosen.still + "')";
 
@@ -384,6 +417,38 @@
       document.querySelector('.grid').classList.add('visible');
       document.querySelector('.shadow-grid').classList.add('visible');
     });
+  </script>
+  <script>
+    // Neon ticker: each full-text copy has its own color, next color assigned when copy wraps
+    (function () {
+      var track = document.getElementById('tickerTrack');
+      window.addEventListener('load', function () {
+        var copies = Array.from(track.querySelectorAll('.neon-copy'));
+        var neonColors = ['neon-pink', 'neon-cyan', 'neon-green'];
+        var colorIdxA = 0; // copy[0] current color index
+        var colorIdxB = 1; // copy[1] current color index
+
+        var singleW = copies[0].offsetWidth;
+        var pos = window.innerWidth;
+        var speed = 1.2;
+
+        function tick() {
+          pos -= speed;
+          if (pos <= -singleW) {
+            pos += singleW;
+            // copy[0] just scrolled fully off — give it a new color different from copy[1]'s current
+            colorIdxA = (colorIdxB + 1) % neonColors.length;
+            copies[0].className = 'neon-copy ' + neonColors[colorIdxA];
+            // swap so next time copy[1] is the one that scrolled off
+            copies.push(copies.shift());
+            var tmp = colorIdxA; colorIdxA = colorIdxB; colorIdxB = tmp;
+          }
+          track.style.transform = 'translateX(' + pos + 'px)';
+          requestAnimationFrame(tick);
+        }
+        tick();
+      });
+    })();
   </script>
 <script src="lang.js"></script>
 </body>

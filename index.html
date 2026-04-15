@@ -2,15 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <style id="page-load-bg">body{background:#000!important}</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
-  <link rel="preload" href="images/baggrundweb.webp" as="image" />
   <title>aaannndddeeerrrsss — Portfolio</title>
   <meta name="description" content="Portfolio of Anders — graphic designer and creative. Projects in branding, typography, and visual identity." />
   <style>
     @font-face {
       font-family: 'ImpactLabel';
       src: url('fonts/ImpactLabel.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'EnglishVivace';
+      src: url('fonts/English 111 Vivace Regular.otf') format('opentype');
+    }
+    @font-face {
+      font-family: 'EurostileExtBlk';
+      src: local('Eurostile Extended Black'),
+           url('fonts/EurostileExtendedBlack.ttf') format('truetype');
+      font-display: block;
     }
 
     *{
@@ -20,54 +30,97 @@
     }
 
     body {
-      background-color: #ffffff;
+      background: #000;
       height: 100vh;
       font-family: sans-serif;
     }
 
-    .bg {
+    .bg { display: none; }
+
+    /* ── centered row of all 4 items ── */
+    .items-row {
       position: fixed;
       top: 50%;
       left: 50%;
-      width: 100vw;
-      height: 100vh;
-      transform: translate(-50%, -50%) rotate(180deg) scaleX(-1) scaleY(-1);
-      object-fit: fill;
-      z-index: -1;
+      transform: translate(-50%, calc(-50% + 1.875rem));
+      display: flex;
+      align-items: flex-end;
+      gap: 4vw;
+      z-index: 1;
     }
 
-    .work {
-      position: fixed;
-      left: 50%;
-      bottom: 25%;
-      transform: translateX(-50%);
-      font-family: 'Arial Black', Arial, sans-serif;
-      font-size: 1.25rem;
-      text-transform: uppercase;
-      color: #000000;
+    .item-col {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      filter: brightness(0.38);
+      transition: filter 0.55s ease;
     }
+    .item-col:hover {
+      filter: brightness(1);
+    }
+    .items-row:has(.item-col:hover) .item-col:not(:hover) {
+      filter: brightness(0.06);
+      transition: filter 0.3s ease;
+    }
+    /* spotlights and ambient injected by JS */
 
-    a:has(.toshiba-wrap) {
-      display: contents;
+    .item-col > a { display: block; }
+
+    /* ── item wraps ── */
+    .usb-wrap {
+      display: inline-block;
+      cursor: pointer;
+      transform: rotate(51deg);
+      transition: transform 0.3s ease;
     }
+    .usb-wrap:hover { transform: rotate(51deg) scale(1.05); }
+
+    .diary-wrap {
+      display: inline-block;
+      cursor: pointer;
+      transform: rotate(0deg) translateY(5px);
+      transition: transform 0.3s ease;
+    }
+    .diary-wrap:hover { transform: rotate(0deg) translateY(5px) scale(1.05); }
 
     .toshiba-wrap {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
       transition: transform 0.3s ease;
-      cursor: default;
+    }
+    .toshiba-wrap:hover { transform: scale(1.05); }
+
+    .iphone-wrap {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      transform: rotate(0deg) translateY(-8px);
+      transition: transform 0.3s ease;
+    }
+    .iphone-wrap:hover { transform: rotate(0deg) translateY(-8px) scale(1.05); }
+
+    /* ── images ── */
+    .usb-img {
+      height: 25vh;
+      width: auto;
+      display: block;
+      filter: drop-shadow(2px 5px 5px rgba(0,0,0,0.5));
     }
 
-    .toshiba-wrap:hover {
-      transform: translate(-50%, -50%) scale(1.05);
+    .diary-img {
+      height: 56vh;
+      width: auto;
+      display: block;
+      filter: drop-shadow(2px 5px 8px rgba(0,0,0,0.35));
     }
 
     .toshiba2 {
       display: block;
-      max-width: 25vw;
-      max-height: 45vh;
+      max-width: 21.25vw;
+      max-height: 38.25vh;
       width: auto;
       height: auto;
     }
@@ -82,216 +135,198 @@
       pointer-events: none;
     }
 
-    .work-label {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(4deg);
-      font-family: 'ImpactLabel', Impact, sans-serif;
-      font-size: 2rem;
-      text-transform: uppercase;
-      color: #000000;
-      background-color: #ffffff;
-      padding: 2px 8px;
-      clip-path: inset(0 10px 0 8px);
-      pointer-events: none;
-      white-space: nowrap;
-    }
-
-    @keyframes migSlideIn {
-      from {
-        transform: translateX(calc(-50% + 400px)) translateY(60vh) rotate(90deg);
-      }
-      to {
-        transform: translateX(calc(-50% + 400px)) translateY(100px) rotate(90deg);
-      }
-    }
-
-    .mig-wrap {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(calc(-50% + 400px)) translateY(100px) rotate(90deg);
-      transform-origin: center center;
-      z-index: 1;
-      display: inline-block;
-      animation: migSlideIn 5s linear forwards;
-      cursor: pointer;
-    }
-
-    .mig-wrap.arrived {
-      animation: none;
-      transform: translateX(calc(-50% + 400px)) translateY(100px) rotate(90deg);
-      transition: transform 0.3s ease;
-    }
-
-    .mig-wrap.arrived:hover {
-      transform: translateX(calc(-50% + 400px)) translateY(100px) rotate(90deg) scale(1.05);
-    }
-
-    .mig {
-      height: 60vh;
+    .iphone-img,
+    .iphone-on {
+      height: 30vh;
       width: auto;
       display: block;
-      filter: drop-shadow(0px 6px 12px rgba(0,0,0,0.45));
+      filter: drop-shadow(2px 5px 10px rgba(0,0,0,0.4));
     }
 
-    .mig-label {
+    .iphone-on {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(calc(-50% + 28px), calc(-50% + 14px)) rotate(270deg);
-      font-family: 'ImpactLabel', Impact, sans-serif;
-      font-size: 2rem;
-      text-transform: uppercase;
-      color: #000000;
-      background-color: #ffffff;
-      padding: 2px 8px;
-      clip-path: inset(0 10px 0 8px);
-      white-space: nowrap;
-      pointer-events: none;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .iphone-wrap:hover .iphone-on {
+      opacity: 1;
+      transition: opacity 0.25s cubic-bezier(0.0, 0, 0.2, 1);
     }
 
-    .usb-wrap {
+    /* ── labels ── */
+    .item-label {
+      font-family: 'EnglishVivace', 'Brush Script MT', cursive;
+      font-size: 1.8rem;
+      background: linear-gradient(
+        180deg,
+        #c8c8c8 0%, #ffffff 18%, #7a7a7a 32%,
+        #f0f0f0 48%, #666 62%, #e0e0e0 78%, #909090 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding: 0.25rem 0.5rem;
+      pointer-events: none;
+      white-space: nowrap;
+      width: fit-content;
+      margin-top: 0.875rem;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.25));
+    }
+    /* work-label same size so all three labels share the same height */
+
+    /* ── site title ── */
+    .site-title {
       position: fixed;
+      top: 3.5rem;
       left: 50%;
-      top: 50%;
-      transform: translate(calc(-50% - 339px), calc(-50% - 20px)) rotate(51deg);
-      display: inline-block;
-      cursor: default;
+      transform: translateX(-50%);
       z-index: 2;
-      transition: transform 0.3s ease;
-    }
-
-    .usb-wrap:hover {
-      transform: translate(calc(-50% - 339px), calc(-50% - 20px)) rotate(51deg) scale(1.05);
-    }
-
-    .usb-img {
-      height: 25vh;
-      width: auto;
-      display: block;
-      filter: drop-shadow(2px 5px 5px rgba(0,0,0,2));
-    }
-
-    .notwork-label {
-      position: absolute;
-      top: 55%;
-      left: 51%;
-      transform: translate(-50%, -30%) rotate(-90deg);
-      font-family: 'ImpactLabel', Impact, sans-serif;
-      font-size: 1.28rem;
-      text-transform: uppercase;
-      color: #000000;
-      background-color: #ffffff;
-      padding: 1px 8px;
-      clip-path: inset(0 10px 0 8px);
-      pointer-events: none;
+      font-family: 'EurostileExtBlk', sans-serif;
+      font-size: 4rem;
+      letter-spacing: 0.08em;
       white-space: nowrap;
+      pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        #c8c8c8 0%, #ffffff 18%, #7a7a7a 32%,
+        #f0f0f0 48%, #666 62%, #e0e0e0 78%, #909090 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.25));
+      transition: filter 0.3s ease;
     }
+    body:has(.item-col:hover) .site-title,
+    body:has(.usb-fixed:hover) .site-title {
+      filter: brightness(0.06) drop-shadow(0 0 6px rgba(255,255,255,0.1));
+    }
+    .title-beam {
+      transition: opacity 0.55s ease;
+    }
+    body:has(.item-col:hover) .title-beam,
+    body:has(.usb-fixed:hover) .title-beam {
+      opacity: 0 !important;
+    }
+
+    /* ── hover bob animation ── */
+    @keyframes hover-bob {
+      0%   { transform: translateY(0px); }
+      40%  { transform: translateY(-6px); }
+      100% { transform: translateY(0px); }
+    }
+    .item-col:hover > a,
+    .usb-fixed:hover > a {
+      animation: hover-bob 1.5s ease-in-out infinite;
+    }
+
+    /* ── USB fixed bottom-right ── */
+    .usb-fixed {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+      filter: brightness(0.38);
+      transition: filter 0.55s ease;
+    }
+    .usb-fixed:hover { filter: brightness(1); }
 
     @media (max-width: 768px) {
       body {
-        background: #fff;
+        background: #000;
         height: auto;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 8px;
         padding: 60px 40px;
       }
 
       .bg { display: none; }
 
-      /* Kill all fixed positioning on nav items */
-      .toshiba-wrap {
-        position: static;
-        transform: none !important;
-        transition: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-      }
-      .toshiba-wrap:hover { transform: none !important; }
-      .toshiba2, .toshiba1 { display: none; }
-      .work-label {
+      .items-row {
         position: static;
         transform: none;
-        clip-path: none;
-        font-size: 3rem;
-        background: #fff;
-        padding: 4px 12px;
-        color: #000;
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
+        align-items: center;
       }
 
-      .mig-wrap,
-      .mig-wrap.arrived {
-        position: static;
-        transform: none !important;
-        animation: none;
-        transition: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .mig-wrap.arrived:hover { transform: none !important; }
-      .mig { display: none; }
-      .mig-label {
-        position: static;
-        transform: none;
-        clip-path: none;
-        font-size: 3rem;
-        background: #fff;
-        padding: 4px 12px;
-        color: #000;
-      }
+      .usb-fixed { display: none; }
 
-      .usb-wrap {
-        position: static;
-        transform: none !important;
-        transition: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .usb-wrap:hover { transform: none !important; }
-      .usb-img { display: none; }
-      .notwork-label {
-        position: static;
-        transform: none;
-        clip-path: none;
+      .usb-wrap,
+      .diary-wrap,
+      .toshiba-wrap,
+      .iphone-wrap { transform: none !important; transition: none; }
+
+      .usb-img,
+      .diary-img,
+      .toshiba2,
+      .toshiba1,
+      .iphone-img,
+      .iphone-on { display: none; }
+
+      .item-label {
         font-size: 2.4rem;
-        background: #fff;
         padding: 4px 12px;
-        color: #000;
+        pointer-events: auto;
       }
+      .work-label { font-size: 3rem; }
     }
 
   </style>
 </head>
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">aaannndddeeerrrsss — Portfolio</h1>
+  <div class="site-title">Anders Sveidahl</div>
   <img class="bg" src="images/baggrundweb.webp" alt="" />
-  <a href="other-stuff.html" style="display: contents;">
-  <div class="usb-wrap">
-    <img class="usb-img" src="images/usb.webp" alt="" />
-    <span class="notwork-label" data-i18n="notwork">random USB</span>
+
+  <div class="usb-fixed">
+    <a href="other-stuff.html">
+      <div class="usb-wrap">
+        <img class="usb-img" src="images/usb.webp" alt="" />
+      </div>
+    </a>
+    <span class="item-label" data-i18n="notwork">Random USB</span>
   </div>
-  </a>
-  <a href="about-me.html" style="display: contents;">
-  <div class="mig-wrap">
-    <img class="mig" src="images/mig.webp" alt="" />
-    <span class="mig-label" data-i18n="nav-me">me</span>
+
+  <div class="items-row">
+    <div class="item-col">
+      <a href="about.html">
+        <div class="diary-wrap">
+          <img class="diary-img" src="images/diary.webp" alt="" />
+        </div>
+      </a>
+      <span class="item-label" data-i18n="h-about">About Me</span>
+    </div>
+
+    <div class="item-col">
+      <a href="work.html">
+        <div class="toshiba-wrap">
+          <img class="toshiba2" src="images/toshiba2.webp" alt="" />
+          <img class="toshiba1" src="images/toshiba1.webp" alt="" />
+        </div>
+      </a>
+      <span class="item-label work-label" data-i18n="nav-work">Work</span>
+    </div>
+
+    <div class="item-col">
+      <a href="contact.html">
+        <div class="iphone-wrap">
+          <img class="iphone-img" src="images/iphone se.png" alt="iPhone SE" />
+          <img class="iphone-on" src="images/iphone se on.png" alt="iPhone SE On" />
+        </div>
+      </a>
+      <span class="item-label" data-i18n="nav-contact">Contact</span>
+    </div>
   </div>
-  </a>
-  <a href="work.html"><div class="toshiba-wrap">
-    <img class="toshiba2" src="images/toshiba2.webp" alt="" />
-    <img class="toshiba1" src="images/toshiba1.webp" alt="" />
-    <span class="work-label" data-i18n="nav-work">work</span>
-  </div></a>
   <script>
     const wrap = document.querySelector('.toshiba-wrap');
     const t2 = wrap.querySelector('.toshiba2');
@@ -321,9 +356,283 @@
       t1.style.display = 'none';
     });
 
-    const migWrap = document.querySelector('.mig-wrap');
-    setTimeout(() => migWrap.classList.add('arrived'), 5000);
+  </script>
+  <script>
+    // Trim diary image: clip hover area and layout box to visible (non-transparent) pixels
+    (function () {
+      var img = document.querySelector('.diary-img');
+      if (!img) return;
+
+      var trimData = null; // cache pixel percentages
+
+      function scanTrim() {
+        if (trimData) return trimData;
+        var c = document.createElement('canvas');
+        c.width = img.naturalWidth;
+        c.height = img.naturalHeight;
+        var ctx = c.getContext('2d');
+        try { ctx.drawImage(img, 0, 0); } catch (e) { return null; }
+        var d = ctx.getImageData(0, 0, c.width, c.height).data;
+        var W = c.width, H = c.height, thresh = 5;
+        var t = H, b = 0, l = W, r = 0;
+        for (var i = 3; i < d.length; i += 4) {
+          if (d[i] > thresh) {
+            var p = (i - 3) / 4, x = p % W | 0, y = (p / W) | 0;
+            if (x < l) l = x; if (x > r) r = x;
+            if (y < t) t = y; if (y > b) b = y;
+          }
+        }
+        if (t >= b || l >= r) return null;
+        trimData = {
+          tP: t / H * 100, bP: (H - b - 1) / H * 100,
+          lP: l / W * 100, rP: (W - r - 1) / W * 100
+        };
+        return trimData;
+      }
+
+      function applyTrim() {
+        var tr = scanTrim();
+        if (!tr) return;
+        // clip-path removes visual transparent area AND restricts pointer events to visible region
+        img.style.clipPath =
+          'inset(' + tr.tP.toFixed(2) + '% ' + tr.rP.toFixed(2) + '% ' +
+          tr.bP.toFixed(2) + '% ' + tr.lP.toFixed(2) + '%)';
+        // Negative margins collapse the layout box to match the visible area
+        var rH = img.clientHeight, rW = img.clientWidth;
+        img.style.marginTop    = '-' + (tr.tP / 100 * rH).toFixed(1) + 'px';
+        img.style.marginBottom = '-' + (tr.bP / 100 * rH).toFixed(1) + 'px';
+        img.style.marginLeft   = '-' + (tr.lP / 100 * rW).toFixed(1) + 'px';
+        img.style.marginRight  = '-' + (tr.rP / 100 * rW).toFixed(1) + 'px';
+        centerOnToshiba();
+      }
+
+      function run() {
+        if (img.complete && img.naturalWidth > 0) applyTrim();
+        else img.addEventListener('load', applyTrim);
+      }
+
+      run();
+      window.addEventListener('resize', function() { applyTrim(); });
+    })();
+
+    // Center the row on toshiba's midpoint rather than the group midpoint
+    function centerOnToshiba() {
+      var row = document.querySelector('.items-row');
+      var toshibaWrap = document.querySelector('.toshiba-wrap');
+      if (!row || !toshibaWrap) return;
+      row.style.transform = 'translateY(-50%)';
+      row.style.left = '0';
+      var rowRect = row.getBoundingClientRect();
+      var tRect = toshibaWrap.getBoundingClientRect();
+      var tCenterInRow = tRect.left + tRect.width / 2 - rowRect.left;
+      row.style.left = (window.innerWidth / 2 - tCenterInRow) + 'px';
+      if (typeof positionSpotlights === 'function') positionSpotlights();
+    }
+
+    window.addEventListener('load', centerOnToshiba);
+    window.addEventListener('resize', centerOnToshiba);
+
+    // Scan visible pixel bounds of an image via canvas (returns % offsets, cached on img element)
+    function scanImageBounds(img) {
+      if (img._bounds) return img._bounds;
+      var c = document.createElement('canvas');
+      c.width = img.naturalWidth; c.height = img.naturalHeight;
+      var ctx = c.getContext('2d');
+      try { ctx.drawImage(img, 0, 0); } catch (e) { return null; }
+      var d = ctx.getImageData(0, 0, c.width, c.height).data;
+      var W = c.width, H = c.height, thresh = 5;
+      var t = H, b = 0, l = W, r = 0;
+      for (var i = 3; i < d.length; i += 4) {
+        if (d[i] > thresh) {
+          var p = (i - 3) / 4, x = p % W | 0, y = (p / W) | 0;
+          if (x < l) l = x; if (x > r) r = x;
+          if (y < t) t = y; if (y > b) b = y;
+        }
+      }
+      if (t >= b || l >= r) return null;
+      img._bounds = {
+        tP: t / H * 100, bP: (H - b - 1) / H * 100,
+        lP: l / W * 100, rP: (W - r - 1) / W * 100
+      };
+      return img._bounds;
+    }
+
+    (function () {
+      // Trim transparent bottom edges so visual bottoms = layout bottoms.
+      // With align-items:flex-end on the row, equal layout bottoms → equal visual bottoms.
+      // Labels are position:absolute (top:100%), so col height = image height only.
+
+      // ── Toshiba ─────────────────────────────────────────────────────────────
+      // clip-path clips the visual transparent bottom of toshiba2.
+      // margin-bottom on .toshiba-wrap (not toshiba2) collapses the layout gap
+      // without changing toshiba-wrap's clientHeight → toshiba1 height:100% stays intact.
+      var toshiba2   = document.querySelector('.toshiba2');
+      var toshibaWrap = document.querySelector('.toshiba-wrap');
+
+      function trimToshiba() {
+        var tr = scanImageBounds(toshiba2);
+        if (!tr) return;
+        var botPx = (tr.bP / 100 * toshiba2.clientHeight);
+        toshiba2.style.clipPath = 'inset(0 0 ' + botPx.toFixed(1) + 'px 0)';
+        if (toshibaWrap) toshibaWrap.style.marginBottom = '-' + botPx.toFixed(1) + 'px';
+        centerOnToshiba();
+      }
+
+      if (toshiba2) {
+        if (toshiba2.complete && toshiba2.naturalWidth > 0) trimToshiba();
+        else toshiba2.addEventListener('load', trimToshiba);
+        window.addEventListener('resize', trimToshiba);
+      }
+
+      // ── iPhone ──────────────────────────────────────────────────────────────
+      // iphone-on uses explicit height:30vh not height:100%, so margin-bottom
+      // on iphone-img is safe — the overlay is unaffected.
+      var iphoneImg = document.querySelector('.iphone-img');
+
+      function trimIphone() {
+        var tr = scanImageBounds(iphoneImg);
+        if (!tr) return;
+        iphoneImg.style.marginBottom = '-' + (tr.bP / 100 * iphoneImg.clientHeight).toFixed(1) + 'px';
+        centerOnToshiba();
+      }
+
+      if (iphoneImg) {
+        if (iphoneImg.complete && iphoneImg.naturalWidth > 0) trimIphone();
+        else iphoneImg.addEventListener('load', trimIphone);
+        window.addEventListener('resize', trimIphone);
+      }
+    })();
 
   </script>
+  <script>
+    // Fixed spotlight beams from top of viewport, one per item
+    (function () {
+      var BEAM_W = 640;
+      var entries = [];
+
+      function createAmbient() {
+        var el = document.createElement('div');
+        el.style.cssText = [
+          'position:fixed','top:0','left:0','width:100vw','height:100vh',
+          'pointer-events:none','z-index:2','mix-blend-mode:screen',
+          'background:radial-gradient(ellipse 80% 55% at 50% -5%, rgba(200,200,180,0.13) 0%, transparent 100%)'
+        ].join(';');
+        document.body.appendChild(el);
+      }
+
+      function createBeam() {
+        var el = document.createElement('div');
+        // Three nested radial gradients: hot core + mid spread + outer halo
+        // mix-blend-mode:screen = black is invisible, white adds light additively
+        el.style.cssText = [
+          'position:fixed','top:0',
+          'height:100vh','width:' + BEAM_W + 'px',
+          'pointer-events:none','z-index:3',
+          'opacity:0','transition:opacity 0.55s ease',
+          'mix-blend-mode:screen',
+          'background:'
+            + 'radial-gradient(ellipse 14% 50% at 50% 0%, rgba(255,255,248,0.42) 0%, rgba(255,252,230,0.14) 60%, transparent 100%),'
+            + 'radial-gradient(ellipse 36% 78% at 50% 0%, rgba(255,251,225,0.2) 0%, rgba(255,245,200,0.07) 65%, transparent 100%),'
+            + 'radial-gradient(ellipse 70% 100% at 50% 0%, rgba(255,248,210,0.07) 0%, transparent 80%)'
+        ].join(';');
+        document.body.appendChild(el);
+        return el;
+      }
+
+      function init() {
+        createAmbient();
+        var cols = Array.from(document.querySelectorAll('.item-col'));
+        var usb  = document.querySelector('.usb-fixed');
+        var items = cols.concat(usb ? [usb] : []);
+        items.forEach(function (item) {
+          var el = createBeam();
+          entries.push({ item: item, el: el });
+          item.addEventListener('mouseenter', function () { el.style.opacity = '1'; });
+          item.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
+        });
+        positionSpotlights();
+      }
+
+      function positionSpotlights() {
+        entries.forEach(function (e) {
+          var rect = e.item.getBoundingClientRect();
+          var cx = rect.left + rect.width / 2;
+          e.el.style.left = (cx - BEAM_W / 2) + 'px';
+        });
+      }
+
+      window.positionSpotlights = positionSpotlights;
+
+      if (document.readyState === 'loading') {
+        window.addEventListener('load', init);
+      } else {
+        init();
+      }
+      window.addEventListener('resize', positionSpotlights);
+    })();
+
+    // Permanent overhead spotlight for .site-title
+    (function () {
+      var BEAM_W = 1300;
+      var beam = document.createElement('div');
+      beam.className = 'title-beam';
+      beam.style.cssText = [
+        'position:fixed', 'top:-29vh',
+        'height:58vh', 'width:' + BEAM_W + 'px',
+        'pointer-events:none', 'z-index:1',
+        'opacity:0.50',
+        'mix-blend-mode:screen',
+        'background:'
+          + 'radial-gradient(ellipse 28% 52% at 50% 0%, rgba(255,255,255,0.52) 0%, rgba(255,255,250,0.18) 60%, transparent 100%),'
+          + 'radial-gradient(ellipse 58% 80% at 50% 0%, rgba(255,255,252,0.26) 0%, rgba(255,255,248,0.09) 65%, transparent 100%),'
+          + 'radial-gradient(ellipse 92% 100% at 50% 0%, rgba(255,255,252,0.11) 0%, transparent 80%)'
+      ].join(';');
+      document.body.appendChild(beam);
+
+      function positionTitleBeam() {
+        var title = document.querySelector('.site-title');
+        if (!title) return;
+        var rect = title.getBoundingClientRect();
+        var cx = rect.left + rect.width / 2;
+        beam.style.left = (cx - BEAM_W / 2) + 'px';
+      }
+
+      if (document.readyState === 'loading') {
+        window.addEventListener('load', positionTitleBeam);
+      } else {
+        positionTitleBeam();
+      }
+      window.addEventListener('resize', positionTitleBeam);
+    })();
+  </script>
+<script>
+  // Fade to black when navigating away from index
+  (function () {
+    var _navigating = false;
+    document.addEventListener('click', function (e) {
+      if (_navigating) return;
+      var anchor = e.target.closest('a[href]');
+      if (!anchor) return;
+      var href = anchor.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || href.indexOf('://') !== -1 || href.indexOf('mailto:') === 0) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      _navigating = true;
+      var out = document.createElement('div');
+      out.style.cssText = [
+        'position:fixed','top:0','left:0','width:100%','height:100%',
+        'background:#000','z-index:99999','pointer-events:none',
+        'opacity:0','transition:opacity 0.8s ease'
+      ].join(';');
+      document.body.appendChild(out);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          out.style.opacity = '1';
+          setTimeout(function () { window.location.href = href; }, 840);
+        });
+      });
+    }, true);
+  })();
+</script>
 <script src="lang.js"></script>
 </html>
