@@ -10,7 +10,7 @@
   // Font-smoothing unifies antialiasing between Safari and Chrome on macOS.
   var earlyStyle = document.createElement('style');
   earlyStyle.textContent =
-    'html{font-size:clamp(10px,1.0583vw,16px)}' +
+    'html{font-size:max(10px,1.0583vw)}' +
     '*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}';
   document.head.appendChild(earlyStyle);
 

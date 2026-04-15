@@ -18,10 +18,10 @@
       src: url('fonts/SFPRODISPLAYREGULAR.OTF') format('opentype');
     }
     :root {
-      /* 250px at 1512px (MacBook 14"), clamped so layout locks above that width */
-      --card: clamp(180px, 16.53vw, 250px);
-      --col-gap: clamp(11px, 1.26vw, 19px);
-      --row-gap: clamp(5px, 0.60vw, 9px);
+      /* 250px at 1512px (MacBook 14"), scales proportionally with viewport */
+      --card: max(180px, 16.53vw);
+      --col-gap: max(11px, 1.26vw);
+      --row-gap: max(5px, 0.60vw);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -446,8 +446,12 @@
 
         var singleW = copies[0].offsetWidth;
         var pos = window.innerWidth;
-        // px per second — time-delta keeps speed identical on 60 Hz, 120 Hz, Safari, Chrome
-        var speed = 90;
+        // Speed scales proportionally with viewport — 90px/s at 1512px (MacBook 14" reference)
+        var BASE_W = 1512;
+        var speed = 90 * (window.innerWidth / BASE_W);
+        window.addEventListener('resize', function () {
+          speed = 90 * (window.innerWidth / BASE_W);
+        });
 
         var lastTime = null;
         function tick(now) {
