@@ -477,12 +477,17 @@
 <!-- ── DVD screensaver ── -->
 <style>
   #dvd-saver {
-    position: fixed; inset: 0; z-index: 500;
+    position: fixed; inset: 0; z-index: 9999;
     background: #000;
     opacity: 0; pointer-events: none;
     transition: opacity 1.2s ease;
   }
   #dvd-saver.active { opacity: 1; pointer-events: all; }
+  body.dvd-active .back,
+  body.dvd-active .ticker,
+  body.dvd-active .mute-toggle,
+  body.dvd-active #lang-toggle,
+  body.dvd-active #nav-shortcuts { visibility: hidden; }
   #dvd-folder {
     position: absolute;
     width: 220px; height: 220px;
@@ -567,6 +572,7 @@
     setThumb(Math.floor(Math.random() * THUMBS.length));
     folder.style.transform = 'translate(' + x + 'px,' + y + 'px)';
     saver.classList.add('active');
+    document.body.classList.add('dvd-active');
     lastTime = null;
     rafId = requestAnimationFrame(tick);
   }
@@ -575,6 +581,7 @@
     if (!active) return;
     active = false;
     saver.classList.remove('active');
+    document.body.classList.remove('dvd-active');
     if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
     resetIdle();
   }
