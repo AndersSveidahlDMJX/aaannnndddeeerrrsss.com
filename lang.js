@@ -97,7 +97,6 @@
       'os-link5': 'Fossils',
       'os-link6': 'AI',
       'os-link7': 'my favorite emoji',
-      'os-link8': 'my second favorite emoji',
 
       /* ── sabbataar / ord-som-navne ── */
       'sabbataar-h': 'Gap Year',
@@ -143,7 +142,6 @@
       'os-link5': 'Fossiler',
       'os-link6': 'AI',
       'os-link7': 'min yndlingsemoji',
-      'os-link8': 'min næstyndlingsemoji',
 
       /* ── sabbataar / ord-som-navne ── */
       'sabbataar-h': 'Sabbat&aring;r',

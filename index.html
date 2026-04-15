@@ -614,6 +614,12 @@
     document.addEventListener('click', function (e) {
       if (_navigating) return;
       var anchor = e.target.closest('a[href]');
+      // If tap landed on a label or other child outside the <a> (mobile: images hidden),
+      // find the anchor inside the same item column or USB block
+      if (!anchor) {
+        var col = e.target.closest('.item-col, .usb-fixed');
+        if (col) anchor = col.querySelector('a[href]');
+      }
       if (!anchor) return;
       var href = anchor.getAttribute('href');
       if (!href || href.charAt(0) === '#' || href.indexOf('://') !== -1 || href.indexOf('mailto:') === 0) return;
@@ -630,7 +636,11 @@
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           out.style.opacity = '1';
-          setTimeout(function () { window.location.href = href; }, 840);
+          out.addEventListener('transitionend', function () {
+            window.location.href = href;
+          }, { once: true });
+          // Fallback in case transitionend doesn't fire (e.g. reduced-motion)
+          setTimeout(function () { window.location.href = href; }, 900);
         });
       });
     }, true);
