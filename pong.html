@@ -191,7 +191,7 @@
     /* ── entities ── */
     let player = { y: 0 };
     let cpu    = { y: 0 };
-    let ball   = { x: 0, y: 0, vx: 0, vy: 0, angle: 0, spin: 0 };
+    let ball   = { x: 0, y: 0, vx: 0, vy: 0 };
 
     function resetPos() {
       player.y = GH / 2 - PH / 2;
@@ -202,8 +202,6 @@
       ballSpeed   = BASE_SPEED;
       ball.x      = W / 2;
       ball.y      = GH / 2 + (Math.random() * 60 - 30);
-      ball.angle  = 0;
-      ball.spin   = 0;
       var dir     = toPlayer ? -1 : 1;
       var ang     = Math.random() * 0.4 - 0.2;
       ball.vx     = ballSpeed * Math.cos(ang) * dir;
@@ -258,18 +256,17 @@
       cpu.y  = Math.max(0, Math.min(GH - PH, cpu.y));
 
       /* ball */
-      ball.x     += ball.vx   * dt;
-      ball.y     += ball.vy   * dt;
-      ball.angle += ball.spin * dt;
+      ball.x += ball.vx * dt;
+      ball.y += ball.vy * dt;
 
       /* wall bounce */
       if (ball.y - BALL_R < 0) {
         ball.y   = BALL_R; ball.vy = Math.abs(ball.vy);
-        ball.spin *= -0.55; sndWall();
+        sndWall();
       }
       if (ball.y + BALL_R > GH) {
         ball.y   = GH - BALL_R; ball.vy = -Math.abs(ball.vy);
-        ball.spin *= -0.55; sndWall();
+        sndWall();
       }
 
       /* player paddle */
@@ -285,7 +282,6 @@
         ballSpeed = Math.min(ballSpeed + SPEED_INC, MAX_SPEED);
         ball.vx   = ballSpeed * Math.cos(ang);
         ball.vy   = ballSpeed * Math.sin(ang);
-        ball.spin = (ball.vy / BALL_R) * 1.4 + rel * 9;
         thumbIdx  = (thumbIdx + 1) % imgs.length;
         sndHitPlayer();
       }
@@ -300,10 +296,9 @@
         ball.x = cpL - BALL_R;
         var rel2 = Math.max(-1, Math.min(1, (ball.y - (cpu.y + PH/2)) / (PH/2 + BALL_R * 0.4)));
         var ang2 = rel2 * Math.PI * 0.38;
-        ballSpeed  = Math.min(ballSpeed + 12, MAX_SPEED);
+        ballSpeed  = Math.min(ballSpeed + SPEED_INC, MAX_SPEED);
         ball.vx    = -ballSpeed * Math.cos(ang2);
         ball.vy    =  ballSpeed * Math.sin(ang2);
-        ball.spin  = (ball.vy / BALL_R) * 1.4 + rel2 * 9;
         sndHitCPU();
       }
 
@@ -333,23 +328,19 @@
       var img = imgs[thumbIdx];
 
       ctx.save();
-      ctx.translate(ball.x, ball.y);
-      ctx.rotate(ball.angle);
 
       // White circle backing for Bones thumbnail
       if (thumbIdx === BONES_IDX) {
-        ctx.beginPath(); ctx.arc(0, 0, BALL_R, 0, Math.PI * 2);
+        ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff'; ctx.fill();
       }
 
       // Thumbnail clipped to circle
       if (img.complete && img.naturalWidth > 0) {
-        ctx.save();
-        ctx.beginPath(); ctx.arc(0, 0, BALL_R, 0, Math.PI * 2); ctx.clip();
-        ctx.drawImage(img, -BALL_R, -BALL_R, BALL_R * 2, BALL_R * 2);
-        ctx.restore();
+        ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2); ctx.clip();
+        ctx.drawImage(img, ball.x - BALL_R, ball.y - BALL_R, BALL_R * 2, BALL_R * 2);
       } else {
-        ctx.beginPath(); ctx.arc(0, 0, BALL_R, 0, Math.PI * 2);
+        ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
         ctx.fillStyle = '#fff'; ctx.fill();
       }
 
