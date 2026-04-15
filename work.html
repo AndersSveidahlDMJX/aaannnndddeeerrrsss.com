@@ -473,6 +473,153 @@
     });
   });
 </script>
+
+<!-- ── DVD screensaver ── -->
+<style>
+  #dvd-saver {
+    position: fixed; inset: 0; z-index: 500;
+    background: #000;
+    opacity: 0; pointer-events: none;
+    transition: opacity 1.2s ease;
+  }
+  #dvd-saver.active { opacity: 1; pointer-events: all; }
+  #dvd-folder {
+    position: absolute;
+    width: 220px; height: 220px;
+    -webkit-mask-image: url('images/folder_icon.svg');
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-image: url('images/folder_icon.svg');
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    will-change: transform;
+  }
+  #dvd-folder-inner {
+    width: 100%; height: 100%;
+    position: relative;
+  }
+  #dvd-folder-bg {
+    position: absolute; inset: 0;
+    background: #fff; /* shown only for Bones */
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+  #dvd-folder-bg.show { opacity: 1; }
+  #dvd-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+</style>
+<div id="dvd-saver">
+  <div id="dvd-folder">
+    <div id="dvd-folder-inner">
+      <div id="dvd-folder-bg"></div>
+      <img id="dvd-img" src="" alt="" />
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var THUMBS = [
+    'images/twice the fun thumbnail.webp',
+    'images/The Fizz Cap Lockup.webp',
+    'images/Bones.webp',
+    'images/le_ice.webp',
+    'images/penguin thumbnail.webp',
+    'images/mex&co.webp',
+  ];
+  var BONES_IDX = 2;
+  var IDLE_MS   = 60000; // 1 minute
+  var SIZE      = 220;   // folder px
+  // Classic DVD: comfortable diagonal glide ~110px/s at 45°
+  var SPEED     = 110;   // px/s resultant
+
+  var saver   = document.getElementById('dvd-saver');
+  var folder  = document.getElementById('dvd-folder');
+  var img     = document.getElementById('dvd-img');
+  var bg      = document.getElementById('dvd-folder-bg');
+
+  var thumbIdx = 0;
+  var x = 0, y = 0, vx = 0, vy = 0;
+  var active   = false;
+  var lastTime = null;
+  var rafId    = null;
+  var idleTimer= null;
+
+  function setThumb(idx) {
+    thumbIdx = ((idx % THUMBS.length) + THUMBS.length) % THUMBS.length;
+    img.src = THUMBS[thumbIdx];
+    if (thumbIdx === BONES_IDX) bg.classList.add('show');
+    else                         bg.classList.remove('show');
+  }
+
+  function show() {
+    if (active) return;
+    active   = true;
+    // random start position, diagonal direction
+    var W = window.innerWidth, H = window.innerHeight;
+    x  = Math.random() * (W - SIZE * 2) + SIZE;
+    y  = Math.random() * (H - SIZE * 2) + SIZE;
+    var ang = Math.PI / 4;
+    vx = Math.cos(ang) * SPEED * (Math.random() < 0.5 ? 1 : -1);
+    vy = Math.sin(ang) * SPEED * (Math.random() < 0.5 ? 1 : -1);
+    setThumb(Math.floor(Math.random() * THUMBS.length));
+    folder.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    saver.classList.add('active');
+    lastTime = null;
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function hide() {
+    if (!active) return;
+    active = false;
+    saver.classList.remove('active');
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    resetIdle();
+  }
+
+  function tick(now) {
+    if (!active) return;
+    if (lastTime === null) lastTime = now;
+    var dt = Math.min((now - lastTime) / 1000, 0.05);
+    lastTime = now;
+
+    var W = window.innerWidth, H = window.innerHeight;
+    x += vx * dt;
+    y += vy * dt;
+
+    var bounced = false;
+    if (x <= 0)        { x = 0;        vx = Math.abs(vx);  bounced = true; }
+    if (x + SIZE >= W) { x = W - SIZE; vx = -Math.abs(vx); bounced = true; }
+    if (y <= 0)        { y = 0;        vy = Math.abs(vy);  bounced = true; }
+    if (y + SIZE >= H) { y = H - SIZE; vy = -Math.abs(vy); bounced = true; }
+
+    if (bounced) setThumb(thumbIdx + 1);
+
+    folder.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function resetIdle() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(show, IDLE_MS);
+  }
+
+  // Dismiss on any interaction
+  ['mousemove','mousedown','keydown','touchstart','wheel'].forEach(function (ev) {
+    window.addEventListener(ev, function () {
+      if (active) { hide(); return; }
+      resetIdle();
+    }, { passive: true });
+  });
+
+  // Pre-load thumbnails
+  THUMBS.forEach(function (s) { var i = new Image(); i.src = s; });
+
+  resetIdle();
+})();
+</script>
 <script src="lang.js"></script>
 </body>
 </html>
