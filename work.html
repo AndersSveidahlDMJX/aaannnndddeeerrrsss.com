@@ -57,6 +57,24 @@
       transition: background 0.2s ease;
     }
     .mute-toggle:hover { background: rgba(255,255,255,0.3); }
+    .pong-link {
+      position: fixed;
+      bottom: 74px;
+      left: 30px;
+      z-index: 10;
+      color: rgba(255,255,255,0.28);
+      font-family: Impact, 'Arial Narrow', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.25s ease, text-shadow 0.25s ease;
+      user-select: none;
+    }
+    .pong-link:hover {
+      color: #00fff2;
+      text-shadow: 0 0 8px #00fff2, 0 0 20px #00fff2;
+    }
     .grid, .shadow-grid {
       opacity: 0;
       transition: opacity 0.5s ease;
@@ -292,6 +310,7 @@
       #still { display: none; }
 
       .mute-toggle { display: none; }
+      .pong-link   { display: none; }
 
       .shadow-grid { display: none; }
 
@@ -376,6 +395,7 @@
     <a class="card-link" href="project-6.html"><div class="card-wrap"><div class="card"><img src="images/mex&amp;co.webp" alt="" /></div><span class="card-label">Mex&amp;Co</span></div></a>
   </div>
   <button class="mute-toggle" id="muteBtn">🔇 unmute</button>
+  <a class="pong-link" href="pong.html">i want to play a game</a>
   <script>
     var muted = true;
 
