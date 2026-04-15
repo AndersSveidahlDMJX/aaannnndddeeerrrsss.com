@@ -450,6 +450,14 @@
       });
     })();
   </script>
+<script>
+  // Skip the fade-in overlay on project pages reached from work
+  document.querySelectorAll('a.card-link').forEach(function (a) {
+    a.addEventListener('click', function () {
+      sessionStorage.setItem('skip-fade-in', '1');
+    });
+  });
+</script>
 <script src="lang.js"></script>
 </body>
 </html>

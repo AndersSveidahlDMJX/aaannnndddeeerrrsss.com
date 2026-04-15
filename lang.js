@@ -42,7 +42,13 @@
     });
   }
 
-  if (document.readyState === 'complete') {
+  // Skip fade-in when navigating from work page to a project page
+  if (sessionStorage.getItem('skip-fade-in') === '1') {
+    sessionStorage.removeItem('skip-fade-in');
+    var pl = document.getElementById('page-load-bg');
+    if (pl && pl.parentNode) pl.parentNode.removeChild(pl);
+    if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+  } else if (document.readyState === 'complete') {
     startFade();
   } else {
     window.addEventListener('load', startFade);
