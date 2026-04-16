@@ -81,6 +81,11 @@
       'p4-ins': 'Budget ice lollies are often perceived as cheap and generic. But the people buying them aren&rsquo;t &mdash; they&rsquo;re families and young adults who still want something that feels good to hold and be seen with.',
       'p4-sol': 'A bold, colour-coded identity built around the three flavours. Bright, confident packaging that punches well above its price point on the shelf.',
 
+      /* ── project-5 (Penguin) sidebar ── */
+      'p5-brf': 'Many people avoid books, not because they lack interest, but because they lack literary confidence. They believe reading is for someone else. Someone smarter, more focused, more literary. This quiet self-doubt keeps people locked out of one of the most powerful experiences in the world.',
+      'p5-ins': 'After reading something written in typoglycemia &mdash; the brain&rsquo;s ability to read words even when the middle letters are jumbled &mdash; you feel smart and confident.',
+      'p5-sol': 'A campaign that turns jumbled words into an unexpected confidence boost. Readers will decode the scrambled text, and realize: if I can read this, I can read anything!',,
+
       /* ── about ── */
       'h-about':    'About Me',
       'h-about-me': 'About Me',
@@ -125,6 +130,11 @@
       'p4-brf': 'Skab en brandidentitet og emballage til Le Ice &mdash; et nyt ispinem&aelig;rke, der lanceres eksklusivt i ALDI-butikker.',
       'p4-ins': 'Billige ispinde opfattes ofte som billige og generiske. Men dem, der k&oslash;ber dem, er det ikke &mdash; det er familier og unge voksne, der stadig vil have noget, der f&oslash;les godt at holde og blive set med.',
       'p4-sol': 'En dristig, farvekoderet identitet bygget op om de tre smagsvarianter. Frisk, selvsikker emballage der sl&aring;r langt over sin prispunkt p&aring; hylden.',
+
+      /* ── project-5 (Penguin) sidebar ── */
+      'p5-brf': 'Mange mennesker undg&aring;r b&oslash;ger &mdash; ikke fordi de mangler interesse, men fordi de mangler litter&aelig;r selvtillid. De tror, at l&aelig;sning er for en anden. En mere intelligent, fokuseret, litter&aelig;r person. Denne stille selvtvivl holder folk ude fra en af verdens mest kraftfulde oplevelser.',
+      'p5-ins': 'N&aring;r man l&aelig;ser noget skrevet med typoglykemi &mdash; hjernens evne til at l&aelig;se ord, selv n&aring;r bogstaverne i midten er rodet rundt &mdash; f&oslash;ler man sig klog og selvsikker.',
+      'p5-sol': 'En kampagne, der forvandler rodet tekst til et uventet skub til selvtilliden. L&aelig;serne afkoder den sammenblandede tekst og indser: hvis jeg kan l&aelig;se dette, kan jeg l&aelig;se alt!',,
 
       /* ── about ── */
       'h-about':    'Om Mig',
