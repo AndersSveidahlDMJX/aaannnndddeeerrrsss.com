@@ -152,17 +152,23 @@
       filter: brightness(1.08);
     }
     .poster-overlay--topleft {
-      top: 73px;
-      left: 23px;
+      top: 105px;
+      left: 55px;
       width: 56%;
       height: 56%;
       transform: none;
     }
     .poster-overlay--minas {
-      transform: translate(calc(-50% - 8px), calc(-50% - 8px));
+      transform: translate(calc(-50% - 20px), calc(-50% - 20px));
     }
     .poster-overlay--minas:hover {
-      transform: translate(calc(-50% - 8px), calc(-50% - 8px)) scale(1.04);
+      transform: translate(calc(-50% - 20px), calc(-50% - 20px)) scale(1.04);
+    }
+    .poster-overlay--loppemarked {
+      transform: translate(calc(-50% + 50px), calc(-50% - 50px));
+    }
+    .poster-overlay--loppemarked:hover {
+      transform: translate(calc(-50% + 50px), calc(-50% - 50px)) scale(1.04);
     }
     .poster-overlay--topleft:hover {
       transform: scale(1.04);
@@ -282,7 +288,7 @@
         </div>
         <div class="poster-cell poster-right-top">
           <img class="poster-base" src="images/300ppi/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" />
-          <img class="poster-overlay lightbox-img" src="images/300ppi/plakat loppemarked.webp" alt="Plakat Loppemarked" loading="lazy" data-src="images/300ppi/Bones plakat2.png" />
+          <img class="poster-overlay lightbox-img poster-overlay--loppemarked" src="images/300ppi/plakat loppemarked.webp" alt="Plakat Loppemarked" loading="lazy" data-src="images/300ppi/Bones plakat2.png" />
         </div>
         <div class="poster-cell poster-right-bottom">
           <img class="poster-base" src="images/300ppi/bones baggen.webp" alt="Bones Baggen" loading="lazy" />
