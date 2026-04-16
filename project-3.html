@@ -90,17 +90,51 @@
       color: #666;
       margin-bottom: 20px;
     }
-    .image-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 12px;
+    .poster-header {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 3rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #111;
+      margin-bottom: 24px;
+      animation: shadow90s 1.8s linear infinite;
     }
-    .image-stack .lightbox-img {
+    @keyframes shadow90s {
+      0%   { text-shadow: 3px 3px 0 #ff00ff, 6px 6px 0 #00ffff; }
+      25%  { text-shadow: 3px 3px 0 #ffff00, 6px 6px 0 #ff00ff; }
+      50%  { text-shadow: 3px 3px 0 #00ffff, 6px 6px 0 #ffff00; }
+      75%  { text-shadow: 3px 3px 0 #ff00ff, 6px 6px 0 #00ff88; }
+      100% { text-shadow: 3px 3px 0 #ff00ff, 6px 6px 0 #00ffff; }
+    }
+    .poster-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 50vh 50vh;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .poster-left {
+      grid-column: 1;
+      grid-row: 1 / 3;
+    }
+    .poster-right-top {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .poster-right-bottom {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    .poster-grid img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       display: block;
       border-radius: 6px;
+    }
+    .image-stack {
+      display: none;
     }
     .image-extras {
       display: grid;
@@ -115,13 +149,6 @@
     }
     .image-grid {
       display: none;
-    }
-    .image-grid img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 6px;
     }
     .lightbox-img {
       cursor: zoom-in;
@@ -187,6 +214,14 @@
       }
       .header-img { max-width: 280px; }
       .back { top: 16px; left: 16px; }
+      .poster-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+      .poster-left  { grid-column: 1; grid-row: auto; }
+      .poster-right-top { grid-column: 1; grid-row: auto; }
+      .poster-right-bottom { grid-column: 1; grid-row: auto; }
+      .poster-grid img { height: 60vw; }
     }
   </style>
 </head>
@@ -210,10 +245,11 @@
     <main class="content">
       <img class="header-img" src="images/BONES LOGO.webp" alt="Bones Logo" />
       <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
-      <div class="image-stack">
-        <img src="images/bones minas.webp" alt="Bones Minas" loading="lazy" class="lightbox-img" data-src="images/bones plakat2.webp" />
-        <img src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" class="lightbox-img" data-src="images/bones plakat3.webp" />
-        <img src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" class="lightbox-img" data-src="images/bones plakat1.webp" />
+      <h2 class="poster-header">Plakaterne</h2>
+      <div class="poster-grid">
+        <img src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" class="lightbox-img poster-left" data-src="images/bones plakat3.webp" />
+        <img src="images/bones minas.webp" alt="Bones Minas" loading="lazy" class="lightbox-img poster-right-top" data-src="images/bones plakat2.webp" />
+        <img src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" class="lightbox-img poster-right-bottom" data-src="images/bones plakat1.webp" />
       </div>
       <div class="image-extras">
         <img src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
