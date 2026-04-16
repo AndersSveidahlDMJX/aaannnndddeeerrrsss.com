@@ -300,6 +300,15 @@
       border: none;
       background: none;
       padding: 0;
+      transition: transform 0.2s ease;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      25%       { transform: translateY(-8px); }
+      75%       { transform: translateY(-4px); }
+    }
+    .medarbejder-btn:hover {
+      animation: bob 0.6s ease infinite;
     }
     .medarbejder-btn img {
       width: 100%;
