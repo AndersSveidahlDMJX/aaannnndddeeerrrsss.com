@@ -10,6 +10,24 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.css" />
   <link rel="preload" href="images/BONES%20LOGO.webp" as="image" />
   <link rel="preload" href="images/300ppi/Bones%20plakat1.webp" as="image" />
+  <script>
+  /* Remove black pre-load bg override and fade out load overlay (replaces lang.js fade) */
+  (function(){
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:99999;pointer-events:none;opacity:1;transition:opacity 1.1s ease';
+    document.addEventListener('DOMContentLoaded', function(){ document.body.appendChild(overlay); });
+    function startFade(){
+      var pl = document.getElementById('page-load-bg');
+      if(pl && pl.parentNode) pl.parentNode.removeChild(pl);
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        overlay.style.opacity = '0';
+        setTimeout(function(){ if(overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 1200);
+      }); });
+    }
+    if(document.readyState === 'complete'){ startFade(); }
+    else { window.addEventListener('load', startFade); }
+  })();
+  </script>
   <style>
     @font-face {
       font-family: 'ImpactLabel';
@@ -115,7 +133,6 @@
       min-width: 0;
       overflow-x: hidden;
       padding: 80px 60px 80px;
-      margin-top: -180px;
       margin-left: 360px;
       transition: margin-left 0.35s ease;
     }
@@ -232,6 +249,7 @@
       display: block;
       border-radius: 6px;
       cursor: pointer;
+      margin: 0 auto;
       transition: transform 0.3s ease;
     }
     .tyggegummi-img:hover { transform: scale(1.04); }
