@@ -201,17 +201,24 @@
       max-width: 300px;
       height: auto;
       display: block;
-      border-radius: 6px;
-      clip-path: inset(10px);
+      border: 14px solid #000;
+      border-bottom: 0;
+    }
+    .bella-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 328px;
     }
     .selma-quote {
       font-family: 'Vivace', cursive;
       font-size: 1.6rem;
       color: #fff;
       background: #000;
-      padding: 10px 18px;
+      padding: 10px 14px 14px;
       text-align: center;
       line-height: 1.4;
+      width: 100%;
     }
     .image-grid {
       display: none;
@@ -323,8 +330,10 @@
       <div class="image-extras">
         <img class="tyggegummi-img" src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
         <p class="tyggegummi-caption">Tyggegummitatovering fra bones</p>
-        <img class="bella-img" src="images/bella bones.webp" alt="Bella Bones" loading="lazy" />
-        <p class="selma-quote">Selma 23 &aring;r if&oslash;rt official bones baby tee.<br>(hun har ikke tid lige nu)</p>
+        <div class="bella-block">
+          <img class="bella-img" src="images/bella bones.webp" alt="Bella Bones" loading="lazy" />
+          <p class="selma-quote">Selma 23 &aring;r if&oslash;rt official bones baby tee.<br>(hun har ikke tid lige nu)</p>
+        </div>
       </div>
       <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
       <!-- Lightbox overlay -->
