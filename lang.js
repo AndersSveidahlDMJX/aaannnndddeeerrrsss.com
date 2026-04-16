@@ -73,8 +73,8 @@
 
       /* ── project-1 (Twix) sidebar ── */
       'p1-ins1': 'We live in a culture where the best experiences are often singular. Theme parks are the pinnacle of this frustration: you wait in line for a long time&nbsp;&mdash; for a short thrill.',
-      'p1-ins2': 'Twix has always been about the double joy and if one bar is never enough, one ride shouldn&rsquo;t be either.',
-      'p1-sol':  'Twix hijacks Groundhog Day to turn the &ldquo;unsharable&rdquo; nature of Twix into the most sharable experience in Orlando. A total theme park takeover where everything, from the rides to the prizes comes in pairs.',
+      'p1-ins2': '',
+      'p1-sol':  'Twix hijacks Groundhog Day to turn the &ldquo;unsharable&rdquo; nature of Twix into the most sharable experience in Orlando. A total theme park takeover where everything, from the rides to the prizes comes in pairs. Because if one bar is never enough, one ride shouldn&rsquo;t be either.',
 
       /* ── project-4 (Le Ice) sidebar ── */
       'p4-brf': 'Create a brand identity and packaging for Le Ice &mdash; a new ice lolly brand launching exclusively in ALDI stores.',
@@ -123,8 +123,8 @@
 
       /* ── project-1 (Twix) sidebar ── */
       'p1-ins1': 'Vi lever i en kultur, hvor de bedste oplevelser ofte er kortvarige. Forlystelsesparker er toppen af denne frustration: man st&aring;r i k&oslash; i lang tid&nbsp;&mdash; for en kort fryd.',
-      'p1-ins2': 'Twix har altid handlet om den dobbelte gl&aelig;de, og hvis &eacute;t stykke aldrig er nok, burde &eacute;n tur heller ikke v&aelig;re det.',
-      'p1-sol':  'Twix kaprer Groundhog Day for at g&oslash;re den &ldquo;usdelelige&rdquo; natur ved Twix til den mest delelige oplevelse i Orlando. En total overtagelse af forlystelsesparken, hvor alt &mdash; fra turene til pr&aelig;mierne &mdash; kommer i par.',
+      'p1-ins2': '',
+      'p1-sol':  'Twix kaprer Groundhog Day for at g&oslash;re den &ldquo;usdelelige&rdquo; natur ved Twix til den mest delelige oplevelse i Orlando. En total overtagelse af forlystelsesparken, hvor alt &mdash; fra turene til pr&aelig;mierne &mdash; kommer i par. For hvis &eacute;t stykke aldrig er nok, burde &eacute;n tur heller ikke v&aelig;re det.',
 
       /* ── project-4 (Le Ice) sidebar ── */
       'p4-brf': 'Skab en brandidentitet og emballage til Le Ice &mdash; et nyt ispinem&aelig;rke, der lanceres eksklusivt i ALDI-butikker.',

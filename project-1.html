@@ -408,13 +408,13 @@
         <div class="section-label" data-i18n="lbl-insight">Insight</div>
         <div class="section-body">
           <p data-i18n="p1-ins1">We live in a culture where the best experiences are often singular. Theme parks are the pinnacle of this frustration: you wait in line for a long time&nbsp;&mdash; for a short thrill.</p>
-          <p data-i18n="p1-ins2">Twix has always been about the double joy and if one bar is never enough, one ride shouldn&rsquo;t be either.</p>
+          <p data-i18n="p1-ins2"></p>
         </div>
       </div>
       <div class="section">
         <div class="section-label" data-i18n="lbl-solution-idea">Solution / Idea</div>
         <div class="section-body">
-          <p data-i18n="p1-sol">Twix hijacks Groundhog Day to turn the &ldquo;unsharable&rdquo; nature of Twix into the most sharable experience in Orlando. A total theme park takeover where everything, from the rides to the prizes comes in pairs.</p>
+          <p data-i18n="p1-sol">Twix hijacks Groundhog Day to turn the &ldquo;unsharable&rdquo; nature of Twix into the most sharable experience in Orlando. A total theme park takeover where everything, from the rides to the prizes comes in pairs. Because if one bar is never enough, one ride shouldn&rsquo;t be either.</p>
         </div>
       </div>
     </aside>
@@ -554,6 +554,7 @@
   #dvd-saver{position:fixed;top:0;left:0;right:0;bottom:0;z-index:500;background:#000;opacity:0;pointer-events:none;transition:opacity 1.2s ease}
   #dvd-saver.active{opacity:1;pointer-events:all}
   body.dvd-active #lang-toggle,body.dvd-active #nav-shortcuts,body.dvd-active .ticker{opacity:0!important;pointer-events:none!important;transition:opacity 0.6s}
+  body.dvd-active>*:not(#dvd-saver){visibility:hidden!important}#dvd-saver *{visibility:visible!important}
   #dvd-folder{position:absolute;top:0;left:0;width:220px;height:220px;-webkit-mask-image:url('images/folder_icon.svg');-webkit-mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-image:url('images/folder_icon.svg');mask-size:100% 100%;mask-repeat:no-repeat;will-change:transform}
   #dvd-folder-inner{width:100%;height:100%;position:relative}
   #dvd-folder-bg{position:absolute;inset:0;opacity:0;transition:opacity 0.1s}
