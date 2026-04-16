@@ -128,11 +128,14 @@
       'images/The Fizz Cap Lockup.webp',
       'images/Bones.webp',
       'images/le_ice.webp',
-      'images/penguin thumbnail.webp',
+      'images/redanig.webp',
       'images/mex&co.webp',
     ];
     const imgs = THUMB_SRCS.map(function (s) {
       var i = new Image(); i.src = s; return i;
+    });
+    const folderImg = new Image();
+    folderImg.src = 'images/folder_icon.svg';
     });
 
     /* ── Web Audio sound effects ── */
@@ -325,31 +328,37 @@
     }
 
     function drawBall() {
-      var img = imgs[thumbIdx];
+      var thumb = imgs[thumbIdx];
+      var s = BALL_R * 2;
 
-      ctx.save();
+      // Offscreen canvas: thumbnail clipped to folder SVG shape
+      var oc = document.createElement('canvas');
+      oc.width = s; oc.height = s;
+      var ot = oc.getContext('2d');
 
-      // White circle backing for Bones thumbnail
-      if (thumbIdx === BONES_IDX) {
-        ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff'; ctx.fill();
-      }
-
-      // Thumbnail clipped to circle
-      if (img.complete && img.naturalWidth > 0) {
-        ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2); ctx.clip();
-        ctx.drawImage(img, ball.x - BALL_R, ball.y - BALL_R, BALL_R * 2, BALL_R * 2);
+      // 1. Draw folder SVG — its alpha defines the folder shape
+      if (folderImg.complete && folderImg.naturalWidth > 0) {
+        ot.drawImage(folderImg, 0, 0, s, s);
       } else {
-        ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
-        ctx.fillStyle = '#fff'; ctx.fill();
+        ot.fillStyle = '#fff';
+        ot.fillRect(0, 0, s, s);
       }
 
-      ctx.restore();
+      // 2. Clip to SVG alpha, then paint thumbnail (or white fill for Bones)
+      ot.globalCompositeOperation = 'source-in';
+      if (thumbIdx === BONES_IDX) {
+        ot.fillStyle = '#ffffff'; ot.fillRect(0, 0, s, s);
+      }
+      if (thumb.complete && thumb.naturalWidth > 0) {
+        ot.drawImage(thumb, 0, 0, s, s);
+      }
 
-      // Glow ring (not rotated)
-      ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
-      ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(255,255,255,0.86)';
-      glow('#fff', 18); ctx.stroke(); noGlow();
+      // 3. Composite onto main canvas with glow
+      ctx.save();
+      ctx.shadowColor = 'rgba(255,255,255,0.75)';
+      ctx.shadowBlur  = 16;
+      ctx.drawImage(oc, ball.x - BALL_R, ball.y - BALL_R);
+      ctx.restore();
     }
 
     function drawCentreLine() {
