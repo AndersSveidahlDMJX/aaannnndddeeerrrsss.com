@@ -173,9 +173,11 @@
       width: min(75%, 700px);
       border-radius: 6px;
       isolation: isolate;
+      overflow: hidden;
       cursor: pointer;
+      transition: transform 0.3s ease;
     }
-    .poster-unit:hover { cursor: pointer; }
+    .poster-unit:hover { transform: scale(1.04); }
     #minas {
       width: min(86%, 805px); /* 15% larger than base unit */
     }
@@ -189,9 +191,7 @@
       position: absolute;
       object-fit: contain;
       display: block;
-      cursor: pointer;
-      transform-origin: center center;
-      transition: transform 0.3s ease, filter 0.3s ease;
+      pointer-events: none;
     }
     /* Each overlay's top/left/width are % of the unit — scales perfectly */
     .poster-overlay--minas {
@@ -214,14 +214,7 @@
       left: calc(-7% + 45px);
       transform: none;
     }
-    .poster-overlay:hover {
-      transform: scale(1.04);
-      filter: brightness(1.08);
-    }
-    .poster-unit:hover .poster-overlay {
-      transform: scale(1.04);
-      filter: brightness(1.08);
-    }
+
     .image-stack {
       display: none;
     }
@@ -427,17 +420,17 @@
       <img class="header-img" src="images/BONES LOGO.webp" alt="Bones Logo" />
       <h2 class="poster-header">!!åbnings fest!!</h2>
       <div class="poster-units">
-        <div class="poster-unit lightbox-img" id="minas" data-src="images/300ppi/Bones plakat2.png" style="cursor:zoom-in">
+        <div class="poster-unit lightbox-img" id="minas" data-src="images/300ppi/Bones plakat2.png">
           <img class="poster-base" src="images/300ppi/bones minas.webp" alt="Bones Minas" loading="lazy" />
-          <img class="poster-overlay poster-overlay--minas" src="images/300ppi/bones gul.webp" alt="Bones Gul" loading="lazy" style="pointer-events:none" />
+          <img class="poster-overlay poster-overlay--minas" src="images/300ppi/bones gul.webp" alt="Bones Gul" loading="lazy" />
         </div>
-        <div class="poster-unit lightbox-img" id="loppemarked" data-src="images/300ppi/Bones plakat3 .png" style="cursor:zoom-in">
+        <div class="poster-unit lightbox-img" id="loppemarked" data-src="images/300ppi/Bones plakat3 .png">
           <img class="poster-base" src="images/300ppi/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" />
-          <img class="poster-overlay poster-overlay--loppemarked" src="images/300ppi/plakat loppemarked.webp" alt="Plakat Loppemarked" loading="lazy" style="pointer-events:none" />
+          <img class="poster-overlay poster-overlay--loppemarked" src="images/300ppi/plakat loppemarked.webp" alt="Plakat Loppemarked" loading="lazy" />
         </div>
-        <div class="poster-unit lightbox-img" id="baggen" data-src="images/300ppi/Bones plakat1.webp" style="cursor:zoom-in">
+        <div class="poster-unit lightbox-img" id="baggen" data-src="images/300ppi/Bones plakat1.webp">
           <img class="poster-base" src="images/300ppi/bones baggen.webp" alt="Bones Baggen" loading="lazy" />
-          <img class="poster-overlay poster-overlay--topleft" src="images/300ppi/plakat bones baggen.webp" alt="Plakat Baggen" loading="lazy" style="pointer-events:none" />
+          <img class="poster-overlay poster-overlay--topleft" src="images/300ppi/plakat bones baggen.webp" alt="Plakat Baggen" loading="lazy" />
         </div>
       </div>
       <div class="image-extras">
