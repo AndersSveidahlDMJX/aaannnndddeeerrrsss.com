@@ -507,7 +507,7 @@
     mask-image: url('images/folder_icon.svg');
     mask-size: 100% 100%;
     mask-repeat: no-repeat;
-    will-change: left, top;
+    will-change: transform;
   }
   #dvd-folder-inner {
     width: 100%; height: 100%;
@@ -621,8 +621,7 @@
   }
 
   function setPos() {
-    folder.style.left = x + 'px';
-    folder.style.top  = y + 'px';
+    folder.style.transform = 'translate(' + x + 'px,' + y + 'px)';
   }
 
   function show() {

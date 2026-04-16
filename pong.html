@@ -136,6 +136,11 @@
     });
     const folderImg = new Image();
     folderImg.src = 'images/folder_icon.svg';
+    folderImg.onload = function() { ballCacheIdx = -1; };
+    var ballCanvas = document.createElement('canvas');
+    ballCanvas.width = BALL_R * 2; ballCanvas.height = BALL_R * 2;
+    var ballCtx2 = ballCanvas.getContext('2d');
+    var ballCacheIdx = -1;
 
     /* ── Web Audio sound effects ── */
     var audioCtx = null;
@@ -327,36 +332,32 @@
     }
 
     function drawBall() {
-      var thumb = imgs[thumbIdx];
-      var s = BALL_R * 2;
-
-      // Offscreen canvas: thumbnail clipped to folder SVG shape
-      var oc = document.createElement('canvas');
-      oc.width = s; oc.height = s;
-      var ot = oc.getContext('2d');
-
-      // 1. Draw folder SVG — its alpha defines the folder shape
-      if (folderImg.complete && folderImg.naturalWidth > 0) {
-        ot.drawImage(folderImg, 0, 0, s, s);
-      } else {
-        ot.fillStyle = '#fff';
-        ot.fillRect(0, 0, s, s);
+      // Re-render the cached ball canvas only when the thumbnail changes
+      if (ballCacheIdx !== thumbIdx) {
+        var s = BALL_R * 2;
+        var ot = ballCtx2;
+        ot.clearRect(0, 0, s, s);
+        ot.globalCompositeOperation = 'source-over';
+        if (folderImg.complete && folderImg.naturalWidth > 0) {
+          ot.drawImage(folderImg, 0, 0, s, s);
+        } else {
+          ot.fillStyle = '#fff'; ot.fillRect(0, 0, s, s);
+        }
+        ot.globalCompositeOperation = 'source-in';
+        if (thumbIdx === BONES_IDX) {
+          ot.fillStyle = '#ffffff'; ot.fillRect(0, 0, s, s);
+        }
+        var thumb = imgs[thumbIdx];
+        if (thumb.complete && thumb.naturalWidth > 0) {
+          ot.drawImage(thumb, 0, 0, s, s);
+        }
+        ot.globalCompositeOperation = 'source-over';
+        ballCacheIdx = thumbIdx;
       }
-
-      // 2. Clip to SVG alpha, then paint thumbnail (or white fill for Bones)
-      ot.globalCompositeOperation = 'source-in';
-      if (thumbIdx === BONES_IDX) {
-        ot.fillStyle = '#ffffff'; ot.fillRect(0, 0, s, s);
-      }
-      if (thumb.complete && thumb.naturalWidth > 0) {
-        ot.drawImage(thumb, 0, 0, s, s);
-      }
-
-      // 3. Composite onto main canvas with glow
       ctx.save();
       ctx.shadowColor = 'rgba(255,255,255,0.75)';
       ctx.shadowBlur  = 16;
-      ctx.drawImage(oc, ball.x - BALL_R, ball.y - BALL_R);
+      ctx.drawImage(ballCanvas, ball.x - BALL_R, ball.y - BALL_R);
       ctx.restore();
     }
 
