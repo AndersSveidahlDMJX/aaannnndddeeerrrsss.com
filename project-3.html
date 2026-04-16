@@ -151,6 +151,14 @@
       transform: translate(-50%, -50%) scale(1.04);
       filter: brightness(1.08);
     }
+    .poster-overlay--topleft {
+      top: 0;
+      left: 0;
+      transform: none;
+    }
+    .poster-overlay--topleft:hover {
+      transform: scale(1.04);
+    }
     .image-stack {
       display: none;
     }
@@ -270,7 +278,7 @@
         </div>
         <div class="poster-cell poster-right-bottom">
           <img class="poster-base" src="images/300ppi/bones baggen.webp" alt="Bones Baggen" loading="lazy" />
-          <img class="poster-overlay lightbox-img" src="images/300ppi/plakat bones baggen.webp" alt="Plakat Baggen" loading="lazy" data-src="images/300ppi/Bones plakat3 .png" />
+          <img class="poster-overlay lightbox-img poster-overlay--topleft" src="images/300ppi/plakat bones baggen.webp" alt="Plakat Baggen" loading="lazy" data-src="images/300ppi/Bones plakat3 .png" />
         </div>
       </div>
       <div class="image-extras">
