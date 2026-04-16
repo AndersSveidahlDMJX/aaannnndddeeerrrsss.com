@@ -208,6 +208,40 @@
       background: #000;
       padding: 14px 14px 0;
       max-width: 328px;
+      cursor: zoom-in;
+    }
+    .duo-bar {
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+      margin-top: 60px;
+    }
+    .duo-cell {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .colorway-img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
+    }
+    .colorway-caption {
+      font-family: 'ImpactLabel', Impact, 'Arial Narrow', sans-serif;
+      color: #fff;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      text-align: center;
     }
     .selma-quote {
       font-family: 'Vivace', cursive;
@@ -329,9 +363,17 @@
       <div class="image-extras">
         <img class="tyggegummi-img" src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
         <p class="tyggegummi-caption">Tyggegummitatovering fra bones</p>
-        <div class="bella-block">
-          <img class="bella-img" src="images/bella bones.webp" alt="Bella Bones" loading="lazy" />
-          <p class="selma-quote">Selma 23 &aring;r if&oslash;rt official bones baby tee.<br>(hun har ikke tid lige nu)</p>
+      </div>
+      <div class="duo-bar">
+        <div class="duo-cell">
+          <div class="bella-block lightbox-img" data-src="images/bella bones.webp">
+            <img class="bella-img" src="images/bella bones.webp" alt="Bella Bones" loading="lazy" />
+            <p class="selma-quote">Selma 23 &aring;r if&oslash;rt official bones baby tee.<br>(hun har ikke tid lige nu)</p>
+          </div>
+        </div>
+        <div class="duo-cell">
+          <img class="colorway-img lightbox-img" src="images/ny colorway.webp" alt="Ny Colorway" loading="lazy" data-src="images/ny colorway.webp" />
+          <p class="colorway-caption">Hvid colorway i 180p</p>
         </div>
       </div>
       <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
