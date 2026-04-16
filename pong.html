@@ -70,8 +70,8 @@
   <a href="work.html" class="back">←</a>
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track" id="tickerTrack">
-      <span class="neon-copy neon-pink" data-copy="0">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue. And a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span>
-      <span class="neon-copy neon-cyan" data-copy="1">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue. And a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span>
+      <span class="neon-copy neon-pink" data-copy="0">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span>
+      <span class="neon-copy neon-cyan" data-copy="1">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span>
     </div>
   </div>
 
@@ -327,7 +327,7 @@
     function noGlow()         { ctx.shadowBlur = 0; }
 
     function drawPaddle(x, y, col) {
-      glow(col, 22); ctx.fillStyle = '#fff';
+      glow(col, 8); ctx.fillStyle = '#fff';
       ctx.beginPath(); ctx.roundRect(x, y, PW, PH, 6); ctx.fill(); noGlow();
     }
 
@@ -354,11 +354,7 @@
         ot.globalCompositeOperation = 'source-over';
         ballCacheIdx = thumbIdx;
       }
-      ctx.save();
-      ctx.shadowColor = 'rgba(255,255,255,0.75)';
-      ctx.shadowBlur  = 16;
       ctx.drawImage(ballCanvas, ball.x - BALL_R, ball.y - BALL_R);
-      ctx.restore();
     }
 
     function drawCentreLine() {
@@ -372,8 +368,8 @@
     function drawScore() {
       ctx.textAlign = 'center'; ctx.textBaseline = 'top';
       ctx.font = 'bold 88px Impact, "Arial Narrow", sans-serif';
-      glow('#00fff2', 28); ctx.fillStyle = '#fff'; ctx.fillText(playerScore, W/4, 28);
-      glow('#ff2d78', 28);                          ctx.fillText(cpuScore, 3*W/4, 28);
+      glow('#00fff2', 10); ctx.fillStyle = '#fff'; ctx.fillText(playerScore, W/4, 28);
+      glow('#ff2d78', 10);                          ctx.fillText(cpuScore, 3*W/4, 28);
       noGlow();
       ctx.font = '15px Impact, "Arial Narrow", sans-serif'; ctx.letterSpacing = '3px';
       ctx.fillStyle = 'rgba(255,255,255,0.32)';

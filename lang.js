@@ -284,7 +284,7 @@
         + '<span class="i18n-sep" style="margin:0 4px;">|</span>'
       : '';
     var pongLink = isWork
-      ? '<a class="nav-shortcut pong-neon" href="pong.html">TIME4FUN</a>'
+      ? '<a class="nav-shortcut pong-neon" href="pong.html">GAME ON</a>'
         + '<span class="i18n-sep" style="margin:0 4px;">|</span>'
       : '';
     div.innerHTML = pongLink + contactLink

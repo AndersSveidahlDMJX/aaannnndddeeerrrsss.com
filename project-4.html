@@ -463,7 +463,7 @@
             <div class="label-group"><span class="cell-label">le ice</span><span class="cell-sublabel">Crushed Ice</span></div>
           </div>
         </div>
-        <div class="col-right" data-front="images/Le ice portfolio/Grøn front.webp" data-back="images/Le ice portfolio/grøn bagfra.webp">
+        <div class="col-right" data-front="images/Le ice portfolio/Grøn front.webp" data-back="images/Le ice portfolio/grøn bagfra.webp" data-back-enhanced="images/ny le ice tekst grøn.webp">
           <div class="colorway-group">
             <img class="back-img"  src="images/Le ice portfolio/grøn bagfra.webp" alt="Green back" />
             <img class="front-img" src="images/Le ice portfolio/Grøn front.webp"  alt="Green front" />
@@ -553,18 +553,21 @@
       colorBack.style.display    = 'block';
     }
 
+    let activeCell = null;
+
     document.querySelectorAll('.cell, .col-right').forEach(el => {
       el.addEventListener('click', (e) => {
         if (!e.target.closest('.colorway-group img')) return;
+        activeCell = el;
         lbFrontImg.src = el.dataset.front;
-        lbBackImg.src  = el.dataset.back;
+        lbBackImg.src  = el.dataset.backEnhanced || el.dataset.back;
         showPair();
         colorLightbox.classList.add('active');
       });
     });
 
     lbFrontImg.addEventListener('click', (e) => { e.stopPropagation(); showSolo(lbFrontImg.src); });
-    lbBackImg.addEventListener('click',  (e) => { e.stopPropagation(); showSolo(lbBackImg.src);  });
+    lbBackImg.addEventListener('click',  (e) => { e.stopPropagation(); const enhanced = activeCell && activeCell.dataset.backEnhanced; showSolo(enhanced || lbBackImg.src); });
     colorBack.addEventListener('click',  (e) => { e.stopPropagation(); showPair(); });
 
     document.getElementById('colorClose').addEventListener('click', () => {
