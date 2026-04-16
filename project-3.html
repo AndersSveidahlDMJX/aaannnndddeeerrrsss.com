@@ -112,6 +112,8 @@
     }
     .content {
       flex: 1;
+      min-width: 0;
+      overflow-x: hidden;
       padding: 80px 60px 80px;
       margin-top: -180px;
       margin-left: 360px;
@@ -168,12 +170,12 @@
     }
     .poster-unit {
       position: relative;
-      width: min(70vw, 700px);
+      width: min(75%, 700px);
       border-radius: 6px;
       isolation: isolate;
     }
     #minas {
-      width: min(80.5vw, 805px); /* 15% larger than base unit */
+      width: min(86%, 805px); /* 15% larger than base unit */
     }
     .poster-base {
       width: 100%;
@@ -352,7 +354,9 @@
       }
       .content {
         padding: 32px 20px 60px;
+        margin-left: 0;
       }
+      .sidebar-toggle { display: none; }
       .header-img { max-width: 560px; }
       .back { top: 16px; left: 16px; }
       .poster-grid {
