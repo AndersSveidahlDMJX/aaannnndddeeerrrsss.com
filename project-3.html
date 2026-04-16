@@ -173,7 +173,9 @@
       width: min(75%, 700px);
       border-radius: 6px;
       isolation: isolate;
+      transition: transform 0.3s ease;
     }
+    .poster-unit:hover { transform: scale(1.04); }
     #minas {
       width: min(86%, 805px); /* 15% larger than base unit */
     }
@@ -182,17 +184,13 @@
       height: auto;
       display: block;
       border-radius: 6px;
+      cursor: pointer;
     }
     .poster-overlay {
       position: absolute;
       object-fit: contain;
       display: block;
-      cursor: default;
-      transition: transform 0.3s ease;
-      transform-origin: center center;
-    }
-    .poster-overlay:hover {
-      transform: scale(1.04);
+      pointer-events: none;
     }
     /* Each overlay's top/left/width are % of the unit — scales perfectly */
     .poster-overlay--minas {
@@ -422,16 +420,16 @@
       <h2 class="poster-header">!!åbnings fest!!</h2>
       <div class="poster-units">
         <div class="poster-unit" id="minas">
-          <img class="poster-base" src="images/300ppi/bones minas.webp" alt="Bones Minas" loading="lazy" />
-          <img class="poster-overlay poster-overlay--minas lightbox-img" src="images/300ppi/bones gul.webp" alt="Bones Gul" loading="lazy" data-src="images/300ppi/Bones plakat2.png" />
+          <img class="poster-base lightbox-img" src="images/300ppi/bones minas.webp" alt="Bones Minas" loading="lazy" data-src="images/300ppi/Bones plakat2.png" />
+          <img class="poster-overlay poster-overlay--minas" src="images/300ppi/bones gul.webp" alt="Bones Gul" loading="lazy" />
         </div>
         <div class="poster-unit" id="loppemarked">
-          <img class="poster-base" src="images/300ppi/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" />
-          <img class="poster-overlay poster-overlay--loppemarked lightbox-img" src="images/300ppi/plakat loppemarked.webp" alt="Plakat Loppemarked" loading="lazy" data-src="images/300ppi/Bones plakat3 .png" />
+          <img class="poster-base lightbox-img" src="images/300ppi/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" data-src="images/300ppi/Bones plakat3 .png" />
+          <img class="poster-overlay poster-overlay--loppemarked" src="images/300ppi/plakat loppemarked.webp" alt="Plakat Loppemarked" loading="lazy" />
         </div>
         <div class="poster-unit" id="baggen">
-          <img class="poster-base" src="images/300ppi/bones baggen.webp" alt="Bones Baggen" loading="lazy" />
-          <img class="poster-overlay poster-overlay--topleft lightbox-img" src="images/300ppi/plakat bones baggen.webp" alt="Plakat Baggen" loading="lazy" data-src="images/300ppi/Bones plakat1.webp" />
+          <img class="poster-base lightbox-img" src="images/300ppi/bones baggen.webp" alt="Bones Baggen" loading="lazy" data-src="images/300ppi/Bones plakat1.webp" />
+          <img class="poster-overlay poster-overlay--topleft" src="images/300ppi/plakat bones baggen.webp" alt="Plakat Baggen" loading="lazy" />
         </div>
       </div>
       <div class="image-extras">
@@ -464,7 +462,6 @@
     var overlay = document.getElementById('lb-overlay');
     var lbImg   = document.getElementById('lb-img');
     var lbClose = document.getElementById('lb-close');
-
     function openLB(src, alt) {
       lbImg.src = src;
       lbImg.alt = alt || '';
@@ -476,61 +473,11 @@
       document.body.style.overflow = '';
       lbImg.src = '';
     }
-
-    // Canvas cache so we only draw each image once
-    var canvasCache = new WeakMap();
-
-    function getAlpha(imgEl, clientX, clientY) {
-      var rect = imgEl.getBoundingClientRect();
-      var px = clientX - rect.left;
-      var py = clientY - rect.top;
-      // outside element bounds
-      if (px < 0 || py < 0 || px > rect.width || py > rect.height) return 0;
-
-      var cv = canvasCache.get(imgEl);
-      if (!cv) {
-        cv = document.createElement('canvas');
-        cv.width  = imgEl.naturalWidth;
-        cv.height = imgEl.naturalHeight;
-        var ctx = cv.getContext('2d');
-        ctx.drawImage(imgEl, 0, 0);
-        canvasCache.set(imgEl, cv);
-      }
-      var sx = (px / rect.width)  * cv.width;
-      var sy = (py / rect.height) * cv.height;
-      try {
-        return cv.getContext('2d').getImageData(sx, sy, 1, 1).data[3];
-      } catch(e) { return 255; } // cross-origin fallback: treat as opaque
-    }
-
-    // Poster overlays — pixel-accurate hit testing
-    document.querySelectorAll('.poster-overlay.lightbox-img').forEach(function(img){
-      // Wait for image to load before caching
-      function wireUp() {
-        img.addEventListener('mousemove', function(e){
-          var a = getAlpha(this, e.clientX, e.clientY);
-          this.style.cursor = a > 10 ? 'pointer' : 'default';
-        });
-        img.addEventListener('mouseleave', function(){
-          this.style.cursor = '';
-        });
-        img.addEventListener('click', function(e){
-          var a = getAlpha(this, e.clientX, e.clientY);
-          if (a <= 10) return;
-          openLB(this.dataset.src || this.src, this.alt);
-        });
-      }
-      if (img.complete && img.naturalWidth) { wireUp(); }
-      else { img.addEventListener('load', wireUp); }
-    });
-
-    // All other lightbox elements — normal click
-    document.querySelectorAll('.lightbox-img:not(.poster-overlay)').forEach(function(el){
+    document.querySelectorAll('.lightbox-img').forEach(function(el){
       el.addEventListener('click', function(){
         openLB(this.dataset.src || this.src, this.alt);
       });
     });
-
     lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLB(); });
     overlay.addEventListener('click', function(e){ if(e.target === overlay) closeLB(); });
     document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLB(); });
