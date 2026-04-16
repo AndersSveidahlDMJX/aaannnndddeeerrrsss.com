@@ -152,11 +152,17 @@
       filter: brightness(1.08);
     }
     .poster-overlay--topleft {
-      top: 65px;
-      left: 15px;
+      top: 73px;
+      left: 23px;
       width: 56%;
       height: 56%;
       transform: none;
+    }
+    .poster-overlay--minas {
+      transform: translate(calc(-50% - 8px), calc(-50% - 8px));
+    }
+    .poster-overlay--minas:hover {
+      transform: translate(calc(-50% - 8px), calc(-50% - 8px)) scale(1.04);
     }
     .poster-overlay--topleft:hover {
       transform: scale(1.04);
@@ -272,7 +278,7 @@
       <div class="poster-grid">
         <div class="poster-cell poster-left">
           <img class="poster-base" src="images/300ppi/bones minas.webp" alt="Bones Minas" loading="lazy" />
-          <img class="poster-overlay lightbox-img" src="images/300ppi/bones gul.webp" alt="Bones Gul" loading="lazy" data-src="images/300ppi/Bones plakat1.webp" />
+          <img class="poster-overlay lightbox-img poster-overlay--minas" src="images/300ppi/bones gul.webp" alt="Bones Gul" loading="lazy" data-src="images/300ppi/Bones plakat1.webp" />
         </div>
         <div class="poster-cell poster-right-top">
           <img class="poster-base" src="images/300ppi/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" />
