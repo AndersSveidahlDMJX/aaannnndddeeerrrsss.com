@@ -242,20 +242,17 @@
       display: none;
     }
     .image-extras {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-      margin-top: 60px;
+      text-align: center;
       width: 100%;
+      margin-top: 60px;
     }
     .tyggegummi-img {
-      width: min(100%, 420px);
+      display: inline-block;
+      width: 100%;
+      max-width: 420px;
       height: auto;
-      display: block;
       border-radius: 6px;
       cursor: pointer;
-      align-self: center;
       transition: transform 0.3s ease;
     }
     .tyggegummi-img:hover { transform: scale(1.04); }
@@ -266,6 +263,8 @@
       font-size: 1rem;
       padding: 6px 12px;
       text-align: center;
+      display: block;
+      margin-top: 12px;
     }
     .bella-img {
       width: 100%;
@@ -470,7 +469,7 @@
         <div class="duo-cell">
           <div class="bella-block lightbox-img" data-src="images/bella bones.webp">
             <img class="bella-img" src="images/bella bones.webp" alt="Bella Bones" loading="lazy" />
-            <p class="selma-quote">Selma 23 &aring;r if&oslash;rt official bones baby tee.<br>(hun har ikke tid lige nu)</p>
+            <p class="selma-quote">Bella 23 &aring;r if&oslash;rt official bones baby tee.<br>(hun har ikke tid lige nu)</p>
           </div>
         </div>
         <div class="duo-cell">
