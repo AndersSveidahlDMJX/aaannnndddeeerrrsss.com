@@ -147,16 +147,12 @@
   <div class="layout">
     <aside class="sidebar">
       <div class="section">
-        <div class="section-label" data-i18n="lbl-problem">Problem</div>
-        <div class="section-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</div>
-      </div>
-      <div class="section">
         <div class="section-label" data-i18n="lbl-insight">Insight</div>
-        <div class="section-body">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</div>
+        <div class="section-body"><p data-i18n="p2-ins">Gen Z is paralyzed by social &ldquo;correctness,&rdquo; suppressing even natural behaviors to fit in. We used the most &ldquo;incorrect&rdquo; human sound&mdash;a fart&mdash;as a literal metaphor for the mental pressure they bottle up.</p></div>
       </div>
       <div class="section">
-        <div class="section-label" data-i18n="lbl-solution-idea">Solution / Idea</div>
-        <div class="section-body">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</div>
+        <div class="section-label" data-i18n="lbl-solution">Solution</div>
+        <div class="section-body"><p data-i18n="p2-sol">A re-engineered Tuborg cap with a built-in silicone nozzle. Upon opening, the bottle lets out a high-pitched &ldquo;fart&rdquo; sound, serving as a social icebreaker and a reminder to &ldquo;Release the pressure.&rdquo;</p></div>
       </div>
     </aside>
     <main class="content">
@@ -191,6 +187,7 @@
   #dvd-saver{position:fixed;top:0;left:0;right:0;bottom:0;z-index:500;background:#000;opacity:0;pointer-events:none;transition:opacity 1.2s ease}
   #dvd-saver.active{opacity:1;pointer-events:all}
   body.dvd-active #lang-toggle,body.dvd-active #nav-shortcuts,body.dvd-active .ticker{opacity:0!important;pointer-events:none!important;transition:opacity 0.6s}
+  body.dvd-active>*:not(#dvd-saver){visibility:hidden!important}#dvd-saver *{visibility:visible!important}
   #dvd-folder{position:absolute;top:0;left:0;width:220px;height:220px;-webkit-mask-image:url('images/folder_icon.svg');-webkit-mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-image:url('images/folder_icon.svg');mask-size:100% 100%;mask-repeat:no-repeat;will-change:transform}
   #dvd-folder-inner{width:100%;height:100%;position:relative}
   #dvd-folder-bg{position:absolute;inset:0;opacity:0;transition:opacity 0.1s}
