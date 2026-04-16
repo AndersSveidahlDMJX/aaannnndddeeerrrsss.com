@@ -92,6 +92,53 @@
       height: auto;
       display: block;
     }
+    .lightbox-img {
+      cursor: zoom-in;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .lightbox-img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+    #lb-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    #lb-overlay.open {
+      display: flex;
+    }
+    #lb-img {
+      max-width: 92vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 16px 64px rgba(0,0,0,0.7);
+      cursor: default;
+      animation: lb-in 0.22s ease;
+    }
+    @keyframes lb-in {
+      from { opacity: 0; transform: scale(0.93); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    #lb-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.55);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+    #lb-close:hover { color: #fff; }
     @media (max-width: 768px) {
       .layout { flex-direction: column; }
       .sidebar {
@@ -130,18 +177,45 @@
       <img class="header-img" src="images/BONES LOGO.webp" alt="Bones Logo" />
       <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
       <div class="image-grid">
-        <img src="images/bones plakat1.webp" alt="Bones Plakat 1" />
-        <img src="images/bones plakat2.webp" alt="Bones Plakat 2" loading="lazy" />
-        <img src="images/bones plakat3.webp" alt="Bones Plakat 3" loading="lazy" />
         <img src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
-        <img src="images/bones minas.webp" alt="Bones Minas" loading="lazy" />
-        <img src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" />
-        <img src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" />
+        <img src="images/bones minas.webp" alt="Bones Minas" loading="lazy" class="lightbox-img" data-src="images/bones minas.webp" />
+        <img src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" class="lightbox-img" data-src="images/bones baggen.webp" />
+        <img src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" class="lightbox-img" data-src="images/bones loppemarked.webp" />
+      </div>
+      <!-- Lightbox overlay -->
+      <div id="lb-overlay">
+        <button id="lb-close" aria-label="Close">&times;</button>
+        <img id="lb-img" src="" alt="" />
       </div>
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.js"></script>
-
+<script>
+  (function(){
+    var overlay = document.getElementById('lb-overlay');
+    var lbImg   = document.getElementById('lb-img');
+    var lbClose = document.getElementById('lb-close');
+    function open(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+    }
+    document.querySelectorAll('.lightbox-img').forEach(function(img){
+      img.addEventListener('click', function(){
+        open(this.dataset.src || this.src, this.alt);
+      });
+    });
+    lbClose.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+  })();
+</script>
 <!-- ── DVD screensaver ── -->
 <style>
   #dvd-saver{position:fixed;top:0;left:0;right:0;bottom:0;z-index:500;background:#000;opacity:0;pointer-events:none;transition:opacity 1.2s ease}
