@@ -388,70 +388,55 @@
     document.getElementById('still').style.backgroundImage = "url('" + chosen.still + "')";
 
     var iframe = document.getElementById('yt-player');
-    iframe.src = 'https://www.youtube.com/embed/' + chosen.id +
-      '?autoplay=1&mute=1&loop=1&playlist=' + chosen.id +
-      '&controls=0&playsinline=1&disablekb=1&modestbranding=1&rel=0&enablejsapi=1' +
-      '&origin=' + encodeURIComponent(location.origin);
 
-    var revealed = false;
-    function revealPlayer() {
-      if (revealed) return;
-      revealed = true;
-      setTimeout(function() { iframe.classList.add('visible'); }, 500);
+    // Safari blocks YouTube iframe autoplay unconditionally — skip the iframe
+    // and let the still image show instead.
+    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    if (!isSafari) {
+      iframe.src = 'https://www.youtube.com/embed/' + chosen.id +
+        '?autoplay=1&mute=1&loop=1&playlist=' + chosen.id +
+        '&controls=0&playsinline=1&disablekb=1&modestbranding=1&rel=0&enablejsapi=1' +
+        '&origin=' + encodeURIComponent(location.origin);
+
+      var revealed = false;
+      function revealPlayer() {
+        if (revealed) return;
+        revealed = true;
+        setTimeout(function() { iframe.classList.add('visible'); }, 500);
+      }
+
+      window.addEventListener('message', function(e) {
+        if (e.origin !== 'https://www.youtube.com') return;
+        try {
+          var data = JSON.parse(e.data);
+          if (data.event === 'onReady') {
+            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'mute',      args: [] }), '*');
+            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
+            revealPlayer();
+          }
+          if (data.event === 'infoDelivery' && data.info && data.info.playerState === 1) {
+            revealPlayer();
+          }
+        } catch(err) {}
+      });
+
+      setTimeout(revealPlayer, 4000);
     }
 
-    function tryPlay() {
-      try {
-        iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'mute',      args: [] }), '*');
-        iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
-      } catch(e) {}
+    var muteBtn = document.getElementById('muteBtn');
+    if (isSafari) {
+      muteBtn.style.display = 'none';
+    } else {
+      muteBtn.addEventListener('click', function() {
+        var func = muted ? 'unMute' : 'mute';
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: func, args: [] }), '*'
+        );
+        this.textContent = muted ? '🔊 mute' : '🔇 unmute';
+        muted = !muted;
+      });
     }
-
-    // Listen for YouTube player ready/state events
-    window.addEventListener('message', function(e) {
-      if (e.origin !== 'https://www.youtube.com') return;
-      try {
-        var data = JSON.parse(e.data);
-        if (data.event === 'onReady') {
-          tryPlay();
-          revealPlayer();
-        }
-        if (data.event === 'infoDelivery' && data.info && data.info.playerState === 1) {
-          revealPlayer();
-        }
-      } catch(err) {}
-    });
-
-    // Safari often needs a user gesture to start — kick playVideo on first interaction
-    var gestureTriggered = false;
-    function onGesture() {
-      if (gestureTriggered) return;
-      gestureTriggered = true;
-      tryPlay();
-      revealPlayer();
-    }
-    ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'].forEach(function(ev) {
-      window.addEventListener(ev, onGesture, { once: true, passive: true });
-    });
-
-    // Poll for the first few seconds in case iframe loads after postMessage window
-    var pollCount = 0;
-    var pollTimer = setInterval(function() {
-      tryPlay();
-      if (++pollCount >= 8) clearInterval(pollTimer);
-    }, 600);
-
-    // Fallback: reveal after 4s regardless
-    setTimeout(revealPlayer, 4000);
-
-    document.getElementById('muteBtn').addEventListener('click', function() {
-      var func = muted ? 'unMute' : 'mute';
-      iframe.contentWindow.postMessage(
-        JSON.stringify({ event: 'command', func: func, args: [] }), '*'
-      );
-      this.textContent = muted ? '🔊 mute' : '🔇 unmute';
-      muted = !muted;
-    });
   </script>
   <script>
     window.addEventListener('load', function() {
