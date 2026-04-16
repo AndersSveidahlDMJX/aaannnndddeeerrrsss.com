@@ -65,8 +65,6 @@
     .content {
       flex: 1;
       padding: 80px 60px 80px;
-      background: rgba(255,255,255,0.45);
-      backdrop-filter: blur(2px);
     }
     .header-img {
       width: 100%;
@@ -92,11 +90,32 @@
       color: #666;
       margin-bottom: 20px;
     }
-    .image-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto auto;
+    .image-stack {
+      display: flex;
+      flex-direction: column;
       gap: 12px;
+      margin-bottom: 12px;
+    }
+    .image-stack .lightbox-img {
+      width: 100%;
+      height: 70vh;
+      object-fit: cover;
+      display: block;
+      border-radius: 6px;
+    }
+    .image-extras {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .image-extras img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+    }
+    .image-grid {
+      display: none;
     }
     .image-grid img {
       width: 100%;
@@ -104,26 +123,6 @@
       object-fit: cover;
       display: block;
       border-radius: 6px;
-    }
-    .img-tyggegummi {
-      grid-column: 1 / 2;
-      grid-row: 1 / 2;
-      aspect-ratio: 4/3;
-    }
-    .img-minas {
-      grid-column: 2 / 3;
-      grid-row: 1 / 2;
-      aspect-ratio: 4/3;
-    }
-    .img-baggen {
-      grid-column: 1 / 2;
-      grid-row: 2 / 3;
-      aspect-ratio: 4/3;
-    }
-    .img-loppemarked {
-      grid-column: 2 / 3;
-      grid-row: 2 / 3;
-      aspect-ratio: 4/3;
     }
     .lightbox-img {
       cursor: zoom-in;
@@ -186,14 +185,11 @@
       }
       .content {
         padding: 32px 20px 60px;
-        background: none;
-        backdrop-filter: none;
       }
       .header-img { max-width: 280px; }
       .back { top: 16px; left: 16px; }
-      .image-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
+      .image-stack .lightbox-img {
+        height: 60vw;
       }
     }
   </style>
@@ -218,11 +214,13 @@
     <main class="content">
       <img class="header-img" src="images/BONES LOGO.webp" alt="Bones Logo" />
       <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
-      <div class="image-grid">
-        <img src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" class="img-tyggegummi" />
-        <img src="images/bones minas.webp" alt="Bones Minas" loading="lazy" class="lightbox-img img-minas" data-src="images/bones plakat2.webp" />
-        <img src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" class="lightbox-img img-baggen" data-src="images/bones plakat1.webp" />
-        <img src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" class="lightbox-img img-loppemarked" data-src="images/bones plakat3.webp" />
+      <div class="image-stack">
+        <img src="images/bones minas.webp" alt="Bones Minas" loading="lazy" class="lightbox-img" data-src="images/bones plakat2.webp" />
+        <img src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" class="lightbox-img" data-src="images/bones plakat3.webp" />
+        <img src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" class="lightbox-img" data-src="images/bones plakat1.webp" />
+      </div>
+      <div class="image-extras">
+        <img src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
       </div>
       <!-- Lightbox overlay -->
       <div id="lb-overlay">
