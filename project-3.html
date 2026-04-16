@@ -116,9 +116,9 @@
       margin-bottom: 16px;
     }
     .poster-cell {
+      position: relative;
       overflow: hidden;
       border-radius: 6px;
-      cursor: zoom-in;
       isolation: isolate;
     }
     .poster-cell.poster-left {
@@ -133,14 +133,23 @@
       grid-column: 2;
       grid-row: 2;
     }
-    .poster-cell img {
+    .poster-base {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .poster-overlay {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
+      cursor: zoom-in;
       transition: transform 0.3s ease, filter 0.3s ease;
     }
-    .poster-cell:hover img {
+    .poster-overlay:hover {
       transform: scale(1.04);
       filter: brightness(1.08);
     }
@@ -254,13 +263,16 @@
       <h2 class="poster-header">Plakaterne</h2>
       <div class="poster-grid">
         <div class="poster-cell poster-left">
-          <img src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" class="lightbox-img" data-src="images/bones plakat3.webp" />
+          <img class="poster-base" src="images/bones minas.webp" alt="Bones Minas" loading="lazy" />
+          <img class="poster-overlay lightbox-img" src="images/bones gul.webp" alt="Bones Gul" loading="lazy" data-src="images/bones plakat1.webp" />
         </div>
         <div class="poster-cell poster-right-top">
-          <img src="images/bones minas.webp" alt="Bones Minas" loading="lazy" class="lightbox-img" data-src="images/bones plakat2.webp" />
+          <img class="poster-base" src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" />
+          <img class="poster-overlay lightbox-img" src="images/plakat loppemarked.webp" alt="Plakat Loppemarked" loading="lazy" data-src="images/bones plakat2.webp" />
         </div>
         <div class="poster-cell poster-right-bottom">
-          <img src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" class="lightbox-img" data-src="images/bones plakat1.webp" />
+          <img class="poster-base" src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" />
+          <img class="poster-overlay lightbox-img" src="images/bones gul.webp" alt="Bones Gul" loading="lazy" data-src="images/bones plakat3.webp" />
         </div>
       </div>
       <div class="image-extras">
