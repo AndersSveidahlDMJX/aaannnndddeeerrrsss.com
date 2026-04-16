@@ -11,6 +11,18 @@
   <link rel="preload" href="images/BONES%20LOGO.webp" as="image" />
   <link rel="preload" href="images/300ppi/Bones%20plakat1.webp" as="image" />
   <style>
+    @font-face {
+      font-family: 'ImpactLabel';
+      src: url('fonts/ImpactLabel.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Vivace';
+      src: url('fonts/English 111 Vivace Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: url('images/bones baggrund.webp') center center / cover no-repeat fixed;
@@ -162,15 +174,40 @@
       display: none;
     }
     .image-extras {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      margin-top: 60px;
     }
-    .image-extras img {
-      width: 100%;
+    .tyggegummi-img {
+      width: 50%;
       height: auto;
       display: block;
       border-radius: 6px;
+    }
+    .tyggegummi-caption {
+      font-family: 'ImpactLabel', Impact, 'Arial Narrow', sans-serif;
+      color: #fff;
+      font-size: 1.3rem;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    .bella-img {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+    }
+    .selma-quote {
+      font-family: 'Vivace', cursive;
+      font-size: 1.6rem;
+      color: #fff;
+      background: #000;
+      padding: 10px 18px;
+      text-align: center;
+      line-height: 1.4;
     }
     .image-grid {
       display: none;
@@ -280,7 +317,10 @@
         </div>
       </div>
       <div class="image-extras">
-        <img src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
+        <img class="tyggegummi-img" src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
+        <p class="tyggegummi-caption">Tyggegummitatovering fra bones</p>
+        <img class="bella-img" src="images/Bones.webp" alt="Bella Bones" loading="lazy" />
+        <p class="selma-quote">Selma 23 &aring;r &mdash; hun har ikke tid lige nu</p>
       </div>
       <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
       <!-- Lightbox overlay -->
