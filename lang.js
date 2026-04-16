@@ -242,7 +242,7 @@
         + '<span class="i18n-sep" style="margin:0 4px;">|</span>'
       : '';
     var pongLink = isWork
-      ? '<a class="nav-shortcut pong-neon" href="pong.html">pong</a>'
+      ? '<a class="nav-shortcut pong-neon" href="pong.html">TIME4FUN</a>'
         + '<span class="i18n-sep" style="margin:0 4px;">|</span>'
       : '';
     div.innerHTML = pongLink + contactLink
