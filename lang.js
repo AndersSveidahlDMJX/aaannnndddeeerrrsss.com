@@ -65,11 +65,12 @@
       'nav-work':      'Work',
 
       /* ── shared section labels ── */
-      'lbl-brief':         'Brief',
-      'lbl-problem':       'Problem',
-      'lbl-insight':       'Insight',
-      'lbl-solution':      'Solution',
-      'lbl-solution-idea': 'Solution / Idea',
+      'lbl-brief':          'Brief',
+      'lbl-problem':        'Problem',
+      'lbl-insight':        'Insight',
+      'lbl-solution':       'Solution',
+      'lbl-solution-idea':  'Solution / Idea',
+      'lbl-collaborators':  'Collaborators',
 
       /* ── project-1 (Twix) sidebar ── */
       'p1-ins1': 'We live in a culture where the best experiences are often singular. Theme parks are the pinnacle of this frustration: you wait in line for a long time&nbsp;&mdash; for a short thrill.',
@@ -101,6 +102,10 @@
       'p6-con': '<p>Everyone knows the rule: don&rsquo;t play with your food. We swapped &ldquo;don&rsquo;t&rdquo; with do. By branding dot-to-dot patterns directly into the surface of the tortillas, we created a canvas for the salsa to draw on. It&rsquo;s for the kids who finally have a reason to play, and for the adults who have waited long enough for permission.</p>',
       'p6-tgt': '<p>Nostalgic, creative souls, grown ups and kids alike, those who celebrate the weekends with film nights, gather their friends and turn on the projector to indulge in universes they never get tired of.</p>',
       'p6-exe': '<p>Three special editions: Star Wars, Lord of the Rings, and Harry Potter. Each wrapped in its own universe and accompanied by OOH posters with taglines like &ldquo;May the salsa be with you&rdquo;, &ldquo;One salsa to rule them all&rdquo;, and &ldquo;You&rsquo;re a wizard, Salsa&rdquo;.</p>',
+      'p6-col': '<p>Sofus Kragelund Joensen</p>',
+      'p1-col': '<p>William Hastrup &amp; Sofus Kragelund Joensen</p>',
+      'p2-col': '<p>William Hastrup &amp; Sofus Kragelund Joensen</p>',
+      'p5-col': '<p>William Hastrup &amp; Sofus Kragelund Joensen</p>',
 
       /* ── about ── */
       'h-about':    'About Me',
@@ -131,11 +136,12 @@
       'nav-work': 'Arbejde',
 
       /* ── shared section labels ── */
-      'lbl-brief':         'Brief',
-      'lbl-problem':       'Problem',
-      'lbl-insight':       'Indsigt',
-      'lbl-solution':      'Løsning',
-      'lbl-solution-idea': 'Løsning / Ide',
+      'lbl-brief':          'Brief',
+      'lbl-problem':        'Problem',
+      'lbl-insight':        'Indsigt',
+      'lbl-solution':       'Løsning',
+      'lbl-solution-idea':  'Løsning / Ide',
+      'lbl-collaborators':  'Samarbejdere',
 
       /* ── project-1 (Twix) sidebar ── */
       'p1-ins1': 'Vi lever i en kultur, hvor de bedste oplevelser ofte er kortvarige. Forlystelsesparker er toppen af denne frustration: man st&aring;r i k&oslash; i lang tid&nbsp;&mdash; for en kort fryd.',
@@ -167,6 +173,10 @@
       'p6-con': '<p>Alle kender reglen: man leger ikke med maden. Vi skiftede &ldquo;ikke&rdquo; ud med bare g&oslash;r det. Ved at br&aelig;nde prik-til-prik m&oslash;nstre direkte ind i tortillaernes overflade skabte vi et l&aelig;rred, som salsaen kan tegne p&aring;. Det er for b&oslash;rnene, der endelig har en grund til at lege, og for de voksne, der har ventet l&aelig;nge nok p&aring; tilladelse.</p>',
       'p6-tgt': '<p>Nostalgiske, kreative sj&aelig;le &mdash; store som sm&aring; &mdash; dem der fejrer weekenden med filmaftener, samler vennerne og t&aelig;nder projektoren for at fordybe sig i universer, de aldrig bliver tr&aelig;tte af.</p>',
       'p6-exe': '<p>Tre specialudgaver: Star Wars, Ringenes Herre og Harry Potter. Hver pakket ind i sit eget univers og ledsaget af OOH-plakater med slogans som &ldquo;May the salsa be with you&rdquo;, &ldquo;One salsa to rule them all&rdquo; og &ldquo;You&rsquo;re a wizard, Salsa&rdquo;.</p>',
+      'p6-col': '<p>Sofus Kragelund Joensen</p>',
+      'p1-col': '<p>William Hastrup &amp; Sofus Kragelund Joensen</p>',
+      'p2-col': '<p>William Hastrup &amp; Sofus Kragelund Joensen</p>',
+      'p5-col': '<p>William Hastrup &amp; Sofus Kragelund Joensen</p>',
 
       /* ── about ── */
       'h-about':    'Om Mig',
