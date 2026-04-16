@@ -90,7 +90,7 @@
       /* ── project-4 (Le Ice) sidebar ── */
       'p4-ins': 'Even though ice cubes are simply frozen water, they always elevate the drinking experience just a little &mdash; turning a lukewarm bargain soda into an approximately cool bargain soda.',
       'p4-prb': 'The existing ice cube selection in stores does not reflect the true value of ice cubes.',
-      'p4-sol': 'Le Ice is the first ice cube brand to finally give ice cubes the packaging and presence they deserve. Without resorting to velvet or gold leaf, Le Ice adorns its ice cube bags with design and functionality directly inspired by everyday recognisable luxury.',
+      'p4-sol': 'Le Ice is the first ice cube brand to finally give ice cubes the packaging and presence they deserve. Without resorting to velvet or gold leaves, Le Ice adorns its ice cube bags with design and functionality directly inspired by everyday recognisable luxury.',
 
       /* ── project-5 (Penguin) sidebar ── */
       'p5-brf': 'Many people avoid books, not because they lack interest, but because they lack literary confidence. They believe reading is for someone else. Someone smarter, more focused, more literary. This quiet self-doubt keeps people locked out of one of the most powerful experiences in the world.',
