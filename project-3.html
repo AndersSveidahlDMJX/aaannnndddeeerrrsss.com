@@ -187,7 +187,7 @@
       position: absolute;
       object-fit: contain;
       display: block;
-      cursor: pointer;
+      cursor: default;
       transition: transform 0.3s ease;
       transform-origin: center center;
     }
@@ -464,25 +464,76 @@
     var overlay = document.getElementById('lb-overlay');
     var lbImg   = document.getElementById('lb-img');
     var lbClose = document.getElementById('lb-close');
-    function open(src, alt) {
+
+    function openLB(src, alt) {
       lbImg.src = src;
       lbImg.alt = alt || '';
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
-    function close() {
+    function closeLB() {
       overlay.classList.remove('open');
       document.body.style.overflow = '';
       lbImg.src = '';
     }
-    document.querySelectorAll('.lightbox-img').forEach(function(img){
-      img.addEventListener('click', function(){
-        open(this.dataset.src || this.src, this.alt);
+
+    // Canvas cache so we only draw each image once
+    var canvasCache = new WeakMap();
+
+    function getAlpha(imgEl, clientX, clientY) {
+      var rect = imgEl.getBoundingClientRect();
+      var px = clientX - rect.left;
+      var py = clientY - rect.top;
+      // outside element bounds
+      if (px < 0 || py < 0 || px > rect.width || py > rect.height) return 0;
+
+      var cv = canvasCache.get(imgEl);
+      if (!cv) {
+        cv = document.createElement('canvas');
+        cv.width  = imgEl.naturalWidth;
+        cv.height = imgEl.naturalHeight;
+        var ctx = cv.getContext('2d');
+        ctx.drawImage(imgEl, 0, 0);
+        canvasCache.set(imgEl, cv);
+      }
+      var sx = (px / rect.width)  * cv.width;
+      var sy = (py / rect.height) * cv.height;
+      try {
+        return cv.getContext('2d').getImageData(sx, sy, 1, 1).data[3];
+      } catch(e) { return 255; } // cross-origin fallback: treat as opaque
+    }
+
+    // Poster overlays — pixel-accurate hit testing
+    document.querySelectorAll('.poster-overlay.lightbox-img').forEach(function(img){
+      // Wait for image to load before caching
+      function wireUp() {
+        img.addEventListener('mousemove', function(e){
+          var a = getAlpha(this, e.clientX, e.clientY);
+          this.style.cursor = a > 10 ? 'pointer' : 'default';
+        });
+        img.addEventListener('mouseleave', function(){
+          this.style.cursor = '';
+        });
+        img.addEventListener('click', function(e){
+          var a = getAlpha(this, e.clientX, e.clientY);
+          if (a <= 10) return;
+          openLB(this.dataset.src || this.src, this.alt);
+        });
+      }
+      if (img.complete && img.naturalWidth) { wireUp(); }
+      else { img.addEventListener('load', wireUp); }
+    });
+
+    // All other lightbox elements — normal click
+    document.querySelectorAll('.lightbox-img:not(.poster-overlay)').forEach(function(el){
+      el.addEventListener('click', function(){
+        openLB(this.dataset.src || this.src, this.alt);
       });
     });
-    lbClose.addEventListener('click', function(e){ e.stopPropagation(); close(); });
-    overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
-    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+
+    lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLB(); });
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) closeLB(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLB(); });
   })();
 </script>
 <script>
