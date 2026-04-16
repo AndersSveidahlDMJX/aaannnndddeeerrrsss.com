@@ -88,9 +88,9 @@
       'p3-sol': '',
 
       /* ── project-4 (Le Ice) sidebar ── */
-      'p4-brf': 'Create a brand identity and packaging for Le Ice &mdash; a new ice lolly brand launching exclusively in ALDI stores.',
-      'p4-ins': 'Budget ice lollies are often perceived as cheap and generic. But the people buying them aren&rsquo;t &mdash; they&rsquo;re families and young adults who still want something that feels good to hold and be seen with.',
-      'p4-sol': 'A bold, colour-coded identity built around the three flavours. Bright, confident packaging that punches well above its price point on the shelf.',
+      'p4-ins': 'Even though ice cubes are simply frozen water, they always elevate the drinking experience just a little &mdash; turning a lukewarm bargain soda into an approximately cool bargain soda.',
+      'p4-prb': 'The existing ice cube selection in stores does not reflect the true value of ice cubes.',
+      'p4-sol': 'Le Ice is the first ice cube brand to finally give ice cubes the packaging and presence they deserve. Without resorting to velvet or gold leaf, Le Ice adorns its ice cube bags with design and functionality directly inspired by everyday recognisable luxury.',
 
       /* ── project-5 (Penguin) sidebar ── */
       'p5-brf': 'Many people avoid books, not because they lack interest, but because they lack literary confidence. They believe reading is for someone else. Someone smarter, more focused, more literary. This quiet self-doubt keeps people locked out of one of the most powerful experiences in the world.',
@@ -159,9 +159,9 @@
       'p3-sol': '<p>Bones&rsquo; rebranding tager udgangspunkt i en &aelig;stetik der aldrig fik lov at v&aelig;re cool, hvide ridsede plastikstole, grafisk forkasteligt WordArt og tynde brillestel som typisk bliver b&aring;ret af Anja fra N&oslash;rrum Sn&oslash;rums forsamlingshus&rsquo; &aring;rlige sommerfest &mdash; der alt fandt sit helle i provinsen mens resten af Danmark vendte det ryggen.</p><p>Nu er det tilbage, men denne gang i en forklædning af post-ironisk-k&oslash;benhavner-kitsch, kun forst&aring;elig for det segment som kender ham den ene (og nej?? alts&aring; ikke ham den anden) fra APHACA og l&aelig;ser en uddannelse p&aring; Holmen som er den sikreste vej til &oslash;konomisk afh&aelig;ngighed.</p><p>Det er dem der forsikrer dig om at det er meningen at det skal v&aelig;re grimt og du nok bare ikke forst&aring;r det endnu.</p><p>Udtrykket fors&oslash;ger ikke at behage alle, men ender med at g&oslash;re det alligevel. De sejeste* K&oslash;benhavnere ser det som en gylden mulighed for at v&aelig;re first mover og provinsen &aelig;nser intet andet end at der skal fyldes op p&aring; spareribs for enden af buffeten.</p><p style="opacity:0.55;font-size:0.85em">*med mangel p&aring; bedre frontl&oslash;ber-adjektiv</p>',
 
       /* ── project-4 (Le Ice) sidebar ── */
-      'p4-brf': 'Skab en brandidentitet og emballage til Le Ice &mdash; et nyt ispinem&aelig;rke, der lanceres eksklusivt i ALDI-butikker.',
-      'p4-ins': 'Billige ispinde opfattes ofte som billige og generiske. Men dem, der k&oslash;ber dem, er det ikke &mdash; det er familier og unge voksne, der stadig vil have noget, der f&oslash;les godt at holde og blive set med.',
-      'p4-sol': 'En dristig, farvekoderet identitet bygget op om de tre smagsvarianter. Frisk, selvsikker emballage der sl&aring;r langt over sin prispunkt p&aring; hylden.',
+      'p4-ins': 'Selvom isterninger blot er frosset vand, l&oslash;fter de altid oplevelsen af drikkelse en lille smule og g&oslash;r en lunken sodavand k&oslash;bt p&aring; tilbud til en tiln&aelig;rmelsesvis k&oslash;lig sodavand k&oslash;bt p&aring; tilbud.',
+      'p4-prb': 'Det eksisterende isterningeudvalg i butikkerne afspejler ikke isterningers sande v&aelig;rdi.',
+      'p4-sol': 'Le Ice er det f&oslash;rste isterningebrand som endelig giver isterninger den indpakning og udstr&aring;ling de fortjener. Uden at g&oslash;re brug af hverken velour eller bladguld pryder Le Ice sine isterningeposer med design og funktionalitet, direkte inspireret fra hverdagsgenkendelig luksus.',
 
       /* ── project-5 (Penguin) sidebar ── */
       'p5-brf': 'Mange mennesker undg&aring;r b&oslash;ger &mdash; ikke fordi de mangler interesse, men fordi de mangler litter&aelig;r selvtillid. De tror, at l&aelig;sning er for en anden. En mere intelligent, fokuseret, litter&aelig;r person. Denne stille selvtvivl holder folk ude fra en af verdens mest kraftfulde oplevelser.',
