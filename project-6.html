@@ -80,7 +80,78 @@
     }
     .section-body { font-size: 0.95rem; line-height: 1.75; color: #111; }
     .section-body p + p { margin-top: 0.9rem; }
-    .content { flex: 1; padding: 80px 60px; }
+    .content {
+      flex: 1;
+      padding: 80px 60px 80px;
+      margin-left: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: margin-left 0.35s ease;
+    }
+    body.sb-collapsed .content { margin-left: 0; }
+    /* ── Image galleries ── */
+    .gallery-section {
+      width: 100%;
+      margin-bottom: 64px;
+    }
+    .gallery-section h2 {
+      font-family: sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 20px;
+    }
+    .gallery-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .gallery-row img {
+      flex: 1;
+      width: 0;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .gallery-row img:hover { transform: scale(1.03); }
+    /* Lightbox */
+    #lb-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    #lb-overlay.open { display: flex; }
+    #lb-img {
+      max-width: 92vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 16px 64px rgba(0,0,0,0.7);
+      cursor: default;
+    }
+    #lb-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.55);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+    #lb-close:hover { color: #fff; }
     @media (max-width: 768px) {
       .layout { flex-direction: column; }
       .sidebar {
@@ -91,7 +162,7 @@
         border-bottom: 1px solid #e0e0e0;
         padding: 72px 24px 32px;
       }
-      .content { padding: 32px 20px 60px; }
+      .content { padding: 32px 20px 60px; margin-left: 0; }
       .back { top: 16px; left: 16px; }
       .sidebar-toggle { display: none; }
     }
@@ -116,6 +187,26 @@
       </div>
     </aside>
     <main class="content">
+      <div class="gallery-section">
+        <h2>OOH — Tortilla</h2>
+        <div class="gallery-row">
+          <img src="images/gandalf tortilla OOH.webp" alt="Gandalf Tortilla OOH" loading="lazy" data-src="images/gandalf tortilla OOH.webp" />
+          <img src="images/darth vader tortilla OOH.webp" alt="Darth Vader Tortilla OOH" loading="lazy" data-src="images/darth vader tortilla OOH.webp" />
+          <img src="images/harry potter tortilla OOH.webp" alt="Harry Potter Tortilla OOH" loading="lazy" data-src="images/harry potter tortilla OOH.webp" />
+        </div>
+      </div>
+      <div class="gallery-section">
+        <h2>Design</h2>
+        <div class="gallery-row">
+          <img src="images/Harry potter design.webp" alt="Harry Potter Design" loading="lazy" data-src="images/Harry potter design.webp" />
+          <img src="images/Lord of the rings design.webp" alt="Lord of the Rings Design" loading="lazy" data-src="images/Lord of the rings design.webp" />
+          <img src="images/Star wars design.webp" alt="Star Wars Design" loading="lazy" data-src="images/Star wars design.webp" />
+        </div>
+      </div>
+      <div id="lb-overlay">
+        <button id="lb-close" aria-label="Close">&times;</button>
+        <img id="lb-img" src="" alt="" />
+      </div>
     </main>
   </div>
 <script>
@@ -138,6 +229,21 @@
     toggleBtn.addEventListener('click', () => {
       setSidebar(!sidebar.classList.contains('collapsed'));
     });
+  </script>
+  <script>
+  (function(){
+    var overlay = document.getElementById('lb-overlay');
+    var lbImg   = document.getElementById('lb-img');
+    var lbClose = document.getElementById('lb-close');
+    function openLB(src, alt){ lbImg.src=src; lbImg.alt=alt||''; overlay.classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeLB(){ overlay.classList.remove('open'); document.body.style.overflow=''; lbImg.src=''; }
+    document.querySelectorAll('.gallery-row img').forEach(function(img){
+      img.addEventListener('click', function(){ openLB(this.dataset.src||this.src, this.alt); });
+    });
+    lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLB(); });
+    overlay.addEventListener('click', function(e){ if(e.target===overlay) closeLB(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLB(); });
+  })();
   </script>
 <!-- ── DVD screensaver ── -->
 <style>
