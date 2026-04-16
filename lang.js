@@ -79,7 +79,12 @@
 
       /* ── project-2 (Tuborg / Fizz Cap) sidebar ── */
       'p2-ins': 'Gen Z is paralyzed by social &ldquo;correctness,&rdquo; suppressing even natural behaviors to fit in. We used the most &ldquo;incorrect&rdquo; human sound&mdash;a fart&mdash;as a literal metaphor for the mental pressure they bottle up.',
-      'p2-sol': 'A re-engineered Tuborg cap with a built-in silicone nozzle. Upon opening, the bottle lets out a high-pitched &ldquo;fart&rdquo; sound, serving as a social icebreaker and a reminder to &ldquo;Release the pressure.&rdquo;',,
+      'p2-sol': 'A re-engineered Tuborg cap with a built-in silicone nozzle. Upon opening, the bottle lets out a high-pitched &ldquo;fart&rdquo; sound, serving as a social icebreaker and a reminder to &ldquo;Release the pressure.&rdquo;',
+
+      /* ── project-3 (Bones) sidebar ── */
+      'p3-prb': '',
+      'p3-ins': '',
+      'p3-sol': '',
 
       /* ── project-4 (Le Ice) sidebar ── */
       'p4-brf': 'Create a brand identity and packaging for Le Ice &mdash; a new ice lolly brand launching exclusively in ALDI stores.',
@@ -134,7 +139,12 @@
 
       /* ── project-2 (Tuborg / Fizz Cap) sidebar ── */
       'p2-ins': 'Generation Z er lam af social &ldquo;korrekthed&rdquo; og undertrykker selv naturlig adf&aelig;rd for at passe ind. Vi brugte den mest &ldquo;ukorrekte&rdquo; menneskelige lyd&mdash;en prut&mdash;som en bogstavelig metafor for det mentale pres, de holder inde med.',
-      'p2-sol': 'En nyudviklet Tuborg-kapsel med et indbygget siliconemundst&oslash;kke. N&aring;r flasken &aring;bnes, afgiver den en skinger &ldquo;prut&rdquo;-lyd, der fungerer som en social isbryder og en p&aring;mindelse om at &ldquo;slippe presset.&rdquo;',,
+      'p2-sol': 'En nyudviklet Tuborg-kapsel med et indbygget siliconemundst&oslash;kke. N&aring;r flasken &aring;bnes, afgiver den en skinger &ldquo;prut&rdquo;-lyd, der fungerer som en social isbryder og en p&aring;mindelse om at &ldquo;slippe presset.&rdquo;',
+
+      /* ── project-3 (Bones) sidebar ── */
+      'p3-prb': '<p>Jensens B&oslash;fhus har drejet n&oslash;glen om og umiddelbart lyder det som en gevinst for Bones, den st&oslash;rste konkurrent er sat ud af spillet. Men Jensens fald er ikke en sejr, det er en advarsel. De to brands er n&aelig;sten identiske: samme koncept, samme m&aring;lgruppe, samme udtryk og samme forgaengelighed som skubbede Jensens i afgrunden.</p><p>Den selvsamme afgrund har Bones un&aelig;gteligt kurs mod.</p>',
+      'p3-ins': '<p>I K&oslash;benhavn er en ny kultur opst&aring;et, kitsch, r&aring; og tilsyneladende grim, men med en magnetisk tiltr&aelig;kningskraft blandt unge, der dyrker den som deres eget udtryk. Den tr&aelig;kker tydelige paralleller til provinsens naturlige og ubevidste visuelle kultur, uden at v&aelig;re den, men snarere en ubevidst fortolkning heraf.</p>',
+      'p3-sol': '<p>Bones&rsquo; rebranding tager udgangspunkt i en &aelig;stetik der aldrig fik lov at v&aelig;re cool, hvide ridsede plastikstole, grafisk forkasteligt WordArt og tynde brillestel som typisk bliver b&aring;ret af Anja fra N&oslash;rrum Sn&oslash;rums forsamlingshus&rsquo; &aring;rlige sommerfest &mdash; der alt fandt sit helle i provinsen mens resten af Danmark vendte det ryggen.</p><p>Nu er det tilbage, men denne gang i en forklædning af post-ironisk-k&oslash;benhavner-kitsch, kun forst&aring;elig for det segment som kender ham den ene (og nej?? alts&aring; ikke ham den anden) fra APHACA og l&aelig;ser en uddannelse p&aring; Holmen som er den sikreste vej til &oslash;konomisk afh&aelig;ngighed.</p><p>Det er dem der forsikrer dig om at det er meningen at det skal v&aelig;re grimt og du nok bare ikke forst&aring;r det endnu.</p><p>Udtrykket fors&oslash;ger ikke at behage alle, men ender med at g&oslash;re det alligevel. De sejeste* K&oslash;benhavnere ser det som en gylden mulighed for at v&aelig;re first mover og provinsen &aelig;nser intet andet end at der skal fyldes op p&aring; spareribs for enden af buffeten.</p><p style="opacity:0.55;font-size:0.85em">*med mangel p&aring; bedre frontl&oslash;ber-adjektiv</p>',
 
       /* ── project-4 (Le Ice) sidebar ── */
       'p4-brf': 'Skab en brandidentitet og emballage til Le Ice &mdash; et nyt ispinem&aelig;rke, der lanceres eksklusivt i ALDI-butikker.',
