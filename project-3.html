@@ -146,6 +146,7 @@
       letter-spacing: 0.06em;
       color: #111;
       margin-bottom: 24px;
+      text-align: center;
       animation: shadow90s 1.8s linear infinite;
     }
     @keyframes shadow90s {
@@ -175,7 +176,8 @@
       isolation: isolate;
       transition: transform 0.3s ease;
     }
-    .poster-unit:hover { transform: scale(1.04); }
+    /* :has() targets only when the actual base image is hovered — not empty div space, not overlays */
+    .poster-unit:has(.poster-base:hover) { transform: scale(1.04); }
     #minas {
       width: min(86%, 805px); /* 15% larger than base unit */
     }
@@ -229,7 +231,10 @@
       height: auto;
       display: block;
       border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
     }
+    .tyggegummi-img:hover { transform: scale(1.04); }
     .tyggegummi-caption {
       font-family: Arial, sans-serif;
       color: #000;
@@ -251,7 +256,9 @@
       padding: 14px 14px 0;
       max-width: 328px;
       cursor: pointer;
+      transition: transform 0.3s ease;
     }
+    .bella-block:hover { transform: scale(1.04); }
     .duo-bar {
       width: 100vw;
       position: relative;
@@ -277,7 +284,9 @@
       height: auto;
       display: block;
       cursor: pointer;
+      transition: transform 0.3s ease;
     }
+    .colorway-img:hover { transform: scale(1.04); }
     .colorway-caption {
       font-family: Arial, sans-serif;
       color: #000;
@@ -433,7 +442,7 @@
         </div>
       </div>
       <div class="image-extras">
-        <img class="tyggegummi-img" src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
+        <img class="tyggegummi-img lightbox-img" src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" data-src="images/bones tyggegummi.webp" />
         <p class="tyggegummi-caption">Tyggegummitatovering fra bones</p>
       </div>
       <div class="duo-bar">
@@ -543,7 +552,7 @@ function show(){if(active)return;active=true;var W=window.innerWidth,H=window.in
   resetIdle();
 })();
 </script>
-<script src="lang.js"></script>
+
 <a class="medarbejder-btn" href="404.html">
   <img src="images/medarbejder bones.webp" alt="Medarbejder Bones" />
 </a>
