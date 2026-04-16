@@ -96,6 +96,12 @@
       'p5-ins': 'After reading something written in typoglycemia &mdash; the brain&rsquo;s ability to read words even when the middle letters are jumbled &mdash; you feel smart and confident.',
       'p5-sol': 'A campaign that turns jumbled words into an unexpected confidence boost. Readers will decode the scrambled text, and realize: if I can read this, I can read anything!',
 
+      /* ── project-6 (Mex&Co) sidebar ── */
+      'p6-ins': '<p>Mex &amp; Co.&rsquo;s habanero salsa comes with a precision nozzle, engineered for surgical accurate dosing. But we noticed an untapped potential, exceeding mere handiness.</p>',
+      'p6-con': '<p>Everyone knows the rule: don&rsquo;t play with your food. We swapped &ldquo;don&rsquo;t&rdquo; with do. By branding dot-to-dot patterns directly into the surface of the tortillas, we created a canvas for the salsa to draw on. It&rsquo;s for the kids who finally have a reason to play, and for the adults who have waited long enough for permission.</p>',
+      'p6-tgt': '<p>Nostalgic, creative souls, grown ups and kids alike, those who celebrate the weekends with film nights, gather their friends and turn on the projector to indulge in universes they never get tired of.</p>',
+      'p6-exe': '<p>Three special editions: Star Wars, Lord of the Rings, and Harry Potter. Each wrapped in its own universe and accompanied by OOH posters with taglines like &ldquo;May the salsa be with you&rdquo;, &ldquo;One salsa to rule them all&rdquo;, and &ldquo;You&rsquo;re a wizard, Salsa&rdquo;.</p>',
+
       /* ── about ── */
       'h-about':    'About Me',
       'h-about-me': 'About Me',
@@ -155,6 +161,12 @@
       'p5-brf': 'Mange mennesker undg&aring;r b&oslash;ger &mdash; ikke fordi de mangler interesse, men fordi de mangler litter&aelig;r selvtillid. De tror, at l&aelig;sning er for en anden. En mere intelligent, fokuseret, litter&aelig;r person. Denne stille selvtvivl holder folk ude fra en af verdens mest kraftfulde oplevelser.',
       'p5-ins': 'N&aring;r man l&aelig;ser noget skrevet med typoglykemi &mdash; hjernens evne til at l&aelig;se ord, selv n&aring;r bogstaverne i midten er rodet rundt &mdash; f&oslash;ler man sig klog og selvsikker.',
       'p5-sol': 'En kampagne, der forvandler rodet tekst til et uventet skub til selvtilliden. L&aelig;serne afkoder den sammenblandede tekst og indser: hvis jeg kan l&aelig;se dette, kan jeg l&aelig;se alt!',
+
+      /* ── project-6 (Mex&Co) sidebar ── */
+      'p6-ins': '<p>Mex &amp; Co.&rsquo;s habanero salsa leveres med en pr&aelig;cisionsdyse, konstrueret til kirurgisk n&oslash;jagtig dosering. Men vi opdagede et uudnyttet potentiale, der langt overstiger ren bekvemmelighed.</p>',
+      'p6-con': '<p>Alle kender reglen: man leger ikke med maden. Vi skiftede &ldquo;ikke&rdquo; ud med bare g&oslash;r det. Ved at br&aelig;nde prik-til-prik m&oslash;nstre direkte ind i tortillaernes overflade skabte vi et l&aelig;rred, som salsaen kan tegne p&aring;. Det er for b&oslash;rnene, der endelig har en grund til at lege, og for de voksne, der har ventet l&aelig;nge nok p&aring; tilladelse.</p>',
+      'p6-tgt': '<p>Nostalgiske, kreative sj&aelig;le &mdash; store som sm&aring; &mdash; dem der fejrer weekenden med filmaftener, samler vennerne og t&aelig;nder projektoren for at fordybe sig i universer, de aldrig bliver tr&aelig;tte af.</p>',
+      'p6-exe': '<p>Tre specialudgaver: Star Wars, Ringenes Herre og Harry Potter. Hver pakket ind i sit eget univers og ledsaget af OOH-plakater med slogans som &ldquo;May the salsa be with you&rdquo;, &ldquo;One salsa to rule them all&rdquo; og &ldquo;You&rsquo;re a wizard, Salsa&rdquo;.</p>',
 
       /* ── about ── */
       'h-about':    'Om Mig',
