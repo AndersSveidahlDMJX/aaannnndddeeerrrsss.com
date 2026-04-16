@@ -38,46 +38,12 @@
       position: sticky;
       top: 0;
       height: 100vh;
-      overflow: hidden;
+      overflow-y: auto;
       padding: 90px 40px 40px;
       background: #fff;
       border-right: 1px solid #e0e0e0;
       box-shadow: 2px 0 12px rgba(0,0,0,0.07);
-      transition: width 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
     }
-    .sidebar.collapsed {
-      width: 0;
-      padding: 0;
-      border-color: transparent;
-      box-shadow: none;
-    }
-    /* ── Sidebar toggle tab ── */
-    .sidebar-toggle {
-      position: fixed;
-      top: 50vh;
-      left: 360px;
-      transform: translate(0, -50%);
-      z-index: 20;
-      background: #fff;
-      border: 1px solid #e0e0e0;
-      border-left: none;
-      box-shadow: 3px 0 10px rgba(0,0,0,0.10);
-      border-radius: 0 6px 6px 0;
-      width: 18px;
-      height: 52px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.65rem;
-      color: #999;
-      transition: left 0.35s ease, color 0.15s ease, box-shadow 0.15s ease;
-      padding: 0;
-      user-select: none;
-      line-height: 1;
-    }
-    .sidebar-toggle:hover { color: #333; box-shadow: 4px 0 14px rgba(0,0,0,0.18); }
-    .sidebar-toggle.collapsed { left: 0; }
     .section {
       padding: 32px 0;
       border-top: 1px solid #e0e0e0;
@@ -132,6 +98,7 @@
         position: static;
         height: auto;
         width: 100%;
+        overflow-y: visible;
         border-right: none;
         border-bottom: 1px solid #e0e0e0;
         padding: 72px 24px 32px;
@@ -139,26 +106,24 @@
       .content { padding: 32px 20px 60px; }
       .header-img { max-width: 280px; }
       .back { top: 16px; left: 16px; }
-      .sidebar-toggle { display: none; }
     }
   </style>
 </head>
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Bones — Brand Project</h1>
-  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">&#8249;</button>
   <div class="layout">
     <aside class="sidebar">
       <div class="section">
-        <div class="section-label" data-i18n="lbl-problem">Problem</div>
-        <div class="section-body" data-i18n="p3-prb"></div>
+        <div class="section-label">Problem</div>
+        <div class="section-body"><p>Jensens B&oslash;fhus har drejet n&oslash;glen om og umiddelbart lyder det som en gevinst for Bones, den st&oslash;rste konkurrent er sat ud af spillet. Men Jensens fald er ikke en sejr, det er en advarsel. De to brands er n&aelig;sten identiske: samme koncept, samme m&aring;lgruppe, samme udtryk og samme forgaengelighed som skubbede Jensens i afgrunden.</p><p>Den selvsamme afgrund har Bones un&aelig;gteligt kurs mod.</p></div>
       </div>
       <div class="section">
-        <div class="section-label" data-i18n="lbl-insight">Insight</div>
-        <div class="section-body" data-i18n="p3-ins"></div>
+        <div class="section-label">Insight</div>
+        <div class="section-body"><p>I K&oslash;benhavn er en ny kultur opst&aring;et, kitsch, r&aring; og tilsyneladende grim, men med en magnetisk tiltr&aelig;kningskraft blandt unge, der dyrker den som deres eget udtryk. Den tr&aelig;kker tydelige paralleller til provinsens naturlige og ubevidste visuelle kultur.</p></div>
       </div>
       <div class="section">
-        <div class="section-label" data-i18n="lbl-solution">Solution</div>
-        <div class="section-body" data-i18n="p3-sol"></div>
+        <div class="section-label">Solution</div>
+        <div class="section-body"><p>Bones&rsquo; rebranding tager udgangspunkt i en &aelig;stetik der aldrig fik lov at v&aelig;re cool, hvide ridsede plastikstole, grafisk forkasteligt WordArt og tynde brillestel som typisk bliver b&aring;ret af Anja fra N&oslash;rrum Sn&oslash;rums forsamlingshus&rsquo; &aring;rlige sommerfest &mdash; der alt fandt sit helle i provinsen mens resten af Danmark vendte det ryggen.</p><p>Nu er det tilbage, men denne gang i en forklædning af post-ironisk-k&oslash;benhavner-kitsch, kun forst&aring;elig for det segment som kender ham den ene (og nej?? alts&aring; ikke ham den anden) fra APHACA og l&aelig;ser en uddannelse p&aring; Holmen som er den sikreste vej til &oslash;konomisk afh&aelig;ngighed.</p><p>Det er dem der forsikrer dig om at det er meningen at det skal v&aelig;re grimt og du nok bare ikke forst&aring;r det endnu.</p><p>Udtrykket fors&oslash;ger ikke at behage alle, men ender med at g&oslash;re det alligevel. De sejeste* K&oslash;benhavnere ser det som en gylden mulighed for at v&aelig;re first mover og provinsen &aelig;nser intet andet end at der skal fyldes op p&aring; spareribs for enden af buffeten.</p><p style="opacity:0.55;font-size:0.85em">*med mangel p&aring; bedre frontl&oslash;ber-adjektiv</p></div>
       </div>
     </aside>
     <main class="content">
@@ -176,27 +141,7 @@
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.js"></script>
-<script>
-    // ── Sidebar toggle ──────────────────────────────────────────────────────
-    const sidebar   = document.querySelector('.sidebar');
-    const toggleBtn = document.getElementById('sidebarToggle');
-    function setSidebar(collapsed) {
-      if (collapsed) {
-        sidebar.classList.add('collapsed');
-        toggleBtn.classList.add('collapsed');
-        toggleBtn.innerHTML = '&#8250;';
-        document.body.classList.add('sb-collapsed');
-      } else {
-        sidebar.classList.remove('collapsed');
-        toggleBtn.classList.remove('collapsed');
-        toggleBtn.innerHTML = '&#8249;';
-        document.body.classList.remove('sb-collapsed');
-      }
-    }
-    toggleBtn.addEventListener('click', () => {
-      setSidebar(!sidebar.classList.contains('collapsed'));
-    });
-  </script>
+
 <!-- ── DVD screensaver ── -->
 <style>
   #dvd-saver{position:fixed;top:0;left:0;right:0;bottom:0;z-index:500;background:#000;opacity:0;pointer-events:none;transition:opacity 1.2s ease}
