@@ -47,8 +47,9 @@
     .sidebar {
       width: 360px;
       flex-shrink: 0;
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
       height: 100vh;
       overflow-y: auto;
       padding: 90px 40px 40px;
@@ -113,6 +114,11 @@
       flex: 1;
       padding: 80px 60px 80px;
       margin-top: -180px;
+      margin-left: 360px;
+      transition: margin-left 0.35s ease;
+    }
+    body.sb-collapsed .content {
+      margin-left: 0;
     }
     .header-img {
       width: 100%;
