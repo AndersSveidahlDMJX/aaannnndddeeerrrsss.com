@@ -115,21 +115,48 @@
       color: #999;
       margin-bottom: 20px;
     }
-    .gallery-row {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
+    .gallery-stack {
+      position: relative;
+      width: min(500px, 100%);
+      aspect-ratio: 3 / 4;
+      margin: 0 auto;
     }
-    .gallery-row img {
-      flex: 1;
-      width: 0;
+    .gallery-stack img {
+      position: absolute;
+      width: 78%;
       height: auto;
-      display: block;
+      top: 50%;
+      left: 50%;
       border-radius: 6px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: transform 0.45s cubic-bezier(0.34,1.4,0.64,1), box-shadow 0.3s ease;
+      object-fit: cover;
     }
-    .gallery-row img:hover { transform: scale(1.03); }
+    .gallery-stack img:nth-child(1) {
+      transform: translate(-50%, -50%) rotate(-7deg) scale(0.91);
+      z-index: 1;
+    }
+    .gallery-stack img:nth-child(2) {
+      transform: translate(-50%, -50%) rotate(4deg) scale(0.96);
+      z-index: 2;
+    }
+    .gallery-stack img:nth-child(3) {
+      transform: translate(-50%, -50%) rotate(0deg);
+      z-index: 3;
+    }
+    .gallery-stack:hover img:nth-child(1) {
+      transform: translate(calc(-50% - 130px), -50%) rotate(-18deg) scale(0.91);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+    }
+    .gallery-stack:hover img:nth-child(2) {
+      transform: translate(-50%, -58%) rotate(0deg) scale(0.96);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+    }
+    .gallery-stack:hover img:nth-child(3) {
+      transform: translate(calc(-50% + 130px), -50%) rotate(18deg) scale(0.91);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+    }
     /* Lightbox */
     #lb-overlay {
       display: none;
@@ -209,7 +236,7 @@
       <h1 class="page-title">Do<span style="text-decoration:line-through">n't</span> play with your food</h1>
       <div class="gallery-section">
         <h2>OOH — Tortilla</h2>
-        <div class="gallery-row">
+        <div class="gallery-stack">
           <img src="images/gandalf tortilla OOH.webp" alt="Gandalf Tortilla OOH" loading="lazy" data-src="images/gandalf tortilla OOH.webp" />
           <img src="images/darth vader tortilla OOH.webp" alt="Darth Vader Tortilla OOH" loading="lazy" data-src="images/darth vader tortilla OOH.webp" />
           <img src="images/harry potter tortilla OOH.webp" alt="Harry Potter Tortilla OOH" loading="lazy" data-src="images/harry potter tortilla OOH.webp" />
@@ -217,7 +244,7 @@
       </div>
       <div class="gallery-section">
         <h2>Design</h2>
-        <div class="gallery-row">
+        <div class="gallery-stack">
           <img src="images/Harry potter design.webp" alt="Harry Potter Design" loading="lazy" data-src="images/Harry potter design.webp" />
           <img src="images/Lord of the rings design.webp" alt="Lord of the Rings Design" loading="lazy" data-src="images/Lord of the rings design.webp" />
           <img src="images/Star wars design.webp" alt="Star Wars Design" loading="lazy" data-src="images/Star wars design.webp" />
@@ -257,7 +284,7 @@
     var lbClose = document.getElementById('lb-close');
     function openLB(src, alt){ lbImg.src=src; lbImg.alt=alt||''; overlay.classList.add('open'); document.body.style.overflow='hidden'; }
     function closeLB(){ overlay.classList.remove('open'); document.body.style.overflow=''; lbImg.src=''; }
-    document.querySelectorAll('.gallery-row img').forEach(function(img){
+    document.querySelectorAll('.gallery-stack img').forEach(function(img){
       img.addEventListener('click', function(){ openLB(this.dataset.src||this.src, this.alt); });
     });
     lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLB(); });
