@@ -65,40 +65,74 @@
     .content {
       flex: 1;
       padding: 80px 60px 80px;
+      background: rgba(255,255,255,0.45);
+      backdrop-filter: blur(2px);
     }
     .header-img {
       width: 100%;
-      max-width: 400px;
+      max-width: 320px;
       height: auto;
       display: block;
-      margin: 0 auto 32px;
+      margin: 0 auto 48px;
     }
     lite-youtube {
       width: 100%;
-      max-width: 800px;
-      border-radius: 8px;
+      max-width: 860px;
+      border-radius: 12px;
       overflow: hidden;
-      margin: 0 auto 40px;
+      margin: 0 auto 56px;
       display: block;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    }
+    .grid-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 20px;
     }
     .image-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-top: 40px;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 12px;
     }
     .image-grid img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       display: block;
+      border-radius: 6px;
+    }
+    .img-tyggegummi {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      aspect-ratio: 4/3;
+    }
+    .img-minas {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+      aspect-ratio: 4/3;
+    }
+    .img-baggen {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      aspect-ratio: 4/3;
+    }
+    .img-loppemarked {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      aspect-ratio: 4/3;
     }
     .lightbox-img {
       cursor: zoom-in;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
     .lightbox-img:hover {
-      transform: scale(1.02);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      transform: scale(1.03);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.28);
+      filter: brightness(1.05);
     }
     #lb-overlay {
       display: none;
@@ -150,9 +184,17 @@
         border-bottom: 1px solid #e0e0e0;
         padding: 72px 24px 32px;
       }
-      .content { padding: 32px 20px 60px; }
+      .content {
+        padding: 32px 20px 60px;
+        background: none;
+        backdrop-filter: none;
+      }
       .header-img { max-width: 280px; }
       .back { top: 16px; left: 16px; }
+      .image-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
     }
   </style>
 </head>
@@ -177,10 +219,10 @@
       <img class="header-img" src="images/BONES LOGO.webp" alt="Bones Logo" />
       <lite-youtube videoid="oZu_hgxHO0U" playlabel="Play Bones"></lite-youtube>
       <div class="image-grid">
-        <img src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" />
-        <img src="images/bones minas.webp" alt="Bones Minas" loading="lazy" class="lightbox-img" data-src="images/bones plakat1.webp" />
-        <img src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" class="lightbox-img" data-src="images/bones plakat3.webp" />
-        <img src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" class="lightbox-img" data-src="images/bones plakat2.webp" />
+        <img src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" class="img-tyggegummi" />
+        <img src="images/bones minas.webp" alt="Bones Minas" loading="lazy" class="lightbox-img img-minas" data-src="images/bones plakat2.webp" />
+        <img src="images/bones baggen.webp" alt="Bones Baggen" loading="lazy" class="lightbox-img img-baggen" data-src="images/bones plakat1.webp" />
+        <img src="images/bones loppemarked.webp" alt="Bones Loppemarked" loading="lazy" class="lightbox-img img-loppemarked" data-src="images/bones plakat3.webp" />
       </div>
       <!-- Lightbox overlay -->
       <div id="lb-overlay">
