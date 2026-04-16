@@ -111,14 +111,15 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
-      gap: 10px;
-      height: 80vh;
+      gap: 48px;
+      height: 100vh;
       margin-bottom: 16px;
     }
     .poster-cell {
       overflow: hidden;
       border-radius: 6px;
       cursor: zoom-in;
+      isolation: isolate;
     }
     .poster-cell.poster-left {
       grid-column: 1;
@@ -137,10 +138,11 @@
       height: 100%;
       object-fit: contain;
       display: block;
-      transition: filter 0.25s ease;
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
     .poster-cell:hover img {
-      filter: brightness(1.1);
+      transform: scale(1.04);
+      filter: brightness(1.08);
     }
     .image-stack {
       display: none;
@@ -221,10 +223,11 @@
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         height: auto;
+        gap: 24px;
       }
-      .poster-cell.poster-left  { grid-column: 1; grid-row: auto; height: 60vw; }
-      .poster-cell.poster-right-top { grid-column: 1; grid-row: auto; height: 60vw; }
-      .poster-cell.poster-right-bottom { grid-column: 1; grid-row: auto; height: 60vw; }
+      .poster-cell.poster-left  { grid-column: 1; grid-row: auto; height: 70vw; }
+      .poster-cell.poster-right-top { grid-column: 1; grid-row: auto; height: 70vw; }
+      .poster-cell.poster-right-bottom { grid-column: 1; grid-row: auto; height: 70vw; }
     }
   </style>
 </head>
