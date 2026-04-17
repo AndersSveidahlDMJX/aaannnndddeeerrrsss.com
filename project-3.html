@@ -412,7 +412,45 @@
         padding: 32px 20px 60px;
         margin-left: 0;
       }
-      .sidebar-toggle { display: none; }
+      .sidebar {
+        position: fixed !important;
+        top: 0;
+        left: -100%;
+        width: min(85vw, 320px) !important;
+        height: 100% !important;
+        padding: 72px 24px 80px !important;
+        border: none !important;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.3) !important;
+        z-index: 200;
+        transition: left 0.3s ease !important;
+        overflow-y: auto;
+      }
+      .sidebar:not(.collapsed) { left: 0 !important; }
+      body:not(.sb-collapsed)::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 199;
+        pointer-events: none;
+      }
+      .sidebar-toggle {
+        display: flex !important;
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 1px solid #e0e0e0 !important;
+        box-shadow: 0 3px 14px rgba(0,0,0,0.22) !important;
+        z-index: 210;
+        font-size: 1.3rem;
+        transition: box-shadow 0.2s ease !important;
+      }
       .header-img { max-width: 560px; }
       .back { top: 16px; left: 16px; }
       .poster-overlay--topleft {
@@ -538,6 +576,12 @@
   toggleBtn.addEventListener('click', () => {
     setSidebar(!sidebar.classList.contains('collapsed'));
   });
+  if (window.matchMedia('(max-width:768px)').matches) {
+    setSidebar(true);
+    document.addEventListener('click', function(e) {
+      if (!sidebar.classList.contains('collapsed') && !sidebar.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target)) setSidebar(true);
+    });
+  }
 </script>
 <!-- ── DVD screensaver ── -->
 <style>
