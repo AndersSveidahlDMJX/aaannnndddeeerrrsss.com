@@ -247,8 +247,8 @@
     @media (max-width: 768px) {
       body {
         background: #000;
-        height: auto;
-        min-height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -289,7 +289,9 @@
         flex-direction: column;
         gap: 0;
         width: 100%;
+        flex: 1;
         align-items: center;
+        justify-content: space-evenly;
       }
 
       /* Order: Work first, About Me second, Contact third */
