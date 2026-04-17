@@ -113,7 +113,7 @@
     const TICKER_H   = 44;
     const PW         = 14;
     const PH         = 90;
-    const BALL_R     = 36;
+    const BALL_R     = 72;
     const PAD_OFFSET = 48;
     const WIN_SCORE  = 5;
     const BASE_SPEED = 800;
@@ -346,6 +346,7 @@
         ot.globalCompositeOperation = 'source-in';
         if (thumbIdx === BONES_IDX) {
           ot.fillStyle = '#ffffff'; ot.fillRect(0, 0, s, s);
+          ot.globalCompositeOperation = 'source-atop';
         }
         var thumb = imgs[thumbIdx];
         if (thumb.complete && thumb.naturalWidth > 0) {
