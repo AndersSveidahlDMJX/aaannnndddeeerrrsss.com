@@ -364,32 +364,25 @@
   #dvd-folder-inner{width:100%;height:100%;position:relative}
   #dvd-folder-bg{position:absolute;inset:0;opacity:0;transition:opacity 0.1s}
   #dvd-img{position:absolute;inset:0;width:100%;height:100%;display:block}
-  #dvd-corner-msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.9s ease;pointer-events:none;text-align:center;padding:20px}
-  #dvd-corner-msg.show{opacity:1;pointer-events:all}
-  #dvd-corner-main{font-family:sans-serif;color:#fff;font-size:clamp(1.4rem,3.5vw,3.2rem);font-weight:700;margin:0 0 0.5em;text-shadow:0 2px 14px rgba(0,0,0,0.7);letter-spacing:-0.01em;line-height:1.1}
-  #dvd-corner-sub{font-family:sans-serif;color:rgba(255,255,255,0.65);font-size:clamp(0.75rem,1.4vw,1.1rem);margin:0;text-shadow:0 1px 6px rgba(0,0,0,0.5)}
-  #dvd-corner-sub a{color:inherit;text-decoration:underline;text-underline-offset:3px;opacity:0.85}
-  #dvd-corner-sub a:hover{opacity:1}
-  #dvd-corner-close{position:absolute;top:20px;right:24px;background:none;border:none;color:rgba(255,255,255,0.45);font-size:1.3rem;cursor:pointer;line-height:1;padding:4px 6px;transition:color 0.2s}
-  #dvd-corner-close:hover{color:#fff}
+
   @media(max-width:768px){#dvd-saver{display:none!important}}
 </style>
-<div id="dvd-saver"><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" /></div></div><div id="dvd-corner-msg"><button id="dvd-corner-close" aria-label="Close">✕</button><p id="dvd-corner-main">okay you seem pretty invested already</p><p id="dvd-corner-sub"><a href="contact.html">you should hit me up...</a></p></div></div>
+<div id="dvd-saver"><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" /></div></div></div>
 <script>
 (function(){
   var THUMBS=['images/twice the fun thumbnail.webp','images/The Fizz Cap Lockup.webp','images/Bones.webp','images/le_ice.webp','images/redanig.webp','images/mex&co.webp'];
   var STYLES=[{bg:'',fit:'contain',t:'translateY(7px) scale(1.178)'},{bg:'',fit:'cover',t:'translateY(15px) scale(0.9)'},{bg:'#fff',fit:'contain',t:'scale(0.8)'},{bg:'#ec702e',fit:'cover',t:'translateY(4px) scale(0.93)'},{bg:'',fit:'cover',t:'translateY(8px) scale(0.95)'},{bg:'',fit:'cover',t:''}];
   var IDLE_MS=60000,SIZE=220,SPEED=300,PAD_X=9,PAD_T=24,PAD_B=24;
-  var saver=document.getElementById('dvd-saver'),folder=document.getElementById('dvd-folder'),img=document.getElementById('dvd-img'),bg=document.getElementById('dvd-folder-bg'),cornerMsg=document.getElementById('dvd-corner-msg');
+  var saver=document.getElementById('dvd-saver'),folder=document.getElementById('dvd-folder'),img=document.getElementById('dvd-img'),bg=document.getElementById('dvd-folder-bg');
   var thumbIdx=0,x=0,y=0,vx=0,vy=0,active=false,lastTime=null,rafId=null,idleTimer=null,cornerHit=false,celebTimer1=null,celebTimer2=null;
   function setThumb(idx){thumbIdx=((idx%THUMBS.length)+THUMBS.length)%THUMBS.length;var s=STYLES[thumbIdx];img.src=THUMBS[thumbIdx];img.style.objectFit=s.fit;img.style.transform=s.t;bg.style.background=s.bg||'#fff';bg.style.opacity=s.bg?'1':'0';}
   function setPos(){folder.style.transform='translate('+x+'px,'+y+'px)';}
-  function celebrate(){folder.style.transition='opacity 3s ease';folder.style.opacity='0';celebTimer1=setTimeout(function(){cornerMsg.classList.add('show');},3000);}
+  function celebrate(){folder.style.transition='opacity 3s ease';folder.style.opacity='0';celebTimer1=setTimeout(hide,3000);}
 function show(){if(active)return;active=true;var W=window.innerWidth,H=window.innerHeight,xMin=-PAD_X,xMax=W-SIZE+PAD_X,yMin=-PAD_T,yMax=H-SIZE+PAD_B,DT=1/60;function sim(sx,sy,svx,svy){for(var t=DT;t<125;t+=DT){sx+=svx*DT;sy+=svy*DT;var bx=false,by=false;if(sx<=xMin){sx=xMin;svx=Math.abs(svx);bx=true;}if(sx>=xMax){sx=xMax;svx=-Math.abs(svx);bx=true;}if(sy<=yMin){sy=yMin;svy=Math.abs(svy);by=true;}if(sy>=yMax){sy=yMax;svy=-Math.abs(svy);by=true;}if(bx&&by)return t;}return Infinity;}var best=null,bestDist=Infinity;for(var iter=0;iter<150;iter++){var ang=(42+Math.random()*6)*Math.PI/180;var tvx=SPEED*Math.cos(ang)*(Math.random()<0.5?1:-1);var tvy=SPEED*Math.sin(ang)*(Math.random()<0.5?1:-1);var tx=xMin+Math.random()*(xMax-xMin),ty=yMin+Math.random()*(yMax-yMin);var hit=sim(tx,ty,tvx,tvy);if(hit>=60&&hit<=120){x=tx;y=ty;vx=tvx;vy=tvy;best=null;break;}var dist=hit<60?(60-hit):(hit-120);if(dist<bestDist){bestDist=dist;best={x:tx,y:ty,vx:tvx,vy:tvy};}}if(best){x=best.x;y=best.y;vx=best.vx;vy=best.vy;}setThumb(Math.floor(Math.random()*THUMBS.length));setPos();saver.classList.add('active');document.body.classList.add('dvd-active');lastTime=null;rafId=requestAnimationFrame(tick);}
-  function hide(){if(!active)return;active=false;cornerHit=false;clearTimeout(celebTimer1);clearTimeout(celebTimer2);celebTimer1=celebTimer2=null;folder.style.transition='';folder.style.opacity='';cornerMsg.classList.remove('show');saver.classList.remove('active');document.body.classList.remove('dvd-active');if(rafId){cancelAnimationFrame(rafId);rafId=null;}resetIdle();}
+  function hide(){if(!active)return;active=false;cornerHit=false;clearTimeout(celebTimer1);clearTimeout(celebTimer2);celebTimer1=celebTimer2=null;folder.style.transition='';folder.style.opacity='';saver.classList.remove('active');document.body.classList.remove('dvd-active');if(rafId){cancelAnimationFrame(rafId);rafId=null;}resetIdle();}
   function tick(now){if(!active)return;if(lastTime===null)lastTime=now;var dt=Math.min((now-lastTime)/1000,0.05);lastTime=now;var W=window.innerWidth,H=window.innerHeight,xMin=-PAD_X,xMax=W-SIZE+PAD_X,yMin=-PAD_T,yMax=H-SIZE+PAD_B;x+=vx*dt;y+=vy*dt;var bx=false,by=false;if(x<=xMin){x=xMin;vx=Math.abs(vx);bx=true;}if(x>=xMax){x=xMax;vx=-Math.abs(vx);bx=true;}if(y<=yMin){y=yMin;vy=Math.abs(vy);by=true;}if(y>=yMax){y=yMax;vy=-Math.abs(vy);by=true;}if(bx&&by&&!cornerHit){cornerHit=true;celebrate();}else if(bx||by)setThumb(thumbIdx+1);setPos();rafId=requestAnimationFrame(tick);}
   function resetIdle(){clearTimeout(idleTimer);idleTimer=setTimeout(show,IDLE_MS);}
-  ['mousemove','mousedown','touchstart','wheel'].forEach(function(ev){window.addEventListener(ev,function(){if(active&&!cornerHit){hide();return;}if(!active)resetIdle();},{passive:true});});window.addEventListener('keydown',function(e){if(!active){resetIdle();return;}if(e.key==='Escape'){hide();}else if(!cornerHit){hide();}});document.getElementById('dvd-corner-close').addEventListener('click',function(){if(active)hide();});
+  ['mousemove','mousedown','touchstart','wheel'].forEach(function(ev){window.addEventListener(ev,function(){if(active){hide();return;}if(!active)resetIdle();},{passive:true});});window.addEventListener('keydown',function(e){if(!active){resetIdle();return;}hide();});
   THUMBS.forEach(function(s){var i=new Image();i.src=s;});
   resetIdle();
 })();

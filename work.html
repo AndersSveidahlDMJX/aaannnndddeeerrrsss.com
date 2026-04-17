@@ -547,39 +547,7 @@
     width: 100%; height: 100%;
     display: block;
   }
-  #dvd-corner-msg {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.9s ease;
-    pointer-events: none; text-align: center; padding: 20px;
-  }
-  #dvd-corner-msg.show { opacity: 1; pointer-events: all; }
-  #dvd-corner-main {
-    font-family: sans-serif; color: #fff;
-    font-size: clamp(1.4rem, 3.5vw, 3.2rem);
-    font-weight: 700; margin: 0 0 0.5em;
-    text-shadow: 0 2px 14px rgba(0,0,0,0.7);
-    letter-spacing: -0.01em; line-height: 1.1;
-  }
-  #dvd-corner-sub {
-    font-family: sans-serif; color: rgba(255,255,255,0.65);
-    font-size: clamp(0.75rem, 1.4vw, 1.1rem);
-    margin: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.5);
-  }
-  #dvd-corner-sub a {
-    color: inherit; text-decoration: underline;
-    text-underline-offset: 3px; opacity: 0.85;
-  }
-  #dvd-corner-sub a:hover { opacity: 1; }
-  #dvd-corner-close {
-    position: absolute; top: 20px; right: 24px;
-    background: none; border: none;
-    color: rgba(255,255,255,0.45); font-size: 1.3rem;
-    cursor: pointer; line-height: 1; padding: 4px 6px;
-    transition: color 0.2s;
-  }
-  #dvd-corner-close:hover { color: #fff; }
+
 </style>
 <div id="dvd-saver">
   <div id="dvd-folder">
@@ -587,11 +555,6 @@
       <div id="dvd-folder-bg"></div>
       <img id="dvd-img" src="" alt="" />
     </div>
-  </div>
-  <div id="dvd-corner-msg">
-    <button id="dvd-corner-close" aria-label="Close">✕</button>
-    <p id="dvd-corner-main">okay you seem pretty invested already</p>
-    <p id="dvd-corner-sub"><a href="contact.html">you should hit me up...</a></p>
   </div>
 </div>
 <script>
@@ -623,7 +586,6 @@
   var folder     = document.getElementById('dvd-folder');
   var img        = document.getElementById('dvd-img');
   var bg         = document.getElementById('dvd-folder-bg');
-  var cornerMsg  = document.getElementById('dvd-corner-msg');
 
   var thumbIdx  = 0;
   var x = 0, y = 0, vx = 0, vy = 0;
@@ -699,12 +661,10 @@
   }
 
   function celebrate() {
-    // folder fades to black over 3s while still bouncing
+    // folder fades out over 3s then auto-hides
     folder.style.transition = 'opacity 3s ease';
     folder.style.opacity = '0';
-    celebTimer1 = setTimeout(function () {
-      cornerMsg.classList.add('show');
-    }, 3000);
+    celebTimer1 = setTimeout(hide, 3000);
   }
 
   function hide() {
@@ -715,7 +675,6 @@
     celebTimer1 = celebTimer2 = null;
     folder.style.transition = '';
     folder.style.opacity = '';
-    cornerMsg.classList.remove('show');
     saver.classList.remove('active');
     document.body.classList.remove('dvd-active');
     if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
@@ -752,20 +711,16 @@
     idleTimer = setTimeout(show, IDLE_MS);
   }
 
-  // During normal screensaver dismiss on any interaction; during celebration only Escape or X dismisses
+  // Dismiss screensaver on any interaction
   ['mousemove','mousedown','touchstart','wheel'].forEach(function (ev) {
     window.addEventListener(ev, function () {
-      if (active && !cornerHit) { hide(); return; }
+      if (active) { hide(); return; }
       if (!active) resetIdle();
     }, { passive: true });
   });
   window.addEventListener('keydown', function (e) {
     if (!active) { resetIdle(); return; }
-    if (e.key === 'Escape') { hide(); }
-    else if (!cornerHit) { hide(); }
-  });
-  document.getElementById('dvd-corner-close').addEventListener('click', function () {
-    if (active) hide();
+    hide();
   });
 
   // Pre-load thumbnails
