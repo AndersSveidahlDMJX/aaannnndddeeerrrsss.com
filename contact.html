@@ -88,173 +88,46 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* ── Mobile: full iPhone home screen illusion ── */
     @media (max-width: 600px) {
-      body {
-        display: block;
-        min-height: 100dvh;
-        background-attachment: scroll;
-      }
-      .back { display: none; }
-
-      /* Status bar */
-      .ios-status {
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        z-index: 20;
-        pointer-events: none;
-      }
-      .ios-status-time {
-        font-size: 15px;
-        font-weight: 600;
-        color: #fff;
-        letter-spacing: -0.3px;
-      }
-      .ios-status-icons {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        color: #fff;
-      }
-
-      /* Grid area */
       .icons-row {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0;
-        row-gap: 28px;
-        padding: 60px 16px 0;
-        width: 100%;
-        align-items: start;
-        justify-items: center;
-      }
-
-      .app-icon {
-        width: auto;
-        gap: 5px;
-      }
-      .app-icon img {
-        width: 60px;
-        height: 60px;
-        border-radius: 14px;
-      }
-      .app-icon span {
-        font-size: 11px;
-        white-space: normal;
-        text-align: center;
-        max-width: 72px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-      }
-
-      /* Dock at the bottom */
-      .ios-dock {
-        position: fixed;
-        bottom: 16px;
-        left: 16px;
-        right: 16px;
-        background: rgba(255,255,255,0.18);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 28px;
-        display: flex;
-        justify-content: space-around;
+        flex-direction: column;
         align-items: center;
-        padding: 12px 8px;
-        z-index: 20;
+        gap: 32px;
       }
-      .ios-dock .app-icon {
-        gap: 0;
-      }
-      .ios-dock .app-icon img {
-        width: 56px;
-        height: 56px;
-        border-radius: 14px;
-      }
-      .ios-dock .app-icon span { display: none; }
-
-      .toast { bottom: 110px; }
+      .app-icon img { width: 80px; height: 80px; border-radius: 20px; }
+      .app-icon span { font-size: 15px; white-space: normal; text-align: center; }
     }
   </style>
 </head>
 <body>
-  <!-- iOS-style status bar (mobile only) -->
-  <div class="ios-status" id="iosStatus">
-    <span class="ios-status-time" id="iosTime">9:41</span>
-    <span class="ios-status-icons">
-      <svg width="17" height="12" viewBox="0 0 17 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0.5" width="3" height="11.5" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity="0.3"/></svg>
-      <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 2.4C10.5 2.4 12.7 3.5 14.2 5.2L15.5 3.8C13.6 1.7 11 0.4 8 0.4C5 0.4 2.4 1.7 0.5 3.8L1.8 5.2C3.3 3.5 5.5 2.4 8 2.4Z"/><path d="M8 5.6C9.7 5.6 11.2 6.3 12.3 7.5L13.6 6.1C12.1 4.5 10.2 3.6 8 3.6C5.8 3.6 3.9 4.5 2.4 6.1L3.7 7.5C4.8 6.3 6.3 5.6 8 5.6Z"/><circle cx="8" cy="10" r="1.5"/></svg>
-      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="white" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="white"/><path d="M23 4.5V7.5C23.8 7.2 24.5 6.5 24.5 6C24.5 5.5 23.8 4.8 23 4.5Z" fill="white" fill-opacity="0.4"/></svg>
-    </span>
-  </div>
-
+<body>
   <a href="work.html" class="back">←</a>
   <main>
     <div class="icons-row">
       <a class="app-icon" id="mailIcon" href="mailto:a.sveidahl@gmail.com">
         <img src="images/gmail.webp" alt="Gmail" />
-        <span>Gmail</span>
+        <span>a.sveidahl@gmail.com</span>
       </a>
       <a class="app-icon" href="sms:+4522121846">
         <img src="images/sms.webp" alt="SMS" />
-        <span>Messages</span>
+        <span>+45 2212 1846</span>
       </a>
       <a class="app-icon" href="https://linkedin.com/in/anders-sveidahl-058272294/?skipRedirect=true" target="_blank" rel="noopener">
         <img src="images/linkedin.webp" alt="LinkedIn" />
-        <span>LinkedIn</span>
+        <span>/anderssveidahl</span>
       </a>
     </div>
   </main>
-
-  <!-- Dock (mobile only) -->
-  <div class="ios-dock" id="iosDock">
-    <a class="app-icon" id="mailIconDock" href="mailto:a.sveidahl@gmail.com">
-      <img src="images/gmail.webp" alt="Gmail" />
-    </a>
-    <a class="app-icon" href="sms:+4522121846">
-      <img src="images/sms.webp" alt="SMS" />
-    </a>
-    <a class="app-icon" href="https://linkedin.com/in/anders-sveidahl-058272294/?skipRedirect=true" target="_blank" rel="noopener">
-      <img src="images/linkedin.webp" alt="LinkedIn" />
-    </a>
-  </div>
   <div class="toast" id="toast">a.sveidahl@gmail.com — copied!</div>
 <script>
-  // Live clock for status bar
-  function updateTime() {
-    var d = new Date();
-    var h = d.getHours(), m = d.getMinutes();
-    document.getElementById('iosTime').textContent = h + ':' + (m < 10 ? '0' + m : m);
-  }
-  updateTime(); setInterval(updateTime, 10000);
-
-  // Hide status bar + dock on desktop
-  if (window.innerWidth > 600) {
-    var s = document.getElementById('iosStatus');
-    var dk = document.getElementById('iosDock');
-    if (s) s.style.display = 'none';
-    if (dk) dk.style.display = 'none';
-  }
-
-  function copyMail() {
+  document.getElementById('mailIcon').addEventListener('click', function() {
     setTimeout(function() {
       const toast = document.getElementById('toast');
       navigator.clipboard && navigator.clipboard.writeText('a.sveidahl@gmail.com').catch(()=>{});
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }, 300);
-  }
-  document.getElementById('mailIcon').addEventListener('click', copyMail);
-  document.getElementById('mailIconDock').addEventListener('click', copyMail);
+  });
 </script>
 <script src="lang.js"></script>
 </body>
