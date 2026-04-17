@@ -442,10 +442,64 @@
         font-size: 1.3rem;
         transition: box-shadow 0.2s ease !important;
       }
+      /* ── Hero columns ── */
       .columns { flex-direction: column; }
-      .col-left, .col-right { min-height: 50vh; }
-      .aldi-section { padding: 60px 24px; flex-direction: column; }
-      .aldi-logo-wrap img { width: 100%; max-width: 320px; }
+      .col-left { min-height: 0; flex-direction: column; }
+      .col-left .cell { min-height: 55vw; }
+      .col-right { min-height: 70vw; }
+
+      /* ── Logo ── */
+      .logo-header img { height: 72px; }
+      .logo-header { padding: 20px 0 8px; }
+
+      /* ── Colorway labels: reposition below centre ── */
+      .label-group {
+        left: 50%;
+        top: auto;
+        bottom: 10px;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+      .col-right .label-group {
+        left: 50%;
+      }
+      .cell-label { font-size: 1.4rem; }
+      .cell-sublabel { font-size: 0.7rem; }
+
+      /* ── Colorway images: scale up a little ── */
+      .cell .back-img, .cell .front-img,
+      .col-right .back-img, .col-right .front-img {
+        width: 44%;
+      }
+
+      /* ── Including overlay ── */
+      .including-img {
+        position: relative;
+        display: block;
+        width: 60%;
+        max-width: 260px;
+        margin: 0 auto;
+        transform: translateY(30px);
+        right: auto;
+        top: auto;
+      }
+
+      /* ── ALDI section ── */
+      .aldi-section { padding: 48px 24px 40px; flex-direction: column; gap: 24px; min-height: 0; }
+      .aldi-left {
+        transform: none;
+        align-items: center;
+      }
+      .aldi-seen-text { font-size: 3rem; }
+      .aldi-arrow {
+        width: 80px;
+        transform: translateX(40px) rotate(0deg);
+      }
+      .aldi-logo-wrap img { width: 100%; max-width: 260px; }
+
+      /* ── Packshot ── */
+      .packshot-section { padding-top: 60%; }
+
       /* Recentre scroll-hint (sidebar no longer 360px wide) */
       .scroll-hint {
         left: 50%;
