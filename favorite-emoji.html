@@ -5,15 +5,24 @@
   <style id="page-load-bg">body{background:#000!important}</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
+  <link rel="preload" href="fonts/EurostileExtendedBlack.woff2" as="font" type="font/woff2" crossorigin />
   <title>My Favorite Emoji — aaannndddeeerrrsss</title>
   <style>
+    @font-face {
+      font-family: 'EurostileExtBlk';
+      src: url('fonts/EurostileExtendedBlack.woff2') format('woff2'),
+           url('fonts/EurostileExtendedBlack.ttf') format('truetype');
+      font-display: block;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: #000;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 2rem;
     }
     .back {
       position: fixed;
@@ -27,6 +36,22 @@
       z-index: 10;
     }
     .back:hover { opacity: 1; }
+    .page-title {
+      font-family: 'EurostileExtBlk', sans-serif;
+      font-size: 4rem;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(
+        180deg,
+        #c8c8c8 0%, #ffffff 18%, #7a7a7a 32%,
+        #f0f0f0 48%, #666 62%, #e0e0e0 78%, #909090 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
     .emoji-wrap {
       display: flex;
       align-items: center;
@@ -40,6 +65,7 @@
 </head>
 <body>
   <a class="back" href="other-stuff.html">‹</a>
+  <div class="page-title" data-i18n="fav-emoji-title">den her</div>
   <div class="emoji-wrap">
     <img src="images/fly emoji.webp" alt="🪰" />
   </div>
