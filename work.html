@@ -300,19 +300,23 @@
     @media (max-width: 768px) {
       body {
         background: transparent;
-        overflow-y: auto;
-        overflow-x: hidden;
-        height: auto;
-        min-height: 100vh;
-        padding: 72px 16px 100px;
+        overflow: hidden;
+        height: 100dvh;
+        min-height: unset;
+        padding: 56px 14px 44px;
+        display: flex;
+        flex-direction: column;
       }
 
       .ticker {
         display: flex !important;
-        height: 36px;
-        font-size: 0.85rem;
+        height: 44px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
       }
-      .ticker-track span { font-size: 0.8rem; }
+      .ticker-track span { font-size: 1rem; letter-spacing: 0.08em; }
 
       #yt-player { display: none !important; }
       #safari-bg, #still { display: block !important; }
@@ -322,8 +326,8 @@
       .shadow-grid { display: none; }
 
       .back {
-        top: 20px;
-        left: 20px;
+        top: 14px;
+        left: 14px;
         font-size: 2rem;
       }
 
@@ -334,22 +338,38 @@
         left: auto;
         transform: none;
         display: grid;
+        flex: 1;
+        min-height: 0;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: auto;
-        column-gap: 16px;
-        row-gap: 24px;
+        grid-template-rows: repeat(3, 1fr);
+        column-gap: 12px;
+        row-gap: 10px;
         width: 100%;
         opacity: 1;
       }
 
-      .card-link { width: 100%; }
+      .card-link {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
 
-      .card-wrap { width: 100%; }
+      .card-wrap {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
 
       .card {
         width: 100%;
+        flex: 1;
+        min-height: 0;
         height: auto;
-        aspect-ratio: 1;
+        aspect-ratio: unset;
       }
 
       /* Reset all per-card desktop img transforms */
@@ -367,8 +387,9 @@
       .card-label {
         opacity: 1;
         filter: blur(0px);
-        font-size: 0.85rem;
-        margin-top: 4px;
+        font-size: 0.78rem;
+        margin-top: 3px;
+        flex-shrink: 0;
       }
 
       /* No scale effect on mobile */
