@@ -68,12 +68,12 @@
     }
     #imin-overlay.visible {
       pointer-events: all;
-      animation: imin-flash 8s linear forwards;
+      animation: imin-flash 4s linear forwards;
     }
     @keyframes imin-flash {
       0%      { opacity: 0; }
       49%     { opacity: 0.8; }
-      50.25%  { opacity: 0.8; }
+      51.5%   { opacity: 0.8; }
       100%    { opacity: 0; }
     }
     #imin-overlay img {
@@ -413,7 +413,7 @@
               backBtn.classList.add('visible');
               runBootSequence();
             });
-          }, 8000);
+          }, 4000);
         }, 600);
 
       } else {
