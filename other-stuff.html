@@ -65,13 +65,15 @@
       background: #000;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.8s ease;
+      transition: opacity 1.6s ease;
     }
     #imin-overlay.visible { opacity: 0.8; pointer-events: all; }
     #imin-overlay img {
+      max-width: 100vw;
+      max-height: 100vh;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     /* Back arrow */
@@ -113,28 +115,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      text-shadow: none;
     }
-    #pw-terminal .term-bar {
-      background: #ff2200;
-      color: #fff;
-      animation: bar-flicker 4s step-end infinite;
-    }
-    @keyframes bar-flicker {
-      0%,96%,100% { opacity: 1; }
-      97% { opacity: 0.5; }
-      98% { opacity: 1; }
-      99% { opacity: 0.3; }
-    }
-    #pw-terminal .term-body {
-      border-color: #ff2200;
-      box-shadow: 0 0 80px rgba(255,34,0,0.18), inset 0 0 40px rgba(255,34,0,0.04);
-    }
-    #pw-terminal .boot-line { color: #ff6344; }
-    #pw-terminal .pw-prompt { color: #ff2200; }
-    #pw-input { color: #ff6344; caret-color: #ff6344; text-shadow: 0 0 8px rgba(255,99,68,0.6); }
     #pw-input { -webkit-text-security: disc; text-security: disc; }
-    .pw-error { color: #ff6344; text-shadow: 0 0 12px rgba(255,99,68,0.7); }
     .term-dots { display: flex; gap: 6px; }
     .term-dots span {
       width: 10px; height: 10px;
@@ -310,20 +292,18 @@
     </div>
     <div class="term-body">
       <div class="pw-lines">
-        <div class="boot-line" id="p0">WARNING: UNAUTHORISED ACCESS ATTEMPT DETECTED</div>
-        <div class="boot-line" id="p1">TRACING ORIGIN................ [ACTIVE]</div>
-        <div class="boot-line" id="p2">LOCATION UNKNOWN. SIGNAL ENCRYPTED.</div>
-        <div class="boot-line" id="p3">THIS TERRITORY IS RESTRICTED.</div>
-        <div class="boot-line" id="p4">IDENTIFY YOURSELF OR TURN BACK.</div>
+        <div class="boot-line" id="p0">INITIALISING SECURE CONNECTION...</div>
+        <div class="boot-line" id="p1">ENCRYPTION LAYER: AES-256 ........... [OK]</div>
+        <div class="boot-line" id="p2">IDENTITY VERIFICATION REQUIRED.</div>
       </div>
       <div class="pw-row">
-        <span class="pw-prompt">SPEAK YOUR NAME:<span style="animation:blink 1s step-end infinite;display:inline-block;margin-left:4px">█</span></span>
+        <span class="pw-prompt">ENTER PASSWORD:<span style="animation:blink 1s step-end infinite;display:inline-block;margin-left:4px">█</span></span>
       </div>
       <div class="pw-row" style="margin-top:6px">
         <span class="pw-prompt" style="color:#00a62a">ROOT@ANDERS:~$&nbsp;</span>
         <input type="password" id="pw-input" autocomplete="off" autocorrect="off" spellcheck="false" autofocus />
       </div>
-      <div class="pw-error" id="pw-error">YOU ARE NOT KNOWN HERE.</div>
+      <div class="pw-error" id="pw-error">ACCESS DENIED — INCORRECT PASSPHRASE</div>
     </div>
   </div>
 
@@ -389,10 +369,8 @@
     /* ── Password boot lines ── */
     [
       { id: 'p0', delay: 300 },
-      { id: 'p1', delay: 900 },
-      { id: 'p2', delay: 1500 },
-      { id: 'p3', delay: 2100 },
-      { id: 'p4', delay: 2700 },
+      { id: 'p1', delay: 800 },
+      { id: 'p2', delay: 1300 },
     ].forEach(({ id, delay }) => setTimeout(() => document.getElementById(id).classList.add('visible'), delay));
 
     /* ── Password logic ── */
@@ -422,8 +400,8 @@
 
           // After 4s total (0.8 fade in + 2.4 hold + 0.8 fade out)
           setTimeout(() => {
-            iminOverlay.style.transition = 'opacity 0.8s ease';
-            iminOverlay.style.opacity = '0'; // fade out from 0.8 (set by .visible)
+            iminOverlay.style.transition = 'opacity 1.6s ease';
+            iminOverlay.style.opacity = '0';
 
             setTimeout(() => {
               iminOverlay.style.display = 'none';
@@ -434,7 +412,7 @@
                 backBtn.classList.add('visible');
                 runBootSequence();
               });
-            }, 800);
+            }, 1600);
           }, 3200);
         }, 600);
 
