@@ -381,8 +381,10 @@
     if (isSafari) {
       // Safari: use local video
       var vid = document.getElementById('bg-video');
+      vid.muted = true;
       vid.addEventListener('canplay', function() { vid.classList.add('visible'); });
       setTimeout(function() { vid.classList.add('visible'); }, 3000);
+      vid.play().catch(function() {});
       muteBtn.addEventListener('click', function() {
         muted = !muted;
         vid.muted = muted;
