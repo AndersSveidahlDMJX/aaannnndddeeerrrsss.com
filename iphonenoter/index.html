@@ -263,19 +263,19 @@
         <source src="videoer/steve_jobs.mp4" type="video/mp4" /> Your browser does not support the video tag.
     </video> <audio id="bgMusic" src="lyd/blueface.mp3" loop></audio>
     <script> const bgMusic = document.getElementById("bgMusic"); const bgVideo = document.getElementById("bgVideo"); // On page load, video starts automatically (autoplay attribute takes care of this) // On first click, play music, and switch background video to BluefaceVid starting at 1:29 document.body.addEventListener('click', () => { bgMusic.currentTime = 40.7; bgMusic.play(); // Switch video source to BluefaceVid.mp4 bgVideo.pause(); bgVideo.src = "videoer/BluefaceVid.mp4"; bgVideo.load(); bgVideo.addEventListener('loadedmetadata', () => { bgVideo.currentTime = 89; // 1 minute 29 seconds bgVideo.play(); }, { once: true }); }, { once: true }); </script>
-    <header> <img src="billeder/apple_spin.gif" alt="Left GIF" /> <span>IPHONE NOTER</span> <img
-            src="billeder/apple_spin.gif" alt="Right GIF" class="right-gif" /> </header>
+    <header> <img src="billeder/apple_spin.gif" alt="Left GIF" loading="lazy" /> <span>IPHONE NOTER</span> <img
+            src="billeder/apple_spin.gif" alt="Right GIF" class="right-gif" loading="lazy" /> </header>
     <!-- iPhone container on page -->
     <div class="iphone-container" id="iphoneContainer" title="Click to open gallery">
-        <div class="screen-area"> <img id="galleryImage" src="billeder/notes_app.png" alt="Gallery Image" />
+        <div class="screen-area"> <img id="galleryImage" src="billeder/notes_app.webp" alt="Gallery Image" loading="lazy" />
             <div class="image-label" id="imageLabel">Noter</div>
-        </div> <img class="iphone-frame" src="billeder/iphone_frame.png" alt="iPhone Frame" />
+        </div> <img class="iphone-frame" src="billeder/iphone_frame.webp" alt="iPhone Frame" loading="lazy" />
     </div> <!-- Fullscreen overlay -->
     <div class="fullscreen-overlay" id="fullscreenOverlay" title="Click arrows to navigate, X to close">
         <div class="close-btn" id="closeBtn">&times;</div>
         <div class="fullscreen-image-wrapper">
             <div class="arrow arrow-left" id="prev">&#10094;</div> <img class="fullscreen-image" id="fullscreenImage"
-                src="billeder/1.png" alt="Fullscreen Image" />
+                src="billeder/1.webp" alt="Fullscreen Image" loading="lazy" />
             <div class="arrow arrow-right" id="next">&#10095;</div>
         </div>
     </div> <!-- Scrolling footer -->
@@ -286,7 +286,7 @@
                 IPHONE 4S !5GGGGGG !! FUUUUUUCKKKKK!!ANDERS! ! ! IPHONE 4S !5GGGGGG !! FUUUUUUCKKKKK !!NDERS! ! ! IPHONE
                 4S !5GGGGGG !! FUUUUUUCKKKKK!!</span> </div>
     </footer>
-    <script> const images = ["billeder/1.png", "billeder/2.png", "billeder/3.png", "billeder/4.png", "billeder/5.png", "billeder/6.png",]; let current = 0; const galleryImage = document.getElementById("galleryImage"); const imageLabel = document.getElementById("imageLabel"); const fullscreenImage = document.getElementById("fullscreenImage"); const fullscreenOverlay = document.getElementById("fullscreenOverlay"); const closeBtn = document.getElementById("closeBtn"); const prevBtn = document.getElementById("prev"); const nextBtn = document.getElementById("next"); function updateImages() { fullscreenImage.style.opacity = 0; setTimeout(() => { fullscreenImage.src = images[current]; fullscreenImage.style.opacity = 1; }, 0); } function openFullscreen() { fullscreenOverlay.classList.add("active"); updateImages(); } galleryImage.addEventListener("click", openFullscreen); imageLabel.addEventListener("click", openFullscreen); closeBtn.addEventListener("click", () => { fullscreenOverlay.classList.remove("active"); current = 0; updateImages(); }); prevBtn.addEventListener("click", (e) => { e.stopPropagation(); current = (current - 1 + images.length) % images.length; updateImages(); }); nextBtn.addEventListener("click", (e) => { e.stopPropagation(); current = (current + 1) % images.length; updateImages(); }); fullscreenOverlay.addEventListener("click", (e) => { if (e.target === fullscreenOverlay || e.target === closeBtn) { fullscreenOverlay.classList.remove("active"); current = 0; updateImages(); } }); updateImages(); </script>
+    <script> const images = ["billeder/1.webp", "billeder/2.webp", "billeder/3.webp", "billeder/4.webp", "billeder/5.webp", "billeder/6.webp",]; let current = 0; const galleryImage = document.getElementById("galleryImage"); const imageLabel = document.getElementById("imageLabel"); const fullscreenImage = document.getElementById("fullscreenImage"); const fullscreenOverlay = document.getElementById("fullscreenOverlay"); const closeBtn = document.getElementById("closeBtn"); const prevBtn = document.getElementById("prev"); const nextBtn = document.getElementById("next"); function updateImages() { fullscreenImage.style.opacity = 0; setTimeout(() => { fullscreenImage.src = images[current]; fullscreenImage.style.opacity = 1; }, 0); } function openFullscreen() { fullscreenOverlay.classList.add("active"); updateImages(); } galleryImage.addEventListener("click", openFullscreen); imageLabel.addEventListener("click", openFullscreen); closeBtn.addEventListener("click", () => { fullscreenOverlay.classList.remove("active"); current = 0; updateImages(); }); prevBtn.addEventListener("click", (e) => { e.stopPropagation(); current = (current - 1 + images.length) % images.length; updateImages(); }); nextBtn.addEventListener("click", (e) => { e.stopPropagation(); current = (current + 1) % images.length; updateImages(); }); fullscreenOverlay.addEventListener("click", (e) => { if (e.target === fullscreenOverlay || e.target === closeBtn) { fullscreenOverlay.classList.remove("active"); current = 0; updateImages(); } }); updateImages(); </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 

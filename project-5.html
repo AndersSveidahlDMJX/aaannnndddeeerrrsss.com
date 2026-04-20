@@ -319,9 +319,9 @@
     <main class="content">
       <h1 class="page-title">Redanig is for evyeorne</h1>
       <div class="image-grid">
-        <img src="images/penguin/nothing.webp" alt="Nothing" />
-        <img src="images/penguin/nothing keeping.webp" alt="Nothing Keeping" />
-        <img src="images/penguin/no limits.webp" alt="No Limits" />
+        <img src="images/penguin/nothing.webp" alt="Nothing" loading="eager" fetchpriority="high" />
+        <img src="images/penguin/nothing keeping.webp" alt="Nothing Keeping" loading="lazy" />
+        <img src="images/penguin/no limits.webp" alt="No Limits" loading="lazy" />
         <img src="images/penguin/reading.webp" alt="Reading" loading="lazy" />
         <img src="images/penguin/there.webp" alt="There" loading="lazy" />
         <img src="images/penguin/truly.webp" alt="Truly" loading="lazy" />
@@ -330,7 +330,7 @@
         <img src="images/penguin/the freedom.webp" alt="The Freedom" loading="lazy" />
       </div>
       <div class="page-footer">
-        <img src="images/penguin/penguin logo.webp" alt="Penguin logo" />
+        <img src="images/penguin/penguin logo.webp" alt="Penguin logo" loading="lazy" />
       </div>
     </main>
   </div>
@@ -339,7 +339,7 @@
   <div id="pg-lb">
     <span id="pg-lb-close">&times;</span>
     <span class="pg-lb-arrow" id="pg-lb-prev">&#8592;</span>
-    <img id="pg-lb-img" src="" alt="" />
+    <img id="pg-lb-img" src="" alt="" loading="lazy" />
     <span class="pg-lb-arrow" id="pg-lb-next">&#8594;</span>
   </div>
 
@@ -422,7 +422,7 @@
 
   @media(max-width:768px){#dvd-saver{display:none!important}}
 </style>
-<div id="dvd-saver"><div id="dvd-flash"></div><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" /></div></div></div>
+<div id="dvd-saver"><div id="dvd-flash"></div><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" loading="lazy" /></div></div></div>
 <script>
 (function(){
   var THUMBS=['images/twice the fun thumbnail.webp','images/The Fizz Cap Lockup.webp','images/Bones.webp','images/le_ice.webp','images/redanig.webp','images/mex&co.webp'];

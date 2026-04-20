@@ -423,29 +423,29 @@
 </head>
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Twix — Brand Project</h1>
-  <div id="sb-track"><div id="sb-thumb"><img src="images/twix scrollbar.webp" id="sb-img" alt="" /><img src="images/twix scrollbar.webp" id="sb-img2" alt="" /></div></div>
+  <div id="sb-track"><div id="sb-thumb"><img src="images/twix scrollbar.webp" id="sb-img" alt="" loading="lazy" /><img src="images/twix scrollbar.webp" id="sb-img2" alt="" loading="lazy" /></div></div>
   <!-- Tickets lightbox -->
   <div class="lb-overlay" id="lbTickets">
     <span class="lb-close" id="lbTicketsClose">&times;</span>
     <div class="lb-pair">
-      <img src="images/golden ticket.webp" alt="Ticket front" />
-      <img src="images/golden ticket bagfra1.webp" alt="Ticket back" />
+      <img src="images/golden ticket.webp" alt="Ticket front" loading="lazy" />
+      <img src="images/golden ticket bagfra1.webp" alt="Ticket back" loading="lazy" />
     </div>
   </div>
   <!-- Mockup lightbox -->
   <div class="lb-overlay" id="lbMockup">
     <span class="lb-close" id="lbMockupClose">&times;</span>
-    <img src="images/twix mockup.webp" alt="Twix mockup" />
+    <img src="images/twix mockup.webp" alt="Twix mockup" loading="lazy" />
   </div>
-  <img class="twixbar twixbar-left"  src="images/twixbar.webp" alt="" />
-  <img class="twixbar twixbar-right" src="images/twixbar.webp" alt="" />
+  <img class="twixbar twixbar-left"  src="images/twixbar.webp" alt="" loading="eager" fetchpriority="high" />
+  <img class="twixbar twixbar-right" src="images/twixbar.webp" alt="" loading="lazy" />
   <div class="mockup-wrap">
-    <img class="twix-mockup" src="images/twix mockup.webp" alt="" />
+    <img class="twix-mockup" src="images/twix mockup.webp" alt="" loading="lazy" />
     <div class="mockup-caption">In store showcase</div>
   </div>
   <div class="ticket-stack">
-    <img class="ticket-back"  src="images/golden ticket bagfra1.webp" alt="" />
-    <img class="ticket-front" src="images/golden ticket.webp" alt="" />
+    <img class="ticket-back"  src="images/golden ticket bagfra1.webp" alt="" loading="lazy" />
+    <img class="ticket-front" src="images/golden ticket.webp" alt="" loading="lazy" />
     <div class="ticket-caption">Golden ticket</div>
   </div>
   <div class="scroll-hint"><span></span><span></span></div>
@@ -622,7 +622,7 @@
 
   @media(max-width:768px){#dvd-saver{display:none!important}}
 </style>
-<div id="dvd-saver"><div id="dvd-flash"></div><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" /></div></div></div>
+<div id="dvd-saver"><div id="dvd-flash"></div><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" loading="lazy" /></div></div></div>
 <script>
 (function(){
   var THUMBS=['images/twice the fun thumbnail.webp','images/The Fizz Cap Lockup.webp','images/Bones.webp','images/le_ice.webp','images/redanig.webp','images/mex&co.webp'];

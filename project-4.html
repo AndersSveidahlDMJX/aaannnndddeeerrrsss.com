@@ -18,7 +18,9 @@
   <meta name="twitter:title" content="Le Ice — Anders Sveidahl" />
   <meta name="twitter:image" content="https://anderssveidahl.com/images/le_ice.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet" /></noscript>
   <link rel="preload" href="images/Le ice portfolio/Pink front.webp" as="image" />
   <link rel="preload" href="images/Le ice portfolio/pink bagfra.webp" as="image" />
   <link rel="preload" href="images/Le ice portfolio/Orange front.webp" as="image" />
@@ -560,29 +562,29 @@
     <main class="content">
       <div class="hero">
         <div class="logo-header">
-          <img src="images/Le ice portfolio/le ice logo.webp" alt="Le Ice" />
+          <img src="images/Le ice portfolio/le ice logo.webp" alt="Le Ice" loading="eager" fetchpriority="high" />
         </div>
         <div class="columns">
         <div class="col-left">
           <div class="cell" data-front="images/Le ice portfolio/Pink front.webp" data-back="images/Le ice portfolio/pink bagfra.webp">
             <div class="colorway-group">
-              <img class="back-img"  src="images/Le ice portfolio/pink bagfra.webp" alt="Pink back" />
-              <img class="front-img" src="images/Le ice portfolio/Pink front.webp"  alt="Pink front" />
+              <img class="back-img"  src="images/Le ice portfolio/pink bagfra.webp" alt="Pink back" loading="lazy" />
+              <img class="front-img" src="images/Le ice portfolio/Pink front.webp"  alt="Pink front" loading="eager" fetchpriority="high" />
             </div>
             <div class="label-group"><span class="cell-label">le ice</span><span class="cell-sublabel">Regular Cubes</span></div>
           </div>
           <div class="cell" data-front="images/Le ice portfolio/Orange front.webp" data-back="images/Le ice portfolio/orange bagfra.webp">
             <div class="colorway-group">
-              <img class="back-img"  src="images/Le ice portfolio/orange bagfra.webp" alt="Orange back" />
-              <img class="front-img" src="images/Le ice portfolio/Orange front.webp"  alt="Orange front" />
+              <img class="back-img"  src="images/Le ice portfolio/orange bagfra.webp" alt="Orange back" loading="lazy" />
+              <img class="front-img" src="images/Le ice portfolio/Orange front.webp"  alt="Orange front" loading="lazy" />
             </div>
             <div class="label-group"><span class="cell-label">le ice</span><span class="cell-sublabel">Crushed Ice</span></div>
           </div>
         </div>
         <div class="col-right" data-front="images/Le ice portfolio/Grøn front.webp" data-back="images/Le ice portfolio/grøn bagfra.webp" data-back-enhanced="images/ny le ice tekst grøn.webp">
           <div class="colorway-group">
-            <img class="back-img"  src="images/Le ice portfolio/grøn bagfra.webp" alt="Green back" />
-            <img class="front-img" src="images/Le ice portfolio/Grøn front.webp"  alt="Green front" />
+            <img class="back-img"  src="images/Le ice portfolio/grøn bagfra.webp" alt="Green back" loading="lazy" />
+            <img class="front-img" src="images/Le ice portfolio/Grøn front.webp"  alt="Green front" loading="lazy" />
           </div>
           <div class="label-group"><span class="cell-label">le ice</span><span class="cell-sublabel">Large Cubes</span></div>
         </div>
@@ -625,10 +627,10 @@
     <span class="lightbox-back" id="colorBack">&#8249;</span>
     <div class="lightbox-inner">
       <div class="lightbox-pair" id="lightboxPair">
-        <img class="lb-front" id="lbFrontImg" src="" alt="" />
-        <img class="lb-back"  id="lbBackImg"  src="" alt="" />
+        <img class="lb-front" id="lbFrontImg" src="" alt="" loading="lazy" />
+        <img class="lb-back"  id="lbBackImg"  src="" alt="" loading="lazy" />
       </div>
-      <img class="lb-solo" id="lbSoloImg" src="" alt="" />
+      <img class="lb-solo" id="lbSoloImg" src="" alt="" loading="lazy" />
     </div>
   </div>
 
@@ -754,7 +756,7 @@
 
   @media(max-width:768px){#dvd-saver{display:none!important}}
 </style>
-<div id="dvd-saver"><div id="dvd-flash"></div><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" /></div></div></div>
+<div id="dvd-saver"><div id="dvd-flash"></div><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" loading="lazy" /></div></div></div>
 <script>
 (function(){
   var THUMBS=['images/twice the fun thumbnail.webp','images/The Fizz Cap Lockup.webp','images/Bones.webp','images/le_ice.webp','images/redanig.webp','images/mex&co.webp'];
