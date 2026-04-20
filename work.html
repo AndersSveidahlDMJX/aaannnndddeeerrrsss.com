@@ -382,15 +382,18 @@
       .card-link:nth-child(1) .card img {
         transform: scale(1.05);
       }
-
-      /* Labels always visible on mobile */
-      .card-label {
-        opacity: 1;
-        filter: blur(0px);
-        font-size: 0.78rem;
-        margin-top: 3px;
-        flex-shrink: 0;
+      .card-link:nth-child(2) .card img {
+        transform: translateY(15px) scale(0.85);
       }
+      .card-link:nth-child(3) .card img {
+        transform: scale(0.7);
+      }
+      .card-link:nth-child(6) .card img {
+        transform: rotate(-90deg) scale(0.825) translateX(-5%);
+      }
+
+      /* Labels hidden on mobile */
+      .card-label { display: none; }
 
       /* No scale effect on mobile */
       .card-wrap:hover .card {
@@ -494,12 +497,14 @@
           singleW = copies[0].offsetWidth;
           pos = window.innerWidth;
         };
-        // Speed scales proportionally with viewport — 90px/s at 1512px (MacBook 14" reference)
+        // Speed scales proportionally with viewport — 90px/s at 1512px, 2x on mobile
         var BASE_W = 1512;
-        var speed = 90 * (window.innerWidth / BASE_W);
-        window.addEventListener('resize', function () {
-          speed = 90 * (window.innerWidth / BASE_W);
-        });
+        function calcSpeed() {
+          var base = 90 * (window.innerWidth / BASE_W);
+          return window.innerWidth <= 768 ? base * 2 : base;
+        }
+        var speed = calcSpeed();
+        window.addEventListener('resize', function () { speed = calcSpeed(); });
 
         var lastTime = null;
         function tick(now) {
