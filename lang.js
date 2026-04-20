@@ -123,7 +123,7 @@
       'os-link5': 'Fossils',
       'os-link6': 'AI',
       'os-link7': 'my favorite emoji',
-      'fav-emoji-title': 'this',
+      'fav-emoji-title': 'this one',
 
       /* ── sabbataar / ord-som-navne ── */
       'sabbataar-h': 'Gap Year',
