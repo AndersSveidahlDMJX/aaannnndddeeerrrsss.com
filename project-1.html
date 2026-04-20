@@ -580,31 +580,27 @@
       const tickets  = document.querySelector('.ticket-stack');
       const mockup   = document.querySelector('.mockup-wrap');
 
-      // Set left bar vertical position first
+      // Set left bar vertical position synchronously so it never disappears
       barLeft.style.top    = vTop + 'px';
       barLeft.style.bottom = 'auto';
 
-      // After layout paint, measure both bars and compute positions
+      // Measure + position ticket/mockup on next frame (after paint)
       requestAnimationFrame(function () {
         var lRect = barLeft.getBoundingClientRect();
         var rRect = barRight.getBoundingClientRect();
 
-        // Horizontal midpoint between the two bars
-        var leftBarRight = lRect.right;
-        var rightBarLeft = rRect.left;
+        var leftBarRight  = lRect.right;
+        var rightBarLeft  = rRect.left;
         var cx = (leftBarRight + rightBarLeft) / 2;
 
-        // Vertical centres of each bar (scroll-offset so they're page coords)
         var leftBarCenterY  = lRect.top  + lRect.height  / 2 + window.scrollY;
         var rightBarCenterY = rRect.top  + rRect.height  / 2 + window.scrollY;
 
-        // Tickets align with the right (upper) bar centre
         var ticketH = tickets.offsetHeight;
         tickets.style.left   = (cx + window.scrollX) + 'px';
         tickets.style.top    = (rightBarCenterY - ticketH / 2) + 'px';
         tickets.style.bottom = 'auto';
 
-        // Mockup aligns with the left (lower) bar centre
         var mockupH = mockup.offsetHeight;
         var mx = leftBarRight + (cx - leftBarRight) * 0.38;
         mockup.style.left      = (mx + window.scrollX) + 'px';
@@ -635,8 +631,12 @@
     }
     toggleBtn.addEventListener('click', () => {
       setSidebar(!sidebar.classList.contains('collapsed'));
-      // Re-position decorations after sidebar CSS transition finishes (350ms)
-      setTimeout(positionDecorations, 370);
+      // Reposition once sidebar transition fully settles
+      sidebar.addEventListener('transitionend', function onEnd(e) {
+        if (e.propertyName !== 'width') return;
+        sidebar.removeEventListener('transitionend', onEnd);
+        positionDecorations();
+      });
     });
     if (window.matchMedia('(max-width:768px)').matches) {
       setSidebar(true);
