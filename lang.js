@@ -205,7 +205,7 @@
       'osn-h':       'Ord som lyder som navne',
 
       /* ── work ticker ── */
-      'ticker-text': "Velkommen til Anders\u2019 harddisk, hvor himlen er perfekt skyfri og en varm brise b\u00e6rer duften af salt luft. Det er en dejlig 28\u00b0C udenfor, skabt til en dag med absolut nul bekymringer og total afslapning. Vi er ankommet et sted, hvor tempoet sænkes og solen holder sig høj. Så gør dig klar til at træde ud i ren, bekymringsfri lethed.  ",
+      'ticker-text': "Velkommen til Anders\u2019 harddisk, hvor himlen er skyfri og en varm brise b\u00e6rer duften af salt luft. Det er en dejlig 28\u00b0C udenfor, en perfekt dag med absolut nul bekymringer og med total afslapning. Vi er ankommet et sted, hvor tempoet er langsomt og solen altid st\u00e5r h\u00f8jt. S\u00e5 g\u00f8r dig klar til at tr\u00e6de ud i ren, bekymringsfri chillhed.  ",
     }
   };
 
