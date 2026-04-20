@@ -68,13 +68,13 @@
     }
     #imin-overlay.visible {
       pointer-events: all;
-      animation: imin-flash 8s ease forwards;
+      animation: imin-flash 8s linear forwards;
     }
     @keyframes imin-flash {
-      0%   { opacity: 0; }
-      60%  { opacity: 1; }
-      61.25% { opacity: 1; }
-      100% { opacity: 0; }
+      0%      { opacity: 0; }
+      49%     { opacity: 0.8; }
+      50.25%  { opacity: 0.8; }
+      100%    { opacity: 0; }
     }
     #imin-overlay img {
       width: 100vw;
