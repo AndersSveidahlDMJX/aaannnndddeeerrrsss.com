@@ -606,7 +606,7 @@
       });
     }
 
-    function positionHorizontal(W, leftBarCY, rightBarCY, tickets, mockup) {
+    function positionHorizontal(W, leftBarCY, rightBarCY, tickets, mockup, forceSbW) {
       if (W === undefined) W = window.innerWidth;
       if (!tickets) tickets = document.querySelector('.ticket-stack');
       if (!mockup)  mockup  = document.querySelector('.mockup-wrap');
@@ -614,8 +614,8 @@
       if (leftBarCY  === undefined) leftBarCY  = barLeft._cy  || 0;
       if (rightBarCY === undefined) rightBarCY = document.querySelector('.twixbar-right')._cy || 0;
 
-      // Sidebar width — 0 when collapsed, full width when open
-      var sbW = document.body.classList.contains('sb-collapsed') ? 0 : sidebar.offsetWidth;
+      // Sidebar width — use forced target width when animating, otherwise read live value
+      var sbW = (forceSbW !== undefined) ? forceSbW : (document.body.classList.contains('sb-collapsed') ? 0 : sidebar.offsetWidth);
       var contentW = W - sbW;
 
       // Tickets: right half of content area, level with left (upper) bar
@@ -639,6 +639,7 @@
     // ── Sidebar toggle ──────────────────────────────────────────────────────
     const sidebar   = document.querySelector('.sidebar');
     const toggleBtn = document.getElementById('sidebarToggle');
+    var sidebarOpenWidth = sidebar.offsetWidth; // stored before any collapse
     function setSidebar(collapsed) {
       if (collapsed) {
         sidebar.classList.add('collapsed');
@@ -653,9 +654,10 @@
       }
     }
     toggleBtn.addEventListener('click', () => {
-      setSidebar(!sidebar.classList.contains('collapsed'));
-      // Update horizontal position immediately so the CSS transition runs in sync with sidebar
-      positionHorizontal();
+      var willCollapse = !sidebar.classList.contains('collapsed');
+      setSidebar(willCollapse);
+      // Pass the target sidebar width so tickets+mockup animate to the right destination in sync
+      positionHorizontal(undefined, undefined, undefined, undefined, undefined, willCollapse ? 0 : sidebarOpenWidth);
     });
     if (window.matchMedia('(max-width:768px)').matches) {
       setSidebar(true);
