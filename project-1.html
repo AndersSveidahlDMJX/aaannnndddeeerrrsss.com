@@ -615,7 +615,7 @@
     window.addEventListener('resize', positionDecorations);
 
     // ── Sidebar toggle ──────────────────────────────────────────────────────
-    const sidebar   = document.querySelector('.sidebar');
+    const sidebar   = _sidebar;
     const toggleBtn = document.getElementById('sidebarToggle');
     function setSidebar(collapsed) {
       if (collapsed) {
@@ -632,6 +632,12 @@
     }
     toggleBtn.addEventListener('click', () => {
       setSidebar(!sidebar.classList.contains('collapsed'));
+      // Reposition after sidebar CSS transition finishes
+      sidebar.addEventListener('transitionend', function onEnd(e) {
+        if (e.propertyName !== 'width') return;
+        sidebar.removeEventListener('transitionend', onEnd);
+        positionDecorations();
+      });
     });
     if (window.matchMedia('(max-width:768px)').matches) {
       setSidebar(true);
