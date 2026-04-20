@@ -124,6 +124,17 @@
     }
     .sidebar-toggle:hover { color: #333; box-shadow: 4px 0 14px rgba(0,0,0,0.18); }
     .sidebar-toggle.collapsed { left: 0; }
+    .sidebar-toggle span {
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-right: 1.5px solid #aaa;
+      border-bottom: 1.5px solid #aaa;
+      transform: rotate(135deg);
+      margin: 2px 0;
+    }
+    .sidebar-toggle span:nth-child(2) { opacity: 0.5; }
+    .sidebar-toggle.collapsed span { transform: rotate(-45deg); }
     body.sb-collapsed .content {
       margin-left: 0;
     }
@@ -406,19 +417,53 @@
       .sidebar-toggle {
         display: flex !important;
         position: fixed;
-        bottom: 24px;
-        right: 24px;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 1px solid #e0e0e0 !important;
-        box-shadow: 0 3px 14px rgba(0,0,0,0.22) !important;
+        top: 50%;
+        left: min(85vw, 320px);
+        bottom: auto !important;
+        right: auto !important;
+        transform: translateY(-50%);
+        width: 22px;
+        height: 60px;
+        border-radius: 0 8px 8px 0;
+        background: rgba(0,0,0,0.52);
+        border: none !important;
+        border-right: 1px solid rgba(255,255,255,0.18) !important;
+        border-top: 1px solid rgba(255,255,255,0.12) !important;
+        border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+        box-shadow: 3px 0 14px rgba(0,0,0,0.35) !important;
         z-index: 210;
-        font-size: 1.3rem;
-        transition: box-shadow 0.2s ease !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+        transition: left 0.3s ease !important;
+        animation: toggle-nudge-close 1.6s ease-in-out infinite;
+      }
+      body.sb-collapsed .sidebar-toggle {
+        left: 0 !important;
+        animation: toggle-nudge-open 1.6s ease-in-out infinite;
+      }
+      .sidebar-toggle span {
+        display: block;
+        width: 7px;
+        height: 7px;
+        border-right: 2px solid rgba(255,255,255,0.9);
+        border-bottom: 2px solid rgba(255,255,255,0.9);
+        transform: rotate(135deg);
+        margin: 3px 0;
+      }
+      .sidebar-toggle span:nth-child(2) { opacity: 0.5; }
+      body.sb-collapsed .sidebar-toggle span {
+        transform: rotate(-45deg);
+      }
+      @keyframes toggle-nudge-close {
+        0%, 100% { transform: translateY(-50%) translateX(0); }
+        50%       { transform: translateY(-50%) translateX(-3px); }
+      }
+      @keyframes toggle-nudge-open {
+        0%, 100% { transform: translateY(-50%) translateX(0); }
+        50%       { transform: translateY(-50%) translateX(3px); }
       }
     }
   </style>
@@ -449,7 +494,7 @@
     <img class="ticket-front" src="images/golden ticket.webp" alt="" loading="lazy" />
   </div>
   <div class="scroll-hint"><span></span><span></span></div>
-  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">&#8249;</button>
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"><span></span><span></span></button>
   <div class="layout">
     <aside class="sidebar">
       <div class="section">
@@ -642,12 +687,10 @@
       if (collapsed) {
         sidebar.classList.add('collapsed');
         toggleBtn.classList.add('collapsed');
-        toggleBtn.innerHTML = '&#8250;';
         document.body.classList.add('sb-collapsed');
       } else {
         sidebar.classList.remove('collapsed');
         toggleBtn.classList.remove('collapsed');
-        toggleBtn.innerHTML = '&#8249;';
         document.body.classList.remove('sb-collapsed');
       }
     }
