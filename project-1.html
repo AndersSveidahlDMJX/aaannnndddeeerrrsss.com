@@ -422,15 +422,15 @@
         bottom: auto !important;
         right: auto !important;
         transform: translateY(-50%);
-        width: 22px;
-        height: 60px;
-        border-radius: 0 8px 8px 0;
-        background: rgba(0,0,0,0.52);
+        width: 18px;
+        height: 52px;
+        border-radius: 0 6px 6px 0;
+        background: #fff;
         border: none !important;
-        border-right: 1px solid rgba(255,255,255,0.18) !important;
-        border-top: 1px solid rgba(255,255,255,0.12) !important;
-        border-bottom: 1px solid rgba(255,255,255,0.12) !important;
-        box-shadow: 3px 0 14px rgba(0,0,0,0.35) !important;
+        border-right: 1px solid #e0e0e0 !important;
+        border-top: 1px solid #e0e0e0 !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+        box-shadow: 3px 0 10px rgba(0,0,0,0.10) !important;
         z-index: 210;
         flex-direction: column;
         align-items: center;
@@ -438,32 +438,22 @@
         gap: 0;
         padding: 0;
         transition: left 0.3s ease !important;
-        animation: toggle-nudge-close 1.6s ease-in-out infinite;
+        animation: none;
       }
       body.sb-collapsed .sidebar-toggle {
         left: 0 !important;
-        animation: toggle-nudge-open 1.6s ease-in-out infinite;
       }
       .sidebar-toggle span {
         display: block;
-        width: 7px;
-        height: 7px;
-        border-right: 2px solid rgba(255,255,255,0.9);
-        border-bottom: 2px solid rgba(255,255,255,0.9);
+        width: 6px;
+        height: 6px;
+        border-right: 1.5px solid #aaa;
+        border-bottom: 1.5px solid #aaa;
         transform: rotate(135deg);
-        margin: 3px 0;
       }
-      .sidebar-toggle span:nth-child(2) { opacity: 0.5; }
+      .sidebar-toggle span:nth-child(2) { display: none; }
       body.sb-collapsed .sidebar-toggle span {
         transform: rotate(-45deg);
-      }
-      @keyframes toggle-nudge-close {
-        0%, 100% { transform: translateY(-50%) translateX(0); }
-        50%       { transform: translateY(-50%) translateX(-3px); }
-      }
-      @keyframes toggle-nudge-open {
-        0%, 100% { transform: translateY(-50%) translateX(0); }
-        50%       { transform: translateY(-50%) translateX(3px); }
       }
     }
   </style>
