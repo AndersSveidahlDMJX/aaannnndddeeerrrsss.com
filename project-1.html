@@ -131,7 +131,7 @@
       left: 50vw;
     }
     body.sb-collapsed .twixbar-left { left: 0; }
-    body.sb-collapsed .mockup-wrap { right: calc(39vh + 21.2vw + var(--sw)); }
+    body.sb-collapsed .mockup-wrap { right: calc(39vh + 21.2vw + var(--sw)); right: calc(39dvh + 21.2vw + var(--sw)); }
     body.sb-collapsed .ticket-stack { left: calc(50vw + 8vw); }
     .section {
       padding: 32px 0;
@@ -163,16 +163,19 @@
     .twixbar {
       position: absolute;
       height: 36.57vh;
+      height: 36.57dvh;
       width: auto;
       pointer-events: none;
       z-index: 1;
     }
     .twixbar-left  { left: var(--sw); transition: left 0.35s ease; }
-    .twixbar-right { right: 0; bottom: -38.9vh; transform: scaleX(-1); }
+    .twixbar-right { right: 0; bottom: -38.9vh; bottom: -38.9dvh; transform: scaleX(-1); }
     .mockup-wrap {
       position: absolute;
       right: calc(39vh + 21.2vw);
+      right: calc(39dvh + 21.2vw);
       bottom: -30.5vh;
+      bottom: -30.5dvh;
       z-index: 1;
       transition: right 0.35s ease;
       text-align: center;
@@ -180,6 +183,7 @@
     .twix-mockup {
       display: block;
       height: 27.39vh;
+      height: 27.39dvh;
       width: auto;
       pointer-events: auto;
       cursor: pointer;
@@ -209,7 +213,9 @@
       left: calc(var(--sw) + (100vw - var(--sw)) / 2 + 8vw);
       transform: translateX(-50%);
       width: 49.5vh;
+      width: 49.5dvh;
       height: 49.5vh;
+      height: 49.5dvh;
       z-index: 3;
       pointer-events: auto;
       cursor: pointer;
@@ -218,6 +224,7 @@
     .ticket-back {
       position: absolute;
       width: 49.5vh;
+      width: 49.5dvh;
       top: -2px;
       left: 50%;
       transform: translateX(-50%) rotate(0deg);
@@ -226,6 +233,7 @@
     .ticket-front {
       position: absolute;
       width: 49.5vh;
+      width: 49.5dvh;
       top: 18px;
       left: 50%;
       transform: translateX(-50%) rotate(0deg);
