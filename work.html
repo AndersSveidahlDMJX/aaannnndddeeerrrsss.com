@@ -547,9 +547,17 @@
     width: 100%; height: 100%;
     display: block;
   }
+  #dvd-flash {
+    position: absolute; inset: 0;
+    background: #fff;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
 
 </style>
 <div id="dvd-saver">
+  <div id="dvd-flash"></div>
   <div id="dvd-folder">
     <div id="dvd-folder-inner">
       <div id="dvd-folder-bg"></div>
@@ -661,10 +669,16 @@
   }
 
   function celebrate() {
-    // folder fades out over 3s then auto-hides
-    folder.style.transition = 'opacity 3s ease';
+    var fl = document.getElementById('dvd-flash');
+    fl.style.transition = 'none';
+    fl.style.opacity = '1';
+    setTimeout(function() {
+      fl.style.transition = 'opacity 0.6s ease';
+      fl.style.opacity = '0';
+    }, 60);
+    folder.style.transition = 'opacity 2s ease 0.3s';
     folder.style.opacity = '0';
-    celebTimer1 = setTimeout(hide, 3000);
+    celebTimer1 = setTimeout(hide, 2300);
   }
 
   function hide() {
