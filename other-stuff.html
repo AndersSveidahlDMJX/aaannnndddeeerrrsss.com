@@ -68,20 +68,19 @@
     }
     #imin-overlay.visible {
       pointer-events: all;
-      animation: imin-flash 5s ease forwards;
+      animation: imin-flash 8s ease forwards;
     }
     @keyframes imin-flash {
       0%   { opacity: 0; }
-      49%  { opacity: 0.8; }
-      51%  { opacity: 0.8; }
+      60%  { opacity: 1; }
+      61.25% { opacity: 1; }
       100% { opacity: 0; }
     }
     #imin-overlay img {
-      max-width: 100vw;
-      max-height: 100vh;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+      width: 100vw;
+      height: 100vh;
+      object-fit: fill;
+      display: block;
     }
 
     /* Back arrow */
@@ -414,7 +413,7 @@
               backBtn.classList.add('visible');
               runBootSequence();
             });
-          }, 5000);
+          }, 8000);
         }, 600);
 
       } else {
