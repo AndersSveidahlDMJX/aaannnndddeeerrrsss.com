@@ -571,14 +571,14 @@
     window.addEventListener('scroll', checkScroll, { passive: true });
 
     function positionDecorations() {
-      var vh  = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      var W   = window.innerWidth;
+      var vh   = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      var W    = window.innerWidth;
       var vTop = window.scrollY + vh + 40;
 
-      var barLeft   = document.querySelector('.twixbar-left');
-      var barRight  = document.querySelector('.twixbar-right');
-      var tickets   = document.querySelector('.ticket-stack');
-      var mockup    = document.querySelector('.mockup-wrap');
+      var barLeft  = document.querySelector('.twixbar-left');
+      var barRight = document.querySelector('.twixbar-right');
+      var tickets  = document.querySelector('.ticket-stack');
+      var mockup   = document.querySelector('.mockup-wrap');
 
       // LEFT bar = UPPER — set synchronously so it never flickers
       barLeft.style.top    = vTop + 'px';
@@ -587,24 +587,28 @@
       requestAnimationFrame(function () {
         var barH = barLeft.offsetHeight;
 
-        // RIGHT bar = LOWER — offset downward by 120 % of bar height
+        // RIGHT bar = LOWER
         var rightTop = vTop + barH * 1.2;
         barRight.style.top    = rightTop + 'px';
         barRight.style.bottom = 'auto';
 
-        // Vertical centres in page coordinates
-        var leftBarCY  = vTop    + barH / 2;   // left bar  (upper)
-        var rightBarCY = rightTop + barH / 2;  // right bar (lower)
+        // Vertical centres
+        var leftBarCY  = vTop     + barH / 2;
+        var rightBarCY = rightTop + barH / 2;
 
-        // ── Tickets: centre of right half of viewport, level with LEFT (upper) bar ──
+        // Sidebar width — 0 when collapsed, full width when open
+        var sbW = document.body.classList.contains('sb-collapsed') ? 0 : sidebar.offsetWidth;
+        var contentW = W - sbW;
+
+        // Tickets: right half of content area, level with left (upper) bar
         var ticketH = tickets.offsetHeight;
-        tickets.style.left   = (W * 3 / 4) + 'px'; // translateX(-50%) already on element
+        tickets.style.left   = (sbW + contentW * 3 / 4) + 'px';
         tickets.style.top    = (leftBarCY - ticketH / 2) + 'px';
         tickets.style.bottom = 'auto';
 
-        // ── Mockup: centre of left half of viewport, level with RIGHT (lower) bar ──
+        // Mockup: left half of content area, level with right (lower) bar
         var mockupH = mockup.offsetHeight;
-        mockup.style.left      = (W / 4) + 'px';
+        mockup.style.left      = (sbW + contentW / 4) + 'px';
         mockup.style.right     = 'auto';
         mockup.style.transform = 'translateX(-50%)';
         mockup.style.top       = (rightBarCY - mockupH / 2) + 'px';
@@ -615,7 +619,7 @@
     window.addEventListener('resize', positionDecorations);
 
     // ── Sidebar toggle ──────────────────────────────────────────────────────
-    const sidebar   = _sidebar;
+    const sidebar   = document.querySelector('.sidebar');
     const toggleBtn = document.getElementById('sidebarToggle');
     function setSidebar(collapsed) {
       if (collapsed) {
