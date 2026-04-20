@@ -227,15 +227,13 @@
       opacity: 1;
       transition: opacity 0.3s ease;
     }
-    body:has(.item-col:hover) .site-title,
-    body:has(.usb-fixed:hover) .site-title {
+    body:has(.item-col:hover) .site-title {
       opacity: 0.06;
     }
     .title-beam {
       transition: opacity 0.55s ease;
     }
-    body:has(.item-col:hover) .title-beam,
-    body:has(.usb-fixed:hover) .title-beam {
+    body:has(.item-col:hover) .title-beam {
       opacity: 0 !important;
     }
 
@@ -259,10 +257,21 @@
       flex-direction: column;
       align-items: center;
       z-index: 1;
+    }
+    .usb-fixed .usb-img {
       filter: brightness(0.38);
       transition: filter 0.55s ease;
     }
-    .usb-fixed:hover { filter: brightness(1); }
+    .usb-fixed:hover .usb-img {
+      filter: brightness(1) drop-shadow(0 0 10px rgba(255,254,235,0.75)) drop-shadow(0 0 30px rgba(255,250,210,0.4)) drop-shadow(0 0 60px rgba(255,240,180,0.18));
+    }
+    .usb-fixed .item-label {
+      opacity: 0.38;
+      transition: opacity 0.55s ease;
+    }
+    .usb-fixed:hover .item-label {
+      opacity: 1;
+    }
 
     @media (max-width: 768px) {
       body {
@@ -315,8 +324,9 @@
       }
       /* Work+About centered as a group, Contact at bottom */
       .item-col:nth-child(2) { order: 1; margin-top: auto; margin-bottom: 0; }   /* Work */
-      .item-col:nth-child(1) { order: 2; margin-bottom: auto; }                   /* About */
-      .item-col:nth-child(3) { order: 3; }
+      .usb-mobile            { order: 2; }                                        /* Other Stuff */
+      .item-col:nth-child(1) { order: 3; margin-bottom: auto; }                   /* About */
+      .item-col:nth-child(3) { order: 4; }
 
       .usb-wrap,
       .diary-wrap,
@@ -361,6 +371,11 @@
       }
     }
 
+    /* Hide mobile USB on desktop */
+    @media (min-width: 769px) {
+      .usb-mobile { display: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -374,7 +389,7 @@
         <img class="usb-img" src="images/usb.webp" alt="" loading="lazy" />
       </div>
     </a>
-    <span class="item-label" data-i18n="notwork">Random USB</span>
+    <span class="item-label" data-i18n="notwork">Other Stuff</span>
   </div>
 
   <div class="items-row">
@@ -405,6 +420,13 @@
         </div>
       </a>
       <span class="item-label" data-i18n="nav-contact">Contact</span>
+    </div>
+
+    <div class="item-col usb-mobile">
+      <a href="other-stuff.html">
+        <div class="usb-wrap"></div>
+      </a>
+      <span class="item-label" data-i18n="notwork">...other stuff</span>
     </div>
   </div>
   <script>
@@ -624,8 +646,7 @@
       function init() {
         createAmbient();
         var cols = Array.from(document.querySelectorAll('.item-col'));
-        var usb  = document.querySelector('.usb-fixed');
-        var items = cols.concat(usb ? [usb] : []);
+        var items = cols;
         items.forEach(function (item) {
           var el = createBeam();
           entries.push({ item: item, el: el });

@@ -60,7 +60,7 @@
   const T = {
     en: {
       /* ── index ── */
-      'notwork':       'Random USB',
+      'notwork':       '...other stuff',
       'nav-me':        'me',
       'nav-work':      'Work',
 
@@ -135,7 +135,7 @@
 
     da: {
       /* ── index ── */
-      'notwork':  'Random USB',
+      'notwork':  '...other stuff',
       'nav-me':   'mig',
       'nav-work': 'Arbejde',
 
@@ -191,7 +191,7 @@
       'nav-contact': 'Kontakt',
 
       /* ── other-stuff nav links ── */
-      'os-link1': 'I tvivl om hvad du skal efter dit sabbat&aring;r?',
+      'os-link1': 'i tvivl om hvad du skal efter dit sabbat&aring;r?',
       'os-link2': 'ord som lyder som navne',
       'os-link3': 'iphone noter',
       'os-link4': 'Madbilleder',

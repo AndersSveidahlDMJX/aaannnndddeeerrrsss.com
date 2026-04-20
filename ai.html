@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
+  <title>AI (Anders Intelligens)</title>
+  <meta name="description" content="Anders Intelligens — the world's most honest chatbot." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0f0f0f;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #ececec;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #0f0f0f;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 0 20px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back {
+      text-decoration: none;
+      color: #888;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+    .back:hover { color: #ececec; }
+    .back svg { width: 16px; height: 16px; }
+
+    .topbar-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ececec;
+      letter-spacing: -0.01em;
+    }
+
+    .topbar-badge {
+      font-size: 0.65rem;
+      font-weight: 500;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      color: #888;
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+
+    /* ── Disclaimer ── */
+    .disclaimer-bar {
+      background: #1a1500;
+      border-bottom: 1px solid #3a2e00;
+      padding: 10px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: #c8a83a;
+      line-height: 1.5;
+    }
+    .disclaimer-bar svg {
+      flex-shrink: 0;
+      margin-top: 1px;
+      width: 15px;
+      height: 15px;
+    }
+
+    /* ── Chat area ── */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .chat-area::-webkit-scrollbar { width: 5px; }
+    .chat-area::-webkit-scrollbar-track { background: transparent; }
+    .chat-area::-webkit-scrollbar-thumb { background: #2e2e2e; border-radius: 3px; }
+
+    /* ── Messages ── */
+    .msg-row {
+      display: flex;
+      gap: 12px;
+      max-width: 780px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .msg-row.user { flex-direction: row-reverse; }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .avatar.bot-avatar {
+      background: linear-gradient(135deg, #6e40c9, #3b82f6);
+      color: #fff;
+    }
+    .avatar.user-avatar {
+      background: #2a2a2a;
+      border: 1px solid #3a3a3a;
+      color: #aaa;
+    }
+
+    .msg-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: calc(100% - 80px);
+    }
+
+    .msg-name {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: #666;
+    }
+    .msg-row.user .msg-name { text-align: right; }
+
+    .bubble {
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #ececec;
+    }
+    .msg-row.bot .bubble {
+      background: #1e1e1e;
+      border-radius: 4px 16px 16px 16px;
+    }
+    .msg-row.user .bubble {
+      background: #2563eb;
+      border-radius: 16px 4px 16px 16px;
+      color: #fff;
+    }
+
+    /* ── Thinking dots ── */
+    .dots {
+      display: inline-flex;
+      gap: 5px;
+      align-items: center;
+      height: 20px;
+    }
+    .dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #555;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+    .dots span:nth-child(2) { animation-delay: 0.2s; }
+    .dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); background: #555; }
+      40% { transform: translateY(-6px); background: #888; }
+    }
+
+    /* ── Input area ── */
+    .input-area {
+      border-top: 1px solid #1e1e1e;
+      background: #0f0f0f;
+      padding: 16px;
+    }
+
+    .input-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #1e1e1e;
+      border: 1px solid #2e2e2e;
+      border-radius: 14px;
+      padding: 8px 8px 8px 18px;
+      transition: border-color 0.2s;
+    }
+    .input-inner:focus-within { border-color: #3b82f6; }
+
+    #q-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ececec;
+      font-family: inherit;
+      font-size: 0.92rem;
+      caret-color: #3b82f6;
+    }
+    #q-input::placeholder { color: #444; }
+
+    #send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s, opacity 0.15s;
+    }
+    #send-btn:hover { background: #1d4ed8; }
+    #send-btn:disabled { opacity: 0.35; cursor: default; background: #2563eb; }
+    #send-btn svg { width: 17px; height: 17px; }
+
+    .input-hint {
+      max-width: 780px;
+      margin: 8px auto 0;
+      font-size: 0.7rem;
+      color: #333;
+      text-align: center;
+    }
+
+    @media (max-width: 500px) {
+      .bubble { font-size: 0.85rem; }
+      .chat-area { padding: 20px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="back" href="other-stuff.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back
+    </a>
+    <span class="topbar-title">Anders Intelligens</span>
+    <span class="topbar-badge">AI v0.1</span>
+  </header>
+
+  <div class="disclaimer-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    Hi Anders here! sooo i'm still learning how to code AI... so at this moment my bot is really good at answering questions - not at making conversation! Thank you!
+  </div>
+
+  <div class="chat-area" id="chat-area">
+    <div class="msg-row bot">
+      <div class="avatar bot-avatar">AI</div>
+      <div class="msg-content">
+        <div class="msg-name">Anders Intelligens</div>
+        <div class="bubble">Hey! ask me anything - but do mind the disclaimer!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div class="input-inner">
+      <input
+        type="text"
+        id="q-input"
+        placeholder="Ask a question..."
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+        maxlength="300"
+      />
+      <button id="send-btn" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+    <p class="input-hint">Anders Intelligens may produce inaccurate answers.</p>
+  </div>
+
+  <script>
+    const responses = [
+      "dude i got no clue",
+      "bruh idk",
+      "your guess is as good as mine man",
+      "don't ask me lol",
+      "seriously, no idea",
+      "i'm just as confused as you are",
+      "zero clue man",
+      "i'm blanking hard right now dawg",
+      "i'm not the guy to ask man",
+      "man i couldn't tell you if i tried",
+      "no clue lol"
+    ];
+
+    const chatArea = document.getElementById('chat-area');
+    const qInput = document.getElementById('q-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    function addMessage(text, type, isThinking = false) {
+      const row = document.createElement('div');
+      row.className = `msg-row ${type}`;
+
+      const avatar = document.createElement('div');
+      avatar.className = `avatar ${type === 'bot' ? 'bot-avatar' : 'user-avatar'}`;
+      avatar.textContent = type === 'bot' ? 'AI' : 'You';
+
+      const content = document.createElement('div');
+      content.className = 'msg-content';
+
+      const name = document.createElement('div');
+      name.className = 'msg-name';
+      name.textContent = type === 'bot' ? 'Anders Intelligens' : 'You';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+
+      if (isThinking) {
+        bubble.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
+      } else {
+        bubble.textContent = text;
+      }
+
+      content.appendChild(name);
+      content.appendChild(bubble);
+      row.appendChild(avatar);
+      row.appendChild(content);
+      chatArea.appendChild(row);
+      chatArea.scrollTop = chatArea.scrollHeight;
+      return row;
+    }
+
+    function isQuestion(text) {
+      if (text.trim().endsWith('?')) return true;
+      const questionWords = /^(what|whats|what's|why|how|who|where|when|which|whose|whom|is|are|was|were|do|does|did|can|could|would|should|will|won't|wouldn't|isn't|aren't|wasn't|weren't|don't|doesn't|didn't|have|has|had|may|might|shall)\b/i;
+      return questionWords.test(text.trim());
+    }
+
+    const notQuestionResponses = [
+      "bro that's not even a question",
+      "i need a question mark at least man",
+      "try asking an actual question lol",
+      "that's a statement not a question dude",
+      "i only do questions, not statements",
+      "was that supposed to be a question?",
+      "add a question mark and try again",
+      "i'm a bot, not a therapist — ask me something",
+    ];
+
+    function send() {
+      const text = qInput.value.trim();
+      if (!text) return;
+
+      addMessage(text, 'user');
+      qInput.value = '';
+      qInput.disabled = true;
+      sendBtn.disabled = true;
+
+      const thinkingRow = addMessage('', 'bot', true);
+
+      setTimeout(() => {
+        thinkingRow.remove();
+        let answer;
+        if (isQuestion(text)) {
+          answer = responses[Math.floor(Math.random() * responses.length)];
+        } else {
+          answer = notQuestionResponses[Math.floor(Math.random() * notQuestionResponses.length)];
+        }
+        addMessage(answer, 'bot');
+        qInput.disabled = false;
+        sendBtn.disabled = false;
+        qInput.focus();
+      }, 8000);
+    }
+
+    sendBtn.addEventListener('click', send);
+    qInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        send();
+      }
+    });
+  </script>
+  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
