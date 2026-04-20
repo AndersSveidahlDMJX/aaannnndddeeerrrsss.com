@@ -131,8 +131,6 @@
       left: 50vw;
     }
     body.sb-collapsed .twixbar-left { left: 0; }
-    body.sb-collapsed .mockup-wrap { right: calc(39vh + 21.2vw + var(--sw)); right: calc(39dvh + 21.2vw + var(--sw)); }
-    body.sb-collapsed .ticket-stack { left: calc(50vw + 8vw); }
     .section {
       padding: 32px 0;
       border-top: 1px solid #e0e0e0;
@@ -172,12 +170,8 @@
     .twixbar-right { right: 0; bottom: -38.9vh; bottom: -38.9dvh; transform: scaleX(-1); }
     .mockup-wrap {
       position: absolute;
-      right: calc(39vh + 21.2vw);
-      right: calc(39dvh + 21.2vw);
-      bottom: -30.5vh;
-      bottom: -30.5dvh;
       z-index: 1;
-      transition: right 0.35s ease;
+      transition: left 0.35s ease;
       text-align: center;
     }
     .twix-mockup {
@@ -210,7 +204,7 @@
     }
     .ticket-stack {
       position: absolute;
-      left: calc(var(--sw) + (100vw - var(--sw)) / 2 + 8vw);
+      /* left set by JS */
       transform: translateX(-50%);
       width: 49.5vh;
       width: 49.5dvh;
@@ -579,14 +573,36 @@
     window.addEventListener('scroll', checkScroll, { passive: true });
 
     function positionDecorations() {
-      const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
-      const top = window.scrollY + vh + 40;
-      const left = document.querySelector('.twixbar-left');
-      const tickets = document.querySelector('.ticket-stack');
-      left.style.top = top + 'px';
-      left.style.bottom = 'auto';
-      tickets.style.top = (top - 70) + 'px';
-      tickets.style.bottom = 'auto';
+      const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      const vTop = window.scrollY + vh + 40;
+      const barLeft  = document.querySelector('.twixbar-left');
+      const barRight = document.querySelector('.twixbar-right');
+      const tickets  = document.querySelector('.ticket-stack');
+      const mockup   = document.querySelector('.mockup-wrap');
+
+      // Set vertical position first so getBoundingClientRect is meaningful
+      barLeft.style.top    = vTop + 'px';
+      barLeft.style.bottom = 'auto';
+
+      // After layout paint, measure bar widths and compute horizontal centres
+      requestAnimationFrame(function () {
+        var leftBarRight  = barLeft.getBoundingClientRect().right;  // px from viewport left edge
+        var rightBarLeft  = window.innerWidth - barRight.offsetWidth; // right bar is at right:0
+        var cx = (leftBarRight + rightBarLeft) / 2;  // midpoint between the two bars
+
+        // Ticket stack — centred at cx (transform:translateX(-50%) already applied)
+        tickets.style.left   = (cx + window.scrollX) + 'px';
+        tickets.style.top    = (vTop - 70) + 'px';
+        tickets.style.bottom = 'auto';
+
+        // Mockup — centred at 38 % of the way from left-bar to ticket centre
+        var mx = leftBarRight + (cx - leftBarRight) * 0.38;
+        mockup.style.left      = (mx + window.scrollX) + 'px';
+        mockup.style.right     = 'auto';
+        mockup.style.transform = 'translateX(-50%)';
+        mockup.style.top       = (vTop - 70) + 'px';
+        mockup.style.bottom    = 'auto';
+      });
     }
     window.addEventListener('load', positionDecorations);
     window.addEventListener('resize', positionDecorations);
@@ -609,6 +625,8 @@
     }
     toggleBtn.addEventListener('click', () => {
       setSidebar(!sidebar.classList.contains('collapsed'));
+      // Re-position decorations after sidebar CSS transition finishes (350ms)
+      setTimeout(positionDecorations, 370);
     });
     if (window.matchMedia('(max-width:768px)').matches) {
       setSidebar(true);
