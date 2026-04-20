@@ -300,14 +300,15 @@
 
     @media (max-width: 768px) {
       body {
-        background: #111;
+        background: transparent;
         overflow-y: auto;
         height: auto;
         min-height: 100vh;
         padding: 72px 16px 48px;
       }
 
-      #safari-bg, #yt-player, #still { display: none !important; }
+      #yt-player { display: none !important; }
+      #safari-bg, #still { display: block !important; }
 
       .mute-toggle { display: none; }
 
@@ -320,7 +321,8 @@
       }
 
       .grid {
-        position: static;
+        position: relative;
+        z-index: 2;
         transform: none;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
