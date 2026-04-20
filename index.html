@@ -571,7 +571,9 @@
       function trimIphone() {
         var tr = scanImageBounds(iphoneImg);
         if (!tr) return;
-        iphoneImg.style.marginBottom = '-' + (tr.bP / 100 * iphoneImg.clientHeight).toFixed(1) + 'px';
+        var rH = iphoneImg.clientHeight;
+        iphoneImg.style.marginTop    = '-' + (tr.tP / 100 * rH).toFixed(1) + 'px';
+        iphoneImg.style.marginBottom = '-' + (tr.bP / 100 * rH).toFixed(1) + 'px';
         centerOnToshiba();
       }
 
