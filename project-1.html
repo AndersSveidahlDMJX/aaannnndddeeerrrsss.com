@@ -654,12 +654,8 @@
     }
     toggleBtn.addEventListener('click', () => {
       setSidebar(!sidebar.classList.contains('collapsed'));
-      // Only reposition horizontally after transition — bars never move
-      sidebar.addEventListener('transitionend', function onEnd(e) {
-        if (e.propertyName !== 'width') return;
-        sidebar.removeEventListener('transitionend', onEnd);
-        positionHorizontal();
-      });
+      // Update horizontal position immediately so the CSS transition runs in sync with sidebar
+      positionHorizontal();
     });
     if (window.matchMedia('(max-width:768px)').matches) {
       setSidebar(true);
