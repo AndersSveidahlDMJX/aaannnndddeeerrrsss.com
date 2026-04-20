@@ -225,7 +225,7 @@
       opacity: 1;
       filter: blur(0px);
     }
-    #yt-player {
+    #bg-video {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -237,26 +237,12 @@
       border: none;
       pointer-events: none;
       z-index: 1;
+      object-fit: cover;
       opacity: 0;
       transition: opacity 1.5s ease;
     }
-    #yt-player.visible {
+    #bg-video.visible {
       opacity: 1;
-    }
-    #still {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 100vw;
-      height: 56.25vw;
-      min-height: 100vh;
-      min-width: 177.78vh;
-      transform: translate(-50%, -50%);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: 0;
-      pointer-events: none;
     }
 
     /* ── neon ticker ── */
@@ -304,8 +290,7 @@
         padding: 72px 16px 48px;
       }
 
-      #yt-player,
-      #still { display: none; }
+      #bg-video { display: none; }
 
       .mute-toggle { display: none; }
 
@@ -367,8 +352,9 @@
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track" id="tickerTrack"><span class="neon-copy neon-pink" data-copy="0">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span><span class="neon-copy neon-cyan" data-copy="1">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span></div>
   </div>
-  <iframe id="yt-player" allow="autoplay; encrypted-media" playsinline frameborder="0"></iframe>
-  <div id="still"></div>
+  <video id="bg-video" autoplay muted loop playsinline>
+    <source src="images/baggrundsvideo.mp4" type="video/mp4" />
+  </video>
   <div class="shadow-grid">
     <div class="shadow-card"><div class="shadow-card-inner"></div></div>
     <div class="shadow-card"><div class="shadow-card-inner"></div></div>
@@ -387,62 +373,19 @@
   </div>
   <button class="mute-toggle" id="muteBtn">🔇 unmute</button>
   <script>
-    var muted = true;
-
-    var chosen = { id: 'Thtj8Ht7Z_c', still: 'images/maldiverne.webp' };
-
-    document.getElementById('still').style.backgroundImage = "url('" + chosen.still + "')";
-
-    var iframe = document.getElementById('yt-player');
-
-    // Safari blocks YouTube iframe autoplay unconditionally — skip the iframe
-    // and let the still image show instead.
-    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-    if (!isSafari) {
-      iframe.src = 'https://www.youtube.com/embed/' + chosen.id +
-        '?autoplay=1&mute=1&loop=1&playlist=' + chosen.id +
-        '&controls=0&playsinline=1&disablekb=1&modestbranding=1&rel=0&enablejsapi=1' +
-        '&origin=' + encodeURIComponent(location.origin);
-
-      var revealed = false;
-      function revealPlayer() {
-        if (revealed) return;
-        revealed = true;
-        setTimeout(function() { iframe.classList.add('visible'); }, 500);
-      }
-
-      window.addEventListener('message', function(e) {
-        if (e.origin !== 'https://www.youtube.com') return;
-        try {
-          var data = JSON.parse(e.data);
-          if (data.event === 'onReady') {
-            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'mute',      args: [] }), '*');
-            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
-            revealPlayer();
-          }
-          if (data.event === 'infoDelivery' && data.info && data.info.playerState === 1) {
-            revealPlayer();
-          }
-        } catch(err) {}
-      });
-
-      setTimeout(revealPlayer, 4000);
-    }
+    var vid = document.getElementById('bg-video');
+    vid.addEventListener('canplay', function() {
+      vid.classList.add('visible');
+    });
+    setTimeout(function() { vid.classList.add('visible'); }, 3000);
 
     var muteBtn = document.getElementById('muteBtn');
-    if (isSafari) {
-      muteBtn.style.display = 'none';
-    } else {
-      muteBtn.addEventListener('click', function() {
-        var func = muted ? 'unMute' : 'mute';
-        iframe.contentWindow.postMessage(
-          JSON.stringify({ event: 'command', func: func, args: [] }), '*'
-        );
-        this.textContent = muted ? '🔊 mute' : '🔇 unmute';
-        muted = !muted;
-      });
-    }
+    var muted = true;
+    muteBtn.addEventListener('click', function() {
+      muted = !muted;
+      vid.muted = muted;
+      this.textContent = muted ? '🔇 unmute' : '🔊 mute';
+    });
   </script>
   <script>
     window.addEventListener('load', function() {
@@ -516,8 +459,7 @@
   /* Stop browser painting page content while screensaver is active */
   body.dvd-active .shadow-grid,
   body.dvd-active .grid,
-  body.dvd-active #yt-player,
-  body.dvd-active #still,
+  body.dvd-active #bg-video,
   body.dvd-active .back,
   body.dvd-active .mute-toggle { visibility: hidden !important; }
   #dvd-folder {
