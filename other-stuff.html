@@ -65,9 +65,17 @@
       background: #000;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 1.6s ease;
     }
-    #imin-overlay.visible { opacity: 0.8; pointer-events: all; }
+    #imin-overlay.visible {
+      pointer-events: all;
+      animation: imin-flash 5s ease forwards;
+    }
+    @keyframes imin-flash {
+      0%   { opacity: 0; }
+      45%  { opacity: 0.8; }
+      55%  { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
     #imin-overlay img {
       max-width: 100vw;
       max-height: 100vh;
@@ -393,27 +401,20 @@
         pwTerminal.style.opacity = '0';
         pwTerminal.style.transition = 'opacity 0.6s ease';
 
-        // Fade in "I'm in" image
+        // Fade in "I'm in" image — CSS animation handles full 5s timing
         setTimeout(() => {
           pwTerminal.style.pointerEvents = 'none';
           iminOverlay.classList.add('visible');
 
-          // After 4s total (0.8 fade in + 2.4 hold + 0.8 fade out)
           setTimeout(() => {
-            iminOverlay.style.transition = 'opacity 1.6s ease';
-            iminOverlay.style.opacity = '0';
-
-            setTimeout(() => {
-              iminOverlay.style.display = 'none';
-              // Show main terminal + boot sequence
-              mainTerminal.style.display = 'block';
-              requestAnimationFrame(() => {
-                mainTerminal.classList.remove('hidden');
-                backBtn.classList.add('visible');
-                runBootSequence();
-              });
-            }, 1600);
-          }, 3200);
+            iminOverlay.style.display = 'none';
+            mainTerminal.style.display = 'block';
+            requestAnimationFrame(() => {
+              mainTerminal.classList.remove('hidden');
+              backBtn.classList.add('visible');
+              runBootSequence();
+            });
+          }, 5000);
         }, 600);
 
       } else {
