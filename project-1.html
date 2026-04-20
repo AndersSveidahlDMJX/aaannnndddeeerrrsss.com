@@ -596,25 +596,41 @@
         var leftBarCY  = vTop     + barH / 2;
         var rightBarCY = rightTop + barH / 2;
 
-        // Sidebar width — 0 when collapsed, full width when open
-        var sbW = document.body.classList.contains('sb-collapsed') ? 0 : sidebar.offsetWidth;
-        var contentW = W - sbW;
+        // Stash vertical centres for horizontal-only updates
+        barLeft._cy  = leftBarCY;
+        barRight._cy = rightBarCY;
 
-        // Tickets: right half of content area, level with left (upper) bar
-        var ticketH = tickets.offsetHeight;
-        tickets.style.left   = (sbW + contentW * 3 / 4) + 'px';
-        tickets.style.top    = (leftBarCY - ticketH / 2) + 'px';
-        tickets.style.bottom = 'auto';
-
-        // Mockup: left half of content area, level with right (lower) bar
-        var mockupH = mockup.offsetHeight;
-        mockup.style.left      = (sbW + contentW / 4) + 'px';
-        mockup.style.right     = 'auto';
-        mockup.style.transform = 'translateX(-50%)';
-        mockup.style.top       = (rightBarCY - mockupH / 2) + 'px';
-        mockup.style.bottom    = 'auto';
+        positionHorizontal(W, barLeft._cy, barRight._cy, tickets, mockup);
       });
     }
+
+    function positionHorizontal(W, leftBarCY, rightBarCY, tickets, mockup) {
+      if (W === undefined) W = window.innerWidth;
+      if (!tickets) tickets = document.querySelector('.ticket-stack');
+      if (!mockup)  mockup  = document.querySelector('.mockup-wrap');
+      var barLeft = document.querySelector('.twixbar-left');
+      if (leftBarCY  === undefined) leftBarCY  = barLeft._cy  || 0;
+      if (rightBarCY === undefined) rightBarCY = document.querySelector('.twixbar-right')._cy || 0;
+
+      // Sidebar width — 0 when collapsed, full width when open
+      var sbW = document.body.classList.contains('sb-collapsed') ? 0 : sidebar.offsetWidth;
+      var contentW = W - sbW;
+
+      // Tickets: right half of content area, level with left (upper) bar
+      var ticketH = tickets.offsetHeight;
+      tickets.style.left   = (sbW + contentW * 3 / 4) + 'px';
+      tickets.style.top    = (leftBarCY - ticketH / 2) + 'px';
+      tickets.style.bottom = 'auto';
+
+      // Mockup: left half of content area, level with right (lower) bar
+      var mockupH = mockup.offsetHeight;
+      mockup.style.left      = (sbW + contentW / 4) + 'px';
+      mockup.style.right     = 'auto';
+      mockup.style.transform = 'translateX(-50%)';
+      mockup.style.top       = (rightBarCY - mockupH / 2) + 'px';
+      mockup.style.bottom    = 'auto';
+    }
+
     window.addEventListener('load', positionDecorations);
     window.addEventListener('resize', positionDecorations);
 
@@ -636,11 +652,11 @@
     }
     toggleBtn.addEventListener('click', () => {
       setSidebar(!sidebar.classList.contains('collapsed'));
-      // Reposition after sidebar CSS transition finishes
+      // Only reposition horizontally after transition — bars never move
       sidebar.addEventListener('transitionend', function onEnd(e) {
         if (e.propertyName !== 'width') return;
         sidebar.removeEventListener('transitionend', onEnd);
-        positionDecorations();
+        positionHorizontal();
       });
     });
     if (window.matchMedia('(max-width:768px)').matches) {
