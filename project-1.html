@@ -171,7 +171,6 @@
     .mockup-wrap {
       position: absolute;
       z-index: 1;
-      transition: left 0.35s ease;
       text-align: center;
     }
     .twix-mockup {
@@ -204,7 +203,7 @@
     }
     .ticket-stack {
       position: absolute;
-      /* left set by JS */
+      /* left/top set by JS */
       transform: translateX(-50%);
       width: 49.5vh;
       width: 49.5dvh;
@@ -213,7 +212,6 @@
       z-index: 3;
       pointer-events: auto;
       cursor: pointer;
-      transition: left 0.35s ease;
     }
     .ticket-back {
       position: absolute;
@@ -581,7 +579,6 @@
       var barRight  = document.querySelector('.twixbar-right');
       var tickets   = document.querySelector('.ticket-stack');
       var mockup    = document.querySelector('.mockup-wrap');
-      var sidebarEl = document.querySelector('.sidebar');
 
       // LEFT bar = UPPER — set synchronously so it never flickers
       barLeft.style.top    = vTop + 'px';
@@ -595,9 +592,6 @@
         barRight.style.top    = rightTop + 'px';
         barRight.style.bottom = 'auto';
 
-        // Sidebar width (0 when collapsed)
-        var sbW = document.body.classList.contains('sb-collapsed') ? 0 : sidebarEl.offsetWidth;
-
         // Vertical centres in page coordinates
         var leftBarCY  = vTop    + barH / 2;   // left bar  (upper)
         var rightBarCY = rightTop + barH / 2;  // right bar (lower)
@@ -608,9 +602,9 @@
         tickets.style.top    = (leftBarCY - ticketH / 2) + 'px';
         tickets.style.bottom = 'auto';
 
-        // ── Mockup: centre of left visible area, level with RIGHT (lower) bar ──
+        // ── Mockup: centre of left half of viewport, level with RIGHT (lower) bar ──
         var mockupH = mockup.offsetHeight;
-        mockup.style.left      = ((sbW + W / 2) / 2) + 'px'; // translateX(-50%) set below
+        mockup.style.left      = (W / 4) + 'px';
         mockup.style.right     = 'auto';
         mockup.style.transform = 'translateX(-50%)';
         mockup.style.top       = (rightBarCY - mockupH / 2) + 'px';
@@ -638,12 +632,6 @@
     }
     toggleBtn.addEventListener('click', () => {
       setSidebar(!sidebar.classList.contains('collapsed'));
-      // Reposition once sidebar transition fully settles
-      sidebar.addEventListener('transitionend', function onEnd(e) {
-        if (e.propertyName !== 'width') return;
-        sidebar.removeEventListener('transitionend', onEnd);
-        positionDecorations();
-      });
     });
     if (window.matchMedia('(max-width:768px)').matches) {
       setSidebar(true);
