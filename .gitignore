@@ -3,3 +3,5 @@
 *.mov
 *.avi
 *.mkv
+# Allow the background video
+!images/baggrundsvideo.mp4
