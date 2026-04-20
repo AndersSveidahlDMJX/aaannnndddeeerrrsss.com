@@ -226,6 +226,15 @@
       filter: blur(0px);
     }
     #bg-video { display: none; }
+    #still {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('images/maldiverne.webp') center/cover no-repeat;
+      pointer-events: none;
+      z-index: 0;
+    }
     #yt-player {
       position: fixed;
       top: 50%;
@@ -298,7 +307,7 @@
         padding: 72px 16px 48px;
       }
 
-      #safari-bg, #yt-player { display: none; }
+      #safari-bg, #yt-player, #still { display: none; }
 
       .mute-toggle { display: none; }
 
@@ -361,6 +370,7 @@
     <div class="ticker-track" id="tickerTrack"><span class="neon-copy neon-pink" data-copy="0">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span><span class="neon-copy neon-cyan" data-copy="1">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span></div>
   </div>
   <iframe id="yt-player" allow="autoplay; encrypted-media" playsinline frameborder="0"></iframe>
+  <div id="still"></div>
   <div id="safari-bg"></div>
   <div class="shadow-grid">
     <div class="shadow-card"><div class="shadow-card-inner"></div></div>
@@ -499,6 +509,7 @@
   body.dvd-active .shadow-grid,
   body.dvd-active .grid,
   body.dvd-active #safari-bg,
+  body.dvd-active #still,
   body.dvd-active #yt-player,
   body.dvd-active .back,
   body.dvd-active .mute-toggle { visibility: hidden !important; }
