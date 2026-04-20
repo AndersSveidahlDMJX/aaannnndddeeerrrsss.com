@@ -128,6 +128,9 @@
       /* ── sabbataar / ord-som-navne ── */
       'sabbataar-h': 'Gap Year',
       'osn-h':       'Words that sound like names',
+
+      /* ── work ticker ── */
+      'ticker-text': "Welcome to Anders\u2019 hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It\u2019s a beautiful 28\u00b0C outside, tailored for a day of absolutely zero worries and total relaxation. We\u2019ve arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  ",
     },
 
     da: {
@@ -200,6 +203,9 @@
       /* ── sabbataar / ord-som-navne ── */
       'sabbataar-h': 'Sabbat&aring;r',
       'osn-h':       'Ord som lyder som navne',
+
+      /* ── work ticker ── */
+      'ticker-text': "Velkommen til Anders\u2019 harddisk, hvor himlen er perfekt skyfri og en varm brise b\u00e6rer duften af salt luft. Det er en dejlig 28\u00b0C udenfor, skabt til en dag med absolut nul bekymringer og total afslapning. Vi er ankommet et sted, hvor tempoet sænkes og solen holder sig høj. Så gør dig klar til at træde ud i ren, bekymringsfri lethed.  ",
     }
   };
 
@@ -218,6 +224,7 @@
     document.querySelectorAll('#lang-toggle [data-lang]').forEach(function (btn) {
       btn.classList.toggle('i18n-active', btn.dataset.lang === l);
     });
+    if (typeof window.__tickerReset === 'function') window.__tickerReset();
   }
 
   /* ── initialise: inject styles + toggle button, then apply lang ── */

@@ -367,7 +367,7 @@
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Work — aaannndddeeerrrsss</h1>
   <div class="ticker" aria-hidden="true">
-    <div class="ticker-track" id="tickerTrack"><span class="neon-copy neon-pink" data-copy="0">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span><span class="neon-copy neon-cyan" data-copy="1">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span></div>
+    <div class="ticker-track" id="tickerTrack"><span class="neon-copy neon-pink" data-copy="0" data-i18n="ticker-text">Welcome to Anders’ hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It’s a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We’ve arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span><span class="neon-copy neon-cyan" data-copy="1" data-i18n="ticker-text">Welcome to Anders’ hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It’s a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We’ve arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span></div>
   </div>
   <iframe id="yt-player" allow="autoplay; encrypted-media" playsinline frameborder="0"></iframe>
   <div id="still"></div>
@@ -454,6 +454,11 @@
 
         var singleW = copies[0].offsetWidth;
         var pos = window.innerWidth;
+        // Expose reset hook so lang toggle can update singleW after text changes
+        window.__tickerReset = function() {
+          singleW = copies[0].offsetWidth;
+          pos = window.innerWidth;
+        };
         // Speed scales proportionally with viewport — 90px/s at 1512px (MacBook 14" reference)
         var BASE_W = 1512;
         var speed = 90 * (window.innerWidth / BASE_W);
