@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <link rel="preload" href="images/folder_icon.svg" as="image" type="image/svg+xml" />
-  <link rel="preload" href="images/folder_icon_sharp.svg" as="image" type="image/svg+xml" />
   <link rel="preload" href="images/twice%20the%20fun%20thumbnail.webp" as="image" />
   <link rel="preload" href="images/The%20Fizz%20Cap%20Lockup.webp" as="image" />
   <link rel="preload" href="images/Bones.webp" as="image" />
@@ -196,11 +195,7 @@
       mask-size: 100% 100%;
       mask-repeat: no-repeat;
       mask-position: center;
-      /* Safari: force GPU compositing so mask-image swaps repaint correctly */
-      -webkit-transform: translateZ(0);
-      transform: translateZ(0);
-      will-change: mask-image, transform;
-      isolation: isolate;
+      transition: transform 0.25s ease;
     }
     .card::after {
       content: '';
@@ -216,12 +211,8 @@
       transition: opacity 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease;
       pointer-events: none;
     }
-    .card-wrap:hover .card,
-    .card-wrap.js-hover .card {
-      -webkit-mask-image: url('images/folder_icon_sharp.svg') !important;
-      mask-image: url('images/folder_icon_sharp.svg') !important;
-      -webkit-transform: translateZ(0);
-      transform: translateZ(0);
+    .card-wrap:hover .card {
+      transform: scale(1.07);
     }
     .card-wrap:hover .card::after {
       opacity: 0;
@@ -369,11 +360,9 @@
         margin-top: 4px;
       }
 
-      /* No hover effects on mobile */
-      .card-wrap:hover .card,
-      .card-wrap.js-hover .card {
-        -webkit-mask-image: url('images/folder_icon.svg') !important;
-        mask-image: url('images/folder_icon.svg') !important;
+      /* No scale effect on mobile */
+      .card-wrap:hover .card {
+        transform: none !important;
       }
       .card-wrap:hover .card::after { opacity: 1; }
       .grid:has(.card-wrap:hover) .card-wrap:not(:hover) .card::after {
@@ -469,13 +458,6 @@
     window.addEventListener('load', function() {
       document.querySelector('.grid').classList.add('visible');
       document.querySelector('.shadow-grid').classList.add('visible');
-    });
-  </script>
-  <script>
-    // Safari mask-image hover fix: class toggle forces repaint where pure :hover doesn't
-    document.querySelectorAll('.card-wrap').forEach(function(wrap) {
-      wrap.addEventListener('mouseenter', function() { wrap.classList.add('js-hover'); });
-      wrap.addEventListener('mouseleave', function() { wrap.classList.remove('js-hover'); });
     });
   </script>
   <script>

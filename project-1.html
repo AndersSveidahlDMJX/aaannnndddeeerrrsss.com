@@ -579,7 +579,8 @@
     window.addEventListener('scroll', checkScroll, { passive: true });
 
     function positionDecorations() {
-      const top = window.scrollY + window.innerHeight + 40;
+      const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+      const top = window.scrollY + vh + 40;
       const left = document.querySelector('.twixbar-left');
       const tickets = document.querySelector('.ticket-stack');
       left.style.top = top + 'px';
