@@ -41,7 +41,7 @@
         rgba(0,0,0,0.18) 4px
       );
       pointer-events: none;
-      z-index: 100;
+      z-index: 1000;
     }
 
     /* Vignette */
@@ -51,7 +51,29 @@
       inset: 0;
       background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.75) 100%);
       pointer-events: none;
-      z-index: 99;
+      z-index: 999;
+    }
+
+    /* ── IM IN image overlay ── */
+    #imin-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+    #imin-overlay.visible { opacity: 1; pointer-events: all; }
+    #imin-overlay img {
+      max-width: 100vw;
+      max-height: 100vh;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     /* Back arrow */
@@ -63,17 +85,16 @@
       color: #00ff41;
       font-size: 1rem;
       letter-spacing: 0.1em;
-      opacity: 0.7;
+      opacity: 0;
       z-index: 200;
       transition: opacity 0.2s, text-shadow 0.2s;
+      pointer-events: none;
     }
-    .back:hover {
-      opacity: 1;
-      text-shadow: 0 0 12px #00ff41;
-    }
+    .back.visible { opacity: 0.7; pointer-events: all; }
+    .back:hover { opacity: 1; text-shadow: 0 0 12px #00ff41; }
     .back::before { content: '← '; }
 
-    /* Terminal window */
+    /* ── Shared terminal shell ── */
     .terminal {
       position: fixed;
       top: 50%;
@@ -81,9 +102,10 @@
       transform: translate(-50%, -50%);
       width: min(640px, 90vw);
       z-index: 10;
+      transition: opacity 0.5s ease;
     }
+    .terminal.hidden { opacity: 0; pointer-events: none; }
 
-    /* Title bar */
     .term-bar {
       background: #00ff41;
       color: #000;
@@ -102,7 +124,6 @@
       opacity: 0.4;
     }
 
-    /* Terminal body */
     .term-body {
       background: rgba(0, 6, 0, 0.88);
       border: 1px solid #00ff41;
@@ -111,7 +132,10 @@
       box-shadow: 0 0 60px rgba(0,255,65,0.12), inset 0 0 40px rgba(0,255,65,0.03);
     }
 
-    /* Boot lines */
+    /* ── Password screen ── */
+    #pw-terminal {}
+
+    .pw-lines { margin-bottom: 20px; }
     .boot-line {
       font-size: 0.72rem;
       color: #00a62a;
@@ -121,16 +145,65 @@
       white-space: nowrap;
       overflow: hidden;
       width: 0;
-      transition: opacity 0s;
     }
     .boot-line.visible {
       opacity: 1;
-      animation: type-in 0.4s steps(40, end) forwards;
+      animation: type-in 0.45s steps(50, end) forwards;
     }
     @keyframes type-in {
       from { width: 0; }
       to   { width: 100%; }
     }
+
+    .pw-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      font-size: 0.9rem;
+      color: #00ff41;
+    }
+    .pw-prompt { white-space: nowrap; letter-spacing: 0.08em; }
+
+    #pw-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #00ff41;
+      font-family: inherit;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      caret-color: #00ff41;
+      width: 100%;
+      text-shadow: 0 0 8px rgba(0,255,65,0.5);
+    }
+    /* Hide actual typed chars — show bullets */
+    #pw-input { -webkit-text-security: disc; text-security: disc; }
+
+    .pw-error {
+      margin-top: 12px;
+      font-size: 0.72rem;
+      color: #ff3c3c;
+      letter-spacing: 0.08em;
+      opacity: 0;
+      transition: opacity 0.2s;
+      text-shadow: 0 0 10px rgba(255,60,60,0.6);
+    }
+    .pw-error.visible { opacity: 1; }
+
+    @keyframes shake {
+      0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+      15%  { transform: translate(-50%, -50%) translateX(-8px); }
+      30%  { transform: translate(-50%, -50%) translateX(8px); }
+      45%  { transform: translate(-50%, -50%) translateX(-6px); }
+      60%  { transform: translate(-50%, -50%) translateX(6px); }
+      75%  { transform: translate(-50%, -50%) translateX(-3px); }
+      90%  { transform: translate(-50%, -50%) translateX(3px); }
+    }
+    .terminal.shake { animation: shake 0.5s ease; }
+
+    /* ── Main terminal ── */
+    #main-terminal { display: none; }
 
     .prompt-section {
       margin-top: 22px;
@@ -145,15 +218,12 @@
       letter-spacing: 0.06em;
       margin-bottom: 16px;
     }
-    .prompt-label .blink {
-      animation: blink 1s step-end infinite;
-    }
+    .prompt-label .blink { animation: blink 1s step-end infinite; }
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
 
-    /* Menu items */
     .menu-item {
       display: block;
       padding: 10px 0;
@@ -163,33 +233,20 @@
       font-size: 0.95rem;
       letter-spacing: 0.05em;
       position: relative;
-      transition: color 0.15s, text-shadow 0.15s, padding-left 0.15s;
       opacity: 0;
       transform: translateX(-8px);
       transition: opacity 0.3s ease, transform 0.3s ease, color 0.15s, text-shadow 0.15s, padding-left 0.15s;
     }
-    .menu-item.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    .menu-item::before {
-      content: '> ';
-      color: #00a62a;
-      transition: color 0.15s;
-    }
+    .menu-item.visible { opacity: 1; transform: translateX(0); }
+    .menu-item::before { content: '> '; color: #00a62a; transition: color 0.15s; }
     .menu-item:hover {
       color: #fff;
       text-shadow: 0 0 16px #00ff41, 0 0 32px rgba(0,255,65,0.4);
       padding-left: 8px;
     }
     .menu-item:hover::before { color: #00ff41; }
-
     .menu-item:last-child { border-bottom: none; }
-
-    /* Glitch on hover */
-    .menu-item:hover .item-text {
-      animation: glitch 0.3s steps(1, end);
-    }
+    .menu-item:hover .item-text { animation: glitch 0.3s steps(1, end); }
     @keyframes glitch {
       0%   { text-shadow: 2px 0 #ff003c, -2px 0 #00fff9; clip-path: inset(0 0 90% 0); }
       20%  { text-shadow: -2px 0 #ff003c, 2px 0 #00fff9; clip-path: inset(30% 0 50% 0); }
@@ -198,7 +255,6 @@
       100% { text-shadow: none; clip-path: none; }
     }
 
-    /* Footer */
     .term-footer {
       margin-top: 20px;
       font-size: 0.65rem;
@@ -218,9 +274,40 @@
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Other Stuff</h1>
   <canvas id="matrix-canvas"></canvas>
-  <a class="back" href="index.html">BACK</a>
 
-  <div class="terminal">
+  <!-- "I'm in" image overlay -->
+  <div id="imin-overlay">
+    <img src="images/im in.webp" alt="" />
+  </div>
+
+  <a class="back" href="index.html" id="back-btn">BACK</a>
+
+  <!-- PASSWORD TERMINAL -->
+  <div class="terminal" id="pw-terminal">
+    <div class="term-bar">
+      <div class="term-dots"><span></span><span></span><span></span></div>
+      <span>ANDERS_OS v2.0.26 — AUTHENTICATION REQUIRED</span>
+      <span></span>
+    </div>
+    <div class="term-body">
+      <div class="pw-lines">
+        <div class="boot-line" id="p0">INITIALISING SECURE CONNECTION...</div>
+        <div class="boot-line" id="p1">ENCRYPTION LAYER: AES-256 ........... [OK]</div>
+        <div class="boot-line" id="p2">IDENTITY VERIFICATION REQUIRED.</div>
+      </div>
+      <div class="pw-row">
+        <span class="pw-prompt">ENTER PASSWORD:<span style="animation:blink 1s step-end infinite;display:inline-block;margin-left:4px">█</span></span>
+      </div>
+      <div class="pw-row" style="margin-top:6px">
+        <span class="pw-prompt" style="color:#00a62a">ROOT@ANDERS:~$&nbsp;</span>
+        <input type="password" id="pw-input" autocomplete="off" autocorrect="off" spellcheck="false" autofocus />
+      </div>
+      <div class="pw-error" id="pw-error">ACCESS DENIED — INCORRECT PASSPHRASE</div>
+    </div>
+  </div>
+
+  <!-- MAIN TERMINAL (hidden until unlocked) -->
+  <div class="terminal hidden" id="main-terminal">
     <div class="term-bar">
       <div class="term-dots"><span></span><span></span><span></span></div>
       <span>ANDERS_OS v2.0.26 — /usr/bin/other-stuff</span>
@@ -245,7 +332,6 @@
           <span class="item-text" data-i18n="os-link7">my favorite emoji</span>
         </a>
       </div>
-
       <div class="term-footer" id="footer">[ 3 ENTRIES FOUND ] — SELECT TO EXECUTE</div>
     </div>
   </div>
@@ -279,26 +365,84 @@
     window.addEventListener('resize', initMatrix);
     setInterval(drawMatrix, 50);
 
-    /* ── Boot sequence ── */
-    const bootLines = [
-      { el: document.getElementById('b0'), delay: 200 },
-      { el: document.getElementById('b1'), delay: 600 },
-      { el: document.getElementById('b2'), delay: 1050 },
-      { el: document.getElementById('b3'), delay: 1500 },
-      { el: document.getElementById('b4'), delay: 2000 },
-    ];
-    bootLines.forEach(({ el, delay }) => {
-      setTimeout(() => el.classList.add('visible'), delay);
+    /* ── Password boot lines ── */
+    [
+      { id: 'p0', delay: 300 },
+      { id: 'p1', delay: 800 },
+      { id: 'p2', delay: 1300 },
+    ].forEach(({ id, delay }) => setTimeout(() => document.getElementById(id).classList.add('visible'), delay));
+
+    /* ── Password logic ── */
+    const pwInput = document.getElementById('pw-input');
+    const pwError = document.getElementById('pw-error');
+    const pwTerminal = document.getElementById('pw-terminal');
+    const mainTerminal = document.getElementById('main-terminal');
+    const iminOverlay = document.getElementById('imin-overlay');
+    const backBtn = document.getElementById('back-btn');
+
+    pwInput.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      const val = pwInput.value;
+      if (val === 'password') {
+        pwInput.disabled = true;
+        pwError.classList.remove('visible');
+
+        // Fade pw terminal out
+        pwTerminal.style.opacity = '0';
+        pwTerminal.style.transition = 'opacity 0.6s ease';
+
+        // Fade in "I'm in" image
+        setTimeout(() => {
+          pwTerminal.style.pointerEvents = 'none';
+          iminOverlay.classList.add('visible');
+
+          // After 4s total (0.8 fade in + 2.4 hold + 0.8 fade out)
+          setTimeout(() => {
+            iminOverlay.style.transition = 'opacity 0.8s ease';
+            iminOverlay.style.opacity = '0';
+
+            setTimeout(() => {
+              iminOverlay.style.display = 'none';
+              // Show main terminal + boot sequence
+              mainTerminal.style.display = 'block';
+              requestAnimationFrame(() => {
+                mainTerminal.classList.remove('hidden');
+                backBtn.classList.add('visible');
+                runBootSequence();
+              });
+            }, 800);
+          }, 3200);
+        }, 600);
+
+      } else {
+        // Wrong password
+        pwInput.value = '';
+        pwError.classList.add('visible');
+        pwTerminal.classList.add('shake');
+        pwTerminal.addEventListener('animationend', () => pwTerminal.classList.remove('shake'), { once: true });
+        setTimeout(() => pwError.classList.remove('visible'), 2500);
+      }
     });
 
-    // Show prompt
-    setTimeout(() => {
-      document.getElementById('prompt').classList.add('visible');
-      ['m0','m1','m2'].forEach((id, i) => {
-        setTimeout(() => document.getElementById(id).classList.add('visible'), i * 120);
-      });
-      setTimeout(() => document.getElementById('footer').classList.add('visible'), 500);
-    }, 2600);
+    /* ── Main boot sequence ── */
+    function runBootSequence() {
+      [
+        { id: 'b0', delay: 150 },
+        { id: 'b1', delay: 550 },
+        { id: 'b2', delay: 1000 },
+        { id: 'b3', delay: 1450 },
+        { id: 'b4', delay: 1900 },
+      ].forEach(({ id, delay }) => setTimeout(() => document.getElementById(id).classList.add('visible'), delay));
+
+      setTimeout(() => {
+        document.getElementById('prompt').classList.add('visible');
+        ['m0','m1','m2'].forEach((id, i) => {
+          setTimeout(() => document.getElementById(id).classList.add('visible'), i * 120);
+        });
+        setTimeout(() => document.getElementById('footer').classList.add('visible'), 500);
+      }, 2500);
+    }
   </script>
   <script src="lang.js"></script>
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
