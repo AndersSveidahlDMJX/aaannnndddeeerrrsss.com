@@ -90,10 +90,10 @@
     .usb-wrap {
       display: inline-block;
       cursor: pointer;
-      transform: rotate(51deg);
+      transform: rotate(51deg) translateY(5vh);
       transition: transform 0.3s ease;
     }
-    .usb-wrap:hover { transform: rotate(51deg) scale(1.05); }
+    .usb-wrap:hover { transform: rotate(51deg) translateY(5vh) scale(1.05); }
 
     .diary-wrap {
       display: inline-block;
@@ -251,8 +251,6 @@
     }
 
     /* ── USB fixed bottom-right ── */
-    /* USB-HIDDEN: remove the next line to re-enable the Random USB */
-    .usb-fixed { display: none !important; }
     .usb-fixed {
       position: fixed;
       bottom: 2.5rem;
