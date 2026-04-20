@@ -279,7 +279,6 @@
       align-items: center;
     }
     @media (max-width: 768px) {
-      .ticker { display: none; }
       #dvd-saver { display: none !important; }
     }
     .ticker-track {
@@ -305,8 +304,15 @@
         overflow-x: hidden;
         height: auto;
         min-height: 100vh;
-        padding: 72px 16px 48px;
+        padding: 72px 16px 100px;
       }
+
+      .ticker {
+        display: flex !important;
+        height: 36px;
+        font-size: 0.85rem;
+      }
+      .ticker-track span { font-size: 0.8rem; }
 
       #yt-player { display: none !important; }
       #safari-bg, #still { display: block !important; }
@@ -329,8 +335,9 @@
         transform: none;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        column-gap: 12px;
-        row-gap: 20px;
+        grid-template-rows: auto;
+        column-gap: 16px;
+        row-gap: 24px;
         width: 100%;
         opacity: 1;
       }
