@@ -129,8 +129,10 @@
       'images/Bones.webp',
       'images/le_ice.webp',
       'images/redanig.webp',
-      'images/mex&co.webp',
+      'images/mexncothumb.webp',
     ];
+    // Rotation in degrees for each thumbnail (for canvas drawing)
+    const THUMB_ROT = [0, 0, 0, 0, 0, -90];
     const imgs = THUMB_SRCS.map(function (s) {
       var i = new Image(); i.src = s; return i;
     });
@@ -297,7 +299,7 @@
       var cpL = W - PAD_OFFSET - PW;
       if (ball.vx > 0 &&
           ball.x + BALL_R > cpL &&
-          ball.x - BALL_R < cpL + PW &&
+          ball.x < cpL + PW &&
           ball.y + BALL_R > cpu.y &&
           ball.y - BALL_R < cpu.y + PH) {
         ball.x = cpL - BALL_R;
@@ -350,7 +352,25 @@
         }
         var thumb = imgs[thumbIdx];
         if (thumb.complete && thumb.naturalWidth > 0) {
-          ot.drawImage(thumb, 0, 0, s, s);
+          // Draw with object-fit:cover semantics to preserve aspect ratio
+          var rot = THUMB_ROT[thumbIdx];
+          var iw = thumb.naturalWidth, ih = thumb.naturalHeight;
+          // When rotating 90/-90 deg, logical dimensions swap
+          var lw = (rot === 90 || rot === -90) ? ih : iw;
+          var lh = (rot === 90 || rot === -90) ? iw : ih;
+          var sc = Math.max(s / lw, s / lh);
+          var dw = lw * sc, dh = lh * sc;
+          var ox = (s - dw) / 2, oy = (s - dh) / 2;
+          if (rot !== 0) {
+            ot.save();
+            ot.translate(s / 2, s / 2);
+            ot.rotate(rot * Math.PI / 180);
+            // After rotation swap dw/dh back to original orientation
+            ot.drawImage(thumb, -(dh / 2), -(dw / 2), dh, dw);
+            ot.restore();
+          } else {
+            ot.drawImage(thumb, ox, oy, dw, dh);
+          }
         }
         ot.globalCompositeOperation = 'source-over';
         ballCacheIdx = thumbIdx;
