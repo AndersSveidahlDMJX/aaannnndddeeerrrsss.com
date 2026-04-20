@@ -580,27 +580,37 @@
       const tickets  = document.querySelector('.ticket-stack');
       const mockup   = document.querySelector('.mockup-wrap');
 
-      // Set vertical position first so getBoundingClientRect is meaningful
+      // Set left bar vertical position first
       barLeft.style.top    = vTop + 'px';
       barLeft.style.bottom = 'auto';
 
-      // After layout paint, measure bar widths and compute horizontal centres
+      // After layout paint, measure both bars and compute positions
       requestAnimationFrame(function () {
-        var leftBarRight  = barLeft.getBoundingClientRect().right;  // px from viewport left edge
-        var rightBarLeft  = window.innerWidth - barRight.offsetWidth; // right bar is at right:0
-        var cx = (leftBarRight + rightBarLeft) / 2;  // midpoint between the two bars
+        var lRect = barLeft.getBoundingClientRect();
+        var rRect = barRight.getBoundingClientRect();
 
-        // Ticket stack — centred at cx (transform:translateX(-50%) already applied)
+        // Horizontal midpoint between the two bars
+        var leftBarRight = lRect.right;
+        var rightBarLeft = rRect.left;
+        var cx = (leftBarRight + rightBarLeft) / 2;
+
+        // Vertical centres of each bar (scroll-offset so they're page coords)
+        var leftBarCenterY  = lRect.top  + lRect.height  / 2 + window.scrollY;
+        var rightBarCenterY = rRect.top  + rRect.height  / 2 + window.scrollY;
+
+        // Tickets align with the right (upper) bar centre
+        var ticketH = tickets.offsetHeight;
         tickets.style.left   = (cx + window.scrollX) + 'px';
-        tickets.style.top    = (vTop - 70) + 'px';
+        tickets.style.top    = (rightBarCenterY - ticketH / 2) + 'px';
         tickets.style.bottom = 'auto';
 
-        // Mockup — centred at 38 % of the way from left-bar to ticket centre
+        // Mockup aligns with the left (lower) bar centre
+        var mockupH = mockup.offsetHeight;
         var mx = leftBarRight + (cx - leftBarRight) * 0.38;
         mockup.style.left      = (mx + window.scrollX) + 'px';
         mockup.style.right     = 'auto';
         mockup.style.transform = 'translateX(-50%)';
-        mockup.style.top       = (vTop - 70) + 'px';
+        mockup.style.top       = (leftBarCenterY - mockupH / 2) + 'px';
         mockup.style.bottom    = 'auto';
       });
     }
