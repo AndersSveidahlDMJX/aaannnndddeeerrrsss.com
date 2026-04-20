@@ -137,9 +137,7 @@
     .card-wrap:hover .card-label {
       opacity: 1;
     }
-    .grid:has(.card-wrap:hover) .card-wrap:not(:hover) .card-label {
-      opacity: 0.45;
-    }
+
     a.card-link, a.card-link * { text-decoration: none; }
     .card-link { width: var(--card); }
     .card-link:nth-child(1) .card img {
@@ -212,11 +210,6 @@
     }
     .card-wrap:hover .card::after {
       opacity: 0;
-    }
-    .grid:has(.card-wrap:hover) .card-wrap:not(:hover) .card::after {
-      opacity: 1;
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
     }
     .card img {
       width: 100%;
@@ -359,11 +352,6 @@
       /* No scale effect on mobile */
       .card-wrap:hover .card {
         transform: none !important;
-      }
-      .card-wrap:hover .card::after { opacity: 1; }
-      .grid:has(.card-wrap:hover) .card-wrap:not(:hover) .card::after {
-        backdrop-filter: blur(0px);
-        -webkit-backdrop-filter: blur(0px);
       }
     }
   </style>
