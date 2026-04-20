@@ -8,55 +8,299 @@
   <title>Other Stuff — aaannndddeeerrrsss</title>
   <meta name="description" content="Other things by Anders — miscellaneous creative work and experiments." />
   <style>
-    @font-face {
-      font-family: 'SFProDisplay';
-      src: url('fonts/SFPRODISPLAYREGULAR.OTF') format('opentype');
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       background: #000;
       min-height: 100vh;
-      font-family: 'SFProDisplay', sans-serif;
+      font-family: 'Share Tech Mono', 'Courier New', monospace;
+      color: #00ff41;
+      overflow: hidden;
     }
+
+    /* Matrix rain canvas */
+    #matrix-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.18;
+    }
+
+    /* Scanlines overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.18) 3px,
+        rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Vignette */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.75) 100%);
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* Back arrow */
     .back {
       position: fixed;
-      top: 30px;
-      left: 30px;
+      top: 28px;
+      left: 32px;
       text-decoration: none;
-      color: #fff;
-      font-size: 1.5rem;
-      opacity: 0.8;
-      transition: opacity 0.2s ease;
+      color: #00ff41;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+      z-index: 200;
+      transition: opacity 0.2s, text-shadow 0.2s;
+    }
+    .back:hover {
+      opacity: 1;
+      text-shadow: 0 0 12px #00ff41;
+    }
+    .back::before { content: '← '; }
+
+    /* Terminal window */
+    .terminal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(640px, 90vw);
       z-index: 10;
     }
-    .back:hover { opacity: 1; }
-    .menu {
-      position: fixed;
-      top: 80px;
-      left: 30px;
+
+    /* Title bar */
+    .term-bar {
+      background: #00ff41;
+      color: #000;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
       display: flex;
-      flex-direction: column;
-      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
     }
-    .menu a {
+    .term-dots { display: flex; gap: 6px; }
+    .term-dots span {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #000;
+      opacity: 0.4;
+    }
+
+    /* Terminal body */
+    .term-body {
+      background: rgba(0, 6, 0, 0.88);
+      border: 1px solid #00ff41;
+      border-top: none;
+      padding: 28px 32px 36px;
+      box-shadow: 0 0 60px rgba(0,255,65,0.12), inset 0 0 40px rgba(0,255,65,0.03);
+    }
+
+    /* Boot lines */
+    .boot-line {
+      font-size: 0.72rem;
+      color: #00a62a;
+      letter-spacing: 0.06em;
+      line-height: 1.8;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      transition: opacity 0s;
+    }
+    .boot-line.visible {
+      opacity: 1;
+      animation: type-in 0.4s steps(40, end) forwards;
+    }
+    @keyframes type-in {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    .prompt-section {
+      margin-top: 22px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .prompt-section.visible { opacity: 1; }
+
+    .prompt-label {
+      font-size: 0.72rem;
+      color: #00a62a;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+    .prompt-label .blink {
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Menu items */
+    .menu-item {
+      display: block;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,255,65,0.1);
       text-decoration: none;
-      color: #fff;
-      font-size: 1.1rem;
-      letter-spacing: 0.02em;
-      opacity: 0.85;
-      transition: opacity 0.2s ease;
+      color: #00ff41;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      position: relative;
+      transition: color 0.15s, text-shadow 0.15s, padding-left 0.15s;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.3s ease, transform 0.3s ease, color 0.15s, text-shadow 0.15s, padding-left 0.15s;
     }
-    .menu a:hover { opacity: 0.4; }
+    .menu-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .menu-item::before {
+      content: '> ';
+      color: #00a62a;
+      transition: color 0.15s;
+    }
+    .menu-item:hover {
+      color: #fff;
+      text-shadow: 0 0 16px #00ff41, 0 0 32px rgba(0,255,65,0.4);
+      padding-left: 8px;
+    }
+    .menu-item:hover::before { color: #00ff41; }
+
+    .menu-item:last-child { border-bottom: none; }
+
+    /* Glitch on hover */
+    .menu-item:hover .item-text {
+      animation: glitch 0.3s steps(1, end);
+    }
+    @keyframes glitch {
+      0%   { text-shadow: 2px 0 #ff003c, -2px 0 #00fff9; clip-path: inset(0 0 90% 0); }
+      20%  { text-shadow: -2px 0 #ff003c, 2px 0 #00fff9; clip-path: inset(30% 0 50% 0); }
+      40%  { text-shadow: 2px 0 #ff003c, -2px 0 #00fff9; clip-path: inset(60% 0 20% 0); }
+      60%  { text-shadow: none; clip-path: none; }
+      100% { text-shadow: none; clip-path: none; }
+    }
+
+    /* Footer */
+    .term-footer {
+      margin-top: 20px;
+      font-size: 0.65rem;
+      color: #005c18;
+      letter-spacing: 0.1em;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .term-footer.visible { opacity: 1; }
+
+    @media (max-width: 500px) {
+      .term-body { padding: 20px 18px 28px; }
+      .menu-item { font-size: 0.82rem; }
+    }
   </style>
 </head>
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Other Stuff</h1>
-  <nav class="menu">
-    <a href="sabbataar.html" data-i18n="os-link1">I tvivl om hvad du skal efter dit sabbatår?</a>
-    <a href="iphone-noter.html" data-i18n="os-link3">iphone noter</a>
-    <a href="favorite-emoji.html" data-i18n="os-link7">my favorite emoji</a>
-  </nav>
-<script src="lang.js"></script>
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
+  <canvas id="matrix-canvas"></canvas>
+  <a class="back" href="index.html">BACK</a>
+
+  <div class="terminal">
+    <div class="term-bar">
+      <div class="term-dots"><span></span><span></span><span></span></div>
+      <span>ANDERS_OS v2.0.26 — /usr/bin/other-stuff</span>
+      <span></span>
+    </div>
+    <div class="term-body">
+      <div class="boot-line" id="b0">SYSTEM BOOT... OK</div>
+      <div class="boot-line" id="b1">LOADING MODULES............... [DONE]</div>
+      <div class="boot-line" id="b2">SCANNING FILESYSTEM........... [DONE]</div>
+      <div class="boot-line" id="b3">DECRYPTING ARCHIVE............ [DONE]</div>
+      <div class="boot-line" id="b4">ACCESS GRANTED. WELCOME, USER.</div>
+
+      <div class="prompt-section" id="prompt">
+        <div class="prompt-label">ROOT@ANDERS:~$ ls ./other-stuff/<span class="blink">█</span></div>
+        <a class="menu-item" href="sabbataar.html" id="m0">
+          <span class="item-text" data-i18n="os-link1">I tvivl om hvad du skal efter dit sabbatår?</span>
+        </a>
+        <a class="menu-item" href="iphone-noter.html" id="m1">
+          <span class="item-text" data-i18n="os-link3">iphone noter</span>
+        </a>
+        <a class="menu-item" href="favorite-emoji.html" id="m2">
+          <span class="item-text" data-i18n="os-link7">my favorite emoji</span>
+        </a>
+      </div>
+
+      <div class="term-footer" id="footer">[ 3 ENTRIES FOUND ] — SELECT TO EXECUTE</div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Matrix rain ── */
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>{}[]|/\\';
+    let cols, drops;
+    function initMatrix() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      cols = Math.floor(canvas.width / 18);
+      drops = Array(cols).fill(1);
+    }
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0,0,0,0.055)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < cols; i++) {
+        const ch = chars[Math.floor(Math.random() * chars.length)];
+        const bright = Math.random() > 0.93;
+        ctx.fillStyle = bright ? '#afffbe' : '#00ff41';
+        ctx.font = `${bright ? 'bold ' : ''}14px monospace`;
+        ctx.fillText(ch, i * 18, drops[i] * 18);
+        if (drops[i] * 18 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    initMatrix();
+    window.addEventListener('resize', initMatrix);
+    setInterval(drawMatrix, 50);
+
+    /* ── Boot sequence ── */
+    const bootLines = [
+      { el: document.getElementById('b0'), delay: 200 },
+      { el: document.getElementById('b1'), delay: 600 },
+      { el: document.getElementById('b2'), delay: 1050 },
+      { el: document.getElementById('b3'), delay: 1500 },
+      { el: document.getElementById('b4'), delay: 2000 },
+    ];
+    bootLines.forEach(({ el, delay }) => {
+      setTimeout(() => el.classList.add('visible'), delay);
+    });
+
+    // Show prompt
+    setTimeout(() => {
+      document.getElementById('prompt').classList.add('visible');
+      ['m0','m1','m2'].forEach((id, i) => {
+        setTimeout(() => document.getElementById(id).classList.add('visible'), i * 120);
+      });
+      setTimeout(() => document.getElementById('footer').classList.add('visible'), 500);
+    }, 2600);
+  </script>
+  <script src="lang.js"></script>
+  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
