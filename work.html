@@ -196,6 +196,11 @@
       mask-size: 100% 100%;
       mask-repeat: no-repeat;
       mask-position: center;
+      /* Safari: force GPU compositing so mask-image swaps repaint correctly */
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      will-change: mask-image, transform;
+      isolation: isolate;
     }
     .card::after {
       content: '';
@@ -211,9 +216,12 @@
       transition: opacity 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease;
       pointer-events: none;
     }
-    .card-wrap:hover .card {
-      -webkit-mask-image: url('images/folder_icon_sharp.svg');
-      mask-image: url('images/folder_icon_sharp.svg');
+    .card-wrap:hover .card,
+    .card-wrap.js-hover .card {
+      -webkit-mask-image: url('images/folder_icon_sharp.svg') !important;
+      mask-image: url('images/folder_icon_sharp.svg') !important;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
     }
     .card-wrap:hover .card::after {
       opacity: 0;
@@ -362,9 +370,10 @@
       }
 
       /* No hover effects on mobile */
-      .card-wrap:hover .card {
-        -webkit-mask-image: url('images/folder_icon.svg');
-        mask-image: url('images/folder_icon.svg');
+      .card-wrap:hover .card,
+      .card-wrap.js-hover .card {
+        -webkit-mask-image: url('images/folder_icon.svg') !important;
+        mask-image: url('images/folder_icon.svg') !important;
       }
       .card-wrap:hover .card::after { opacity: 1; }
       .grid:has(.card-wrap:hover) .card-wrap:not(:hover) .card::after {
@@ -460,6 +469,13 @@
     window.addEventListener('load', function() {
       document.querySelector('.grid').classList.add('visible');
       document.querySelector('.shadow-grid').classList.add('visible');
+    });
+  </script>
+  <script>
+    // Safari mask-image hover fix: class toggle forces repaint where pure :hover doesn't
+    document.querySelectorAll('.card-wrap').forEach(function(wrap) {
+      wrap.addEventListener('mouseenter', function() { wrap.classList.add('js-hover'); });
+      wrap.addEventListener('mouseleave', function() { wrap.classList.remove('js-hover'); });
     });
   </script>
   <script>
