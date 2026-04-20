@@ -5,6 +5,9 @@
   <style id="page-load-bg">body{background:#000!important}</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
+  <link rel="preload" href="images/gandalf tortilla OOH1.webp" as="image" />
+  <link rel="preload" href="images/darth vader tortilla OOH1.webp" as="image" />
+  <link rel="preload" href="images/harry potter tortilla OOH1.webp" as="image" />
   <title>Mex&amp;Co — Anders Sveidahl</title>
   <meta name="description" content="Mex&amp;Co — a brand identity project by Anders Sveidahl. Logo and visual identity design." />
   <meta name="author" content="Anders Sveidahl" />
@@ -137,9 +140,13 @@
       display: block;
       border-radius: 6px;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10);
     }
-    .gallery-row img:hover { transform: scale(1.03); }
+    .gallery-row img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.26), 0 4px 14px rgba(0,0,0,0.14);
+    }
     /* Lightbox */
     #lb-overlay {
       display: none;
@@ -258,9 +265,9 @@
       <div class="gallery-section">
         <h2>OOH — Tortilla</h2>
         <div class="gallery-row">
-          <img src="images/gandalf tortilla OOH1.webp" alt="Gandalf Tortilla OOH" loading="lazy" data-src="images/gandalf tortilla OOH1.webp" />
-          <img src="images/darth vader tortilla OOH1.webp" alt="Darth Vader Tortilla OOH" loading="lazy" data-src="images/darth vader tortilla OOH1.webp" />
-          <img src="images/harry potter tortilla OOH1.webp" alt="Harry Potter Tortilla OOH" loading="lazy" data-src="images/harry potter tortilla OOH1.webp" />
+          <img src="images/gandalf tortilla OOH1.webp" alt="Gandalf Tortilla OOH" loading="eager" fetchpriority="high" data-src="images/gandalf tortilla OOH1.webp" />
+          <img src="images/darth vader tortilla OOH1.webp" alt="Darth Vader Tortilla OOH" loading="eager" data-src="images/darth vader tortilla OOH1.webp" />
+          <img src="images/harry potter tortilla OOH1.webp" alt="Harry Potter Tortilla OOH" loading="eager" data-src="images/harry potter tortilla OOH1.webp" />
         </div>
       </div>
       <div class="gallery-section">
