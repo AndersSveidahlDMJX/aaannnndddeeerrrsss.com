@@ -167,7 +167,7 @@
       z-index: 1;
     }
     .twixbar-left  { left: var(--sw); transition: left 0.35s ease; }
-    .twixbar-right { right: 0; bottom: -38.9vh; bottom: -38.9dvh; transform: scaleX(-1); }
+    .twixbar-right { right: 0; transform: scaleX(-1); }
     .mockup-wrap {
       position: absolute;
       z-index: 1;
@@ -573,40 +573,47 @@
     window.addEventListener('scroll', checkScroll, { passive: true });
 
     function positionDecorations() {
-      const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      const vTop = window.scrollY + vh + 40;
-      const barLeft  = document.querySelector('.twixbar-left');
-      const barRight = document.querySelector('.twixbar-right');
-      const tickets  = document.querySelector('.ticket-stack');
-      const mockup   = document.querySelector('.mockup-wrap');
+      var vh  = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      var W   = window.innerWidth;
+      var vTop = window.scrollY + vh + 40;
 
-      // Set left bar vertical position synchronously so it never disappears
+      var barLeft   = document.querySelector('.twixbar-left');
+      var barRight  = document.querySelector('.twixbar-right');
+      var tickets   = document.querySelector('.ticket-stack');
+      var mockup    = document.querySelector('.mockup-wrap');
+      var sidebarEl = document.querySelector('.sidebar');
+
+      // LEFT bar = UPPER — set synchronously so it never flickers
       barLeft.style.top    = vTop + 'px';
       barLeft.style.bottom = 'auto';
 
-      // Measure + position ticket/mockup on next frame (after paint)
       requestAnimationFrame(function () {
-        var lRect = barLeft.getBoundingClientRect();
-        var rRect = barRight.getBoundingClientRect();
+        var barH = barLeft.offsetHeight;
 
-        var leftBarRight  = lRect.right;
-        var rightBarLeft  = rRect.left;
-        var cx = (leftBarRight + rightBarLeft) / 2;
+        // RIGHT bar = LOWER — offset downward by 65 % of bar height
+        var rightTop = vTop + barH * 0.65;
+        barRight.style.top    = rightTop + 'px';
+        barRight.style.bottom = 'auto';
 
-        var leftBarCenterY  = lRect.top  + lRect.height  / 2 + window.scrollY;
-        var rightBarCenterY = rRect.top  + rRect.height  / 2 + window.scrollY;
+        // Sidebar width (0 when collapsed)
+        var sbW = document.body.classList.contains('sb-collapsed') ? 0 : sidebarEl.offsetWidth;
 
+        // Vertical centres in page coordinates
+        var leftBarCY  = vTop    + barH / 2;   // left bar  (upper)
+        var rightBarCY = rightTop + barH / 2;  // right bar (lower)
+
+        // ── Tickets: centre of right half of viewport, level with LEFT (upper) bar ──
         var ticketH = tickets.offsetHeight;
-        tickets.style.left   = (cx + window.scrollX) + 'px';
-        tickets.style.top    = (rightBarCenterY - ticketH / 2) + 'px';
+        tickets.style.left   = (W * 3 / 4) + 'px'; // translateX(-50%) already on element
+        tickets.style.top    = (leftBarCY - ticketH / 2) + 'px';
         tickets.style.bottom = 'auto';
 
+        // ── Mockup: centre of left visible area, level with RIGHT (lower) bar ──
         var mockupH = mockup.offsetHeight;
-        var mx = leftBarRight + (cx - leftBarRight) * 0.38;
-        mockup.style.left      = (mx + window.scrollX) + 'px';
+        mockup.style.left      = ((sbW + W / 2) / 2) + 'px'; // translateX(-50%) set below
         mockup.style.right     = 'auto';
         mockup.style.transform = 'translateX(-50%)';
-        mockup.style.top       = (leftBarCenterY - mockupH / 2) + 'px';
+        mockup.style.top       = (rightBarCY - mockupH / 2) + 'px';
         mockup.style.bottom    = 'auto';
       });
     }
