@@ -225,24 +225,16 @@
       opacity: 1;
       filter: blur(0px);
     }
-    #bg-video {
+    #bg-video { display: none; }
+    #safari-bg {
+      display: none;
       position: fixed;
-      top: 50%;
-      left: 50%;
+      top: 0; left: 0;
       width: 100vw;
-      height: 56.25vw;
-      min-height: 100vh;
-      min-width: 177.78vh;
-      transform: translate(-50%, -50%) scale(1.06);
-      border: none;
+      height: 100vh;
+      background: url('images/baggrundsafari.webp') center/cover no-repeat;
       pointer-events: none;
       z-index: 1;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 1.5s ease;
-    }
-    #bg-video.visible {
-      opacity: 1;
     }
 
     /* ── neon ticker ── */
@@ -290,7 +282,7 @@
         padding: 72px 16px 48px;
       }
 
-      #bg-video, #yt-player { display: none; }
+      #safari-bg, #yt-player { display: none; }
 
       .mute-toggle { display: none; }
 
@@ -353,9 +345,7 @@
     <div class="ticker-track" id="tickerTrack"><span class="neon-copy neon-pink" data-copy="0">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span><span class="neon-copy neon-cyan" data-copy="1">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span></div>
   </div>
   <iframe id="yt-player" allow="autoplay; encrypted-media" playsinline frameborder="0"></iframe>
-  <video id="bg-video" autoplay muted loop playsinline>
-    <source src="images/baggrundsvideo.mp4" type="video/mp4" />
-  </video>
+  <div id="safari-bg"></div>
   <div class="shadow-grid">
     <div class="shadow-card"><div class="shadow-card-inner"></div></div>
     <div class="shadow-card"><div class="shadow-card-inner"></div></div>
@@ -379,20 +369,12 @@
     var muteBtn = document.getElementById('muteBtn');
 
     if (isSafari) {
-      // Safari: use local video
-      var vid = document.getElementById('bg-video');
-      vid.muted = true;
-      vid.addEventListener('canplay', function() { vid.classList.add('visible'); });
-      setTimeout(function() { vid.classList.add('visible'); }, 3000);
-      vid.play().catch(function() {});
-      muteBtn.addEventListener('click', function() {
-        muted = !muted;
-        vid.muted = muted;
-        this.textContent = muted ? '🔇 unmute' : '🔊 mute';
-      });
+      // Safari: show still image, hide mute button
+      document.getElementById('safari-bg').style.display = 'block';
+      muteBtn.style.display = 'none';
     } else {
       // Chrome/Firefox: use YouTube iframe
-      document.getElementById('bg-video').style.display = 'none';
+      document.getElementById('safari-bg').style.display = 'none';
       var ytId = 'Thtj8Ht7Z_c';
       var iframe = document.getElementById('yt-player');
       iframe.src = 'https://www.youtube.com/embed/' + ytId +
@@ -500,7 +482,7 @@
   /* Stop browser painting page content while screensaver is active */
   body.dvd-active .shadow-grid,
   body.dvd-active .grid,
-  body.dvd-active #bg-video,
+  body.dvd-active #safari-bg,
   body.dvd-active #yt-player,
   body.dvd-active .back,
   body.dvd-active .mute-toggle { visibility: hidden !important; }
