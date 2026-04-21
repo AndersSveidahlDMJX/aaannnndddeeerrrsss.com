@@ -718,46 +718,25 @@
     var W = window.innerWidth, H = window.innerHeight;
     var xMin = -PAD_X, xMax = W - SIZE + PAD_X;
     var yMin = -PAD_T, yMax = H - SIZE + PAD_B;
-    var DT = 1 / 60; // match browser frame step
+    var Wx = xMax - xMin; // full bounce width
+    var Wy = yMax - yMin; // full bounce height
 
-    // Numerically simulate a candidate trajectory (same discrete steps as tick()).
-    // Returns time of first corner hit (bx && by in same frame), or Infinity.
-    function simulate(sx, sy, svx, svy) {
-      for (var t = DT; t < 125; t += DT) {
-        sx += svx * DT; sy += svy * DT;
-        var bx = false, by = false;
-        if (sx <= xMin) { sx = xMin; svx =  Math.abs(svx); bx = true; }
-        if (sx >= xMax) { sx = xMax; svx = -Math.abs(svx); bx = true; }
-        if (sy <= yMin) { sy = yMin; svy =  Math.abs(svy); by = true; }
-        if (sy >= yMax) { sy = yMax; svy = -Math.abs(svy); by = true; }
-        if (bx && by) return t;
-      }
-      return Infinity;
-    }
+    // Pick a random target corner-hit time in [60, 120]s.
+    var T = 60 + Math.random() * 60;
 
-    // Try random starts until the first corner hit falls in [60, 120]s.
-    // Wide angle range (15°–75°) gives varied, unpredictable paths.
-    var best = null, bestDist = Infinity;
-    for (var iter = 0; iter < 800; iter++) {
-      var ang = (15 + Math.random() * 60) * Math.PI / 180;
-      var tvx = SPEED * Math.cos(ang) * (Math.random() < 0.5 ? 1 : -1);
-      var tvy = SPEED * Math.sin(ang) * (Math.random() < 0.5 ? 1 : -1);
-      var tx  = xMin + Math.random() * (xMax - xMin);
-      var ty  = yMin + Math.random() * (yMax - yMin);
-      var hit = simulate(tx, ty, tvx, tvy);
-      if (hit >= 60 && hit <= 120) {
-        x = tx; y = ty; vx = tvx; vy = tvy;
-        best = null; break;
-      }
-      var dist = hit < 60 ? (60 - hit) : (hit - 120);
-      if (dist < bestDist) { bestDist = dist; best = {x:tx, y:ty, vx:tvx, vy:tvy, hit:hit}; }
-    }
-    if (best) {
-      // Fallback: scale speed so corner hit lands in [60,120]s
-      x = best.x; y = best.y;
-      var scale = best.hit > 0 && best.hit < Infinity ? (90 / best.hit) : 1;
-      vx = best.vx * scale; vy = best.vy * scale;
-    }
+    // Random angle and direction for an unpredictable-looking path.
+    var ang = (15 + Math.random() * 60) * Math.PI / 180;
+    vx = SPEED * Math.cos(ang) * (Math.random() < 0.5 ? 1 : -1);
+    vy = SPEED * Math.sin(ang) * (Math.random() < 0.5 ? 1 : -1);
+
+    // Analytically derive start position so the path hits a corner at exactly T.
+    // In the unfolded domain, position is linear: x_u(t) = x0_rel + vx*t.
+    // A corner hit requires x_u(T) to be a multiple of Wx:
+    //   x0_rel = (-vx*T) mod Wx   → guarantees x0_rel ∈ [0, Wx)
+    var x0_rel = ((-vx * T) % Wx + Wx) % Wx;
+    var y0_rel = ((-vy * T) % Wy + Wy) % Wy;
+    x = xMin + x0_rel;
+    y = yMin + y0_rel;
 
     setThumb(Math.floor(Math.random() * THUMBS.length));
     setPos();
