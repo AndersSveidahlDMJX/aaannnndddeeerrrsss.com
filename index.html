@@ -62,7 +62,6 @@
       transform: translate(-50%, calc(-50% + 1.875rem));
       display: flex;
       align-items: flex-end;
-      justify-content: center;
       gap: 4vw;
       z-index: 1;
     }
@@ -522,8 +521,17 @@
     function centerOnToshiba() {
       var row = document.querySelector('.items-row');
       if (!row) return;
-      row.style.left = '50%';
-      row.style.transform = 'translate(-50%, calc(-50% + 1.875rem))';
+      // Use item labels (exclude usb-mobile) — labels are reliably centered under each item
+      var labels = Array.from(row.querySelectorAll('.item-col:not(.usb-mobile) .item-label'));
+      row.style.transform = 'translateY(-50%)';
+      row.style.left = '0';
+      var rowRect = row.getBoundingClientRect();
+      var rects = labels.map(function(l) { return l.getBoundingClientRect(); });
+      var leftCenter  = rects[0].left + rects[0].width / 2;
+      var rightCenter = rects[rects.length - 1].left + rects[rects.length - 1].width / 2;
+      var visualCenter = (leftCenter + rightCenter) / 2;
+      var offset = visualCenter - rowRect.left;
+      row.style.left = (window.innerWidth / 2 - offset) + 'px';
       if (typeof positionSpotlights === 'function') positionSpotlights();
     }
 
