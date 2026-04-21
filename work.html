@@ -618,10 +618,40 @@
     pointer-events: none;
     z-index: 10;
   }
+  #dvd-corner {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.8s ease;
+    text-align: center; padding: 20px;
+    z-index: 20;
+  }
+  #dvd-corner-title {
+    color: #fff;
+    font-size: clamp(1.4rem, 4vw, 2.8rem);
+    font-weight: 600; letter-spacing: -0.02em; line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  #dvd-corner-sub { color: rgba(255,255,255,0.5); font-size: clamp(0.8rem, 2vw, 1rem); }
+  #dvd-corner-sub a { color: rgba(255,255,255,0.7); text-decoration: underline; text-underline-offset: 3px; }
+  #dvd-corner-sub a:hover { color: #fff; }
+  #dvd-corner-close {
+    position: absolute; top: 24px; right: 32px;
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,0.5); font-size: 1.6rem; line-height: 1;
+    transition: color 0.15s; padding: 4px 8px;
+  }
+  #dvd-corner-close:hover { color: #fff; }
 
 </style>
 <div id="dvd-saver">
   <div id="dvd-flash"></div>
+  <div id="dvd-corner">
+    <div id="dvd-corner-title">you seem pretty invested already...</div>
+    <div id="dvd-corner-sub">you should <a href="contact.html">hit me up...</a></div>
+    <button id="dvd-corner-close" aria-label="Close">&times;</button>
+  </div>
   <div id="dvd-folder">
     <div id="dvd-folder-inner">
       <div id="dvd-folder-bg"></div>
@@ -705,11 +735,11 @@
       return Infinity;
     }
 
-    // Try random starts until the first corner hit falls in [120, 300]s.
-    // Varying angle 42–48° breaks the pure-45° lattice pattern.
+    // Try random starts until the first corner hit falls in [60, 120]s.
+    // Wide angle range (15°–75°) gives varied, unpredictable paths.
     var best = null, bestDist = Infinity;
-    for (var iter = 0; iter < 150; iter++) {
-      var ang = (42 + Math.random() * 6) * Math.PI / 180;
+    for (var iter = 0; iter < 800; iter++) {
+      var ang = (15 + Math.random() * 60) * Math.PI / 180;
       var tvx = SPEED * Math.cos(ang) * (Math.random() < 0.5 ? 1 : -1);
       var tvy = SPEED * Math.sin(ang) * (Math.random() < 0.5 ? 1 : -1);
       var tx  = xMin + Math.random() * (xMax - xMin);
@@ -720,9 +750,14 @@
         best = null; break;
       }
       var dist = hit < 60 ? (60 - hit) : (hit - 120);
-      if (dist < bestDist) { bestDist = dist; best = {x:tx, y:ty, vx:tvx, vy:tvy}; }
+      if (dist < bestDist) { bestDist = dist; best = {x:tx, y:ty, vx:tvx, vy:tvy, hit:hit}; }
     }
-    if (best) { x = best.x; y = best.y; vx = best.vx; vy = best.vy; }
+    if (best) {
+      // Fallback: scale speed so corner hit lands in [60,120]s
+      x = best.x; y = best.y;
+      var scale = best.hit > 0 && best.hit < Infinity ? (90 / best.hit) : 1;
+      vx = best.vx * scale; vy = best.vy * scale;
+    }
 
     setThumb(Math.floor(Math.random() * THUMBS.length));
     setPos();
@@ -734,6 +769,7 @@
 
   function celebrate() {
     var fl = document.getElementById('dvd-flash');
+    var corner = document.getElementById('dvd-corner');
     fl.style.transition = 'none';
     fl.style.opacity = '1';
     setTimeout(function() {
@@ -742,7 +778,10 @@
     }, 60);
     folder.style.transition = 'opacity 2s ease 0.3s';
     folder.style.opacity = '0';
-    celebTimer1 = setTimeout(hide, 2300);
+    celebTimer1 = setTimeout(function() {
+      corner.style.opacity = '1';
+      corner.style.pointerEvents = 'all';
+    }, 2000);
   }
 
   function hide() {
@@ -753,6 +792,8 @@
     celebTimer1 = celebTimer2 = null;
     folder.style.transition = '';
     folder.style.opacity = '';
+    var corner = document.getElementById('dvd-corner');
+    if (corner) { corner.style.opacity = '0'; corner.style.pointerEvents = 'none'; }
     saver.classList.remove('active');
     document.body.classList.remove('dvd-active');
     if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
@@ -778,7 +819,6 @@
     if (y >= yMax) { y = yMax; vy = -Math.abs(vy); by = true; }
 
     if (bx && by && !cornerHit) { cornerHit = true; celebrate(); }
-    else if (bx || by) setThumb(thumbIdx + 1);
 
     setPos();
     rafId = requestAnimationFrame(tick);
@@ -792,12 +832,17 @@
   // Dismiss screensaver on any interaction
   ['mousemove','mousedown','touchstart','wheel'].forEach(function (ev) {
     window.addEventListener(ev, function () {
-      if (active) { hide(); return; }
+      if (active && !cornerHit) { hide(); return; }
       if (!active) resetIdle();
     }, { passive: true });
   });
   window.addEventListener('keydown', function (e) {
     if (!active) { resetIdle(); return; }
+    if (e.key === 'Escape') { hide(); return; }
+    if (!cornerHit) hide();
+  });
+  document.getElementById('dvd-corner-close').addEventListener('click', function(e) {
+    e.stopPropagation();
     hide();
   });
 
