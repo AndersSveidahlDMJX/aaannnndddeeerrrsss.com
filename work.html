@@ -528,7 +528,7 @@
         var BASE_W = 1512;
         function calcSpeed() {
           var base = 90 * (window.innerWidth / BASE_W);
-          return window.innerWidth <= 768 ? base * 2 : base;
+          return window.innerWidth <= 768 ? base * 4 : base;
         }
         var speed = calcSpeed();
         window.addEventListener('resize', function () { speed = calcSpeed(); });
