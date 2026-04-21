@@ -399,24 +399,30 @@
         z-index: 1;
       }
 
-      /* Reset all per-card desktop img transforms */
-      .card-link:nth-child(2) .card img,
-      .card-link:nth-child(3) .card img,
-      .card-link:nth-child(4) .card img,
-      .card-link:nth-child(5) .card img {
-        transform: none;
-      }
+      /* Match desktop per-card img transforms exactly */
       .card-link:nth-child(1) .card img {
-        transform: scale(1.05);
+        object-fit: contain;
+        transform: translateY(7px) scale(1.178);
       }
       .card-link:nth-child(2) .card img {
-        transform: translateY(7px) scale(0.85);
+        transform: translateX(-3px) translateY(15px) scale(0.955);
       }
       .card-link:nth-child(3) .card img {
-        transform: scale(0.7);
+        object-fit: contain;
+        transform: scale(0.8);
+      }
+      .card-link:nth-child(4) .card img {
+        object-fit: cover;
+        transform: translateY(4px) scale(0.93);
+      }
+      .card-link:nth-child(5) .card img {
+        object-fit: cover;
+        transform: translateY(8px) scale(0.95);
       }
       .card-link:nth-child(6) .card img {
-        transform: rotate(-90deg) scale(0.928) translateX(-5%);
+        object-fit: cover;
+        transform: rotate(-90deg) scale(0.98) translateX(-5%);
+        transform-origin: center center;
       }
 
       /* Labels hidden on mobile */
