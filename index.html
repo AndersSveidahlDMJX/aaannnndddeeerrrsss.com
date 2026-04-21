@@ -521,14 +521,9 @@
     // Center the row on toshiba's midpoint rather than the group midpoint
     function centerOnToshiba() {
       var row = document.querySelector('.items-row');
-      var toshibaWrap = document.querySelector('.toshiba-wrap');
-      if (!row || !toshibaWrap) return;
-      row.style.transform = 'translateY(-50%)';
-      row.style.left = '0';
-      var rowRect = row.getBoundingClientRect();
-      var tRect = toshibaWrap.getBoundingClientRect();
-      var tCenterInRow = tRect.left + tRect.width / 2 - rowRect.left;
-      row.style.left = (window.innerWidth / 2 - tCenterInRow) + 'px';
+      if (!row) return;
+      row.style.left = '50%';
+      row.style.transform = 'translate(-50%, calc(-50% + 1.875rem))';
       if (typeof positionSpotlights === 'function') positionSpotlights();
     }
 
