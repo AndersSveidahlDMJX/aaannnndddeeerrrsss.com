@@ -305,10 +305,9 @@
     @media (max-width: 768px) {
       body {
         background: transparent;
-        overflow-y: auto;
-        overflow-x: hidden;
-        height: auto;
-        min-height: 100dvh;
+        overflow: hidden;
+        height: 100dvh;
+        min-height: unset;
         padding: 56px 14px 88px;
         display: flex;
         flex-direction: column;
@@ -344,24 +343,27 @@
         left: auto;
         transform: none;
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: auto;
+        flex: 1;
+        min-height: 0;
+        grid-template-columns: repeat(2, min(calc((100vw - 40px) / 2), calc((100dvh - 164px) / 3)));
+        grid-template-rows: repeat(3, min(calc((100vw - 40px) / 2), calc((100dvh - 164px) / 3)));
         column-gap: 12px;
         row-gap: 10px;
         width: 100%;
         opacity: 1;
-        align-content: start;
+        justify-content: center;
+        align-content: center;
       }
 
       .card-link {
         width: 100%;
-        height: auto;
+        height: 100%;
         display: block;
       }
 
       .card-wrap {
         width: 100%;
-        height: auto;
+        height: 100%;
         position: relative;
       }
 
@@ -386,8 +388,8 @@
 
       .card {
         width: 100%;
-        height: auto;
-        aspect-ratio: 1;
+        height: 100%;
+        aspect-ratio: unset;
         position: relative;
         z-index: 1;
       }
