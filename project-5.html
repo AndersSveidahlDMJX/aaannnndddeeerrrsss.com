@@ -182,17 +182,18 @@
       /* Reposition title to flow with content */
       .page-title {
         position: static;
-        font-size: 2.2rem;
+        font-size: clamp(3rem, 11vw, 4.4rem);
         text-align: center;
-        padding: 20px 0 8px;
+        padding: 40px 8px 16px;
+        line-height: 1.15;
       }
 
       /* 2-column grid on mobile */
       .image-grid {
         grid-template-columns: repeat(2, 1fr);
         width: 100%;
-        gap: 8px;
-        margin-top: 12px;
+        gap: 12px;
+        margin-top: 24px;
         overflow: visible;
       }
       /* Scale up the penguin logo in the grid */
