@@ -181,9 +181,9 @@
         max-height: calc(100dvh - 64px);
         overflow-y: auto;
       }
-      .boot-line { font-size: 0.62rem; letter-spacing: 0.02em; }
+      .boot-line { font-size: 0.62rem; letter-spacing: 0.02em; white-space: normal; width: 100%; }
       .prompt-label { font-size: 0.62rem; }
-      .menu-item { font-size: 1.6rem; padding: 10px 0; }
+      .menu-item { font-size: clamp(1.1rem, 6vw, 1.6rem); padding: 10px 0; white-space: normal; word-break: break-word; }
       .term-footer { font-size: 0.58rem; }
     }
 
