@@ -129,12 +129,17 @@
       filter: drop-shadow(2px 5px 5px rgba(0,0,0,0.5));
     }
 
+    @keyframes usb-eclipse-pulse {
+      0%, 100% { filter: brightness(0.38) drop-shadow(0 0 12px rgba(210,175,90,0.55)) drop-shadow(0 0 28px rgba(200,140,50,0.28)); }
+      50%       { filter: brightness(0.45) drop-shadow(0 0 24px rgba(230,195,110,0.85)) drop-shadow(0 0 50px rgba(210,155,60,0.48)); }
+    }
+
     .diary-img {
       height: 56vh;
       height: 56dvh;
       width: auto;
       display: block;
-      filter: drop-shadow(2px 5px 8px rgba(0,0,0,0.35));
+      filter: drop-shadow(0 0 10px rgba(160,185,255,0.2)) drop-shadow(2px 5px 8px rgba(0,0,0,0.35));
     }
 
     .toshiba2 {
@@ -144,6 +149,7 @@
       max-height: 38.25dvh;
       width: auto;
       height: auto;
+      filter: drop-shadow(0 0 10px rgba(160,185,255,0.2)) drop-shadow(2px 5px 5px rgba(0,0,0,0.35));
     }
 
     .toshiba1 {
@@ -162,7 +168,7 @@
       height: 30dvh;
       width: auto;
       display: block;
-      filter: drop-shadow(2px 5px 10px rgba(0,0,0,0.4));
+      filter: drop-shadow(0 0 10px rgba(160,185,255,0.2)) drop-shadow(2px 5px 10px rgba(0,0,0,0.4));
     }
 
     .iphone-on {
@@ -259,10 +265,11 @@
       z-index: 1;
     }
     .usb-fixed .usb-img {
-      filter: brightness(0.38);
+      animation: usb-eclipse-pulse 3s ease-in-out infinite;
       transition: filter 0.55s ease;
     }
     .usb-fixed:hover .usb-img {
+      animation: none;
       filter: brightness(1) drop-shadow(0 0 10px rgba(255,254,235,0.75)) drop-shadow(0 0 30px rgba(255,250,210,0.4)) drop-shadow(0 0 60px rgba(255,240,180,0.18));
     }
     .usb-fixed .item-label {
