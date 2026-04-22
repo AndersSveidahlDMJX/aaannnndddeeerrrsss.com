@@ -196,6 +196,12 @@
         width: 50%;
         justify-self: center;
       }
+      /* Reorder to prevent same-colour images being adjacent in 2-col layout
+         Desktop order: O W B B O W O W B
+         Mobile target: O W B O W B O W B (no same-colour neighbours anywhere) */
+      .image-grid img:nth-child(4) { order: 6; } /* reading(B)  → pos 6 */
+      .image-grid img:nth-child(5) { order: 4; } /* there(O)   → pos 4 */
+      .image-grid img:nth-child(6) { order: 5; } /* truly(W)   → pos 5 */
 
       /* Disable hover lift on mobile (touch) */
       .image-grid img:hover {
