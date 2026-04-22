@@ -261,15 +261,28 @@
       margin: 0 auto 12px;
       position: relative;
     }
-    .suggestions-wrap::after {
+    .suggestions-wrap::after,
+    .suggestions-wrap::before {
       content: '';
       position: absolute;
-      top: 0; right: 0;
+      top: 0;
       width: 48px;
       height: 100%;
-      background: linear-gradient(to right, transparent, #0f0f0f);
       pointer-events: none;
+      transition: opacity 0.2s;
     }
+    .suggestions-wrap::before {
+      left: 0;
+      background: linear-gradient(to left, transparent, #0f0f0f);
+      opacity: 0;
+    }
+    .suggestions-wrap::after {
+      right: 0;
+      background: linear-gradient(to right, transparent, #0f0f0f);
+      opacity: 1;
+    }
+    .suggestions-wrap.scrolled-left::before { opacity: 1; }
+    .suggestions-wrap.scrolled-end::after { opacity: 0; }
     .suggestions {
       display: flex;
       flex-wrap: nowrap;
@@ -527,6 +540,13 @@
         btn.addEventListener('click', () => suggest(btn));
         container.appendChild(btn);
       });
+      const wrap = container.parentElement;
+      function updateFades() {
+        wrap.classList.toggle('scrolled-left', container.scrollLeft > 8);
+        wrap.classList.toggle('scrolled-end', container.scrollLeft + container.clientWidth >= container.scrollWidth - 8);
+      }
+      container.addEventListener('scroll', updateFades, { passive: true });
+      updateFades();
     })();
 
     sendBtn.addEventListener('click', send);
