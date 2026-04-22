@@ -440,20 +440,33 @@
       .sidebar-toggle {
         display: flex !important;
         position: fixed;
-        bottom: 24px;
-        right: 24px;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 1px solid #e0e0e0 !important;
-        box-shadow: 0 3px 14px rgba(0,0,0,0.22) !important;
+        top: 50%;
+        left: min(85vw, 320px);
+        bottom: auto !important;
+        right: auto !important;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 52px;
+        border-radius: 0 6px 6px 0;
+        background: #fff;
+        border: none !important;
+        border-right: 1px solid #e0e0e0 !important;
+        border-top: 1px solid #e0e0e0 !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+        box-shadow: 3px 0 10px rgba(0,0,0,0.10) !important;
         z-index: 210;
-        font-size: 1.3rem;
-        transition: box-shadow 0.2s ease !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+        transition: left 0.3s ease !important;
+        animation: none;
       }
+      body.sb-collapsed .sidebar-toggle { left: 0 !important; }
+      .sidebar-toggle span { display: block; width: 6px; height: 6px; border-right: 1.5px solid #aaa; border-bottom: 1.5px solid #aaa; transform: rotate(135deg); }
+      .sidebar-toggle span:nth-child(2) { display: none; }
+      body.sb-collapsed .sidebar-toggle span { transform: rotate(-45deg); }
       /* ── Hero: let it grow instead of being fixed 100vh ── */
       .hero { height: auto; }
 
@@ -537,7 +550,7 @@
 </head>
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Le Ice — Brand Project</h1>
-  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">&#8249;</button>
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"><span></span><span></span></button>
   <div class="layout">
     <aside class="sidebar">
       <div class="section">
@@ -723,12 +736,10 @@
       if (collapsed) {
         sidebar.classList.add('collapsed');
         toggleBtn.classList.add('collapsed');
-        toggleBtn.innerHTML = '&#8250;';
         document.body.classList.add('sb-collapsed');
       } else {
         sidebar.classList.remove('collapsed');
         toggleBtn.classList.remove('collapsed');
-        toggleBtn.innerHTML = '&#8249;';
         document.body.classList.remove('sb-collapsed');
       }
     }
