@@ -330,15 +330,15 @@
         flex-direction: column;
         gap: 0;
         align-items: stretch;
-        justify-content: space-evenly;
-        padding: 8px 0 20px;
+        justify-content: center;
+        padding: 8px 0 28px;
       }
 
-      /* Order: Work → About Me → Contact → Other Stuff */
-      .item-col:nth-child(2) { order: 1; }   /* Work */
-      .item-col:nth-child(1) { order: 2; }   /* About Me */
-      .item-col:nth-child(3) { order: 3; }   /* Contact */
-      .usb-mobile            { order: 4; }   /* Other Stuff */
+      /* Order: Work → Other Stuff → About Me → Contact */
+      .item-col:nth-child(2) { order: 1; }                           /* Work */
+      .usb-mobile            { order: 2; margin-bottom: 10vw; }      /* Other Stuff — grouped with Work */
+      .item-col:nth-child(1) { order: 3; }                           /* About Me */
+      .item-col:nth-child(3) { order: 4; }
 
       .usb-wrap,
       .diary-wrap,
@@ -359,6 +359,7 @@
         margin: 0;
         filter: brightness(1);
         text-align: center;
+        padding-top: 0;
       }
       .item-col > a {
         display: block;
@@ -373,20 +374,22 @@
         position: relative;
         z-index: 1;
         width: 100%;
-        font-size: 10vw;
+        font-size: 11vw;
         text-align: center;
-        padding: 8px 0;
+        padding: 6px 0;
         pointer-events: none;
       }
       /* Work: hero label */
       .work-label {
-        font-size: 23vw;
-        padding: 4px 0;
+        font-size: 26vw;
+        padding: 2px 0 0;
+        line-height: 1;
       }
-      /* Other Stuff: tertiary */
+      /* Other Stuff: tied to Work, smaller */
       .usb-mobile .item-label {
-        font-size: 6.5vw;
-        opacity: 0.55;
+        font-size: 7vw;
+        opacity: 0.65;
+        padding: 0 0 4px;
       }
     }
 
