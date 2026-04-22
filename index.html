@@ -538,6 +538,11 @@
     function centerOnToshiba() {
       var row = document.querySelector('.items-row');
       if (!row) return;
+      if (window.innerWidth <= 768) {
+        row.style.left = '';
+        row.style.transform = '';
+        return;
+      }
       // Use item labels (exclude usb-mobile) — labels are reliably centered under each item
       var labels = Array.from(row.querySelectorAll('.item-col:not(.usb-mobile) .item-label'));
       row.style.transform = 'translateY(-50%)';
