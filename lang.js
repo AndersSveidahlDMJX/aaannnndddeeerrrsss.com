@@ -60,7 +60,7 @@
   const T = {
     en: {
       /* ── index ── */
-      'notwork':       'Other Stuff',
+      'notwork':       'Other stuff',
       'nav-me':        'me',
       'nav-work':      'Work',
 
