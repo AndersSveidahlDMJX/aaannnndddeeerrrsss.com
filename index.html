@@ -380,7 +380,7 @@
         background: rgba(255,255,255,0.3);
         pointer-events: none;
       }
-      /* About Me + Contact: fixed to bottom, side by side */
+      /* About Me + Contact: fixed to bottom, side by side with separator line above */
       .item-col:nth-child(1) {
         order: 3;
         position: fixed !important;
@@ -394,6 +394,17 @@
         bottom: 5vw;
         left: 50%; right: 0;
         width: 50%;
+      }
+      /* Thin separator above About/Contact row */
+      .item-col:nth-child(1)::before {
+        content: '';
+        position: fixed;
+        bottom: calc(5vw + 4vw + 12px);
+        left: 8vw;
+        right: 8vw;
+        height: 1px;
+        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.12) 70%, transparent 100%);
+        pointer-events: none;
       }
 
       .usb-wrap,
@@ -424,31 +435,30 @@
         z-index: 2;
       }
 
-      /* About Me + Contact: metallic chrome matching title style */
+      /* About Me + Contact: EurostileExtBlk footer-nav style */
       .item-label {
         display: block;
         position: relative;
         z-index: 1;
         width: 100%;
-        font-family: 'EuroStyleNormal', sans-serif;
-        font-size: 8.5vw;
+        font-family: 'EurostileExtBlk', sans-serif;
+        font-size: 4vw;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
         text-align: center;
-        padding: 4px 0;
+        padding: 6px 0;
         pointer-events: none;
         background: linear-gradient(
           180deg,
-          #c0c0c0 0%,
-          #f4f4f4 18%,
-          #888888 32%,
-          #dedede 48%,
-          #606060 62%,
-          #c8c8c8 78%,
-          #848484 100%
+          #909090 0%,
+          #c0c0c0 30%,
+          #787878 60%,
+          #a0a0a0 100%
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        filter: drop-shadow(0 0 8px rgba(255,255,255,0.2)) drop-shadow(0 1px 4px rgba(0,0,0,0.5));
+        filter: drop-shadow(0 0 4px rgba(255,255,255,0.12));
       }
       /* Work: dominant hero — padding-right compensates italic slant optical offset */
       .work-label {
@@ -467,11 +477,13 @@
         background-clip: text;
         filter: drop-shadow(0 0 6px rgba(255,255,255,0.25));
       }
-      /* Other Stuff: sub-item of Work group — same chrome, smaller offset */
+      /* Other Stuff: secondary hero — bigger, same chrome */
       .usb-mobile .item-label {
         font-family: 'EnglishVivace', 'Brush Script MT', cursive;
-        font-size: 7vw;
-        padding: 2px 1.5vw 0 0;
+        font-size: 13vw;
+        letter-spacing: 0;
+        text-transform: none;
+        padding: 2px 2.5vw 0 0;
         pointer-events: none;
         background: linear-gradient(
           180deg,
@@ -543,7 +555,7 @@
       <a href="other-stuff.html">
         <div class="usb-wrap"></div>
       </a>
-      <span class="item-label" data-i18n="notwork">...other stuff</span>
+      <span class="item-label" data-i18n="notwork">Other Stuff</span>
     </div>
   </div>
   <script>

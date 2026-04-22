@@ -60,7 +60,7 @@
   const T = {
     en: {
       /* ── index ── */
-      'notwork':       '...other stuff',
+      'notwork':       'Other Stuff',
       'nav-me':        'me',
       'nav-work':      'Work',
 
@@ -135,7 +135,7 @@
 
     da: {
       /* ── index ── */
-      'notwork':  '...andre ting',
+      'notwork':  'Andre ting',
       'nav-me':   'mig',
       'nav-work': 'Arbejde',
 
