@@ -85,7 +85,7 @@
     .item-col:hover {
       filter: brightness(1);
     }
-    .items-row:has(.item-col:hover) .item-col:not(:hover):not(.usb-mobile) {
+    .items-row:has(.item-col:hover) .item-col:not(:hover) {
       filter: brightness(0.06);
       transition: filter 0.3s ease;
     }
@@ -345,8 +345,41 @@
 
       /* Work + OtherStuff: centered in upper area */
       .item-col:nth-child(2) { order: 1; }
-      .usb-mobile { order: 2; position: relative; filter: brightness(1) !important; padding-top: 17px; }
+      .usb-mobile { order: 3; position: relative; }
       .usb-mobile > a { pointer-events: all; }
+      /* Divider between Work and ...other stuff — not an item-col, immune to all hover rules */
+      .work-divider {
+        order: 2;
+        pointer-events: none;
+        position: relative;
+        width: 32%;
+        height: 1px;
+        margin: 6px auto 4px;
+        align-self: center;
+        background: linear-gradient(to right,
+          transparent 0%,
+          rgba(255,255,255,0.18) 20%,
+          rgba(255,255,255,0.18) 46%,
+          transparent 48%,
+          transparent 52%,
+          rgba(255,255,255,0.18) 54%,
+          rgba(255,255,255,0.18) 80%,
+          transparent 100%
+        );
+        box-shadow: 0 0 6px rgba(255,255,255,0.08);
+      }
+      .work-divider::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
+        pointer-events: none;
+      }
       /* About Me + Contact: fixed to bottom, side by side */
       .item-col:nth-child(1) {
         order: 3;
@@ -450,44 +483,13 @@
         background-clip: text;
         filter: drop-shadow(0 0 6px rgba(255,255,255,0.25));
       }
-      .usb-mobile::before {
-        content: '';
-        position: absolute;
-        top: 8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 32%;
-        height: 1px;
-        background: linear-gradient(to right,
-          transparent 0%,
-          rgba(255,255,255,0.18) 20%,
-          rgba(255,255,255,0.18) 46%,
-          transparent 48%,
-          transparent 52%,
-          rgba(255,255,255,0.18) 54%,
-          rgba(255,255,255,0.18) 80%,
-          transparent 100%
-        );
-        box-shadow: 0 0 6px rgba(255,255,255,0.08);
-        pointer-events: none;
-      }
-      .usb-mobile::after {
-        content: '';
-        position: absolute;
-        top: 8px;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 3px;
-        height: 3px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.3);
-        pointer-events: none;
-      }
+
     }
 
     /* Hide mobile USB on desktop */
     @media (min-width: 769px) {
       .usb-mobile { display: none; }
+      .work-divider { display: none; }
     }
 
   </style>
@@ -536,6 +538,7 @@
       <span class="item-label" data-i18n="nav-contact">Contact</span>
     </div>
 
+    <div class="work-divider"></div>
     <div class="item-col usb-mobile">
       <a href="other-stuff.html">
         <div class="usb-wrap"></div>
