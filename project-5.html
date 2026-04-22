@@ -199,12 +199,6 @@
         width: 50%;
         justify-self: center;
       }
-      /* Reorder to prevent same-colour images being adjacent in 2-col layout
-         Desktop order: O W B B O W O W B
-         Mobile target: O W B O W B O W B (no same-colour neighbours anywhere) */
-      .image-grid img:nth-child(4) { order: 6; } /* reading(B)  → pos 6 */
-      .image-grid img:nth-child(5) { order: 4; } /* there(O)   → pos 4 */
-      .image-grid img:nth-child(6) { order: 5; } /* truly(W)   → pos 5 */
 
       /* Disable hover lift on mobile (touch) */
       .image-grid img:hover {
@@ -350,9 +344,9 @@
         <img src="images/penguin/nothing.webp" alt="Nothing" loading="eager" fetchpriority="high" />
         <img src="images/penguin/nothing keeping.webp" alt="Nothing Keeping" loading="lazy" />
         <img src="images/penguin/no limits.webp" alt="No Limits" loading="lazy" />
-        <img src="images/penguin/reading.webp" alt="Reading" loading="lazy" />
         <img src="images/penguin/there.webp" alt="There" loading="lazy" />
         <img src="images/penguin/truly.webp" alt="Truly" loading="lazy" />
+        <img src="images/penguin/reading.webp" alt="Reading" loading="lazy" />
         <img src="images/penguin/the world.webp" alt="The World" loading="lazy" />
         <img src="images/penguin/reading hvid.webp" alt="Reading Hvid" loading="lazy" />
         <img src="images/penguin/the freedom.webp" alt="The Freedom" loading="lazy" />
