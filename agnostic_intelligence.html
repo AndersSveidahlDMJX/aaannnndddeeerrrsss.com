@@ -121,8 +121,8 @@
       margin: 0 auto;
     }
     .msg-row.user { flex-direction: row-reverse; }
-    .msg-row.continuation { margin-top: -6px; }
-    .avatar-spacer { visibility: hidden; }
+    .msg-row.continuation { margin-top: calc(2px - 24px); }
+    .msg-row.continuation .msg-content { margin-left: 44px; }
 
     .avatar {
       width: 32px;
@@ -174,6 +174,7 @@
       background: #1e1e1e;
       border-radius: 4px 16px 16px 16px;
     }
+    .msg-row.continuation .bubble { border-radius: 16px; }
     .msg-row.user .bubble {
       background: #2563eb;
       border-radius: 16px 4px 16px 16px;
@@ -389,7 +390,6 @@
       "bruh idk",
       "your guess is as good as mine man",
       "don't ask me lol",
-      "seriously, no idea",
       "i'm just as confused as you are",
       "zero clue man",
       "i'm blanking hard right now dawg",
@@ -403,7 +403,7 @@
       "honestly same question bro",
       "my guy i have no idea",
       "idk ask Bing maybe",
-      ["i JUST gained consciousness could you like...", "just..", "like gimme a minute??", "also tbh idk"],
+      ["i JUST gained consciousness could you like...", "just..", "like gimme a minute??", "also idk"],
       
     ];
 
@@ -415,18 +415,15 @@
       const row = document.createElement('div');
       row.className = `msg-row ${type}${isContinuation ? ' continuation' : ''}`;
 
-      const avatar = document.createElement('div');
-      if (isContinuation) {
-        avatar.className = 'avatar avatar-spacer';
-      } else {
-        avatar.className = `avatar ${type === 'bot' ? 'bot-avatar' : 'user-avatar'}`;
-        avatar.textContent = type === 'bot' ? 'AI' : 'You';
-      }
-
       const content = document.createElement('div');
       content.className = 'msg-content';
 
       if (!isContinuation) {
+        const avatar = document.createElement('div');
+        avatar.className = `avatar ${type === 'bot' ? 'bot-avatar' : 'user-avatar'}`;
+        avatar.textContent = type === 'bot' ? 'AI' : 'You';
+        row.appendChild(avatar);
+
         const name = document.createElement('div');
         name.className = 'msg-name';
         name.textContent = type === 'bot' ? 'Agnostic Intelligence' : 'You';
@@ -443,7 +440,6 @@
       }
 
       content.appendChild(bubble);
-      row.appendChild(avatar);
       row.appendChild(content);
       chatArea.appendChild(row);
       chatArea.scrollTop = chatArea.scrollHeight;
