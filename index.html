@@ -208,110 +208,106 @@
       overflow: hidden;
       pointer-events: none;
       border-radius: 2px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       opacity: 0;
       transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, sans-serif;
       -webkit-font-smoothing: antialiased;
+      container-type: size;
     }
     .iphone-wrap:hover .ils {
       opacity: 1;
       transition: opacity 0.25s cubic-bezier(0.0, 0, 0.2, 1);
     }
-    /* Status bar */
+    /* Status bar — y=19-46 = 1.3%-3.1% */
     .ils-status {
-      width: 100%;
+      position: absolute;
+      top: 1.3%;
+      left: 0; right: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 4% 8% 0;
-      color: rgba(255,255,255,0.92);
-      font-size: 0.85dvh;
+      padding: 0 7%;
+      color: #fff;
+      font-size: 1.5cqh;
       font-weight: 600;
       letter-spacing: 0.01em;
-      flex-shrink: 0;
+      height: 2.5cqh;
     }
     .ils-battery {
       display: flex;
       align-items: center;
-      gap: 1px;
-      font-size: 0.75dvh;
+      gap: 2px;
+      font-size: 1.2cqh;
     }
     .ils-battery-bar {
       display: inline-block;
-      width: 1.6dvh;
-      height: 0.75dvh;
-      border: 1px solid rgba(255,255,255,0.7);
-      border-radius: 1px;
+      width: 2cqh;
+      height: 1cqh;
+      border: 0.12cqh solid rgba(255,255,255,0.75);
+      border-radius: 0.2cqh;
       position: relative;
       overflow: hidden;
     }
     .ils-battery-bar::after {
       content: '';
       position: absolute;
-      inset: 1px;
-      background: rgba(255,255,255,0.85);
+      top: 1px; bottom: 1px; left: 1px;
       right: 8%;
+      background: rgba(255,255,255,0.85);
     }
     .ils-battery-nub {
       display: inline-block;
-      width: 0.2dvh;
-      height: 0.36dvh;
+      width: 0.25cqh;
+      height: 0.55cqh;
       background: rgba(255,255,255,0.6);
       border-radius: 0 1px 1px 0;
       margin-left: 1px;
-      flex-shrink: 0;
     }
-    /* Time block — takes all available space, centers clock */
-    .ils-time-block {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-top: -4%;
-    }
+    /* Clock — y=237-367 = top 16%, font ~8cqh */
     .ils-time {
-      font-size: 5.2dvh;
+      position: absolute;
+      top: 16%;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 8cqh;
       font-weight: 100;
       color: #fff;
       letter-spacing: -0.03em;
       line-height: 1;
       text-shadow: 0 1px 12px rgba(0,0,0,0.18);
     }
+    /* Date — y=420-469 = top 28.3%, font ~2.8cqh */
     .ils-date {
-      font-size: 0.95dvh;
+      position: absolute;
+      top: 28.3%;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 2.8cqh;
       font-weight: 400;
-      color: rgba(255,255,255,0.88);
-      margin-top: 3%;
+      color: rgba(255,255,255,0.9);
       letter-spacing: 0.01em;
     }
-    /* Bottom bar */
-    .ils-bottom {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-bottom: 5%;
-      flex-shrink: 0;
-    }
+    /* Slide to unlock — y=1445-1462 = top 97.4% */
     .ils-slide {
+      position: absolute;
+      top: 97%;
+      left: 0; right: 0;
+      transform: translateY(-50%);
       display: flex;
       align-items: center;
-      gap: 3%;
-      margin-bottom: 4%;
+      justify-content: center;
+      gap: 2%;
     }
     .ils-slide-arrow {
-      font-size: 1.1dvh;
+      font-size: 1.4cqh;
       color: rgba(255,255,255,0.55);
       font-weight: 300;
     }
     .ils-slide-text {
-      font-size: 0.9dvh;
+      font-size: 1.2cqh;
       font-weight: 300;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
+      text-transform: lowercase;
       background: linear-gradient(90deg,
         rgba(255,255,255,0.22) 0%,
         rgba(255,255,255,0.22) 20%,
@@ -330,25 +326,6 @@
     @keyframes ils-shimmer {
       0%   { background-position: 110%; }
       100% { background-position: -110%; }
-    }
-    .ils-icons {
-      width: 84%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .ils-icon-btn {
-      width: 2.4dvh;
-      height: 2.4dvh;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.14);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1dvh;
-      color: rgba(255,255,255,0.85);
     }
 
     /* ── labels ── */
@@ -725,19 +702,11 @@
                 <span class="ils-battery-nub"></span>
               </div>
             </div>
-            <div class="ils-time-block">
-              <div class="ils-time" id="ils-time">9:41</div>
-              <div class="ils-date" id="ils-date">Wednesday, 22 April</div>
-            </div>
-            <div class="ils-bottom">
-              <div class="ils-slide">
-                <span class="ils-slide-arrow">&#x276F;</span>
-                <span class="ils-slide-text">slide to unlock</span>
-              </div>
-              <div class="ils-icons">
-                <div class="ils-icon-btn">&#x1F526;</div>
-                <div class="ils-icon-btn">&#x1F4F7;</div>
-              </div>
+            <div class="ils-time" id="ils-time">9:41</div>
+            <div class="ils-date" id="ils-date">Wednesday, 22 April</div>
+            <div class="ils-slide">
+              <span class="ils-slide-arrow">&#x276F;</span>
+              <span class="ils-slide-text">slide to unlock</span>
             </div>
           </div>
         </div>
