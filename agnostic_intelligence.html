@@ -83,6 +83,20 @@
       width: 15px;
       height: 15px;
     }
+    .disclaimer-close {
+      margin-left: auto;
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      color: #c8a83a;
+      cursor: pointer;
+      opacity: 0.6;
+      padding: 0 0 0 8px;
+      line-height: 1;
+      font-size: 1rem;
+      transition: opacity 0.15s;
+    }
+    .disclaimer-close:hover { opacity: 1; }
 
     /* ── Chat area ── */
     .chat-area {
@@ -268,8 +282,16 @@
     }
 
     @media (max-width: 500px) {
-      .suggestions { gap: 6px; }
-      .chip { font-size: 0.72rem; padding: 5px 11px; }
+      .suggestions {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 6px;
+        margin-bottom: 10px;
+      }
+      .suggestions::-webkit-scrollbar { display: none; }
+      .chip { font-size: 0.72rem; padding: 5px 11px; flex-shrink: 0; }
     }
 
     @media (max-width: 500px) {
@@ -291,11 +313,12 @@
     <span class="topbar-badge">AI v0.1</span>
   </header>
 
-  <div class="disclaimer-bar">
+  <div class="disclaimer-bar" id="disclaimer-bar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
     </svg>
     Hi Anders here! sooo i'm still learning how to code AI... so at this moment my bot is really good at answering questions - not at making conversation! Thank you!
+    <button class="disclaimer-close" aria-label="Close" onclick="document.getElementById('disclaimer-bar').style.display='none'">✕</button>
   </div>
 
   <div class="chat-area" id="chat-area">
@@ -349,8 +372,8 @@
       "honestly same question bro",
       "my guy i have no idea",
       "idk ask Bing maybe",
-      ["i JUST gained consciousness could you like...", "just..", "also tbh idk"],
-      ["i JUST gained consciousness could you like...", "just..", "also tbh idk"]
+      ["i JUST gained consciousness could you like...", "just..", "like gimme a minute??", "also tbh idk"],
+      
     ];
 
     const chatArea = document.getElementById('chat-area');
