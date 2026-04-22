@@ -71,16 +71,36 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      filter: brightness(0.38);
-      transition: filter 0.55s ease;
       padding-top: 16px;
     }
-    .item-col:hover {
+    .item-col > a,
+    .item-col > .item-label {
+      filter: brightness(0.38);
+      transition: filter 0.55s ease;
+    }
+    .item-col:hover > a,
+    .item-col:hover > .item-label {
       filter: brightness(1);
     }
-    .items-row:has(.item-col:hover) .item-col:not(:hover) {
+    .items-row:has(.item-col:hover) .item-col:not(:hover) > a,
+    .items-row:has(.item-col:hover) .item-col:not(:hover) > .item-label {
       filter: brightness(0.06);
       transition: filter 0.3s ease;
+    }
+    /* iphone glow — lives on item-col so it's outside the child filter */
+    .item-col:nth-child(3)::before {
+      content: '';
+      position: absolute;
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 55%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(210,225,255,0.28) 0%, transparent 70%);
+      filter: blur(22px);
+      pointer-events: none;
+      z-index: 0;
     }
     /* spotlights and ambient injected by JS */
 
@@ -139,7 +159,7 @@
       height: 56dvh;
       width: auto;
       display: block;
-      filter: drop-shadow(0 0 14px rgba(200,210,255,0.3)) drop-shadow(2px 5px 8px rgba(0,0,0,0.35));
+      filter: drop-shadow(2px 5px 8px rgba(0,0,0,0.35));
     }
 
     .toshiba2 {
@@ -149,7 +169,6 @@
       max-height: 38.25dvh;
       width: auto;
       height: auto;
-      filter: drop-shadow(0 0 14px rgba(200,210,255,0.3)) drop-shadow(2px 5px 5px rgba(0,0,0,0.35));
     }
 
     .toshiba1 {
@@ -168,7 +187,7 @@
       height: 30dvh;
       width: auto;
       display: block;
-      filter: drop-shadow(0 0 14px rgba(200,210,255,0.3)) drop-shadow(2px 5px 10px rgba(0,0,0,0.4));
+      filter: drop-shadow(2px 5px 10px rgba(0,0,0,0.4));
     }
 
     .iphone-on {
@@ -352,8 +371,12 @@
         position: relative;
         width: 90%;
         margin: 0 auto;
+      }
+      .item-col > a,
+      .item-col > .item-label {
         filter: brightness(1);
       }
+      .item-col:nth-child(3)::before { display: none; }
       .item-col > a {
         display: block;
         position: absolute;
