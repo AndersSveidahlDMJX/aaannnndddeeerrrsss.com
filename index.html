@@ -336,7 +336,7 @@
 
       /* Order: Work → Other Stuff → About Me → Contact */
       .item-col:nth-child(2) { order: 1; }                           /* Work */
-      .usb-mobile            { order: 2; margin-bottom: 10vw; }      /* Other Stuff — grouped with Work */
+      .usb-mobile            { order: 2; margin-bottom: 16vw; }      /* Other Stuff — grouped with Work, gap before secondary */
       .item-col:nth-child(1) { order: 3; }                           /* About Me */
       .item-col:nth-child(3) { order: 4; }
 
@@ -368,27 +368,29 @@
         z-index: 2;
       }
 
-      /* Secondary labels — About Me, Contact */
+      /* Secondary labels — About Me, Contact: equal, quieter */
       .item-label {
         display: block;
         position: relative;
         z-index: 1;
         width: 100%;
-        font-size: 11vw;
+        font-size: 8.5vw;
         text-align: center;
-        padding: 6px 0;
+        padding: 5px 0;
+        opacity: 0.7;
         pointer-events: none;
       }
-      /* Work: hero label */
+      /* Work: dominant hero */
       .work-label {
-        font-size: 26vw;
+        font-size: 28vw;
         padding: 2px 0 0;
         line-height: 1;
+        opacity: 1;
       }
-      /* Other Stuff: tied to Work, smaller */
+      /* Other Stuff: sub-item of Work group */
       .usb-mobile .item-label {
         font-size: 7vw;
-        opacity: 0.65;
+        opacity: 0.55;
         padding: 0 0 4px;
       }
     }
