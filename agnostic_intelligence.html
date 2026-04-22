@@ -121,6 +121,8 @@
       margin: 0 auto;
     }
     .msg-row.user { flex-direction: row-reverse; }
+    .msg-row.continuation { margin-top: -6px; }
+    .avatar-spacer { visibility: hidden; }
 
     .avatar {
       width: 32px;
@@ -409,20 +411,27 @@
     const qInput = document.getElementById('q-input');
     const sendBtn = document.getElementById('send-btn');
 
-    function addMessage(text, type, isThinking = false) {
+    function addMessage(text, type, isThinking = false, isContinuation = false) {
       const row = document.createElement('div');
-      row.className = `msg-row ${type}`;
+      row.className = `msg-row ${type}${isContinuation ? ' continuation' : ''}`;
 
       const avatar = document.createElement('div');
-      avatar.className = `avatar ${type === 'bot' ? 'bot-avatar' : 'user-avatar'}`;
-      avatar.textContent = type === 'bot' ? 'AI' : 'You';
+      if (isContinuation) {
+        avatar.className = 'avatar avatar-spacer';
+      } else {
+        avatar.className = `avatar ${type === 'bot' ? 'bot-avatar' : 'user-avatar'}`;
+        avatar.textContent = type === 'bot' ? 'AI' : 'You';
+      }
 
       const content = document.createElement('div');
       content.className = 'msg-content';
 
-      const name = document.createElement('div');
-      name.className = 'msg-name';
-      name.textContent = type === 'bot' ? 'Agnostic Intelligence' : 'You';
+      if (!isContinuation) {
+        const name = document.createElement('div');
+        name.className = 'msg-name';
+        name.textContent = type === 'bot' ? 'Agnostic Intelligence' : 'You';
+        content.appendChild(name);
+      }
 
       const bubble = document.createElement('div');
       bubble.className = 'bubble';
@@ -433,7 +442,6 @@
         bubble.textContent = text;
       }
 
-      content.appendChild(name);
       content.appendChild(bubble);
       row.appendChild(avatar);
       row.appendChild(content);
@@ -485,10 +493,10 @@
         if (Array.isArray(answer)) {
           function showNext(i) {
             const isLast = i === answer.length - 1;
-            const thinkRow = addMessage('', 'bot', true);
+            const thinkRow = addMessage('', 'bot', true, true);
             setTimeout(() => {
               thinkRow.remove();
-              addMessage(answer[i], 'bot');
+              addMessage(answer[i], 'bot', false, true);
               if (isLast) {
                 qInput.disabled = false;
                 sendBtn.disabled = false;
