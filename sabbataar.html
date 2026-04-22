@@ -7,7 +7,7 @@
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <title>Sabbatår — aaannndddeeerrrsss</title>
   <meta name="description" content="I tvivl om hvad du skal efter dit sabbatår? Et projekt af Anders." />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.css" />
+
   <style>
     @font-face {
       font-family: 'SFProDisplay';
@@ -34,16 +34,52 @@
     .back:hover { opacity: 1; }
     .video-container {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       padding: 80px 20px 40px;
+      gap: 20px;
     }
-    lite-youtube {
+    .play-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+    }
+    .play-btn {
+      width: 90px;
+      height: 90px;
+      border: 2.5px solid rgba(255,255,255,0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .play-btn svg {
+      margin-left: 6px;
+    }
+    .play-wrap:hover .play-btn {
+      border-color: #fff;
+      transform: scale(1.06);
+    }
+    .play-label {
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      transition: color 0.2s;
+    }
+    .play-wrap:hover .play-label { color: #fff; }
+    .yt-iframe {
       width: 100%;
       max-width: 960px;
+      aspect-ratio: 16/9;
       border-radius: 8px;
-      overflow: hidden;
+      border: none;
+      display: none;
     }
     #nav-shortcuts { display: none !important; }
   </style>
@@ -51,9 +87,25 @@
 <body>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Sabbatår</h1>
   <div class="video-container">
-    <lite-youtube videoid="wIWTj9DKNC8" playlabel="Play"></lite-youtube>
+    <div class="play-wrap" id="play-wrap" onclick="loadVideo()">
+      <div class="play-btn">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="8,4 28,16 8,28" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+      </div>
+      <span class="play-label">press play</span>
+    </div>
+    <iframe class="yt-iframe" id="yt-iframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.js"></script>
+  <script>
+    function loadVideo() {
+      var wrap = document.getElementById('play-wrap');
+      var iframe = document.getElementById('yt-iframe');
+      wrap.style.display = 'none';
+      iframe.src = 'https://www.youtube.com/embed/wIWTj9DKNC8?autoplay=1';
+      iframe.style.display = 'block';
+    }
+  </script>
 <script src="lang.js"></script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

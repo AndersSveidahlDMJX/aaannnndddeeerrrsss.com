@@ -221,6 +221,7 @@
       playerScore = 0; cpuScore = 0; thumbIdx = 0; endSoundPlayed = false;
       resetPos(); launch(true); state = 'playing';
       try { ac(); } catch (e) {}
+      document.querySelector('.ticker').style.display = 'none';
     }
 
     /* ── input ── */

@@ -116,7 +116,7 @@
       'nav-contact': 'Contact',
 
       /* ── other-stuff nav links ── */
-      'os-link1': 'Unsure what to do after your gap year?',
+      'os-link1': 'unsure on what to do after your gap year?',
       'os-link2': 'words that sound like names',
       'os-link3': 'iphone notes',
       'os-link4': 'Food Pictures',

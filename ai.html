@@ -240,6 +240,38 @@
       text-align: center;
     }
 
+
+    /* ── Suggestion chips ── */
+    .suggestions {
+      max-width: 780px;
+      margin: 0 auto 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip {
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      color: #999;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+    .chip:hover {
+      border-color: #3b82f6;
+      color: #ececec;
+      background: #1a2340;
+    }
+
+    @media (max-width: 500px) {
+      .suggestions { gap: 6px; }
+      .chip { font-size: 0.72rem; padding: 5px 11px; }
+    }
+
     @media (max-width: 500px) {
       .bubble { font-size: 0.85rem; }
       .chat-area { padding: 20px 12px; }
@@ -277,6 +309,7 @@
   </div>
 
   <div class="input-area">
+    <div class="suggestions" id="suggestions"></div>
     <div class="input-inner">
       <input
         type="text"
@@ -308,7 +341,17 @@
       "i'm blanking hard right now dawg",
       "i'm not the guy to ask man",
       "man i couldn't tell you if i tried",
-      "no clue lol"
+      "no clue lol",
+      "not my department tbh",
+      "i'd google that if i were you",
+      "asking me that is wild lol",
+      "i wish i knew man",
+      "that's a great question man",
+      "honestly same question bro",
+      "my guy i have no idea",
+      "you should yahoo that one",
+      "idk ask Bing maybe",
+      ["i JUST gained consciousness could you like...", "just..", "yeah maybe gimme a min alright?"]
     ];
 
     const chatArea = document.getElementById('chat-area');
@@ -365,6 +408,8 @@
       "i'm a bot, not a therapist — ask me something",
     ];
 
+    let lastAnswer = null;
+
     function send() {
       const text = qInput.value.trim();
       if (!text) return;
@@ -373,23 +418,80 @@
       qInput.value = '';
       qInput.disabled = true;
       sendBtn.disabled = true;
-
       const thinkingRow = addMessage('', 'bot', true);
 
       setTimeout(() => {
         thinkingRow.remove();
         let answer;
         if (isQuestion(text)) {
-          answer = responses[Math.floor(Math.random() * responses.length)];
+          let pool = responses.filter(r => r !== lastAnswer);
+          answer = pool[Math.floor(Math.random() * pool.length)];
         } else {
-          answer = notQuestionResponses[Math.floor(Math.random() * notQuestionResponses.length)];
+          let pool = notQuestionResponses.filter(r => r !== lastAnswer);
+          answer = pool[Math.floor(Math.random() * pool.length)];
         }
-        addMessage(answer, 'bot');
-        qInput.disabled = false;
-        sendBtn.disabled = false;
-        qInput.focus();
+        lastAnswer = answer;
+        if (Array.isArray(answer)) {
+          answer.forEach((msg, i) => {
+            if (i === 0) {
+              addMessage(msg, 'bot');
+            } else {
+              const thinkRow = addMessage('', 'bot', true);
+              setTimeout(() => {
+                thinkRow.remove();
+                addMessage(msg, 'bot');
+                if (i === answer.length - 1) {
+                  qInput.disabled = false;
+                  sendBtn.disabled = false;
+                  qInput.focus();
+                }
+              }, i * 1800);
+            }
+          });
+        } else {
+          addMessage(answer, 'bot');
+          qInput.disabled = false;
+          sendBtn.disabled = false;
+          qInput.focus();
+        }
       }, 8000);
     }
+
+    function suggest(chip) {
+      if (qInput.disabled) return;
+      qInput.value = chip.textContent;
+      send();
+    }
+
+    const allChips = [
+      "what's the total mass of the sun?",
+      "why did Nietzsche kill god?",
+      "is free will an illusion?",
+      "what happens inside a black hole?",
+      "why does time move forward?",
+      "what is consciousness?",
+      "how many atoms are in the universe?",
+      "is the universe infinite?",
+      "what is the meaning of life?",
+      "does time exist without an observer?",
+      "what came before the big bang?",
+      "is math invented or discovered?",
+      "why is there something rather than nothing?",
+      "what is dark matter?",
+      "can a computer ever be truly conscious?",
+      "are we living in a simulation?",
+    ];
+    (function loadChips() {
+      const pool = allChips.slice().sort(() => Math.random() - 0.5).slice(0, 6);
+      const container = document.getElementById('suggestions');
+      pool.forEach(q => {
+        const btn = document.createElement('button');
+        btn.className = 'chip';
+        btn.textContent = q;
+        btn.addEventListener('click', () => suggest(btn));
+        container.appendChild(btn);
+      });
+    })();
 
     sendBtn.addEventListener('click', send);
     qInput.addEventListener('keydown', e => {
