@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="preconnect" href="https://static.cloudflareinsights.com">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=overlays-content" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <title>AI (Agnostic Intelligence) — Anders Sveidahl</title>
   <meta name="description" content="Agnostic Intelligence — the world's most honest chatbot. A creative project by Anders Sveidahl." />
@@ -218,6 +218,11 @@
       border-top: 1px solid #1e1e1e;
       background: #0f0f0f;
       padding: 16px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
     }
 
     .input-inner {
@@ -554,6 +559,7 @@
       "is nostalgia a form of mourning?",
       "are we defined more by what we endure or what we choose?",
       "is every act of kindness secretly selfish?",
+      "",
 
 
 
@@ -587,19 +593,25 @@
       }
     });
 
-    // ── Keyboard / visualViewport fix for mobile ──
-    // Pins the input area to bottom of visible viewport when software keyboard opens
+    /* ── Keyboard / visualViewport fix for mobile ──
+       input-area is fixed; adjust its bottom when keyboard opens */
     if (window.visualViewport) {
       const inputArea = document.querySelector('.input-area');
       const chatArea  = document.getElementById('chat-area');
       function onViewportResize() {
-        var offsetBottom = window.innerHeight - (window.visualViewport.offsetTop + window.visualViewport.height);
-        inputArea.style.transform = offsetBottom > 0 ? 'translateY(-' + offsetBottom + 'px)' : '';
-        // scroll chat to bottom so latest message stays visible
+        var kbHeight = Math.max(0, window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop);
+        inputArea.style.bottom = kbHeight + 'px';
+        chatArea.style.paddingBottom = (inputArea.offsetHeight + kbHeight) + 'px';
         chatArea.scrollTop = chatArea.scrollHeight;
       }
       window.visualViewport.addEventListener('resize', onViewportResize);
       window.visualViewport.addEventListener('scroll', onViewportResize);
+      // set initial padding so chat doesn't hide under fixed input
+      chatArea.style.paddingBottom = (inputArea.offsetHeight || 100) + 'px';
+    } else {
+      // fallback: just pad chat area
+      var inputArea = document.querySelector('.input-area');
+      document.getElementById('chat-area').style.paddingBottom = (inputArea.offsetHeight || 100) + 'px';
     }
   </script>
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
