@@ -284,7 +284,8 @@
     @media (max-width: 768px) {
       body {
         background: #000;
-        min-height: 100dvh;
+        height: 100dvh;
+        overflow: hidden;
         display: block;
         padding: 0;
       }
@@ -292,7 +293,7 @@
       .bg { display: none; }
       .usb-fixed { display: none; }
 
-      /* Title fixed at top as header */
+      /* Title: fixed header, bigger, more breathing room */
       .site-title {
         position: fixed;
         top: 0;
@@ -300,10 +301,10 @@
         width: 100%;
         transform: none;
         text-align: center;
-        font-size: 9vw;
+        font-size: 11vw;
         line-height: 1;
         white-space: normal;
-        padding: 44px 0 28px;
+        padding: 48px 0 32px;
         background-color: rgba(0,0,0,0.85);
         background-image: linear-gradient(
           180deg,
@@ -318,12 +319,13 @@
       .site-title span { display: inline; }
       .site-title span:first-child::after { content: ' '; }
 
+      /* Items row: Work+OtherStuff centered, About+Contact fixed to bottom */
       .items-row {
         position: fixed;
-        top: 116px;
+        top: 150px;
         left: 0 !important;
         right: 0;
-        bottom: 0;
+        bottom: 28vw;
         width: 100%;
         transform: none !important;
         display: flex;
@@ -331,14 +333,27 @@
         gap: 0;
         align-items: stretch;
         justify-content: center;
-        padding: 8px 0 28px;
+        padding: 0;
       }
 
-      /* Order: Work → Other Stuff → About Me → Contact */
-      .item-col:nth-child(2) { order: 1; }                           /* Work */
-      .usb-mobile            { order: 2; margin-bottom: 16vw; }      /* Other Stuff — grouped with Work, gap before secondary */
-      .item-col:nth-child(1) { order: 3; }                           /* About Me */
-      .item-col:nth-child(3) { order: 4; }
+      /* Work + OtherStuff: centered in upper area */
+      .item-col:nth-child(2) { order: 1; }
+      .usb-mobile            { order: 2; }
+      /* About Me + Contact: fixed to bottom */
+      .item-col:nth-child(1) {
+        order: 3;
+        position: fixed !important;
+        bottom: 14vw;
+        left: 0; right: 0;
+        width: 100%;
+      }
+      .item-col:nth-child(3) {
+        order: 4;
+        position: fixed !important;
+        bottom: 5vw;
+        left: 0; right: 0;
+        width: 100%;
+      }
 
       .usb-wrap,
       .diary-wrap,
@@ -368,7 +383,7 @@
         z-index: 2;
       }
 
-      /* Secondary labels — About Me, Contact: equal, quieter */
+      /* About Me + Contact: equal, quieter */
       .item-label {
         display: block;
         position: relative;
@@ -376,14 +391,14 @@
         width: 100%;
         font-size: 8.5vw;
         text-align: center;
-        padding: 5px 0;
+        padding: 4px 0;
         opacity: 0.7;
         pointer-events: none;
       }
       /* Work: dominant hero */
       .work-label {
         font-size: 28vw;
-        padding: 2px 0 0;
+        padding: 0;
         line-height: 1;
         opacity: 1;
       }
@@ -391,7 +406,7 @@
       .usb-mobile .item-label {
         font-size: 7vw;
         opacity: 0.55;
-        padding: 0 0 4px;
+        padding: 2px 0 0;
       }
     }
 
