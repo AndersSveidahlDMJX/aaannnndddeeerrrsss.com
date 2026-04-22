@@ -260,9 +260,13 @@
       max-width: 780px;
       margin: 0 auto 12px;
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
       gap: 8px;
     }
+    .suggestions::-webkit-scrollbar { display: none; }
     .chip {
       background: #1a1a1a;
       border: 1px solid #2e2e2e;
@@ -273,6 +277,7 @@
       cursor: pointer;
       transition: border-color 0.15s, color 0.15s, background 0.15s;
       white-space: nowrap;
+      flex-shrink: 0;
       font-family: inherit;
     }
     .chip:hover {
@@ -282,16 +287,8 @@
     }
 
     @media (max-width: 500px) {
-      .suggestions {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: 6px;
-        margin-bottom: 10px;
-      }
-      .suggestions::-webkit-scrollbar { display: none; }
-      .chip { font-size: 0.72rem; padding: 5px 11px; flex-shrink: 0; }
+      .suggestions { gap: 6px; margin-bottom: 10px; }
+      .chip { font-size: 0.72rem; padding: 5px 11px; }
     }
 
     @media (max-width: 500px) {
