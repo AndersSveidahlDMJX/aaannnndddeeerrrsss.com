@@ -135,7 +135,7 @@
 
     da: {
       /* ── index ── */
-      'notwork':  '...other stuff',
+      'notwork':  '...andre ting',
       'nav-me':   'mig',
       'nav-work': 'Arbejde',
 
