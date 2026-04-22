@@ -435,25 +435,23 @@
         } // end TEST if(false)
         lastAnswer = answer;
         if (Array.isArray(answer)) {
-          addMessage(answer[0], 'bot');
-          let delay = 0;
-          for (let i = 1; i < answer.length; i++) {
-            const idx = i;
-            const isLast = idx === answer.length - 1;
+          function showNext(i) {
+            const isLast = i === answer.length - 1;
+            const thinkRow = addMessage('', 'bot', true);
             setTimeout(() => {
-              const thinkRow = addMessage('', 'bot', true);
-              setTimeout(() => {
-                thinkRow.remove();
-                addMessage(answer[idx], 'bot');
-                if (isLast) {
-                  qInput.disabled = false;
-                  sendBtn.disabled = false;
-                  qInput.focus();
-                }
-              }, 3000);
-            }, delay);
-            delay += 3000;
+              thinkRow.remove();
+              addMessage(answer[i], 'bot');
+              if (isLast) {
+                qInput.disabled = false;
+                sendBtn.disabled = false;
+                qInput.focus();
+              } else {
+                showNext(i + 1);
+              }
+            }, 3000);
           }
+          addMessage(answer[0], 'bot');
+          showNext(1);
         } else {
           addMessage(answer, 'bot');
           qInput.disabled = false;
