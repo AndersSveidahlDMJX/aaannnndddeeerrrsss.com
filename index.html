@@ -326,7 +326,7 @@
       .site-title span { display: inline; }
       .site-title span:first-child::after { content: ' '; }
 
-      /* Items row: fills central zone, split evenly between Work and OtherStuff */
+      /* Items row: Work+OtherStuff centered, About+Contact fixed to bottom */
       .items-row {
         position: fixed;
         top: 150px;
@@ -339,39 +339,22 @@
         flex-direction: column;
         gap: 0;
         align-items: stretch;
-        justify-content: stretch;
+        justify-content: center;
         padding: 0;
       }
 
-      /* Work owns upper half — label centered within its zone */
-      .item-col:nth-child(2) {
-        order: 1;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      /* ...other stuff owns lower half — label centered within its zone */
-      .usb-mobile {
-        order: 3;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-      }
+      /* Work + OtherStuff: centered in upper area */
+      .item-col:nth-child(2) { order: 1; }
+      .usb-mobile { order: 3; position: relative; }
       .usb-mobile > a { pointer-events: all; }
       /* Divider between Work and ...other stuff — not an item-col, immune to all hover rules */
       .work-divider {
         order: 2;
-        flex: 0 0 auto;
         pointer-events: none;
         position: relative;
-        width: 48%;
+        width: 32%;
         height: 1px;
-        margin: 0 auto;
+        margin: 6px auto 4px;
         align-self: center;
         background: linear-gradient(to right,
           transparent 0%,
