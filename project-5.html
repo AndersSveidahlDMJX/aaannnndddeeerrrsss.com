@@ -173,7 +173,7 @@
       }
       .content {
         height: auto;
-        padding: 20px 16px 80px;
+        padding: 20px 16px 110px;
         align-items: center;
         flex-direction: column;
       }
@@ -209,6 +209,11 @@
         justify-self: center;
         align-self: center;
         background: none;
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5;
       }
       /* Reorder mobile grid: HTML=O W B B O W O W B → mobile=O W B O W B O W B Logo
          Set explicit orders so items 7-9 don't accidentally sort before explicit ones */
