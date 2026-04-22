@@ -256,9 +256,21 @@
 
 
     /* ── Suggestion chips ── */
-    .suggestions {
+    .suggestions-wrap {
       max-width: 780px;
       margin: 0 auto 12px;
+      position: relative;
+    }
+    .suggestions-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 48px;
+      height: 100%;
+      background: linear-gradient(to right, transparent, #0f0f0f);
+      pointer-events: none;
+    }
+    .suggestions {
       display: flex;
       flex-wrap: nowrap;
       overflow-x: auto;
@@ -329,7 +341,9 @@
   </div>
 
   <div class="input-area">
-    <div class="suggestions" id="suggestions"></div>
+    <div class="suggestions-wrap">
+      <div class="suggestions" id="suggestions"></div>
+    </div>
     <div class="input-inner">
       <input
         type="text"
