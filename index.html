@@ -487,6 +487,12 @@
         background-clip: text;
         filter: drop-shadow(0 0 6px rgba(255,255,255,0.25));
       }
+      /* Danish: "arbejde" is ~7 chars vs "work" at 4 — scale down to fit */
+      html[lang="da"] .work-label {
+        font-size: 16vw;
+        padding-right: 3vw;
+      }
+
       /* Other Stuff: secondary hero — bigger, same chrome */
       .usb-mobile .item-label {
         font-family: 'EnglishVivace', 'Brush Script MT', cursive;
