@@ -820,11 +820,17 @@
       window.positionSpotlights = positionSpotlights;
 
       if (document.readyState === 'loading') {
-        window.addEventListener('load', init);
+        window.addEventListener('load', function () {
+          init();
+          // Re-position after fonts settle on mobile
+          if (window.innerWidth <= 768) setTimeout(positionSpotlights, 300);
+        });
       } else {
         init();
+        if (window.innerWidth <= 768) setTimeout(positionSpotlights, 300);
       }
       window.addEventListener('resize', positionSpotlights);
+      window.addEventListener('pageshow', positionSpotlights);
     })();
 
     // Permanent overhead spotlight for .site-title
