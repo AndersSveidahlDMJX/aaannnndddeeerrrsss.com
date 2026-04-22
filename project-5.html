@@ -82,8 +82,9 @@
     .sidebar-toggle:hover { color: #333; box-shadow: 4px 0 14px rgba(0,0,0,0.18); }
     .sidebar-toggle.collapsed { left: 0; }
     .sidebar-toggle span { display: block; width: 6px; height: 6px; border-right: 1.5px solid #aaa; border-bottom: 1.5px solid #aaa; transform: rotate(135deg); margin: 2px 0; }
-    .sidebar-toggle span:nth-child(2) { opacity: 0.5; }
+    .sidebar-toggle span:nth-child(2) { display: none; }
     .sidebar-toggle.collapsed span { transform: rotate(-45deg); }
+    .grid-logo { display: none; }
     body.sb-collapsed .page-title { left: 0; }
     body.sb-collapsed .page-footer { left: 0; }
     .section { padding: 32px 0; border-top: 1px solid #e0e0e0; }
@@ -195,12 +196,24 @@
       }
       /* Scale up the penguin logo in the grid */
       .image-grid img.grid-logo {
+        display: block;
         transform: scale(2);
         transform-origin: center center;
+        order: 10;
       }
+      /* Reorder mobile grid: HTML=O W B B O W O W B → mobile=O W B O W B O W B Logo
+         Set explicit orders so items 7-9 don't accidentally sort before explicit ones */
+      .image-grid img:nth-child(4) { order: 6; } /* reading(B) → pos 6 */
+      .image-grid img:nth-child(5) { order: 4; } /* there(O)   → pos 4 */
+      .image-grid img:nth-child(6) { order: 5; } /* truly(W)   → pos 5 */
+      .image-grid img:nth-child(7) { order: 7; }
+      .image-grid img:nth-child(8) { order: 8; }
+      .image-grid img:nth-child(9) { order: 9; }
+      /* Hide desktop page-footer on mobile */
+      .page-footer { display: none !important; }
 
       /* Disable hover lift on mobile (touch) */
-      .image-grid img:hover {
+      .image-grid img:not(.grid-logo):hover {
         transform: none;
         box-shadow: 4px 4px 0px rgba(0,0,0,0.6);
       }
@@ -344,13 +357,16 @@
         <img src="images/penguin/nothing.webp" alt="Nothing" loading="eager" fetchpriority="high" />
         <img src="images/penguin/nothing keeping.webp" alt="Nothing Keeping" loading="lazy" />
         <img src="images/penguin/no limits.webp" alt="No Limits" loading="lazy" />
+        <img src="images/penguin/reading.webp" alt="Reading" loading="lazy" />
         <img src="images/penguin/there.webp" alt="There" loading="lazy" />
         <img src="images/penguin/truly.webp" alt="Truly" loading="lazy" />
-        <img src="images/penguin/reading.webp" alt="Reading" loading="lazy" />
         <img src="images/penguin/the world.webp" alt="The World" loading="lazy" />
         <img src="images/penguin/reading hvid.webp" alt="Reading Hvid" loading="lazy" />
         <img src="images/penguin/the freedom.webp" alt="The Freedom" loading="lazy" />
         <img src="images/penguin/penguin logo.webp" alt="Penguin logo" class="grid-logo" loading="lazy" />
+      </div>
+      <div class="page-footer">
+        <img src="images/penguin/penguin logo.webp" alt="Penguin logo" loading="lazy" />
       </div>
     </main>
   </div>
