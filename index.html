@@ -294,46 +294,6 @@
       color: rgba(255,255,255,0.9);
       letter-spacing: 0.01em;
     }
-    /* Slide to unlock — y=1445-1462 = top 97.4% */
-    .ils-slide {
-      position: absolute;
-      top: 97%;
-      left: 0; right: 0;
-      transform: translateY(-50%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2%;
-    }
-    .ils-slide-arrow {
-      font-size: 2cqh;
-      color: rgba(255,255,255,0.55);
-      font-weight: 300;
-    }
-    .ils-slide-text {
-      font-size: 1.7cqh;
-      font-weight: 300;
-      letter-spacing: 0.14em;
-      text-transform: lowercase;
-      background: linear-gradient(90deg,
-        rgba(255,255,255,0.22) 0%,
-        rgba(255,255,255,0.22) 20%,
-        rgba(255,255,255,1)    44%,
-        rgba(255,255,255,1)    56%,
-        rgba(255,255,255,0.22) 80%,
-        rgba(255,255,255,0.22) 100%
-      );
-      background-size: 250% auto;
-      background-position: 110%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: ils-shimmer 2.6s ease-in-out infinite;
-    }
-    @keyframes ils-shimmer {
-      0%   { background-position: 110%; }
-      100% { background-position: -110%; }
-    }
 
     /* ── labels ── */
     .item-label {
@@ -711,10 +671,7 @@
             </div>
             <div class="ils-time" id="ils-time">9:41</div>
             <div class="ils-date" id="ils-date">Wednesday, 22 April</div>
-            <div class="ils-slide">
-              <span class="ils-slide-arrow">&#x276F;</span>
-              <span class="ils-slide-text">slide to unlock</span>
-            </div>
+
           </div>
         </div>
       </a>
