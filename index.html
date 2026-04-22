@@ -345,7 +345,7 @@
 
       /* Work + OtherStuff: centered in upper area */
       .item-col:nth-child(2) { order: 1; }
-      .usb-mobile            { order: 2; }
+      .usb-mobile { order: 2; position: relative; filter: brightness(1) !important; }
       /* About Me + Contact: fixed to bottom */
       .item-col:nth-child(1) {
         order: 3;
@@ -415,8 +415,8 @@
       .usb-mobile .item-label {
         font-family: 'EnglishVivace', 'Brush Script MT', cursive;
         font-size: 7vw;
-        opacity: 0.55;
         padding: 2px 0 0;
+        pointer-events: none;
       }
       .usb-mobile::before {
         content: '';
@@ -424,8 +424,30 @@
         width: 32%;
         height: 1px;
         margin: 3px auto 5px;
-        background: rgba(255,255,255,0.18);
-        box-shadow: 0 0 6px rgba(255,255,255,0.12);
+        background: linear-gradient(to right,
+          transparent 0%,
+          rgba(255,255,255,0.18) 20%,
+          rgba(255,255,255,0.18) 46%,
+          transparent 48%,
+          transparent 52%,
+          rgba(255,255,255,0.18) 54%,
+          rgba(255,255,255,0.18) 80%,
+          transparent 100%
+        );
+        box-shadow: 0 0 6px rgba(255,255,255,0.08);
+        pointer-events: none;
+      }
+      .usb-mobile::after {
+        content: '·';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -7px);
+        color: rgba(255,255,255,0.25);
+        font-size: 3vw;
+        line-height: 1;
+        pointer-events: none;
       }
     }
 
