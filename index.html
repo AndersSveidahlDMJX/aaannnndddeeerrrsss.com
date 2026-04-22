@@ -345,7 +345,7 @@
 
       /* Work + OtherStuff: centered in upper area */
       .item-col:nth-child(2) { order: 1; }
-      .usb-mobile { order: 2; position: relative; filter: brightness(1) !important; padding-top: 17px; }
+      .usb-mobile { order: 2; position: relative; filter: brightness(1) !important; padding-top: 17px; pointer-events: none; }
       /* About Me + Contact: fixed to bottom, side by side */
       .item-col:nth-child(1) {
         order: 3;
@@ -470,14 +470,15 @@
         pointer-events: none;
       }
       .usb-mobile::after {
-        content: '·';
+        content: '';
         position: absolute;
         top: 8px;
         left: 50%;
         transform: translate(-50%, -50%);
-        color: rgba(255,255,255,0.25);
-        font-size: 3vw;
-        line-height: 1;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
         pointer-events: none;
       }
     }
