@@ -431,15 +431,17 @@
         }
         lastAnswer = answer;
         if (Array.isArray(answer)) {
+          let currentRow = null;
           answer.forEach((msg, i) => {
             setTimeout(() => {
-              addMessage(msg, 'bot');
+              if (currentRow) currentRow.remove();
+              currentRow = addMessage(msg, 'bot');
               if (i === answer.length - 1) {
                 qInput.disabled = false;
                 sendBtn.disabled = false;
                 qInput.focus();
               }
-            }, i * 1000);
+            }, i * 3000);
           });
         } else {
           addMessage(answer, 'bot');
