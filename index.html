@@ -712,7 +712,7 @@
               </div>
             </div>
             <div class="ils-time" id="ils-time">9.41</div>
-            <div class="ils-date" id="ils-date">Wednesday 22 April</div>
+            <div class="ils-date" id="ils-date">Wednesday, 22 April</div>
             <div class="ils-home">Press Home to Unlock</div>
 
           </div>
@@ -925,7 +925,7 @@
           var timeEl = document.getElementById('ils-time');
           var dateEl = document.getElementById('ils-date');
           if (timeEl) timeEl.textContent = h + '.' + (m < 10 ? '0' + m : m);
-          if (dateEl) dateEl.textContent = days[now.getDay()] + ' ' + now.getDate() + ' ' + months[now.getMonth()];
+          if (dateEl) dateEl.textContent = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()];
         }
         tick();
         setInterval(tick, 1000);
