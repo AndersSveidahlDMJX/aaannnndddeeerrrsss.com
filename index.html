@@ -345,7 +345,8 @@
 
       /* Work + OtherStuff: centered in upper area */
       .item-col:nth-child(2) { order: 1; }
-      .usb-mobile { order: 2; position: relative; filter: brightness(1) !important; padding-top: 17px; pointer-events: none; }
+      .usb-mobile { order: 2; position: relative; filter: brightness(1) !important; padding-top: 17px; }
+      .usb-mobile > a { pointer-events: all; }
       /* About Me + Contact: fixed to bottom, side by side */
       .item-col:nth-child(1) {
         order: 3;
