@@ -530,7 +530,7 @@
   </div>
 
   <div class="items-row">
-    <div class="item-col">
+    <div class="item-col mobile-nav-only">
       <a href="about.html">
         <div class="diary-wrap">
           <img class="diary-img" src="images/diary.webp" alt="" loading="lazy" />
@@ -549,7 +549,7 @@
       <span class="item-label work-label" data-i18n="nav-work">Work</span>
     </div>
 
-    <div class="item-col">
+    <div class="item-col mobile-nav-only">
       <a href="contact.html">
         <div class="iphone-wrap">
           <img class="iphone-img" src="images/iphone se.png" alt="iPhone SE" loading="lazy" />
@@ -797,8 +797,14 @@
         items.forEach(function (item) {
           var el = createBeam();
           entries.push({ item: item, el: el });
-          item.addEventListener('mouseenter', function () { el.style.opacity = '1'; });
-          item.addEventListener('mouseleave', function () { el.style.opacity = '0'; });
+          item.addEventListener('mouseenter', function () {
+            if (window.innerWidth <= 768 && item.classList.contains('mobile-nav-only')) return;
+            el.style.opacity = '1';
+          });
+          item.addEventListener('mouseleave', function () {
+            if (window.innerWidth <= 768 && item.classList.contains('mobile-nav-only')) return;
+            el.style.opacity = '0';
+          });
         });
         positionSpotlights();
       }
