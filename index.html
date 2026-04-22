@@ -87,18 +87,18 @@
       filter: brightness(0.06);
       transition: filter 0.3s ease;
     }
-    /* iphone glow — lives on item-col so it's outside the child filter */
-    .item-col:nth-child(3)::before {
+    /* glow behind all 3 main items — lives on item-col, outside brightness filter */
+    .items-row .item-col::before {
       content: '';
       position: absolute;
       bottom: 20%;
       left: 50%;
       transform: translateX(-50%);
-      width: 60%;
-      height: 55%;
+      width: 70%;
+      height: 60%;
       border-radius: 50%;
-      background: radial-gradient(ellipse at center, rgba(210,225,255,0.28) 0%, transparent 70%);
-      filter: blur(22px);
+      background: radial-gradient(ellipse at center, rgba(210,225,255,0.32) 0%, transparent 70%);
+      filter: blur(28px);
       pointer-events: none;
       z-index: 0;
     }
@@ -376,7 +376,7 @@
       .item-col > .item-label {
         filter: brightness(1);
       }
-      .item-col:nth-child(3)::before { display: none; }
+      .items-row .item-col::before { display: none; }
       .item-col > a {
         display: block;
         position: absolute;
