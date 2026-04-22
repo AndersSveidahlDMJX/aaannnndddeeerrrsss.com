@@ -193,11 +193,10 @@
         margin-top: 12px;
         overflow: visible;
       }
-      /* Center lone last image when grid has odd count */
-      .image-grid img:last-child:nth-child(odd) {
-        grid-column: 1 / -1;
-        width: 50%;
-        justify-self: center;
+      /* Scale up the penguin logo in the grid */
+      .image-grid img.grid-logo {
+        transform: scale(2);
+        transform-origin: center center;
       }
 
       /* Disable hover lift on mobile (touch) */
@@ -218,7 +217,7 @@
       .sidebar {
         position: fixed !important;
         top: 0;
-        left: -100%;
+        left: calc(-1 * min(85vw, 320px));
         width: min(85vw, 320px) !important;
         height: 100% !important;
         padding: 72px 24px 80px !important;
@@ -315,6 +314,7 @@
     .pg-lb-arrow:hover { opacity: 1; }
     #pg-lb-prev { left: 24px; }
     #pg-lb-next { right: 24px; }
+    @media (max-width: 768px) { .pg-lb-arrow { display: none !important; } }
   </style>
 </head>
 <body>
@@ -350,9 +350,7 @@
         <img src="images/penguin/the world.webp" alt="The World" loading="lazy" />
         <img src="images/penguin/reading hvid.webp" alt="Reading Hvid" loading="lazy" />
         <img src="images/penguin/the freedom.webp" alt="The Freedom" loading="lazy" />
-      </div>
-      <div class="page-footer">
-        <img src="images/penguin/penguin logo.webp" alt="Penguin logo" loading="lazy" />
+        <img src="images/penguin/penguin logo.webp" alt="Penguin logo" class="grid-logo" loading="lazy" />
       </div>
     </main>
   </div>
@@ -398,6 +396,13 @@
     document.getElementById('pg-lb-prev').addEventListener('click', prev);
     document.getElementById('pg-lb-next').addEventListener('click', next);
     lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+    // Touch swipe for mobile
+    let _lbTouchX = 0;
+    lb.addEventListener('touchstart', (e) => { _lbTouchX = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - _lbTouchX;
+      if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+    }, { passive: true });
     document.addEventListener('keydown', (e) => {
       if (!lb.classList.contains('open')) return;
       if (e.key === 'Escape') closeLb();
