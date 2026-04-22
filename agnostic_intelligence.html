@@ -292,14 +292,14 @@
     .suggestions-wrap::before {
       left: 0;
       background: linear-gradient(to left, transparent, #0f0f0f);
-      opacity: 0;
+      opacity: 1;
     }
     .suggestions-wrap::after {
       right: 0;
       background: linear-gradient(to right, transparent, #0f0f0f);
       opacity: 1;
     }
-    .suggestions-wrap.scrolled-left::before { opacity: 1; }
+    .suggestions-wrap.at-start::before { opacity: 0; }
     .suggestions-wrap.scrolled-end::after { opacity: 0; }
     .suggestions {
       display: flex;
@@ -572,7 +572,7 @@
       });
       const wrap = container.parentElement;
       function updateFades() {
-        wrap.classList.toggle('scrolled-left', container.scrollLeft > 8);
+        wrap.classList.toggle('at-start', container.scrollLeft <= 8);
         wrap.classList.toggle('scrolled-end', container.scrollLeft + container.clientWidth >= container.scrollWidth - 8);
       }
       container.addEventListener('scroll', updateFades, { passive: true });
@@ -586,6 +586,21 @@
         send();
       }
     });
+
+    // ── Keyboard / visualViewport fix for mobile ──
+    // Pins the input area to bottom of visible viewport when software keyboard opens
+    if (window.visualViewport) {
+      const inputArea = document.querySelector('.input-area');
+      const chatArea  = document.getElementById('chat-area');
+      function onViewportResize() {
+        var offsetBottom = window.innerHeight - (window.visualViewport.offsetTop + window.visualViewport.height);
+        inputArea.style.transform = offsetBottom > 0 ? 'translateY(-' + offsetBottom + 'px)' : '';
+        // scroll chat to bottom so latest message stays visible
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+      window.visualViewport.addEventListener('resize', onViewportResize);
+      window.visualViewport.addEventListener('scroll', onViewportResize);
+    }
   </script>
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
