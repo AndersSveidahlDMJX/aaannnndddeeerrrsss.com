@@ -329,7 +329,7 @@
         display: flex;
         flex-direction: column;
         gap: 0;
-        align-items: center;
+        align-items: stretch;
         justify-content: space-evenly;
         padding: 8px 0 20px;
       }
@@ -355,9 +355,10 @@
       /* Tappable cell */
       .item-col {
         position: relative;
-        width: 90%;
-        margin: 0 auto;
+        width: 100%;
+        margin: 0;
         filter: brightness(1);
+        text-align: center;
       }
       .item-col > a {
         display: block;
@@ -371,15 +372,16 @@
         display: block;
         position: relative;
         z-index: 1;
+        width: 100%;
         font-size: 10vw;
         text-align: center;
-        padding: 8px 16px;
+        padding: 8px 0;
         pointer-events: none;
       }
       /* Work: hero label */
       .work-label {
         font-size: 23vw;
-        padding: 4px 16px;
+        padding: 4px 0;
       }
       /* Other Stuff: tertiary */
       .usb-mobile .item-label {
