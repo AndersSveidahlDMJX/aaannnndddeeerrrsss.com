@@ -85,7 +85,7 @@
     .item-col:hover {
       filter: brightness(1);
     }
-    .items-row:has(.item-col:hover) .item-col:not(:hover) {
+    .items-row:has(.item-col:hover) .item-col:not(:hover):not(.usb-mobile) {
       filter: brightness(0.06);
       transition: filter 0.3s ease;
     }
@@ -390,7 +390,7 @@
         z-index: 2;
       }
 
-      /* About Me + Contact: dimmer metallic, matched to light source distance */
+      /* About Me + Contact: metallic chrome matching title style */
       .item-label {
         display: block;
         position: relative;
@@ -403,17 +403,18 @@
         pointer-events: none;
         background: linear-gradient(
           180deg,
-          #686868 0%,
-          #888888 18%,
-          #4e4e4e 38%,
-          #707070 55%,
-          #3a3a3a 75%,
-          #505050 100%
+          #c0c0c0 0%,
+          #f4f4f4 18%,
+          #888888 32%,
+          #dedede 48%,
+          #606060 62%,
+          #c8c8c8 78%,
+          #848484 100%
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        filter: drop-shadow(0 0 5px rgba(255,255,255,0.07)) drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+        filter: drop-shadow(0 0 8px rgba(255,255,255,0.2)) drop-shadow(0 1px 4px rgba(0,0,0,0.5));
       }
       /* Work: dominant hero — padding-right compensates italic slant optical offset */
       .work-label {
