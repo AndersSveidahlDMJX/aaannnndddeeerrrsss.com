@@ -68,36 +68,19 @@
 
     .item-col {
       position: relative;
-      isolation: isolate;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 16px;
-    }
-    .item-col > a,
-    .item-col > .item-label {
       filter: brightness(0.38);
       transition: filter 0.55s ease;
+      padding-top: 16px;
     }
-    .item-col:hover > a,
-    .item-col:hover > .item-label {
+    .item-col:hover {
       filter: brightness(1);
     }
-    .items-row:has(.item-col:hover) .item-col:not(:hover) > a,
-    .items-row:has(.item-col:hover) .item-col:not(:hover) > .item-label {
+    .items-row:has(.item-col:hover) .item-col:not(:hover) {
       filter: brightness(0.06);
       transition: filter 0.3s ease;
-    }
-    /* glow behind all 3 main items — lives on item-col, outside brightness filter */
-    .items-row .item-col::before {
-      content: '';
-      position: absolute;
-      inset: -20% -30%;
-      border-radius: 50%;
-      background: radial-gradient(ellipse at center, rgba(180,205,255,0.55) 0%, transparent 65%);
-      filter: blur(32px);
-      pointer-events: none;
-      z-index: -1;
     }
     /* spotlights and ambient injected by JS */
 
@@ -368,12 +351,8 @@
         position: relative;
         width: 90%;
         margin: 0 auto;
-      }
-      .item-col > a,
-      .item-col > .item-label {
         filter: brightness(1);
       }
-      .items-row .item-col::before { display: none; }
       .item-col > a {
         display: block;
         position: absolute;
