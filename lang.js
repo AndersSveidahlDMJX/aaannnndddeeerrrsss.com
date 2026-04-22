@@ -316,11 +316,13 @@
       var sidebar = document.querySelector('.sidebar');
       if (sidebar) {
         var sbWidth = sidebar.offsetWidth || 360;
-        navDiv.style.left = (sbWidth + 24) + 'px';
-        new MutationObserver(function () {
+        function updateNavLeft() {
           var collapsed = document.body.classList.contains('sb-collapsed');
           navDiv.style.left = collapsed ? '24px' : (sbWidth + 24) + 'px';
-        }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        }
+        /* Defer initial read so setSidebar(true) on mobile has already run */
+        requestAnimationFrame(updateNavLeft);
+        new MutationObserver(updateNavLeft).observe(document.body, { attributes: true, attributeFilter: ['class'] });
       }
     }
 
