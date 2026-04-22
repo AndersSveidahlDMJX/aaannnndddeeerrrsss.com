@@ -432,20 +432,14 @@
         lastAnswer = answer;
         if (Array.isArray(answer)) {
           answer.forEach((msg, i) => {
-            if (i === 0) {
+            setTimeout(() => {
               addMessage(msg, 'bot');
-            } else {
-              const thinkRow = addMessage('', 'bot', true);
-              setTimeout(() => {
-                thinkRow.remove();
-                addMessage(msg, 'bot');
-                if (i === answer.length - 1) {
-                  qInput.disabled = false;
-                  sendBtn.disabled = false;
-                  qInput.focus();
-                }
-              }, i * 1800);
-            }
+              if (i === answer.length - 1) {
+                qInput.disabled = false;
+                sendBtn.disabled = false;
+                qInput.focus();
+              }
+            }, i * 1000);
           });
         } else {
           addMessage(answer, 'bot');
