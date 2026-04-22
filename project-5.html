@@ -190,6 +190,12 @@
         margin-top: 12px;
         overflow: visible;
       }
+      /* Center lone last image when grid has odd count */
+      .image-grid img:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        width: 50%;
+        justify-self: center;
+      }
 
       /* Disable hover lift on mobile (touch) */
       .image-grid img:hover {

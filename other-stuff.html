@@ -184,6 +184,7 @@
       .prompt-label { font-size: 0.62rem; }
       .menu-item { font-size: 1.6rem; padding: 10px 0; }
       .term-footer { font-size: 0.58rem; }
+      .desktop-only { display: none !important; }
     }
 
     #nav-shortcuts { display: none !important; }
@@ -213,8 +214,11 @@
       <a class="menu-item" href="agnostic_intelligence.html" id="m3">
         <span class="item-text">AI (Agnostic Intelligence)</span>
       </a>
+      <a class="menu-item desktop-only" href="iphonenoter/index.html" id="m4">
+        <span class="item-text">iPhone Noter</span>
+      </a>
     </div>
-    <div class="term-footer" id="footer">[ 3 ENTRIES FOUND ] — SELECT TO EXECUTE</div>
+    <div class="term-footer" id="footer">[ 4 ENTRIES FOUND ] — SELECT TO EXECUTE</div>
   </div>
 
   <script>
@@ -258,8 +262,9 @@
       });
       setTimeout(function() {
         document.getElementById('prompt').classList.add('visible');
-        ['m0','m1','m2','m3'].forEach(function(id, i) {
-          setTimeout(function() { document.getElementById(id).classList.add('visible'); }, i * 120);
+        ['m0','m2','m3','m4'].forEach(function(id, i) {
+          var el = document.getElementById(id);
+          if (el) setTimeout(function(e) { e.classList.add('visible'); }.bind(null, el), i * 120);
         });
         setTimeout(function() { document.getElementById('footer').classList.add('visible'); }, 500);
       }, 2500);
