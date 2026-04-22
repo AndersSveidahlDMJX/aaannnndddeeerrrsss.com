@@ -435,12 +435,12 @@
       if (!isContinuation) {
         const avatar = document.createElement('div');
         avatar.className = `avatar ${type === 'bot' ? 'bot-avatar' : 'user-avatar'}`;
-        avatar.textContent = type === 'bot' ? 'AI' : 'You';
+        avatar.textContent = type === 'bot' ? 'AI' : 'Me';
         row.appendChild(avatar);
 
         const name = document.createElement('div');
         name.className = 'msg-name';
-        name.textContent = type === 'bot' ? 'Agnostic Intelligence' : 'You';
+        name.textContent = type === 'bot' ? 'Agnostic Intelligence' : 'Me';
         content.appendChild(name);
       }
 
