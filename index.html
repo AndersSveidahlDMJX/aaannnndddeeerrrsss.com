@@ -39,6 +39,13 @@
       font-style: normal;
       font-display: block;
     }
+    @font-face {
+      font-family: 'EuroStyleNormal';
+      src: url('fonts/EuroStyle%20Normal.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
 
     *{
       margin: 0;
@@ -389,6 +396,7 @@
         position: relative;
         z-index: 1;
         width: 100%;
+        font-family: 'EuroStyleNormal', sans-serif;
         font-size: 8.5vw;
         text-align: center;
         padding: 4px 0;
@@ -397,6 +405,7 @@
       }
       /* Work: dominant hero */
       .work-label {
+        font-family: 'EurostileExtBlk', sans-serif;
         font-size: 28vw;
         padding: 0;
         line-height: 1;
@@ -404,6 +413,7 @@
       }
       /* Other Stuff: sub-item of Work group */
       .usb-mobile .item-label {
+        font-family: 'EurostileExtBlk', sans-serif;
         font-size: 7vw;
         opacity: 0.55;
         padding: 2px 0 0;
