@@ -197,6 +197,160 @@
       transition: opacity 0.25s cubic-bezier(0.0, 0, 0.2, 1);
     }
 
+    /* ── iPhone SE lockscreen UI overlay ── */
+    .ils {
+      position: absolute;
+      /* screen bounds: x=70–900 of 960w, y=229–1713 of 1942h */
+      top: 11.79%;
+      left: 7.29%;
+      width: 86.46%;
+      height: 76.41%;
+      overflow: hidden;
+      pointer-events: none;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .iphone-wrap:hover .ils {
+      opacity: 1;
+      transition: opacity 0.25s cubic-bezier(0.0, 0, 0.2, 1);
+    }
+    /* Status bar */
+    .ils-status {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4% 8% 0;
+      color: rgba(255,255,255,0.92);
+      font-size: 0.85dvh;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      flex-shrink: 0;
+    }
+    .ils-battery {
+      display: flex;
+      align-items: center;
+      gap: 1px;
+      font-size: 0.75dvh;
+    }
+    .ils-battery-bar {
+      display: inline-block;
+      width: 1.6dvh;
+      height: 0.75dvh;
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ils-battery-bar::after {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      background: rgba(255,255,255,0.85);
+      right: 8%;
+    }
+    .ils-battery-nub {
+      display: inline-block;
+      width: 0.2dvh;
+      height: 0.36dvh;
+      background: rgba(255,255,255,0.6);
+      border-radius: 0 1px 1px 0;
+      margin-left: 1px;
+      flex-shrink: 0;
+    }
+    /* Time block — takes all available space, centers clock */
+    .ils-time-block {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: -4%;
+    }
+    .ils-time {
+      font-size: 5.2dvh;
+      font-weight: 100;
+      color: #fff;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      text-shadow: 0 1px 12px rgba(0,0,0,0.18);
+    }
+    .ils-date {
+      font-size: 0.95dvh;
+      font-weight: 400;
+      color: rgba(255,255,255,0.88);
+      margin-top: 3%;
+      letter-spacing: 0.01em;
+    }
+    /* Bottom bar */
+    .ils-bottom {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 5%;
+      flex-shrink: 0;
+    }
+    .ils-slide {
+      display: flex;
+      align-items: center;
+      gap: 3%;
+      margin-bottom: 4%;
+    }
+    .ils-slide-arrow {
+      font-size: 1.1dvh;
+      color: rgba(255,255,255,0.55);
+      font-weight: 300;
+    }
+    .ils-slide-text {
+      font-size: 0.9dvh;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      background: linear-gradient(90deg,
+        rgba(255,255,255,0.22) 0%,
+        rgba(255,255,255,0.22) 20%,
+        rgba(255,255,255,1)    44%,
+        rgba(255,255,255,1)    56%,
+        rgba(255,255,255,0.22) 80%,
+        rgba(255,255,255,0.22) 100%
+      );
+      background-size: 250% auto;
+      background-position: 110%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: ils-shimmer 2.6s ease-in-out infinite;
+    }
+    @keyframes ils-shimmer {
+      0%   { background-position: 110%; }
+      100% { background-position: -110%; }
+    }
+    .ils-icons {
+      width: 84%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ils-icon-btn {
+      width: 2.4dvh;
+      height: 2.4dvh;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.14);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1dvh;
+      color: rgba(255,255,255,0.85);
+    }
+
     /* ── labels ── */
     .item-label {
       font-family: 'EnglishVivace', 'Brush Script MT', cursive;
@@ -425,7 +579,8 @@
       .toshiba2,
       .toshiba1,
       .iphone-img,
-      .iphone-on { display: none; }
+      .iphone-on,
+      .ils { display: none; }
 
       /* Tappable cell */
       .item-col {
@@ -561,6 +716,30 @@
         <div class="iphone-wrap">
           <img class="iphone-img" src="images/iphone se.png" alt="iPhone SE" loading="lazy" />
           <img class="iphone-on" src="images/iphone se on 2.png" alt="iPhone SE On" loading="lazy" />
+          <div class="ils" aria-hidden="true">
+            <div class="ils-status">
+              <span>T&#8209;Mobile</span>
+              <div class="ils-battery">
+                <span>100%</span>
+                <span class="ils-battery-bar"></span>
+                <span class="ils-battery-nub"></span>
+              </div>
+            </div>
+            <div class="ils-time-block">
+              <div class="ils-time" id="ils-time">9:41</div>
+              <div class="ils-date" id="ils-date">Wednesday, 22 April</div>
+            </div>
+            <div class="ils-bottom">
+              <div class="ils-slide">
+                <span class="ils-slide-arrow">&#x276F;</span>
+                <span class="ils-slide-text">slide to unlock</span>
+              </div>
+              <div class="ils-icons">
+                <div class="ils-icon-btn">&#x1F526;</div>
+                <div class="ils-icon-btn">&#x1F4F7;</div>
+              </div>
+            </div>
+          </div>
         </div>
       </a>
       <span class="item-label" data-i18n="nav-contact">Contact</span>
@@ -759,6 +938,22 @@
         else iphoneImg.addEventListener('load', trimIphone);
         window.addEventListener('resize', trimIphone);
       }
+
+      // iPhone SE lockscreen real-time clock
+      (function () {
+        var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        function tick() {
+          var now = new Date();
+          var h = now.getHours(), m = now.getMinutes();
+          var timeEl = document.getElementById('ils-time');
+          var dateEl = document.getElementById('ils-date');
+          if (timeEl) timeEl.textContent = h + ':' + (m < 10 ? '0' + m : m);
+          if (dateEl) dateEl.textContent = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()];
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
     })();
 
   </script>
