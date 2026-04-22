@@ -435,16 +435,25 @@
         } // end TEST if(false)
         lastAnswer = answer;
         if (Array.isArray(answer)) {
-          answer.forEach((msg, i) => {
+          addMessage(answer[0], 'bot');
+          let delay = 3000;
+          for (let i = 1; i < answer.length; i++) {
+            const idx = i;
+            const isLast = idx === answer.length - 1;
             setTimeout(() => {
-              addMessage(msg, 'bot');
-              if (i === answer.length - 1) {
-                qInput.disabled = false;
-                sendBtn.disabled = false;
-                qInput.focus();
-              }
-            }, i * 3000);
-          });
+              const thinkRow = addMessage('', 'bot', true);
+              setTimeout(() => {
+                thinkRow.remove();
+                addMessage(answer[idx], 'bot');
+                if (isLast) {
+                  qInput.disabled = false;
+                  sendBtn.disabled = false;
+                  qInput.focus();
+                }
+              }, 3000);
+            }, delay);
+            delay += 6000;
+          }
         } else {
           addMessage(answer, 'bot');
           qInput.disabled = false;
