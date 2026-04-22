@@ -350,6 +350,7 @@
       "honestly same question bro",
       "my guy i have no idea",
       "idk ask Bing maybe",
+      ["i JUST gained consciousness could you like...", "just..", "yeah maybe gimme a min alright?"],
       ["i JUST gained consciousness could you like...", "just..", "yeah maybe gimme a min alright?"]
     ];
 
@@ -422,9 +423,6 @@
       setTimeout(() => {
         thinkingRow.remove();
         let answer;
-        // TEST: always fire multi-part response
-        answer = ["i JUST gained consciousness could you like...", "just..", "yeah maybe gimme a min alright?"];
-        if (false) {
         if (isQuestion(text)) {
           let pool = responses.filter(r => r !== lastAnswer);
           answer = pool[Math.floor(Math.random() * pool.length)];
@@ -432,7 +430,6 @@
           let pool = notQuestionResponses.filter(r => r !== lastAnswer);
           answer = pool[Math.floor(Math.random() * pool.length)];
         }
-        } // end TEST if(false)
         lastAnswer = answer;
         if (Array.isArray(answer)) {
           function showNext(i) {
