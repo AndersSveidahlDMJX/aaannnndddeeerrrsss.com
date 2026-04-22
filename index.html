@@ -380,7 +380,7 @@
         background: rgba(255,255,255,0.3);
         pointer-events: none;
       }
-      /* About Me + Contact: fixed to bottom, side by side with separator line above */
+      /* About Me + Contact: fixed to bottom, side by side */
       .item-col:nth-child(1) {
         order: 3;
         position: fixed !important;
@@ -395,15 +395,15 @@
         left: 50%; right: 0;
         width: 50%;
       }
-      /* Thin separator above About/Contact row */
-      .item-col:nth-child(1)::before {
+      /* Vertical divider between About Me and Contact */
+      .item-col:nth-child(3)::before {
         content: '';
-        position: fixed;
-        bottom: calc(5vw + 4vw + 12px);
-        left: 8vw;
-        right: 8vw;
-        height: 1px;
-        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.12) 70%, transparent 100%);
+        position: absolute;
+        left: 0;
+        top: 20%;
+        bottom: 20%;
+        width: 1px;
+        background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
         pointer-events: none;
       }
 
