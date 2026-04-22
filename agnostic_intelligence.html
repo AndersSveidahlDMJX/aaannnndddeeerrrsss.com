@@ -218,11 +218,6 @@
       border-top: 1px solid #1e1e1e;
       background: #0f0f0f;
       padding: 16px;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 20;
     }
 
     .input-inner {
@@ -543,12 +538,10 @@
       "does life have inherent meaning?",
       "what is consciousness?",
       "can you ever truly know another person?",
-      "is morality real or invented?",
       "does anything even matter?",
       "does time exist without an observer?", 
       "are we living in a simulation?",
       "did we really kill god?",
-      "do we have any genuine free choices?",
       "is the self just a story we tell ourselves?",
       "would immortality be a blessing or a curse?",
       "can anything be truly known?",
@@ -559,13 +552,13 @@
       "is nostalgia a form of mourning?",
       "are we defined more by what we endure or what we choose?",
       "is every act of kindness secretly selfish?",
-      "",
-
-
-
-
-
+      "What is a man in the midst of infinity?",
+      "Is hope the ultimate torture?",
+       "Are we condemned to be free?",
+       "Is love just nature's bribe?",
+       "Who is watching the observer?",
     ];
+
     (function loadChips() {
       const pool = allChips.slice().sort(() => Math.random() - 0.5).slice(0, 6);
       const container = document.getElementById('suggestions');
@@ -593,25 +586,19 @@
       }
     });
 
-    /* ── Keyboard / visualViewport fix for mobile ──
-       input-area is fixed; adjust its bottom when keyboard opens */
+    // ── Keyboard / visualViewport fix for mobile ──
+    // Pins the input area to bottom of visible viewport when software keyboard opens
     if (window.visualViewport) {
       const inputArea = document.querySelector('.input-area');
       const chatArea  = document.getElementById('chat-area');
       function onViewportResize() {
-        var kbHeight = Math.max(0, window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop);
-        inputArea.style.bottom = kbHeight + 'px';
-        chatArea.style.paddingBottom = (inputArea.offsetHeight + kbHeight) + 'px';
+        var offsetBottom = window.innerHeight - (window.visualViewport.offsetTop + window.visualViewport.height);
+        inputArea.style.transform = offsetBottom > 0 ? 'translateY(-' + offsetBottom + 'px)' : '';
+        // scroll chat to bottom so latest message stays visible
         chatArea.scrollTop = chatArea.scrollHeight;
       }
       window.visualViewport.addEventListener('resize', onViewportResize);
       window.visualViewport.addEventListener('scroll', onViewportResize);
-      // set initial padding so chat doesn't hide under fixed input
-      chatArea.style.paddingBottom = (inputArea.offsetHeight || 100) + 'px';
-    } else {
-      // fallback: just pad chat area
-      var inputArea = document.querySelector('.input-area');
-      document.getElementById('chat-area').style.paddingBottom = (inputArea.offsetHeight || 100) + 'px';
     }
   </script>
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
