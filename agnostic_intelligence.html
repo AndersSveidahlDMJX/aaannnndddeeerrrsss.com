@@ -153,7 +153,12 @@
     .avatar.user-avatar {
       background: #2a2a2a;
       border: 1px solid #3a3a3a;
-      color: #aaa;
+      color: #888;
+    }
+    .avatar.user-avatar svg {
+      width: 18px;
+      height: 18px;
+      display: block;
     }
 
     .msg-content {
@@ -190,6 +195,8 @@
       background: #2563eb;
       border-radius: 16px 4px 16px 16px;
       color: #fff;
+      width: fit-content;
+      max-width: 100%;
     }
 
     /* ── Thinking dots ── */
@@ -436,7 +443,11 @@
       if (!isContinuation) {
         const avatar = document.createElement('div');
         avatar.className = `avatar ${type === 'bot' ? 'bot-avatar' : 'user-avatar'}`;
-        avatar.textContent = type === 'bot' ? 'AI' : 'Me';
+        if (type === 'bot') {
+          avatar.textContent = 'AI';
+        } else {
+          avatar.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>';
+        }
         row.appendChild(avatar);
 
         const name = document.createElement('div');
