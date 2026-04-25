@@ -108,8 +108,8 @@
       'p5-col': '<p>William Hastrup &amp; Sofus Kragelund Joensen</p>',
 
       /* ── about ── */
-      'h-about':    'About Me',
-      'h-about-me': 'About Me',
+      'h-about':    'About',
+      'h-about-me': 'About',
 
       /* ── nav shortcuts ── */
       'nav-home':    'home',
@@ -183,8 +183,8 @@
       'p5-col': '<p>William Hastrup &amp; Sofus Kragelund Joensen</p>',
 
       /* ── about ── */
-      'h-about':    'Om Mig',
-      'h-about-me': 'Om Mig',
+      'h-about':    'Om',
+      'h-about-me': 'Om',
 
       /* ── nav shortcuts ── */
       'nav-home':    'hjem',
