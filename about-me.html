@@ -3,34 +3,137 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="preconnect" href="https://static.cloudflareinsights.com">
-  <style id="page-load-bg">body{background:#000!important}</style>
+  <style id="page-load-bg">body{background:#f5f0e8!important}</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
-  <title>About — Anders Sveidahl</title>
+  <title>About Me — Anders Sveidahl</title>
   <meta name="description" content="About Anders — designer, creative, and maker of things." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="https://anderssveidahl.com/about.html" />
+  <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fff; }
+
+    :root {
+      --line-h: 36px;        /* line spacing — must match everywhere */
+      --paper: #f5f0e8;
+      --line-color: #b8c8d8;
+      --ink: #1a1a2e;
+      --red-margin: #e8a0a0;
+      --margin-x: 96px;      /* where text starts (after red margin line) */
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--paper);
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── Paper wrapper ── */
+    .paper {
+      min-height: 100vh;
+      position: relative;
+      /* punch holes strip on left */
+      padding-left: var(--margin-x);
+      padding-right: clamp(24px, 8vw, 120px);
+      padding-top: calc(var(--line-h) * 3);    /* first baseline at line 3 */
+      padding-bottom: calc(var(--line-h) * 4);
+
+      /* Horizontal lines */
+      background-image:
+        /* red margin line */
+        linear-gradient(to right, transparent calc(var(--margin-x) - 1px), var(--red-margin) calc(var(--margin-x) - 1px), var(--red-margin) var(--margin-x), transparent var(--margin-x)),
+        /* ruled lines */
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0px,
+          transparent calc(var(--line-h) - 1px),
+          var(--line-color) calc(var(--line-h) - 1px),
+          var(--line-color) var(--line-h)
+        );
+      background-color: var(--paper);
+    }
+
+    /* Hole punches */
+    .paper::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 40px;
+      height: 100%;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, #fff 10px, transparent 10px),
+        radial-gradient(circle, #d0c8b8 10px, transparent 11px);
+      background-size: 40px 120px;
+      background-position: 20px 60px, 20px 60px;
+      background-repeat: repeat-y;
+      z-index: 10;
+    }
+
+    /* ── Back link ── */
     .back {
       position: fixed;
-      top: 30px;
-      left: 30px;
+      top: 24px;
+      left: 56px;
       text-decoration: none;
-      color: #000;
-      font-size: 1.5rem;
-      opacity: 0.8;
-      transition: opacity 0.2s ease;
+      color: var(--ink);
+      font-size: 1.4rem;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      z-index: 20;
+      line-height: 1;
     }
     .back:hover { opacity: 1; }
     @media (max-width: 768px) { .back { display: none !important; } }
+
+    /* ── Content ── */
+    .content {
+      max-width: 640px;
+      /* line-height MUST equal --line-h so text sits on every rule */
+      line-height: var(--line-h);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: 'Georgia', serif;
+      line-height: var(--line-h);
+      margin-bottom: var(--line-h);
+      color: var(--ink);
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: var(--line-h);
+      margin-bottom: var(--line-h);
+    }
+
+    /* small screen tweaks */
+    @media (max-width: 600px) {
+      :root {
+        --line-h: 32px;
+        --margin-x: 56px;
+      }
+      h1 { font-size: 1.3rem; }
+    }
   </style>
 </head>
 <body>
-  <main style="padding: 100px 60px 60px;">
-    <h1 data-i18n="h-about-me">About Me</h1>
-    <p style="margin-top: 1.5rem; max-width: 600px; line-height: 1.7;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  </main>
+  <a class="back" href="javascript:history.back()">←</a>
+
+  <div class="paper">
+    <div class="content">
+      <h1 data-i18n="h-about-me">About Me</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+  </div>
+
 <script defer src="lang.js"></script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
