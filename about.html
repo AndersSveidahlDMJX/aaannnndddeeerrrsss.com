@@ -6,196 +6,371 @@
   <style id="page-load-bg">body{background:#000!important}</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
-  <title>About — Anders Sveidahl</title>
-  <meta name="description" content="About Anders Sveidahl — designer, creative, and maker of things based in Denmark." />
+  <title>About &mdash; Anders Sveidahl</title>
+  <meta name="description" content="About Anders Sveidahl." />
   <meta name="author" content="Anders Sveidahl" />
   <link rel="canonical" href="https://anderssveidahl.com/about.html" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="About — Anders Sveidahl" />
-  <meta property="og:description" content="About Anders Sveidahl — designer, creative, and maker of things." />
+  <meta property="og:title" content="About &mdash; Anders Sveidahl" />
   <meta property="og:url" content="https://anderssveidahl.com/about.html" />
   <meta property="og:image" content="https://anderssveidahl.com/images/le_ice.webp" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="About — Anders Sveidahl" />
+  <meta name="twitter:title" content="About &mdash; Anders Sveidahl" />
   <meta name="twitter:image" content="https://anderssveidahl.com/images/le_ice.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: #ffffff;
-      background-image: url('images/about%20gulv.webp');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      min-height: 100vh;
       height: 100vh;
+      overflow: hidden;
+      font-family: 'Cinzel', serif;
+      color: #c8b888;
+      background:
+        radial-gradient(ellipse at 50% 0%, #1a2a4a 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 100%, #0d1a2e 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, #1a0d2e 0%, transparent 50%),
+        linear-gradient(180deg, #050810 0%, #0a1020 40%, #080d18 100%);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: sans-serif;
+      position: relative;
+      cursor: url('images/wow_cursor_normal.webp') 0 0, auto;
     }
 
-    .anders-ligger {
+    body::before {
+      content: '';
       position: fixed;
-      top: calc(50% + 95px);
-      left: calc(75% - 50px);
-      transform: translate(-50%, -50%);
-      height: 400px;
-      width: auto;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
-      filter: drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 4px 10px rgba(0,0,0,0.35));
+      z-index: 0;
     }
 
-    .about-text {
+    body::after {
+      content: '';
       position: fixed;
-      top: 50%;
-      left: 25%;
-      transform: translate(-50%, -50%);
-      width: 48vw;
-      max-width: 660px;
-      font-family: sans-serif;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .nutrition-label {
-      border: 3px solid #111;
-      padding: 9px 12px 12px;
-      background: #fff;
-      color: #111;
-      font-family: Arial, Helvetica, sans-serif;
-      width: 100%;
+    .char-screen {
+      position: relative;
+      z-index: 1;
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
     }
-    .nutrition-label .nl-title {
-      font-size: 3rem;
-      font-weight: 900;
-      line-height: 1;
-      border-bottom: 12px solid #111;
-      padding-bottom: 6px;
-      margin-bottom: 3px;
+
+    .title-bar {
+      grid-row: 1;
+      text-align: center;
+      padding: 18px 20px 10px;
+      border-bottom: 1px solid rgba(180,140,60,0.3);
+      background: linear-gradient(180deg, rgba(10,16,32,0.95) 0%, rgba(5,8,16,0.6) 100%);
     }
-    .nutrition-label .nl-subtitle {
-      font-size: 1.05rem;
-      border-bottom: 5px solid #111;
-      padding-bottom: 6px;
-      margin-bottom: 6px;
+    .title-bar .wow-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(0.9rem, 2vw, 1.4rem);
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 20px rgba(255,215,0,0.5), 0 2px 4px rgba(0,0,0,0.8);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
     }
-    .nutrition-label .nl-row {
+    .title-bar .wow-subtitle {
+      font-size: 0.7rem;
+      color: #8a7a50;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .char-center {
+      grid-row: 2;
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      border-bottom: 1px solid #111;
-      padding: 3px 0;
-      font-size: 1.17rem;
-    }
-    .nutrition-label .nl-row.thick {
-      border-bottom: 6px solid #111;
-    }
-    .nutrition-label .nl-row.indent {
-      padding-left: 24px;
-    }
-    .nutrition-label .nl-row .nl-name { font-weight: 700; }
-    .nutrition-label .nl-row .nl-name.light { font-weight: 400; }
-    .nutrition-label .nl-footer {
-      font-size: 0.93rem;
-      line-height: 1.45;
-      margin-top: 7px;
-      border-top: 5px solid #111;
-      padding-top: 6px;
+      align-items: flex-end;
+      justify-content: center;
+      position: relative;
+      padding-bottom: 20px;
     }
 
-    h1 {
-      font-size: 1.25rem;
-      font-weight: normal;
-      letter-spacing: 0.02em;
-      margin-bottom: 60px;
+    .bottom-bar {
+      grid-row: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 24px;
+      border-top: 1px solid rgba(180,140,60,0.3);
+      background: linear-gradient(0deg, rgba(10,16,32,0.95) 0%, rgba(5,8,16,0.6) 100%);
+    }
+
+    .char-wrap {
+      position: relative;
+      display: inline-block;
+      cursor: url('images/wow_cursor_hover.webp') 0 0, pointer;
+    }
+
+    @keyframes bop {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .char-img {
+      height: clamp(320px, 72vh, 680px);
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+      animation: bop 2.4s ease-in-out infinite;
+    }
+
+    .char-wrap:hover .char-img {
+      filter:
+        drop-shadow(2px 0 0 #00ff00)
+        drop-shadow(-2px 0 0 #00ff00)
+        drop-shadow(0 2px 0 #00ff00)
+        drop-shadow(0 -2px 0 #00ff00)
+        drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+    }
+
+    .char-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 20px;
+      background: radial-gradient(ellipse, rgba(80,140,255,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .wow-tooltip {
+      position: fixed;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      min-width: 240px;
+      max-width: 300px;
+    }
+    .wow-tooltip.visible { opacity: 1; }
+
+    .tooltip-inner {
+      background: linear-gradient(180deg, #1c1200 0%, #0d0900 100%);
+      border: 1px solid #302000;
+      border-radius: 2px;
+      box-shadow:
+        0 0 0 1px #6a5000,
+        0 0 0 2px #1a1000,
+        0 8px 24px rgba(0,0,0,0.9),
+        inset 0 1px 0 rgba(255,200,50,0.1);
+      padding: 8px 11px 10px;
+    }
+
+    .tt-name { font-family: 'Cinzel', serif; font-size: 0.85rem; font-weight: 700; color: #ffd100; margin-bottom: 2px; }
+    .tt-type { font-size: 0.68rem; color: #fff; margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .tt-ilvl { font-size: 0.68rem; color: #fff; }
+    .tt-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(180,140,60,0.5), transparent); margin: 5px 0; }
+    .tt-stat { font-size: 0.7rem; color: #c0d0ff; line-height: 1.6; }
+    .tt-stat .green  { color: #00ff00; }
+    .tt-stat .gold   { color: #ffd700; }
+    .tt-stat .grey   { color: #888; }
+    .tt-stat .yellow { color: #ffff00; }
+    .tt-stat .red    { color: #ff6666; }
+    .tt-flavor { font-size: 0.65rem; color: #998866; font-style: italic; margin-top: 6px; line-height: 1.5; }
+
+    .char-nameplate {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .char-nameplate .cn-name {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(0.9rem, 2vw, 1.3rem);
+      color: #ffd700;
+      text-shadow: 0 0 16px rgba(255,215,0,0.6), 0 2px 4px rgba(0,0,0,1);
+      letter-spacing: 0.08em;
+    }
+    .char-nameplate .cn-title {
+      font-size: 0.63rem;
+      color: #a090c0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 2px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+    }
+    .char-nameplate .cn-hint {
+      font-size: 0.6rem;
+      color: #c8a840;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 6px;
+      text-shadow: 0 0 10px rgba(200,168,64,0.6);
     }
 
     .back {
       position: fixed;
-      top: 40px;
-      left: 40px;
+      top: 18px;
+      left: 20px;
       text-decoration: none;
-      color: #000;
-      font-size: 1rem;
-      letter-spacing: 0.02em;
-      transition: opacity 0.2s ease;
-    }
-
-    .back:hover {
-      opacity: 0.4;
-    }
-
-    header { display: block; }
-    header h2 {
-      position: fixed;
-      top: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: sans-serif;
-      font-size: 0.85rem;
-      font-weight: 400;
-      letter-spacing: 0.12em;
+      color: #8a7a50;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #111;
+      transition: color 0.2s;
+      z-index: 100;
+      font-family: 'Cinzel', serif;
     }
+    .back:hover { color: #ffd700; }
 
     @media (max-width: 768px) {
-      header img { height: 72px; }
-      h1 { margin-top: 32px; }
       .back { display: none !important; }
+      .char-img { height: clamp(260px, 55vh, 500px); }
+      body { overflow: auto; height: auto; }
+    }
+
+    @media (min-width: 1400px) {
+      .wow-tooltip { min-width: 270px; max-width: 340px; }
+      .tt-name { font-size: 0.95rem; }
+      .tt-stat { font-size: 0.78rem; }
+      .tt-flavor { font-size: 0.72rem; }
+    }
+
+    .particle {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: rgba(120,160,255,0.4);
+      pointer-events: none;
+      z-index: 0;
+      animation: float-up linear infinite;
+    }
+    @keyframes float-up {
+      0%   { transform: translateY(0) translateX(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(-100vh) translateX(calc(var(--drift) * 40px)); opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h2>Om mig</h2>
-  </header>
-  <div class="about-text">
-    <div class="nutrition-label">
-      <div class="nl-title">Indhold</div>
-      <div class="nl-subtitle">Indeholder i skrivende stund</div>
 
-      <div class="nl-row thick">
-        <span class="nl-name">Ingredienser</span>
-        <span>Mængde</span>
-      </div>
+  <div class="particle" style="left:15%;bottom:0;animation-duration:12s;animation-delay:0s;--drift:1;width:3px;height:3px;background:rgba(100,160,255,0.3)"></div>
+  <div class="particle" style="left:35%;bottom:0;animation-duration:18s;animation-delay:3s;--drift:-1"></div>
+  <div class="particle" style="left:55%;bottom:0;animation-duration:14s;animation-delay:7s;--drift:0.5;background:rgba(180,120,255,0.3)"></div>
+  <div class="particle" style="left:70%;bottom:0;animation-duration:20s;animation-delay:1s;--drift:-0.5"></div>
+  <div class="particle" style="left:85%;bottom:0;animation-duration:16s;animation-delay:5s;--drift:1.5;width:3px;height:3px"></div>
+  <div class="particle" style="left:8%;bottom:0;animation-duration:22s;animation-delay:9s;--drift:-1.5;background:rgba(255,200,80,0.2)"></div>
 
-      <div class="nl-row">
-        <span class="nl-name">Faxe Kondi</span>
-        <span>3 dåser</span>
-      </div>
-      <div class="nl-row">
-        <span class="nl-name">Cola</span>
-        <span>1 dåse</span>
-      </div>
-      <div class="nl-row">
-        <span class="nl-name">Kaffe</span>
-        <span>1 kande</span>
-      </div>
-      <div class="nl-row">
-        <span class="nl-name">Red Bull</span>
-        <span>3 dåser</span>
-      </div>
-      <div class="nl-row">
-        <span class="nl-name light">heraf sukkerarter</span>
-        <span>som jeg ikke kan udtale</span>
-      </div>
-      <div class="nl-row thick">
-        <span class="nl-name">Én kæmpe vision for denne fremtidige about-tekst</span>
-        <span>ja</span>
-      </div>
+  <div class="char-screen">
 
-      <div class="nl-footer">
-        * Dagligt referenceindtag for en gennemsnitlig voksen designer (8.400 kJ / 2.000 kcal).<br>
-        ** Endnu ikke dokumenteret. Indholdet kan variere afhængigt af deadline.
+    <div class="title-bar">
+      <div class="wow-title">Character Selection</div>
+      <div class="wow-subtitle">Alliance &middot; Realm: Copenhagen</div>
+    </div>
+
+    <div class="char-center">
+      <div class="char-wrap" id="char-wrap">
+        <div class="char-nameplate">
+          <div class="cn-name">Anders Sveidahl</div>
+          <div class="cn-title">Level 27 &middot; Creative</div>
+          <div class="cn-hint">&#9876; Hover to Inspect Character &#9876;</div>
+        </div>
+        <img class="char-img" src="images/mighop.png" alt="Anders Sveidahl" loading="eager" fetchpriority="high" />
       </div>
     </div>
+
+    <div class="bottom-bar">
+      <span style="font-size:0.65rem;color:#5a4a28;letter-spacing:0.1em;text-transform:uppercase">Alliance &middot; PvE</span>
+    </div>
+
   </div>
-  <img class="anders-ligger" src="images/anders%20ligger.webp" alt="" loading="eager" fetchpriority="high" />
-<script defer src="lang.js"></script>
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
+
+  <div class="wow-tooltip" id="wow-tooltip">
+    <div class="tooltip-inner">
+      <div class="tt-name">Anders Sveidahl</div>
+      <div class="tt-type">
+        <span>Unique Character</span>
+        <span class="tt-ilvl">ilvl 27</span>
+      </div>
+      <div class="tt-divider"></div>
+      <div class="tt-stat">
+        <span class="grey">Name</span> <span class="gold">Anders Sveidahl</span><br>
+        <span class="grey">Race</span> Great guy<br>
+        <span class="grey">Class</span> <span style="color:#b48be4">Creative</span><br>
+        <span class="grey">Level</span> <span class="green">27</span><br>
+        <span class="grey">Guild</span> DMJX Kreativ Kommunikation 2024&ndash;2027<br>
+        <span class="grey">Realm</span> Copenhagen-EU
+      </div>
+      <div class="tt-divider"></div>
+      <div class="tt-stat">
+        <span class="green">+94 Creativity</span><br>
+        <span class="green">+88 Attention to Detail</span><br>
+        <span class="green">+97 Caffeine Tolerance</span><br>
+        <span class="green">+12 Immaculate vibes</span>
+      </div>
+      <div class="tt-divider"></div>
+      <div class="tt-stat">
+        <span class="yellow">Equip:</span> Increases drop rate for crazy ideas by 500%.<br>
+        <span class="yellow">Equip:</span> Will make people go: <span class="gold">&ldquo;wait, how?&rdquo;</span> <span class="gold">&ldquo;what??&rdquo;</span> and <span class="gold">&ldquo;Holy s***&rdquo;</span><br>
+        <span class="yellow">Use:</span> Deploy to any creative project.
+      </div>
+      <div class="tt-divider"></div>
+      <div class="tt-stat">
+        <span class="grey">Professions:</span> Generating ideas, Visual design, Video editing, Being a huge nerd about 231 things
+      </div>
+      <div class="tt-flavor">&ldquo;Fueled by Faxe Kondi and sheer willpower. Handle with care &mdash; may cause inspiration.&rdquo;</div>
+    </div>
+  </div>
+
+  <script>
+    var wrap = document.getElementById('char-wrap');
+    var tooltip = document.getElementById('wow-tooltip');
+    var visible = false;
+    var mx = 0, my = 0;
+
+    function positionTooltip() {
+      var tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+      var vw = window.innerWidth, vh = window.innerHeight;
+      var x = mx + 18, y = my - 10;
+      if (x + tw + 10 > vw) x = mx - tw - 12;
+      if (y + th + 10 > vh) y = vh - th - 10;
+      if (y < 10) y = 10;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top  = y + 'px';
+    }
+
+    document.addEventListener('mousemove', function(e) {
+      mx = e.clientX; my = e.clientY;
+      if (visible) positionTooltip();
+    });
+
+    wrap.addEventListener('mouseenter', function() {
+      visible = true;
+      tooltip.classList.add('visible');
+      positionTooltip();
+    });
+
+    wrap.addEventListener('mouseleave', function() {
+      visible = false;
+      tooltip.classList.remove('visible');
+    });
+  </script>
+
+  <script defer src="lang.js"></script>
+  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

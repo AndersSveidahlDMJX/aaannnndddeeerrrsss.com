@@ -113,10 +113,12 @@
     .diary-wrap {
       display: inline-block;
       cursor: pointer;
-      transform: rotate(0deg) translateY(5px);
+      /* width = visual rendered height after 90deg rotation (height × aspect 0.75) */
+      width: clamp(18px, 30.3dvh, 270px);
+      transform: rotate(0deg) translateY(23px);
       transition: transform 0.3s ease;
     }
-    .diary-wrap:hover { transform: rotate(0deg) translateY(5px) scale(1.05); }
+    .diary-wrap:hover { transform: rotate(0deg) translateY(23px) scale(1.05); }
 
     .toshiba-wrap {
       position: relative;
@@ -150,11 +152,11 @@
     }
 
     .diary-img {
-      height: 56vh;
-      height: 56dvh;
+      height: clamp(240px, 40.4dvh, 360px);
       width: auto;
       display: block;
       filter: drop-shadow(2px 5px 8px rgba(0,0,0,0.35));
+      transform: rotate(-90deg);
     }
 
     .toshiba2 {
@@ -680,7 +682,7 @@
     <div class="item-col mobile-nav-only">
       <a href="about.html">
         <div class="diary-wrap">
-          <img class="diary-img" src="images/diary.webp" alt="" loading="lazy" />
+          <img class="diary-img" src="images/migindex.png" alt="" loading="lazy" />
         </div>
       </a>
       <span class="item-label" data-i18n="h-about">About Me</span>
