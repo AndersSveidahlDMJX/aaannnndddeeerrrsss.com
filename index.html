@@ -113,8 +113,8 @@
     .diary-wrap {
       display: inline-block;
       cursor: pointer;
-      /* width = visual rendered height after 90deg rotation (height × aspect 0.75) */
-      width: clamp(18px, 30.3dvh, 270px);
+      /* width matches visual footprint of rotated image (rendered height after -90deg) */
+      width: clamp(240px, 40.4dvh, 360px);
       transform: rotate(0deg) translateY(23px);
       transition: transform 0.3s ease;
     }
