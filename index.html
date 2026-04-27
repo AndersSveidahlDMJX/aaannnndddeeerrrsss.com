@@ -831,12 +831,13 @@
       row.style.transform = 'translateY(-50%)';
       row.style.left = '0';
       var rowRect = row.getBoundingClientRect();
-      // Center on toshiba's horizontal midpoint
-      var toshibaWrap = row.querySelector('.toshiba-wrap');
-      if (!toshibaWrap) return;
-      var tr = toshibaWrap.getBoundingClientRect();
-      var toshibaCenter = tr.left + tr.width / 2;
-      var offset = toshibaCenter - rowRect.left;
+      // Use item labels (exclude usb-mobile) — labels are reliably centered under each item
+      var labels = Array.from(row.querySelectorAll('.item-col:not(.usb-mobile) .item-label'));
+      var rects = labels.map(function(l) { return l.getBoundingClientRect(); });
+      var leftCenter  = rects[0].left + rects[0].width / 2;
+      var rightCenter = rects[rects.length - 1].left + rects[rects.length - 1].width / 2;
+      var visualCenter = (leftCenter + rightCenter) / 2;
+      var offset = visualCenter - rowRect.left;
       row.style.left = (window.innerWidth / 2 - offset) + 'px';
       if (typeof positionSpotlights === 'function') positionSpotlights();
     }
