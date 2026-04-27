@@ -267,12 +267,12 @@
         height: clamp(200px, 48vw, 340px);
         animation: none;
       }
-      .char-wrap { cursor: auto; }
+      .char-wrap { cursor: pointer; }
       .char-wrap:hover .char-img { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6)); }
 
-      /* nameplate: hide hint on mobile */
+      /* nameplate: show tap hint on mobile */
       .char-nameplate { white-space: normal; text-align: center; }
-      .cn-hint { display: none; }
+      .cn-hint { display: block; }
 
       /* glow ring */
       .char-wrap::after { display: none; }
@@ -280,14 +280,23 @@
       /* bottom bar: minimal */
       .bottom-bar { padding: 8px 16px; justify-content: center; }
 
-      /* tooltip: pull out of fixed, show as static card */
+      /* tooltip: hidden by default on mobile, shown on tap */
       .wow-tooltip {
         position: static !important;
-        opacity: 1 !important;
-        pointer-events: auto;
+        opacity: 0 !important;
+        max-height: 0;
+        overflow: hidden;
+        pointer-events: none;
         width: calc(100% - 32px);
         max-width: 100%;
         min-width: unset;
+        margin: 0 16px;
+        transition: opacity 0.3s ease, max-height 0.4s ease, margin 0.3s ease;
+      }
+      .wow-tooltip.mobile-open {
+        opacity: 1 !important;
+        max-height: 2000px;
+        pointer-events: auto;
         margin: 12px 16px 24px;
       }
       .tooltip-inner {
@@ -347,7 +356,7 @@
         <div class="char-nameplate">
           <div class="cn-name">Anders Sveidahl</div>
           <div class="cn-title">Level 27 &middot; Creative</div>
-          <div class="cn-hint">&#9876; Hover to Inspect Character &#9876;</div>
+          <div class="cn-hint">&#9876; Tap to Inspect Character &#9876;</div>
         </div>
         <img class="char-img" src="images/mighop.webp" alt="Anders Sveidahl" loading="eager" fetchpriority="high" />
       </div>
@@ -436,6 +445,11 @@
       if (isMobile) return;
       visible = false;
       tooltip.classList.remove('visible');
+    });
+
+    wrap.addEventListener('click', function() {
+      if (!isMobile) return;
+      tooltip.classList.toggle('mobile-open');
     });
   </script>
 
