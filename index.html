@@ -72,9 +72,9 @@
     /* ── centered row of all 4 items ── */
     .items-row {
       position: fixed;
-      top: 55%;
+      top: 50%;
       left: 50%;
-      transform: translate(-50%, calc(-50% + 1.875rem));
+      transform: translate(-50%, -50%);
       display: flex;
       align-items: flex-end;
       gap: 4vw;
@@ -86,7 +86,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      filter: brightness(0.48);
+      filter: brightness(1);
       transition: filter 0.55s ease;
       padding-top: 16px;
     }
@@ -115,10 +115,10 @@
       cursor: pointer;
       /* width = visual rendered height after 90deg rotation (height × aspect 0.75) */
       width: clamp(18px, 30.3dvh, 270px);
-      transform: rotate(0deg) translateY(23px);
+      transform: rotate(0deg);
       transition: transform 0.3s ease;
     }
-    .diary-wrap:hover { transform: rotate(0deg) translateY(23px) scale(1.05); }
+    .diary-wrap:hover { transform: rotate(0deg) scale(1.05); }
 
     .toshiba-wrap {
       position: relative;
@@ -420,7 +420,11 @@
       flex-direction: column;
       align-items: center;
       z-index: 1;
+      filter: brightness(1);
+      transition: filter 0.55s ease;
     }
+    body:has(.item-col:hover) .usb-fixed { filter: brightness(0.06); transition: filter 0.3s ease; }
+    body:has(.usb-fixed:hover) .item-col { filter: brightness(0.06); transition: filter 0.3s ease; }
     .usb-fixed .usb-img {
       animation: usb-eclipse-pulse 4s ease-in-out infinite;
       transition: filter 0.55s ease;
@@ -430,10 +434,6 @@
       filter: brightness(1) drop-shadow(0 0 10px rgba(255,254,235,0.75)) drop-shadow(0 0 30px rgba(255,250,210,0.4)) drop-shadow(0 0 60px rgba(255,240,180,0.18));
     }
     .usb-fixed .item-label {
-      opacity: 0.38;
-      transition: opacity 0.55s ease;
-    }
-    .usb-fixed:hover .item-label {
       opacity: 1;
     }
 
