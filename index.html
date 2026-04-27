@@ -72,11 +72,11 @@
     /* ── centered row of all 4 items ── */
     .items-row {
       position: fixed;
-      top: 50%;
+      top: 55%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, calc(-50% + 1.875rem));
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 4vw;
       z-index: 1;
     }
@@ -115,10 +115,10 @@
       cursor: pointer;
       /* width = visual rendered height after 90deg rotation (height × aspect 0.75) */
       width: clamp(18px, 30.3dvh, 270px);
-      transform: rotate(0deg);
+      transform: rotate(0deg) translateY(23px);
       transition: transform 0.3s ease;
     }
-    .diary-wrap:hover { transform: rotate(0deg) scale(1.05); }
+    .diary-wrap:hover { transform: rotate(0deg) translateY(23px) scale(1.05); }
 
     .toshiba-wrap {
       position: relative;
@@ -132,10 +132,10 @@
       position: relative;
       display: inline-block;
       cursor: pointer;
-      transform: rotate(0deg);
+      transform: rotate(0deg) translateY(-8px);
       transition: transform 0.3s ease;
     }
-    .iphone-wrap:hover { transform: rotate(0deg) scale(1.05); }
+    .iphone-wrap:hover { transform: rotate(0deg) translateY(-8px) scale(1.05); }
 
     /* ── images ── */
     .usb-img {
