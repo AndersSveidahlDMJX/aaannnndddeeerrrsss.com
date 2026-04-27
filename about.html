@@ -238,7 +238,7 @@
 
     /* hide tap hint and mobile chrome on desktop */
     .cn-hint { display: none; }
-    .mobile-tooltip-header, .mobile-close-btn { display: none; }
+    .mobile-close-btn { display: none; }
 
     @media (max-width: 768px) {
       /* scrollable page */
@@ -302,49 +302,35 @@
       /* bottom bar: minimal */
       .bottom-bar { padding: 10px 16px; justify-content: center; }
 
-      /* show mobile chrome */
-      .mobile-tooltip-header { display: flex; }
+      /* show close button */
       .mobile-close-btn { display: flex; }
 
-      /* tooltip: full-screen overlay on mobile */
+      /* tooltip: overlay below title bar on mobile */
       .wow-tooltip {
         position: fixed !important;
-        inset: 0;
-        top: 0 !important;
         left: 0 !important;
+        bottom: 0;
+        /* top is set by JS to title-bar bottom */
         width: 100% !important;
         max-width: 100% !important;
         min-width: unset;
-        height: 100%;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         z-index: 9999;
         opacity: 0;
         pointer-events: none;
-        background: rgba(5, 8, 18, 0.97);
-        display: flex;
-        flex-direction: column;
+        background: rgba(5, 8, 16, 0.97);
         transition: opacity 0.25s ease;
       }
       .wow-tooltip.mobile-open {
         opacity: 1;
         pointer-events: auto;
       }
-      .mobile-tooltip-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 14px 16px 10px;
-        border-bottom: 1px solid rgba(180,140,60,0.3);
-        background: linear-gradient(180deg, rgba(10,16,32,0.95) 0%, rgba(5,8,16,0.6) 100%);
-        flex-shrink: 0;
-        font-family: 'Cinzel Decorative', serif;
-        font-size: 0.75rem;
-        color: #ffd700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
       .mobile-close-btn {
+        position: sticky;
+        top: 12px;
+        float: right;
+        margin: 12px 16px 0 0;
         background: none;
         border: 1px solid rgba(180,140,60,0.4);
         border-radius: 3px;
@@ -357,13 +343,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-shrink: 0;
         font-family: sans-serif;
+        z-index: 1;
       }
       .mobile-close-btn:active { background: rgba(180,140,60,0.15); }
       .tooltip-inner {
-        padding: 16px 20px 32px;
-        flex: 1;
+        padding: 8px 20px 32px;
+        clear: both;
       }
       .tt-name { font-size: 0.95rem; }
       .tt-stat { font-size: 0.82rem; line-height: 1.8; }
@@ -432,10 +418,7 @@
   </div>
 
   <div class="wow-tooltip" id="wow-tooltip">
-    <div class="mobile-tooltip-header">
-      <span>Inspect Character</span>
-      <button class="mobile-close-btn" id="tooltip-close" aria-label="Close">&#x2715;</button>
-    </div>
+    <button class="mobile-close-btn" id="tooltip-close" aria-label="Close">&#x2715;</button>
     <div class="tooltip-inner">
       <div class="tt-name">Anders Sveidahl</div>
       <div class="tt-type">
@@ -516,6 +499,8 @@
 
     wrap.addEventListener('click', function() {
       if (!isMobile) return;
+      var titleBar = document.querySelector('.title-bar');
+      if (titleBar) tooltip.style.top = titleBar.getBoundingClientRect().bottom + 'px';
       tooltip.classList.add('mobile-open');
     });
 
