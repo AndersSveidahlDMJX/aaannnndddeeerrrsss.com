@@ -77,7 +77,7 @@
       transform: translate(-50%, calc(-50% + 1.875rem));
       display: flex;
       align-items: flex-end;
-      gap: 4vw;
+      gap: 3.2vw;
       z-index: 1;
     }
 
@@ -831,14 +831,12 @@
       row.style.transform = 'translateY(-50%)';
       row.style.left = '0';
       var rowRect = row.getBoundingClientRect();
-      // Use visible edges: left edge of about-me wrap, right edge of iphone wrap
-      var leftWrap  = row.querySelector('.item-col:nth-child(1) .diary-wrap');
-      var rightWrap = row.querySelector('.item-col:nth-child(3) .iphone-wrap');
-      if (!leftWrap || !rightWrap) return;
-      var leftEdge  = leftWrap.getBoundingClientRect().left;
-      var rightEdge = rightWrap.getBoundingClientRect().right;
-      var visualCenter = (leftEdge + rightEdge) / 2;
-      var offset = visualCenter - rowRect.left;
+      // Center on toshiba's horizontal midpoint
+      var toshibaWrap = row.querySelector('.toshiba-wrap');
+      if (!toshibaWrap) return;
+      var tr = toshibaWrap.getBoundingClientRect();
+      var toshibaCenter = tr.left + tr.width / 2;
+      var offset = toshibaCenter - rowRect.left;
       row.style.left = (window.innerWidth / 2 - offset) + 'px';
       if (typeof positionSpotlights === 'function') positionSpotlights();
     }
