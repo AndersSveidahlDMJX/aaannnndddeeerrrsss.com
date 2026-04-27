@@ -72,9 +72,9 @@
     /* ── centered row of all 4 items ── */
     .items-row {
       position: fixed;
-      top: 55%;
-      left: 50%;
-      transform: translate(-50%, calc(-50% + 1.875rem));
+      top: 0;
+      left: 0;
+      transform: none;
       display: flex;
       align-items: flex-end;
       gap: 3.2vw;
@@ -826,22 +826,30 @@
       if (!row) return;
       if (window.innerWidth <= 768) {
         row.style.left = '';
+        row.style.top = '';
         row.style.transform = '';
         return;
       }
-      // Reset position so we can measure natural layout
-      row.style.transform = 'translateY(-50%)';
+      // Reset to origin so measurements are clean
+      row.style.transform = 'none';
       row.style.left = '0';
+      row.style.top = '0';
       var rowRect = row.getBoundingClientRect();
-      // Use true visible edges: left of about-me image, right of iphone image
+      // Horizontal: center on visual bounds (left of about-me, right of iphone)
       var leftWrap  = row.querySelector('.item-col:nth-child(1) .diary-wrap');
       var rightWrap = row.querySelector('.item-col:nth-child(3) .iphone-wrap');
-      if (!leftWrap || !rightWrap) return;
+      var toshibaWrap = row.querySelector('.toshiba-wrap');
+      if (!leftWrap || !rightWrap || !toshibaWrap) return;
       var leftEdge  = leftWrap.getBoundingClientRect().left;
       var rightEdge = rightWrap.getBoundingClientRect().right;
-      var visualCenter = (leftEdge + rightEdge) / 2;
-      var offset = visualCenter - rowRect.left;
-      row.style.left = (window.innerWidth / 2 - offset) + 'px';
+      var hCenter = (leftEdge + rightEdge) / 2;
+      var hOffset = hCenter - rowRect.left;
+      row.style.left = (window.innerWidth / 2 - hOffset) + 'px';
+      // Vertical: center on toshiba's midpoint
+      var tr = toshibaWrap.getBoundingClientRect();
+      var toshibaVCenter = tr.top + tr.height / 2;
+      var vOffset = toshibaVCenter - rowRect.top;
+      row.style.top = (window.innerHeight / 2 - vOffset) + 'px';
       if (typeof positionSpotlights === 'function') positionSpotlights();
     }
 
