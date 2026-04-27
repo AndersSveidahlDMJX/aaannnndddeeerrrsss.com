@@ -236,9 +236,69 @@
     .back:hover { color: #ffd700; }
 
     @media (max-width: 768px) {
-      .back { display: none !important; }
-      .char-img { height: clamp(260px, 55vh, 500px); }
-      body { overflow: auto; height: auto; }
+      /* scrollable page */
+      body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        cursor: auto;
+        align-items: flex-start;
+      }
+
+      .char-screen {
+        height: auto;
+        min-height: unset;
+        grid-template-rows: auto auto auto;
+      }
+
+      /* shrink title bar */
+      .title-bar { padding: 14px 16px 8px; }
+      .title-bar .wow-title { font-size: 1rem; letter-spacing: 0.1em; }
+      .title-bar .wow-subtitle { font-size: 0.62rem; }
+
+      /* character area: shorter, centered */
+      .char-center {
+        padding-bottom: 0;
+        align-items: center;
+        min-height: 44vw;
+      }
+      .char-img {
+        height: clamp(200px, 48vw, 340px);
+        animation: none;
+      }
+      .char-wrap { cursor: auto; }
+      .char-wrap:hover .char-img { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6)); }
+
+      /* nameplate: hide hint on mobile */
+      .char-nameplate { white-space: normal; text-align: center; }
+      .cn-hint { display: none; }
+
+      /* glow ring */
+      .char-wrap::after { display: none; }
+
+      /* bottom bar: minimal */
+      .bottom-bar { padding: 8px 16px; justify-content: center; }
+
+      /* tooltip: pull out of fixed, show as static card */
+      .wow-tooltip {
+        position: static !important;
+        opacity: 1 !important;
+        pointer-events: auto;
+        width: calc(100% - 32px);
+        max-width: 100%;
+        min-width: unset;
+        margin: 12px 16px 24px;
+      }
+      .tooltip-inner {
+        padding: 12px 14px 14px;
+      }
+      .tt-name { font-size: 0.95rem; }
+      .tt-stat { font-size: 0.78rem; line-height: 1.7; }
+      .tt-flavor { font-size: 0.7rem; }
+
+      /* particles: fewer, no fixed needed */
+      .particle { display: none; }
     }
 
     @media (min-width: 1400px) {
@@ -345,8 +405,10 @@
     var tooltip = document.getElementById('wow-tooltip');
     var visible = false;
     var mx = 0, my = 0;
+    var isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     function positionTooltip() {
+      if (isMobile) return;
       var tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
       var vw = window.innerWidth, vh = window.innerHeight;
       var x = mx + 18, y = my - 10;
@@ -358,17 +420,20 @@
     }
 
     document.addEventListener('mousemove', function(e) {
+      if (isMobile) return;
       mx = e.clientX; my = e.clientY;
       if (visible) positionTooltip();
     });
 
     wrap.addEventListener('mouseenter', function() {
+      if (isMobile) return;
       visible = true;
       tooltip.classList.add('visible');
       positionTooltip();
     });
 
     wrap.addEventListener('mouseleave', function() {
+      if (isMobile) return;
       visible = false;
       tooltip.classList.remove('visible');
     });
