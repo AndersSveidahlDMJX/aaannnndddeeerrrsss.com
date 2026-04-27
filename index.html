@@ -831,12 +831,13 @@
       row.style.transform = 'translateY(-50%)';
       row.style.left = '0';
       var rowRect = row.getBoundingClientRect();
-      // Use item labels (exclude usb-mobile) — labels are reliably centered under each item
-      var labels = Array.from(row.querySelectorAll('.item-col:not(.usb-mobile) .item-label'));
-      var rects = labels.map(function(l) { return l.getBoundingClientRect(); });
-      var leftCenter  = rects[0].left + rects[0].width / 2;
-      var rightCenter = rects[rects.length - 1].left + rects[rects.length - 1].width / 2;
-      var visualCenter = (leftCenter + rightCenter) / 2;
+      // Use true visible edges: left of about-me image, right of iphone image
+      var leftWrap  = row.querySelector('.item-col:nth-child(1) .diary-wrap');
+      var rightWrap = row.querySelector('.item-col:nth-child(3) .iphone-wrap');
+      if (!leftWrap || !rightWrap) return;
+      var leftEdge  = leftWrap.getBoundingClientRect().left;
+      var rightEdge = rightWrap.getBoundingClientRect().right;
+      var visualCenter = (leftEdge + rightEdge) / 2;
       var offset = visualCenter - rowRect.left;
       row.style.left = (window.innerWidth / 2 - offset) + 'px';
       if (typeof positionSpotlights === 'function') positionSpotlights();
