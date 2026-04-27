@@ -238,6 +238,7 @@
 
     /* hide tap hint and mobile chrome on desktop */
     .cn-hint { display: none; }
+    .mobile-tap-hint { display: none; }
     .mobile-close-btn { display: none; }
 
     @media (max-width: 768px) {
@@ -291,20 +292,34 @@
         order: 1;
       }
 
-      /* nameplate: below image on mobile */
+      /* nameplate: above image on mobile */
       .char-nameplate {
         position: static;
         transform: none;
         white-space: normal;
-        order: 2;
-        margin-top: 18px;
+        order: 0;
+        margin-bottom: 10px;
         text-align: center;
         width: auto;
         max-width: 90vw;
       }
-      .char-nameplate .cn-name { display: none; }
-      .char-nameplate .cn-title { display: none; }
-      .cn-hint { display: block; font-size: 1.4rem; letter-spacing: 0.08em; }
+      .char-nameplate .cn-name { font-size: clamp(1rem, 5vw, 1.3rem); }
+      .char-nameplate .cn-title { font-size: 0.7rem; }
+      .cn-hint { display: none; }
+
+      /* tap hint below image */
+      .mobile-tap-hint {
+        display: block;
+        order: 2;
+        margin-top: 16px;
+        font-size: 1.2rem;
+        color: #c8a840;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        text-align: center;
+        text-shadow: 0 0 10px rgba(200,168,64,0.6);
+        font-family: 'Cinzel', serif;
+      }
 
       /* glow ring */
       .char-wrap::after { display: none; }
@@ -418,6 +433,7 @@
           <div class="cn-hint">&#9876; Tap to Inspect Character &#9876;</div>
         </div>
         <img class="char-img" src="images/mighop.webp" alt="Anders Sveidahl" loading="eager" fetchpriority="high" />
+        <div class="mobile-tap-hint">&#9876; Tap to Inspect Character &#9876;</div>
       </div>
     </div>
 
