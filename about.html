@@ -235,51 +235,70 @@
     }
     .back:hover { color: #ffd700; }
 
+    /* hide tap hint on desktop */
+    .cn-hint { display: none; }
+
     @media (max-width: 768px) {
       /* scrollable page */
-      body {
+      html, body {
         height: auto;
-        min-height: 100vh;
+        min-height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
+        width: 100%;
         cursor: auto;
-        align-items: flex-start;
+        align-items: stretch;
         flex-direction: column;
       }
 
       .char-screen {
+        width: 100%;
         height: auto;
-        min-height: unset;
-        grid-template-rows: auto auto auto;
+        min-height: 100svh;
+        grid-template-rows: auto 1fr auto;
+        box-sizing: border-box;
       }
 
-      /* shrink title bar */
-      .title-bar { padding: 14px 16px 8px; }
-      .title-bar .wow-title { font-size: 1rem; letter-spacing: 0.1em; }
-      .title-bar .wow-subtitle { font-size: 0.62rem; }
+      /* title bar */
+      .title-bar {
+        padding: 20px 16px 12px;
+      }
+      .title-bar .wow-title {
+        font-size: clamp(1rem, 5vw, 1.3rem);
+        letter-spacing: 0.08em;
+      }
+      .title-bar .wow-subtitle { font-size: 0.7rem; }
 
-      /* character area: shorter, centered */
+      /* character area: fills the middle row */
       .char-center {
-        padding-bottom: 0;
+        padding: 16px 0 24px;
         align-items: center;
-        min-height: 44vw;
-      }
-      .char-img {
-        height: clamp(200px, 48vw, 340px);
-        animation: none;
+        justify-content: center;
       }
       .char-wrap { cursor: pointer; }
       .char-wrap:hover .char-img { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6)); }
 
-      /* nameplate: show tap hint on mobile */
-      .char-nameplate { white-space: normal; text-align: center; }
-      .cn-hint { display: block; }
+      .char-img {
+        height: clamp(260px, 48vh, 480px);
+        animation: none;
+      }
+
+      /* nameplate: show tap hint on mobile, allow wrapping */
+      .char-nameplate {
+        white-space: normal;
+        text-align: center;
+        width: max-content;
+        max-width: 85vw;
+      }
+      .char-nameplate .cn-name { font-size: clamp(1rem, 5vw, 1.3rem); }
+      .char-nameplate .cn-title { font-size: 0.7rem; }
+      .cn-hint { display: block; font-size: 0.7rem; }
 
       /* glow ring */
       .char-wrap::after { display: none; }
 
       /* bottom bar: minimal */
-      .bottom-bar { padding: 8px 16px; justify-content: center; }
+      .bottom-bar { padding: 10px 16px; justify-content: center; }
 
       /* tooltip: hidden by default on mobile, shown on tap */
       .wow-tooltip {
@@ -300,14 +319,12 @@
         pointer-events: auto;
         margin: 12px 16px 24px;
       }
-      .tooltip-inner {
-        padding: 12px 14px 14px;
-      }
+      .tooltip-inner { padding: 12px 14px 14px; }
       .tt-name { font-size: 0.95rem; }
       .tt-stat { font-size: 0.78rem; line-height: 1.7; }
       .tt-flavor { font-size: 0.7rem; }
 
-      /* particles: fewer, no fixed needed */
+      /* particles: hide on mobile */
       .particle { display: none; }
     }
 
