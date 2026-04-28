@@ -233,6 +233,7 @@
     var isIndex   = path === '/' || /index\.html$/.test(path);
     var isContact = /contact\.html$/.test(path);
     var isWork    = /work\.html$/.test(path);
+    var isProject = /project-[1-6]\.html$/.test(path);
     var hasShortcuts = !isIndex && !isContact;
 
     var style = document.createElement('style');
@@ -304,27 +305,6 @@
       btn.addEventListener('click', function () { apply(btn.dataset.lang); });
     });
     document.body.appendChild(div);
-
-    /* ── home shortcut (left side) ── */
-    if (!isIndex) {
-      var navDiv = document.createElement('div');
-      navDiv.id = 'nav-shortcuts';
-      navDiv.innerHTML = '<a href="index.html" data-i18n="nav-home">home</a>';
-      document.body.appendChild(navDiv);
-
-      /* sidebar-aware left position */
-      var sidebar = document.querySelector('.sidebar');
-      if (sidebar) {
-        var sbWidth = sidebar.offsetWidth || 360;
-        function updateNavLeft() {
-          var collapsed = document.body.classList.contains('sb-collapsed');
-          navDiv.style.left = collapsed ? '24px' : (sbWidth + 24) + 'px';
-        }
-        /* Defer initial read so setSidebar(true) on mobile has already run */
-        requestAnimationFrame(updateNavLeft);
-        new MutationObserver(updateNavLeft).observe(document.body, { attributes: true, attributeFilter: ['class'] });
-      }
-    }
 
     apply(lang);
   }
