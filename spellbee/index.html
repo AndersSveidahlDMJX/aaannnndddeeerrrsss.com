@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c0c0e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Stavebien</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <header>
+      <div class="game-tabs">
+        <a href="index.html" class="game-tab active">🐝 Stavebien</a>
+        <a href="wordle.html" class="game-tab">🔤 Wordle</a>
+      </div>
+      <div class="header-right">
+        <div id="lang-toggle" role="group" aria-label="Language">
+          <button id="btn-lang-da" class="lang-btn active" type="button">DA</button>
+          <button id="btn-lang-en" class="lang-btn" type="button">EN</button>
+        </div>
+        <button id="btn-user" class="user-btn" type="button" aria-label="Profile">👤</button>
+      </div>
+    </header>
+
+    <!-- Loading -->
+    <div id="loading">
+      <div class="loader" aria-hidden="true"></div>
+      <p id="loading-text">Henter ordliste…</p>
+    </div>
+
+    <!-- Game -->
+    <main id="game" class="hidden">
+
+      <!-- Progress -->
+      <div id="prog-card">
+        <div id="prog-stats">
+          <span id="prog-found-text"></span>
+          <span id="prog-score-text"></span>
+        </div>
+        <div id="prog-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="prog-fill"></div>
+        </div>
+      </div>
+
+      <!-- Word being typed -->
+      <div id="word-area">
+        <div id="word-display"><span class="ph">…</span></div>
+        <div id="msg-wrap">
+          <div id="message" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <!-- Honeycomb -->
+      <div id="hive-wrap">
+        <svg id="hive-svg" viewBox="0 0 300 290"
+             xmlns="http://www.w3.org/2000/svg"
+             role="group" aria-label="Bogstavbikage"></svg>
+      </div>
+
+      <!-- Controls -->
+      <div id="controls">
+        <button id="btn-delete" type="button">← Slet</button>
+        <button id="btn-shuffle" type="button">↺ Bland</button>
+        <button id="btn-enter"  type="button">Indtast →</button>
+      </div>
+
+      <!-- Found words -->
+      <div id="found-section">
+        <div id="found-label">Fundne ord</div>
+        <div id="found-list"></div>
+      </div>
+
+      <button id="btn-new" type="button">Nyt puslespil</button>
+
+    </main>
+
+    <!-- User / profile modal -->
+    <dialog id="user-modal" aria-label="Profile">
+      <div id="modal-inner">
+        <button id="modal-close" type="button" aria-label="Close">✕</button>
+        <div id="modal-body"></div>
+      </div>
+    </dialog>
+
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

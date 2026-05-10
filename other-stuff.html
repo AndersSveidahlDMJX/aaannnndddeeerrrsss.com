@@ -199,6 +199,63 @@
     }
 
     #nav-shortcuts { display: none !important; }
+
+    #corner-login {
+      position: fixed;
+      bottom: 22px;
+      right: 28px;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: #00ff41;
+      opacity: 0.18;
+      cursor: pointer;
+      z-index: 200;
+      user-select: none;
+      transition: opacity 0.2s;
+    }
+    #corner-login:hover { opacity: 0.5; }
+
+    #pw-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      align-items: center;
+      justify-content: center;
+    }
+    #pw-overlay.open { display: flex; }
+    #pw-box {
+      background: #000;
+      border: 1px solid rgba(0,255,65,0.25);
+      padding: 28px 32px;
+      font-family: 'Share Tech Mono', monospace;
+      color: #00ff41;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      min-width: 260px;
+    }
+    #pw-label { margin-bottom: 12px; color: #00a62a; }
+    #pw-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0,255,65,0.35);
+      color: #00ff41;
+      font-family: inherit;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      width: 100%;
+      outline: none;
+      padding: 4px 0;
+      caret-color: #00ff41;
+    }
+    #pw-error {
+      margin-top: 10px;
+      font-size: 0.6rem;
+      color: #ff003c;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    #pw-error.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -206,6 +263,16 @@
   <canvas id="matrix-canvas"></canvas>
 
   <a class="back" href="index.html" id="back-btn">BACK</a>
+
+  <div id="corner-login" onclick="openLogin()">login</div>
+
+  <div id="pw-overlay">
+    <div id="pw-box">
+      <div id="pw-label">ROOT@ANDERS:~$ authenticate<span class="blink">&#9608;</span></div>
+      <input id="pw-input" type="password" autocomplete="off" spellcheck="false" placeholder="password" />
+      <div id="pw-error">ACCESS DENIED</div>
+    </div>
+  </div>
 
   <div class="terminal" id="main-terminal">
     <div class="boot-line" id="b0">SYSTEM BOOT... OK</div>
@@ -280,6 +347,40 @@
         setTimeout(function() { document.getElementById('footer').classList.add('visible'); }, 500);
       }, 2500);
     }
+  </script>
+  <script>
+    function openLogin() {
+      var overlay = document.getElementById('pw-overlay');
+      overlay.classList.add('open');
+      setTimeout(function() { document.getElementById('pw-input').focus(); }, 50);
+    }
+    document.addEventListener('keydown', function(e) {
+      var overlay = document.getElementById('pw-overlay');
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape') {
+        overlay.classList.remove('open');
+        document.getElementById('pw-input').value = '';
+        document.getElementById('pw-error').classList.remove('show');
+      }
+    });
+    document.getElementById('pw-overlay').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('open');
+        document.getElementById('pw-input').value = '';
+        document.getElementById('pw-error').classList.remove('show');
+      }
+    });
+    document.getElementById('pw-input').addEventListener('keydown', function(e) {
+      if (e.key !== 'Enter') return;
+      if (this.value === 'deu57rvs') {
+        window.location.href = 'spellbee/index.html';
+      } else {
+        var err = document.getElementById('pw-error');
+        err.classList.add('show');
+        this.value = '';
+        setTimeout(function() { err.classList.remove('show'); }, 1800);
+      }
+    });
   </script>
   <script defer src="lang.js"></script>
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->

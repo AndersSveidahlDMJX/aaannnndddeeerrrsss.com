@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="theme-color" content="#0c0c0e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Wordle – Stavebien</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="wordle.css">
+</head>
+<body>
+  <div id="app">
+
+    <header>
+      <div class="game-tabs">
+        <a href="index.html" class="game-tab">🐝 Stavebien</a>
+        <a href="wordle.html" class="game-tab active">🔤 Wordle</a>
+      </div>
+      <div class="header-right">
+        <div id="lang-toggle" role="group" aria-label="Language">
+          <button id="btn-lang-da" class="lang-btn active" type="button">DA</button>
+          <button id="btn-lang-en" class="lang-btn" type="button">EN</button>
+        </div>
+        <button id="btn-user" class="user-btn" type="button" aria-label="Profile">👤</button>
+      </div>
+    </header>
+
+    <!-- Loading -->
+    <div id="loading">
+      <div class="loader" aria-hidden="true"></div>
+      <p id="loading-text">Henter ordliste…</p>
+    </div>
+
+    <!-- Game -->
+    <main id="game" class="hidden">
+
+      <div id="board-wrap">
+        <div id="board"></div>
+      </div>
+
+      <div id="msg-wrap">
+        <div id="message" role="status" aria-live="polite"></div>
+      </div>
+
+      <div id="kb-wrap">
+        <div id="keyboard" role="group" aria-label="Keyboard"></div>
+      </div>
+
+      <button id="btn-new-wordle" class="hidden" type="button">Nyt ord</button>
+
+    </main>
+
+    <!-- User / profile modal -->
+    <dialog id="user-modal" aria-label="Profile">
+      <div id="modal-inner">
+        <button id="modal-close" type="button" aria-label="Close">✕</button>
+        <div id="modal-body"></div>
+      </div>
+    </dialog>
+
+  </div>
+  <script src="wordle.js"></script>
+</body>
+</html>
