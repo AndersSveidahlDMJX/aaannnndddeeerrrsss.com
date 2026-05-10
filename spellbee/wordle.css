@@ -216,3 +216,13 @@
   #keyboard { gap: 4px; }
   .kb-row   { gap: 3px; }
 }
+
+@media (max-width: 330px) {
+  .tile      { width: 40px; height: 40px; font-size: 1rem; }
+  .kb-key    { height: 40px; max-width: 30px; font-size: .62rem; }
+  .kb-key.wide { max-width: 50px; font-size: .56rem; }
+  .board-row { gap: 2px; }
+  #board     { gap: 2px; }
+  .kb-row    { gap: 2px; }
+  #keyboard  { gap: 3px; }
+}
