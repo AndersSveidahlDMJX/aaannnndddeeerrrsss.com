@@ -26,7 +26,7 @@
   (function(){
     var overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:99999;pointer-events:none;opacity:1;transition:opacity 1.1s ease';
-    document.addEventListener('DOMContentLoaded', function(){ document.body.appendChild(overlay); });
+    document.body.appendChild(overlay);
     function startFade(){
       var pl = document.getElementById('page-load-bg');
       if(pl && pl.parentNode) pl.parentNode.removeChild(pl);
@@ -54,7 +54,8 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: url('images/bones baggrund.webp') center center / cover no-repeat fixed;
+      background: url('images/bones baggrund.webp') center center / cover no-repeat;
+      background-attachment: scroll;
       font-family: sans-serif;
     }
     .back {
