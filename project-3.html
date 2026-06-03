@@ -241,11 +241,44 @@
     }
     .image-extras {
       display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      align-self: stretch;
+      gap: 32px;
+      margin-top: 60px;
+    }
+    .image-extras-right {
+      display: flex;
       flex-direction: column;
       align-items: center;
-      align-self: stretch;
       gap: 12px;
-      margin-top: 60px;
+    }
+    .plastic-stol-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 2rem 0 0;
+    }
+    .plastic-stol-img {
+      display: block;
+      width: 100%;
+      max-width: 340px;
+      height: auto;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .plastic-stol-img:hover { transform: scale(1.04); }
+    .plastic-stol-caption {
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #000;
+      background: #fff;
+      padding: 5px 10px;
+      margin-top: 6px;
+      letter-spacing: 0.03em;
     }
     .tyggegummi-img {
       display: block;
@@ -255,6 +288,7 @@
       border-radius: 6px;
       cursor: pointer;
       transition: transform 0.3s ease;
+      margin-left: -125px;
     }
     .tyggegummi-img:hover { transform: scale(1.04); }
     .tyggegummi-caption {
@@ -478,6 +512,12 @@
       .poster-cell.poster-left  { grid-column: 1; grid-row: auto; height: 70vw; }
       .poster-cell.poster-right-top { grid-column: 1; grid-row: auto; height: 70vw; }
       .poster-cell.poster-right-bottom { grid-column: 1; grid-row: auto; height: 70vw; }
+      .image-extras {
+        flex-direction: column;
+        align-items: center;
+      }
+      .plastic-stol-wrap { margin: 0; }
+      .tyggegummi-img { margin-left: 0 !important; }
     }
   </style>
 </head>
@@ -535,8 +575,14 @@
         </div>
       </div>
       <div class="image-extras">
-        <img class="tyggegummi-img lightbox-img" src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" data-src="images/bones tyggegummi.webp" />
-        <p class="tyggegummi-caption">Tyggegummitatovering fra bones</p>
+        <div class="plastic-stol-wrap" style="margin-top:2.5rem">
+          <img class="plastic-stol-img lightbox-img" src="images/plastic stol.webp" alt="Plastic stol" loading="lazy" data-src="images/plastic stol.webp" />
+          <div class="plastic-stol-caption">NYE STOLE!!!</div>
+        </div>
+        <div class="image-extras-right">
+          <img class="tyggegummi-img lightbox-img" src="images/bones tyggegummi.webp" alt="Bones Tyggegummi" loading="lazy" data-src="images/bones tyggegummi.webp" />
+          <p class="tyggegummi-caption">Tyggegummitatovering fra bones</p>
+        </div>
       </div>
       <div class="duo-bar">
         <div class="duo-cell">
