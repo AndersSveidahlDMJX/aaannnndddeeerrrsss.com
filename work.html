@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <link rel="preload" href="images/folder_icon.svg" as="image" type="image/svg+xml" />
+  <link rel="preload" href="fonts/Eurostile-BoldExtendedTwo.otf" as="font" type="font/otf" crossorigin />
   <link rel="preload" href="images/twice%20the%20fun%20thumbnail.webp" as="image" />
   <link rel="preload" href="images/The%20Fizz%20Cap%20Lockup.webp" as="image" />
   <link rel="preload" href="images/Bones.webp" as="image" />
@@ -26,6 +27,11 @@
     @font-face {
       font-family: 'SFProDisplay';
       src: url('fonts/SFPRODISPLAYREGULAR.OTF') format('opentype');
+    }
+    @font-face {
+      font-family: 'EurostileExtBlk';
+      src: url('fonts/Eurostile-BoldExtendedTwo.otf') format('opentype');
+      font-display: swap;
     }
     :root {
       /* 250px at 1512px (MacBook 14"), scales proportionally with viewport */
@@ -177,7 +183,40 @@
       transform: translateY(8px) scale(0.95);
     }
     .card-link:nth-child(6) .card {
-      background: #fff;
+      background: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    /* match external shadow of other cards for visual consistency */
+    .card-link:nth-child(6) .card {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    }
+    .card-link:nth-child(6) .card .ai-mark {
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .card-link:nth-child(6) .card .ai-sub {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      margin-top: 6px;
+    }
+    .card-link:nth-child(6) .card .ai-mark,
+    .card-link:nth-child(6) .card .ai-sub {
+      transform: translateY(10px);
+    }
+    .card-link:nth-child(6) .card, .card-link:nth-child(6) .card .ai-mark, .card-link:nth-child(6) .card .ai-sub {
+      font-family: 'EurostileExtBlk', sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    /* use regular Eurostile for the subtext */
+    .card-link:nth-child(6) .card .ai-sub {
+      font-family: 'EurostileExtBlk', sans-serif;
+      font-weight: 400;
     }
     .card-link:nth-child(6) .card img {
       object-fit: cover;
@@ -451,7 +490,16 @@
     <a class="card-link" href="project-3.html"><div class="card-wrap"><div class="card"><img src="images/Bones.webp" alt="" loading="eager" /></div><span class="card-label">Bones</span></div></a>
     <a class="card-link" href="project-4.html"><div class="card-wrap"><div class="card"><img src="images/le_ice.webp" alt="" loading="eager" /></div><span class="card-label">Le Ice</span></div></a>
     <a class="card-link" href="project-5.html"><div class="card-wrap"><div class="card"><img src="images/redanig.webp" alt="" loading="eager" /></div><span class="card-label">Penguin</span></div></a>
-    <a class="card-link" href="project-6.html"><div class="card-wrap"><div class="card"><img src="images/mexncothumb.webp" alt="" loading="eager" /></div><span class="card-label">Mex&amp;Co</span></div></a>
+    <!-- Project 6 placeholder linking to external site -->
+    <a class="card-link" href="https://agnosticintelligence.online" target="_blank" rel="noopener noreferrer" title="Agnostic Intelligence">
+      <div class="card-wrap">
+        <div class="card" aria-hidden="true">
+          <div class="ai-mark">AI</div>
+          <div class="ai-sub">Agnostic Intelligence</div>
+        </div>
+        <span class="card-label">Agnosticintelligence.online</span>
+      </div>
+    </a>
   </div>
   <button class="mute-toggle" id="muteBtn">🔇 unmute</button>
   <script>
