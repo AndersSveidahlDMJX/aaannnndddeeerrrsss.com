@@ -772,14 +772,21 @@
       let vy = 1.3;
       let alive = true;
       let lastFrameTime = null;
+      let flyAngle = null;
       const pointer = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.5 };
 
-      function renderFly() {
+      function renderFly(frameScale = 1) {
         if (!alive) return;
-        const angle = Math.atan2(vy, vx) + Math.PI / 2;
+        const targetAngle = Math.atan2(vy, vx) + Math.PI / 2;
+        if (flyAngle === null) {
+          flyAngle = targetAngle;
+        } else {
+          const angleDelta = Math.atan2(Math.sin(targetAngle - flyAngle), Math.cos(targetAngle - flyAngle));
+          flyAngle += angleDelta * (1 - Math.pow(0.78, frameScale));
+        }
         fly.style.left = x + 'px';
         fly.style.top = y + 'px';
-        fly.style.transform = 'translate(-50%, -50%) rotate(' + angle + 'rad)';
+        fly.style.transform = 'translate(-50%, -50%) rotate(' + flyAngle + 'rad)';
       }
 
       function tick(now) {
@@ -816,8 +823,8 @@
         }
 
         const noiseScale = Math.sqrt(frameScale);
-        vx += (Math.random() - 0.5) * 0.8 * noiseScale;
-        vy += (Math.random() - 0.5) * 0.7 * noiseScale;
+        vx += (Math.random() - 0.5) * 0.24 * noiseScale;
+        vy += (Math.random() - 0.5) * 0.21 * noiseScale;
 
         const speed = Math.hypot(vx, vy) || 1;
         const maxSpeed = 6;
@@ -848,7 +855,7 @@
           vy = -Math.abs(vy) - 0.4;
         }
 
-        renderFly();
+        renderFly(frameScale);
         requestAnimationFrame(tick);
       }
 
