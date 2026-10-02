@@ -7,6 +7,36 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Stavebien</title>
   <link rel="stylesheet" href="style.css">
+
+    .home-fly {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9999;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-decoration: none;
+      background: rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.18);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0.9;
+    }
+    .home-fly:hover {
+      transform: scale(1.08);
+      opacity: 1;
+    }
+    .home-fly img {
+      width: 20px;
+      height: 20px;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
 </head>
 <body>
   <div id="app">

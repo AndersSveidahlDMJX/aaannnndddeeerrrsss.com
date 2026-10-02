@@ -3,7 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="preconnect" href="https://static.cloudflareinsights.com">
-  <style id="page-load-bg">body{background:#000!important}html{font-size:max(10px,1.0583vw)}</style>
+  <style id="page-load-bg">
+    .home-fly {
+      position: fixed;
+      top: 26px;
+      right: 10px;
+      left: auto;
+      z-index: 2147483647;
+      display: block;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-decoration: none;
+      line-height: 0;
+      overflow: visible;
+      opacity: 0.9;
+      pointer-events: auto;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .home-fly:hover {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .home-fly img {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+body{background:#000!important}html{font-size:max(10px,1.0583vw)}
+    .home-fly {
+      position: fixed;
+      top: 26px;
+      left: auto;
+      right: 10px;
+      z-index: 2147483647;
+      display: block;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-decoration: none;
+      line-height: 0;
+      overflow: visible;
+      opacity: 0.9;
+      pointer-events: auto;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .home-fly:hover {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .home-fly img {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <title>Bones</title>
@@ -526,14 +595,12 @@
       .tyggegummi-img { margin-left: 0 !important; }
     }
   </style>
-
   <style>
     .back{display:none!important}
   </style>
 </head>
 <body>
-  <a class="back" href="index.html">←</a>
-
+<a class="home-fly" href="index.html" aria-label="Go to home" style="position:fixed;top:16px;left:16px;right:auto;z-index:2147483647;width:30px;height:30px;display:block;padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;line-height:0;overflow:visible;opacity:0.9;text-decoration:none;pointer-events:auto;"><img src="images/fly emoji.webp" alt="Fly home" style="display:block;width:30px;height:30px;object-fit:contain;pointer-events:none;" /></a>
   <script>
   /* Remove black pre-load bg override and fade out load overlay (replaces lang.js fade) */
   (function(){
@@ -673,8 +740,8 @@
   #dvd-saver{position:fixed;top:0;left:0;right:0;bottom:0;z-index:500;background:#000;opacity:0;pointer-events:none;transition:opacity 1.2s ease}
   #dvd-saver.active{opacity:1;pointer-events:all}
   body.dvd-active #lang-toggle,body.dvd-active #nav-shortcuts,body.dvd-active .ticker{opacity:0!important;pointer-events:none!important;transition:opacity 0.6s}
-  #dvd-folder{position:absolute;top:0;left:0;width:220px;height:220px;-webkit-mask-image:url('images/folder_icon.svg');-webkit-mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-image:url('images/folder_icon.svg');mask-size:100% 100%;mask-repeat:no-repeat;will-change:transform}
-  #dvd-folder-inner{width:100%;height:100%;position:relative}
+  #dvd-folder{position:absolute;top:0;left:0;width:220px;height:220px;will-change:transform;}
+  #dvd-folder-inner{width:100%;height:100%;position:relative;-webkit-mask-image:url('images/folder_icon.svg');-webkit-mask-size:100% 100%;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;mask-image:url('images/folder_icon.svg');mask-size:100% 100%;mask-repeat:no-repeat;mask-position:center}
   #dvd-folder-bg{position:absolute;inset:0;opacity:0;transition:opacity 0.1s}
   #dvd-img{position:absolute;inset:0;width:100%;height:100%;display:block}
   #dvd-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:10}
@@ -691,12 +758,13 @@
 <div id="dvd-saver"><div id="dvd-flash"></div><div id="dvd-corner"><div id="dvd-corner-title">you seem pretty invested already...</div><div id="dvd-corner-sub">you should <a href="contact.html">hit me up...</a></div><button id="dvd-corner-close" aria-label="Close">&times;</button></div><div id="dvd-folder"><div id="dvd-folder-inner"><div id="dvd-folder-bg"></div><img id="dvd-img" src="" alt="" loading="lazy" /></div></div></div>
 <script>
 (function(){
-  var THUMBS=['images/twice the fun thumbnail.webp','images/The Fizz Cap Lockup.webp','images/Bones.webp','images/le_ice.webp','images/redanig.webp','images/mexncothumb.webp'];
-  var STYLES=[{bg:'',fit:'contain',t:'translateY(7px) scale(1.178)'},{bg:'',fit:'cover',t:'translateY(15px) scale(0.9)'},{bg:'#fff',fit:'contain',t:'scale(0.8)'},{bg:'#ec702e',fit:'cover',t:'translateY(4px) scale(0.93)'},{bg:'',fit:'cover',t:'translateY(8px) scale(0.95)'},{bg:'#fff',fit:'cover',t:'rotate(-90deg) scale(0.98) translateX(-5%)'}];
+  var THUMBS=['images/twice the fun thumbnail.webp','images/The Fizz Cap Lockup.webp','images/Bones.webp','images/le_ice.webp','images/redanig.webp','images/agnostic-intelligence-card.svg'];
+  var STYLES=[{bg:'',fit:'contain',t:'translateY(7px) scale(1.178)'},{bg:'',fit:'cover',t:'translateX(-3px) translateY(15px) scale(0.955)'},{bg:'#fff',fit:'contain',t:'scale(0.8)'},{bg:'#ec702e',fit:'cover',t:'translateY(4px) scale(0.93)'},{bg:'',fit:'cover',t:'translateY(8px) scale(0.95)'},{bg:'#000',fit:'contain',t:'scale(0.98) translateX(-5%)'}];
   var IDLE_MS=60000,SIZE=220,SPEED=300,PAD_X=9,PAD_T=24,PAD_B=24;
   var saver=document.getElementById('dvd-saver'),folder=document.getElementById('dvd-folder'),img=document.getElementById('dvd-img'),bg=document.getElementById('dvd-folder-bg');
   var thumbIdx=0,x=0,y=0,vx=0,vy=0,active=false,lastTime=null,rafId=null,idleTimer=null,cornerHit=false,celebTimer1=null,celebTimer2=null;
-  function setThumb(idx){thumbIdx=((idx%THUMBS.length)+THUMBS.length)%THUMBS.length;var s=STYLES[thumbIdx];img.src=THUMBS[thumbIdx];img.style.objectFit=s.fit;img.style.transform=s.t;bg.style.background=s.bg||'#fff';bg.style.opacity=s.bg?'1':'0';}
+  img.addEventListener('load',function(){var aiCard=img.currentSrc.indexOf('agnostic-intelligence-card.svg')!==-1;folder.style.boxShadow='none';folder.style.border='0';folder.style.filter=aiCard?'drop-shadow(0 0 2px rgba(255,255,255,0.58)) drop-shadow(0 0 5px rgba(176,211,255,0.42)) drop-shadow(0 0 8px rgba(126,164,255,0.2))':'drop-shadow(0 0 1px rgba(255,255,255,0.65)) drop-shadow(0 0 5px rgba(176,211,255,0.28))';});
+  function setThumb(idx){thumbIdx=((idx%THUMBS.length)+THUMBS.length)%THUMBS.length;var s=STYLES[thumbIdx];img.src=THUMBS[thumbIdx];img.style.objectFit=s.fit;img.style.transform=s.t;bg.style.background=s.bg||'#fff';bg.style.opacity=s.bg?'1':'0';folder.style.boxShadow = (thumbIdx === THUMBS.length - 1) ? '0 0 0 1px rgba(255,255,255,0.72), 0 0 18px rgba(176,211,255,0.52), 0 0 30px rgba(126,164,255,0.3), 0 0 44px rgba(158,198,255,0.18), 0 0 58px rgba(160,196,255,0.3)' : '0 0 0 1px rgba(255,255,255,0.65), 0 0 18px rgba(176,211,255,0.46), 0 0 30px rgba(126,164,255,0.24)';folder.style.border = (thumbIdx === THUMBS.length - 1) ? '1px solid rgba(186,216,255,0.82)' : '1px solid rgba(185,220,255,0.6)';}
   function setPos(){folder.style.transform='translate('+x+'px,'+y+'px)';}
   function celebrate(){var fl=document.getElementById('dvd-flash'),corner=document.getElementById('dvd-corner');fl.style.transition='none';fl.style.opacity='1';setTimeout(function(){fl.style.transition='opacity 0.6s ease';fl.style.opacity='0';},60);folder.style.transition='opacity 2s ease 0.3s';folder.style.opacity='0';celebTimer1=setTimeout(function(){corner.style.opacity='1';corner.style.pointerEvents='all';},2000);}
 function show(){if(active)return;if(document.querySelector('lite-youtube iframe')){idleTimer=setTimeout(show,IDLE_MS);return;}active=true;var W=window.innerWidth,H=window.innerHeight,xMin=-PAD_X,xMax=W-SIZE+PAD_X,yMin=-PAD_T,yMax=H-SIZE+PAD_B,Wx=xMax-xMin,Wy=yMax-yMin,T=60+Math.random()*60,ang=(15+Math.random()*60)*Math.PI/180;vx=SPEED*Math.cos(ang)*(Math.random()<0.5?1:-1);vy=SPEED*Math.sin(ang)*(Math.random()<0.5?1:-1);var x0r=((-vx*T)%Wx+Wx)%Wx,y0r=((-vy*T)%Wy+Wy)%Wy;x=xMin+x0r;y=yMin+y0r;setThumb(Math.floor(Math.random()*THUMBS.length));setPos();saver.classList.add('active');document.body.classList.add('dvd-active');lastTime=null;rafId=requestAnimationFrame(tick);}

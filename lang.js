@@ -236,6 +236,67 @@
     var isProject = /project-[1-6]\.html$/.test(path);
     var hasShortcuts = !isIndex && !isContact;
 
+    document.querySelectorAll('.back').forEach(function (el) { el.remove(); });
+
+    var projectNavStyle = document.createElement('style');
+    projectNavStyle.textContent = [
+      '.home-fly, .project-work-nav{',
+        'position:fixed;top:16px;left:16px;z-index:10;display:block;width:40px;height:40px;',
+        'padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;',
+        'text-decoration:none;line-height:0;overflow:visible;opacity:1;pointer-events:auto;',
+        'transition:transform 0.2s ease;',
+      '}',
+      '.home-fly:hover, .project-work-nav:hover{transform:scale(1.04);}',
+      '.home-fly img{',
+        'display:block;width:40px;height:40px;object-fit:contain;pointer-events:none;',
+      '}',
+      '.project-work-nav{left:70px;width:46px;height:46px;}',
+      '.project-work-nav img{display:block;width:46px;height:46px;object-fit:contain;pointer-events:none;}',
+      '@media (max-width:768px){.home-fly{width:34px;height:34px;}.home-fly img{width:34px;height:34px;}.project-work-nav{left:58px;width:39px;height:39px;}.project-work-nav img{width:39px;height:39px;}}',
+    ].join('');
+    document.head.appendChild(projectNavStyle);
+
+    var homeShortcut = document.querySelector('.home-fly');
+    if (homeShortcut && !isIndex) {
+      homeShortcut.style.opacity = '1';
+      homeShortcut.style.transition = 'transform 0.2s ease';
+    }
+
+    if (!isIndex && !isWork) {
+      var home = document.querySelector('.home-fly');
+      if (home) {
+        home.style.width = '40px';
+        home.style.height = '40px';
+        home.style.top = '16px';
+        home.style.left = '16px';
+        home.style.right = 'auto';
+        home.style.zIndex = '10';
+        home.style.opacity = '1';
+        var img = home.querySelector('img');
+        if (img) { img.style.width = '40px'; img.style.height = '40px'; }
+      }
+      var workNav = document.querySelector('.project-work-nav');
+      if (!workNav) {
+        workNav = document.createElement('a');
+        workNav.className = 'project-work-nav';
+        workNav.href = 'work.html';
+        workNav.setAttribute('aria-label', 'Go to work');
+        workNav.innerHTML = '<img src="images/toshiba2.webp" alt="Work" />';
+        if (home) {
+          home.parentNode.insertBefore(workNav, home.nextSibling);
+        } else {
+          document.body.insertBefore(workNav, document.body.firstChild);
+        }
+      }
+      workNav.style.left = window.matchMedia('(max-width:768px)').matches ? '58px' : '70px';
+      workNav.style.top = '16px';
+      workNav.style.width = window.matchMedia('(max-width:768px)').matches ? '39px' : '46px';
+      workNav.style.height = window.matchMedia('(max-width:768px)').matches ? '39px' : '46px';
+      workNav.style.zIndex = '10';
+      workNav.style.opacity = '1';
+      workNav.setAttribute('aria-label', 'Go to work');
+    }
+
     var style = document.createElement('style');
     style.textContent = [
       '#lang-toggle{',

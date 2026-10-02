@@ -3,7 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="preconnect" href="https://static.cloudflareinsights.com">
-  <style id="page-load-bg">body{background:#000!important}</style>
+  <style id="page-load-bg">
+    .home-fly {
+      position: fixed;
+      top: 26px;
+      right: 10px;
+      left: auto;
+      z-index: 2147483647;
+      display: block;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-decoration: none;
+      line-height: 0;
+      overflow: visible;
+      opacity: 0.9;
+      pointer-events: auto;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .home-fly:hover {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .home-fly img {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+body{background:#000!important}
+</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <title>PONG — Anders Sveidahl</title>
@@ -47,13 +83,6 @@
       position: fixed; top: 0; left: 0;
       width: 100%; height: 100%; z-index: 5;
     }
-    .back {
-      font-weight: 700;
-      position: fixed; top: 30px; left: 30px;
-      text-decoration: none; color: #fff; font-size: 1.5rem;
-      z-index: 20; opacity: 0.7; transition: opacity 0.2s ease;
-    }
-    .back:hover { opacity: 1; }
 
     /* ── neon ticker ── */
     .ticker {
@@ -77,17 +106,16 @@
     @media (max-width: 768px) { .back {
       font-weight: 700; display: none !important; } }
   </style>
-
   <style>
     .back{display:none!important}
   </style>
 </head>
 <body>
+<a class="home-fly" href="index.html" aria-label="Go to home" style="position:fixed;top:16px;left:16px;right:auto;z-index:2147483647;width:30px;height:30px;display:block;padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;line-height:0;overflow:visible;opacity:0.9;text-decoration:none;pointer-events:auto;"><img src="images/fly emoji.webp" alt="Fly home" style="display:block;width:30px;height:30px;object-fit:contain;pointer-events:none;" /></a>
   <div id="bg-still"></div>
   <iframe id="bg-video" allow="autoplay; encrypted-media" frameborder="0"></iframe>
   <canvas id="game"></canvas>
-  <a href="work.html" class="back">←</a>
-  <div class="ticker" aria-hidden="true">
+    <div class="ticker" aria-hidden="true">
     <div class="ticker-track" id="tickerTrack">
       <span class="neon-copy neon-pink" data-copy="0">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span>
       <span class="neon-copy neon-cyan" data-copy="1">Welcome to Anders' hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It's a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We've arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span>
@@ -132,7 +160,7 @@
     const TICKER_H   = 44;
     const PW         = 14;
     const PH         = 90;
-    const BALL_R     = 72;
+    const BALL_R     = 54;
     const PAD_OFFSET = 48;
     const WIN_SCORE  = 5;
     const BASE_SPEED = 800;
@@ -148,12 +176,28 @@
       'images/Bones.webp',
       'images/le_ice.webp',
       'images/redanig.webp',
-      'images/mexncothumb.webp',
+      'images/agnostic-intelligence-card.svg',
     ];
+    const THUMB_STYLE = [
+      { fit: 'contain', scale: 1.178, dx: 0, dy: 7 },
+      { fit: 'cover', scale: 0.955, dx: -3, dy: 15 },
+      { fit: 'contain', scale: 0.8, dx: 0, dy: 0 },
+      { fit: 'cover', scale: 0.93, dx: 0, dy: 4 },
+      { fit: 'cover', scale: 0.95, dx: 0, dy: 8 },
+      { fit: 'cover', scale: 0.98, dx: -0.05, relativeX: true, dy: 0 },
+    ];
+    const THUMB_BG = ['', '', '#fff', '#ec702e', '', '#000'];
     // Rotation in degrees for each thumbnail (for canvas drawing)
-    const THUMB_ROT = [0, 0, 0, 0, 0, -90];
+    const THUMB_ROT = [0, 0, 0, 0, 0, 0];
+    const folderMaskCanvas = document.createElement('canvas');
+    const folderMaskCtx = folderMaskCanvas.getContext('2d');
+    const cardCanvas = document.createElement('canvas');
+    const cardCtx = cardCanvas.getContext('2d');
     const imgs = THUMB_SRCS.map(function (s) {
-      var i = new Image(); i.src = s; return i;
+      var i = new Image();
+      i.onload = function () { ballCacheIdx = -1; };
+      i.src = s;
+      return i;
     });
     const folderImg = new Image();
     folderImg.src = 'images/folder_icon.svg';
@@ -358,44 +402,67 @@
       if (ballCacheIdx !== thumbIdx) {
         var s = BALL_R * 2;
         var ot = ballCtx2;
-        ot.clearRect(0, 0, s, s);
-        ot.globalCompositeOperation = 'source-over';
-        if (folderImg.complete && folderImg.naturalWidth > 0) {
-          ot.drawImage(folderImg, 0, 0, s, s);
-        } else {
-          ot.fillStyle = '#fff'; ot.fillRect(0, 0, s, s);
-        }
-        ot.globalCompositeOperation = 'source-in';
-        if (thumbIdx === BONES_IDX) {
-          ot.fillStyle = '#ffffff'; ot.fillRect(0, 0, s, s);
-          ot.globalCompositeOperation = 'source-atop';
-        }
-        var thumb = imgs[thumbIdx];
-        if (thumb.complete && thumb.naturalWidth > 0) {
-          // Draw with object-fit:cover semantics to preserve aspect ratio
-          var rot = THUMB_ROT[thumbIdx];
-          var iw = thumb.naturalWidth, ih = thumb.naturalHeight;
-          // When rotating 90/-90 deg, logical dimensions swap
-          var lw = (rot === 90 || rot === -90) ? ih : iw;
-          var lh = (rot === 90 || rot === -90) ? iw : ih;
-          var sc = Math.max(s / lw, s / lh);
-          var dw = lw * sc, dh = lh * sc;
-          var ox = (s - dw) / 2, oy = (s - dh) / 2;
-          if (rot !== 0) {
-            ot.save();
-            ot.translate(s / 2, s / 2);
-            ot.rotate(rot * Math.PI / 180);
-            // After rotation swap dw/dh back to original orientation
-            ot.drawImage(thumb, -(dh / 2), -(dw / 2), dh, dw);
-            ot.restore();
-          } else {
-            ot.drawImage(thumb, ox, oy, dw, dh);
+        folderMaskCanvas.width = s;
+        folderMaskCanvas.height = s;
+        cardCanvas.width = s;
+        cardCanvas.height = s;
+        if (folderMaskCtx) {
+          folderMaskCtx.clearRect(0, 0, s, s);
+          if (folderImg.complete && folderImg.naturalWidth > 0) {
+            folderMaskCtx.drawImage(folderImg, 0, 0, s, s);
           }
         }
-        ot.globalCompositeOperation = 'source-over';
+
+        ot.clearRect(0, 0, s, s);
+        cardCtx.clearRect(0, 0, s, s);
+        cardCtx.globalCompositeOperation = 'source-over';
+        if (THUMB_BG[thumbIdx]) {
+          cardCtx.fillStyle = THUMB_BG[thumbIdx];
+          cardCtx.fillRect(0, 0, s, s);
+        }
+
+        var thumb = imgs[thumbIdx];
+        if (thumb.complete && thumb.naturalWidth > 0) {
+          var style = THUMB_STYLE[thumbIdx] || { fit: 'cover', scale: 1, dx: 0, dy: 0 };
+          var rot = THUMB_ROT[thumbIdx];
+          var iw = thumb.naturalWidth, ih = thumb.naturalHeight;
+          var lw = (rot === 90 || rot === -90) ? ih : iw;
+          var lh = (rot === 90 || rot === -90) ? iw : ih;
+          var fitScale = style.fit === 'contain' ? Math.min(s / lw, s / lh) : Math.max(s / lw, s / lh);
+          var sc = fitScale * style.scale;
+          var drawW = lw * sc, drawH = lh * sc;
+          var workCardSize = Math.max(180, window.innerWidth * 0.1653);
+          var dx = style.relativeX ? style.dx * s : style.dx * s / workCardSize;
+          var drawX = (s - drawW) / 2 + dx;
+          var drawY = (s - drawH) / 2 + style.dy * s / workCardSize;
+
+          if (rot !== 0) {
+            cardCtx.save();
+            cardCtx.translate(s / 2 + dx, s / 2 + style.dy * s / workCardSize);
+            cardCtx.rotate(rot * Math.PI / 180);
+            cardCtx.drawImage(thumb, -(drawH / 2), -(drawW / 2), drawH, drawW);
+            cardCtx.restore();
+          } else {
+            cardCtx.drawImage(thumb, drawX, drawY, drawW, drawH);
+          }
+        }
+
+        if (folderImg.complete && folderImg.naturalWidth > 0) {
+          cardCtx.globalCompositeOperation = 'destination-in';
+          cardCtx.drawImage(folderMaskCanvas, 0, 0, s, s);
+        }
+        ot.drawImage(cardCanvas, 0, 0, s, s);
         ballCacheIdx = thumbIdx;
       }
-      ctx.drawImage(ballCanvas, ball.x - BALL_R, ball.y - BALL_R);
+      if (thumbIdx === THUMB_SRCS.length - 1) {
+        ctx.save();
+        ctx.shadowColor = 'rgba(176,211,255,0.5)';
+        ctx.shadowBlur = 7;
+        ctx.drawImage(ballCanvas, ball.x - BALL_R, ball.y - BALL_R);
+        ctx.restore();
+      } else {
+        ctx.drawImage(ballCanvas, ball.x - BALL_R, ball.y - BALL_R);
+      }
     }
 
     function drawCentreLine() {

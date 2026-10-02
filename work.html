@@ -3,7 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="preconnect" href="https://static.cloudflareinsights.com">
-  <style id="page-load-bg">body{background:#000!important}</style>
+  <style id="page-load-bg">
+    .home-fly {
+      position: fixed;
+      top: 26px;
+      left: 26px;
+      right: auto;
+      z-index: 2147483647;
+      display: block;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-decoration: none;
+      line-height: 0;
+      overflow: visible;
+      opacity: 0.9;
+      pointer-events: auto;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .home-fly:hover {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .home-fly img {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+body{background:#000!important}
+</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <link rel="preload" href="images/folder_icon.svg" as="image" type="image/svg+xml" />
@@ -191,39 +227,93 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      position: relative;
+      overflow: hidden;
     }
-    /* match external shadow of other cards for visual consistency */
+    .card-link:nth-child(6) .card-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      justify-content: flex-start;
+    }
     .card-link:nth-child(6) .card {
-      box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.52), 0 0 18px rgba(176,211,255,0.38), 0 12px 40px rgba(0,0,0,0.45);
     }
     .card-link:nth-child(6) .card .ai-mark {
-      font-size: 2.25rem;
-      font-weight: 800;
-      line-height: 1;
-    }
-    .card-link:nth-child(6) .card .ai-sub {
-      font-size: 0.75rem;
-      opacity: 0.85;
-      margin-top: 6px;
-    }
-    .card-link:nth-child(6) .card .ai-mark,
-    .card-link:nth-child(6) .card .ai-sub {
+      position: relative;
+      z-index: 2;
+      display: block;
+      font-size: clamp(1.8rem, 2.16vw, 3.6rem);
+      font-weight: 600;
+      line-height: 0.9;
+      letter-spacing: 0.08em;
+      text-align: center;
+      font-family: 'EurostileExtBlk', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #e8e8e8 20%,
+        #b0b0b0 55%,
+        #7a7a7a 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 -1px 8px rgba(255,255,255,0.55), 0 2px 8px rgba(0,0,0,0.35);
       transform: translateY(10px);
     }
-    .card-link:nth-child(6) .card, .card-link:nth-child(6) .card .ai-mark, .card-link:nth-child(6) .card .ai-sub {
-      font-family: 'EurostileExtBlk', sans-serif;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-    /* use regular Eurostile for the subtext */
     .card-link:nth-child(6) .card .ai-sub {
+      position: relative;
+      z-index: 2;
+      display: block;
+      font-size: clamp(0.56rem, 0.72vw, 0.96rem);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      opacity: 0.95;
+      margin-top: 4px;
+      text-align: center;
+      white-space: nowrap;
+      line-height: 1.1;
       font-family: 'EurostileExtBlk', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #e8e8e8 20%,
+        #b0b0b0 55%,
+        #7a7a7a 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 -1px 8px rgba(255,255,255,0.45), 0 2px 8px rgba(0,0,0,0.3);
+      transform: translateY(10px);
+    }
+    .card-link:nth-child(6) .card-url {
+      display: block;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
       font-weight: 400;
+      color: #fff;
+      text-align: center;
+      opacity: 1;
+      margin-top: 4px;
+      line-height: 1.2;
+      transform: translateY(10px);
+      font-family: 'SFProDisplay', sans-serif;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-transform: lowercase;
     }
     .card-link:nth-child(6) .card img {
-      object-fit: cover;
-      transform: rotate(-90deg) scale(0.98) translateX(-5%);
-      transform-origin: center center;
+      display: none;
     }
     .card {
       width: var(--card);
@@ -457,7 +547,7 @@
       }
       .card-link:nth-child(6) .card img {
         object-fit: cover;
-        transform: rotate(-90deg) scale(0.98) translateX(-5%);
+        transform: scale(0.98) translateX(-5%);
         transform-origin: center center;
       }
 
@@ -470,14 +560,12 @@
       }
     }
   </style>
-
   <style>
     .back{display:none!important}
   </style>
 </head>
 <body>
-  <a class="back" href="index.html">←</a>
-
+<a class="home-fly" href="index.html" aria-label="Go to home" style="position:fixed;top:26px;left:26px;right:auto;z-index:2147483647;width:30px;height:30px;display:block;padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;line-height:0;overflow:visible;opacity:0.9;text-decoration:none;pointer-events:auto;"><img src="images/fly emoji.webp" alt="Fly home" style="display:block;width:30px;height:30px;object-fit:contain;pointer-events:none;" /></a>
   <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Work — aaannndddeeerrrsss</h1>
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track" id="tickerTrack"><span class="neon-copy neon-pink" data-copy="0" data-i18n="ticker-text">Welcome to Anders’ hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It’s a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We’ve arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span><span class="neon-copy neon-cyan" data-copy="1" data-i18n="ticker-text">Welcome to Anders’ hard drive, where the sky is a perfect, cloudless blue and a warm breeze is carrying the scent of salt air. It’s a beautiful 28°C outside, tailored for a day of absolutely zero worries and total relaxation. We’ve arrived at a place where the pace slows down and the sun stays high. So prepare to step out into pure, carefree ease.  </span></div>
@@ -499,14 +587,13 @@
     <a class="card-link" href="project-3.html"><div class="card-wrap"><div class="card"><img src="images/Bones.webp" alt="" loading="eager" /></div><span class="card-label">Bones</span></div></a>
     <a class="card-link" href="project-4.html"><div class="card-wrap"><div class="card"><img src="images/le_ice.webp" alt="" loading="eager" /></div><span class="card-label">Le Ice</span></div></a>
     <a class="card-link" href="project-5.html"><div class="card-wrap"><div class="card"><img src="images/redanig.webp" alt="" loading="eager" /></div><span class="card-label">Penguin</span></div></a>
-    <!-- Project 6 placeholder linking to external site -->
     <a class="card-link" href="https://agnosticintelligence.online" target="_blank" rel="noopener noreferrer" title="Agnostic Intelligence">
       <div class="card-wrap">
-        <div class="card" aria-hidden="true">
-          <div class="ai-mark">AI</div>
-          <div class="ai-sub">Agnostic Intelligence</div>
+        <div class="card">
+          <span class="ai-mark">AI</span>
+          <span class="ai-sub">Agnostic Intelligence</span>
         </div>
-        <span class="card-label">Agnosticintelligence.online</span>
+        <span class="card-url">agnosticintelligence.online</span>
       </div>
     </a>
   </div>
@@ -657,7 +744,16 @@
   #dvd-folder-inner {
     width: 100%; height: 100%;
     position: relative;
+    -webkit-mask-image: url('images/folder_icon.svg');
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-image: url('images/folder_icon.svg');
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    mask-position: center;
   }
+  #dvd-folder{-webkit-mask-image:none!important;mask-image:none!important;}
   #dvd-folder-bg {
     position: absolute; inset: 0;
     opacity: 0;
@@ -724,7 +820,7 @@
     'images/Bones.webp',
     'images/le_ice.webp',
     'images/redanig.webp',
-    'images/mexncothumb.webp',
+    'images/agnostic-intelligence-card.svg',
   ];
   var STYLES = [
     {bg:'',        fit:'contain', t:'translateY(7px) scale(1.178)'},
@@ -732,7 +828,7 @@
     {bg:'#fff',    fit:'contain', t:'scale(0.8)'},
     {bg:'#ec702e', fit:'cover',   t:'translateY(4px) scale(0.93)'},
     {bg:'',        fit:'cover',   t:'translateY(8px) scale(0.95)'},
-    {bg:'#fff',    fit:'cover',   t:'rotate(-90deg) scale(0.98) translateX(-5%)'},
+    {bg:'#000',    fit:'cover',   t:'scale(0.98) translateX(-5%)'},
   ];
   var IDLE_MS = 60000; // 1 minute
   var SIZE       = 220;  // folder px
@@ -763,6 +859,9 @@
     img.style.transform = s.t;
     bg.style.background = s.bg || '#fff';
     bg.style.opacity    = s.bg ? '1' : '0';
+    folder.style.filter = thumbIdx === THUMBS.length - 1
+      ? 'drop-shadow(0 0 2px rgba(255,255,255,0.58)) drop-shadow(0 0 5px rgba(176,211,255,0.42)) drop-shadow(0 0 8px rgba(126,164,255,0.2))'
+      : 'drop-shadow(0 0 1px rgba(255,255,255,0.65)) drop-shadow(0 0 5px rgba(176,211,255,0.28))';
   }
 
   function setPos() {
@@ -778,20 +877,12 @@
     var Wx = xMax - xMin; // full bounce width
     var Wy = yMax - yMin; // full bounce height
 
-    // Pick a random target corner-hit time in [60, 120]s.
-    var T = 60 + Math.random() * 60;
-
-    // Random angle and direction for an unpredictable-looking path.
     var ang = (15 + Math.random() * 60) * Math.PI / 180;
     vx = SPEED * Math.cos(ang) * (Math.random() < 0.5 ? 1 : -1);
     vy = SPEED * Math.sin(ang) * (Math.random() < 0.5 ? 1 : -1);
 
-    // Analytically derive start position so the path hits a corner at exactly T.
-    // In the unfolded domain, position is linear: x_u(t) = x0_rel + vx*t.
-    // A corner hit requires x_u(T) to be a multiple of Wx:
-    //   x0_rel = (-vx*T) mod Wx   → guarantees x0_rel ∈ [0, Wx)
-    var x0_rel = ((-vx * T) % Wx + Wx) % Wx;
-    var y0_rel = ((-vy * T) % Wy + Wy) % Wy;
+    var x0_rel = Math.random() * Wx;
+    var y0_rel = Math.random() * Wy;
     x = xMin + x0_rel;
     y = yMin + y0_rel;
 
@@ -801,23 +892,6 @@
     document.body.classList.add('dvd-active');
     lastTime = null;
     rafId = requestAnimationFrame(tick);
-  }
-
-  function celebrate() {
-    var fl = document.getElementById('dvd-flash');
-    var corner = document.getElementById('dvd-corner');
-    fl.style.transition = 'none';
-    fl.style.opacity = '1';
-    setTimeout(function() {
-      fl.style.transition = 'opacity 0.6s ease';
-      fl.style.opacity = '0';
-    }, 60);
-    folder.style.transition = 'opacity 2s ease 0.3s';
-    folder.style.opacity = '0';
-    celebTimer1 = setTimeout(function() {
-      corner.style.opacity = '1';
-      corner.style.pointerEvents = 'all';
-    }, 2000);
   }
 
   function hide() {
@@ -854,8 +928,7 @@
     if (y <= yMin) { y = yMin; vy =  Math.abs(vy); by = true; }
     if (y >= yMax) { y = yMax; vy = -Math.abs(vy); by = true; }
 
-    if (bx && by && !cornerHit) { cornerHit = true; setThumb(thumbIdx + 1); celebrate(); }
-    else if (bx || by) setThumb(thumbIdx + 1);
+    if (bx || by) setThumb(thumbIdx + 1);
 
     setPos();
     rafId = requestAnimationFrame(tick);
@@ -866,24 +939,22 @@
     idleTimer = setTimeout(show, IDLE_MS);
   }
 
-  // Dismiss screensaver on any interaction
   ['mousemove','mousedown','touchstart','wheel'].forEach(function (ev) {
     window.addEventListener(ev, function () {
-      if (active && !cornerHit) { hide(); return; }
-      if (!active) resetIdle();
+      if (active) { hide(); return; }
+      resetIdle();
     }, { passive: true });
   });
   window.addEventListener('keydown', function (e) {
     if (!active) { resetIdle(); return; }
     if (e.key === 'Escape') { hide(); return; }
-    if (!cornerHit) hide();
+    hide();
   });
   document.getElementById('dvd-corner-close').addEventListener('click', function(e) {
     e.stopPropagation();
     hide();
   });
 
-  // Pre-load thumbnails
   THUMBS.forEach(function (s) { var i = new Image(); i.src = s; });
 
   resetIdle();

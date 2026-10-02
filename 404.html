@@ -8,7 +8,40 @@
   <meta name="description" content="Page not found." />
   <meta name="robots" content="noindex, nofollow" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    .home-fly {
+      position: fixed;
+      top: 26px;
+      right: 10px;
+      left: auto;
+      z-index: 2147483647;
+      display: block;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-decoration: none;
+      line-height: 0;
+      overflow: visible;
+      opacity: 0.9;
+      pointer-events: auto;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .home-fly:hover {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .home-fly img {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+* { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: #fff;
       display: flex;
@@ -41,15 +74,49 @@
       transition: opacity 0.2s ease;
     }
     .back:hover { opacity: 1; }
-  </style>
 
+    .home-fly {
+      position: fixed;
+      top: 26px;
+      left: auto;
+      right: 10px;
+      z-index: 2147483647;
+      display: block;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-decoration: none;
+      line-height: 0;
+      overflow: visible;
+      opacity: 0.9;
+      pointer-events: auto;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .home-fly:hover {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .home-fly img {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+</style>
   <style>
     .back{display:none!important}
   </style>
 </head>
 <body>
-  <a class="back" href="project-3.html">&#8592;</a>
-  <h1>404</h1>
+<a class="home-fly" href="index.html" aria-label="Go to home" style="position:fixed;top:16px;left:16px;right:auto;z-index:2147483647;width:30px;height:30px;display:block;padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;line-height:0;overflow:visible;opacity:0.9;text-decoration:none;pointer-events:auto;"><img src="images/fly emoji.webp" alt="Fly home" style="display:block;width:30px;height:30px;object-fit:contain;pointer-events:none;" /></a>
+<h1>404</h1>
   <p>page not found</p>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "893261a273b949c48f5b610db9c0fc78"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

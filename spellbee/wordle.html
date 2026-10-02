@@ -8,13 +8,15 @@
   <title>Wordle – Stavebien</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="wordle.css">
-
   <style>
     .back{display:none!important}
+    .home-fly{position:fixed;top:16px;left:16px;right:auto;z-index:10;display:block;width:40px;height:40px;padding:0;margin:0;border:0;background:transparent;box-shadow:none;line-height:0;overflow:visible;opacity:1;text-decoration:none;transition:transform 0.2s ease}
+    .home-fly:hover{transform:scale(1.04)}
+    .home-fly img{display:block;width:40px;height:40px;object-fit:contain;pointer-events:none}
   </style>
 </head>
 <body>
-  <a class="back" href="index.html">←</a>
+<a class="home-fly" href="../index.html" aria-label="Go to home" style="position:fixed;top:16px;left:16px;right:auto;z-index:10;width:40px;height:40px;display:block;padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;line-height:0;overflow:visible;opacity:1;text-decoration:none;pointer-events:auto;"><img src="../images/fly emoji.webp" alt="Fly home" style="display:block;width:40px;height:40px;object-fit:contain;pointer-events:none;" /></a>
 
   <div id="app">
 

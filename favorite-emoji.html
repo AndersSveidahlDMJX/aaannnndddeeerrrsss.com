@@ -3,7 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="preconnect" href="https://static.cloudflareinsights.com">
-  <style id="page-load-bg">body{background:#000!important}</style>
+  <style id="page-load-bg">
+    .home-fly {
+      position: fixed;
+      top: 26px;
+      right: 10px;
+      left: auto;
+      z-index: 2147483647;
+      display: block;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-decoration: none;
+      line-height: 0;
+      overflow: visible;
+      opacity: 0.9;
+      pointer-events: auto;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .home-fly:hover {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .home-fly img {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+body{background:#000!important}
+    .home-fly {
+      position: fixed;
+      top: 26px;
+      left: auto;
+      right: 10px;
+      z-index: 2147483647;
+      display: block;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-decoration: none;
+      line-height: 0;
+      overflow: visible;
+      opacity: 0.9;
+      pointer-events: auto;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .home-fly:hover {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .home-fly img {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+</style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/webp" href="images/fly emoji.webp" />
   <title>My Favorite Emoji — Anders Sveidahl</title>
@@ -140,14 +209,13 @@
     @media (max-width: 768px) { .back {
       font-weight: 700; display: none !important; } }
   </style>
-
   <style>
     .back{display:none!important}
   </style>
 </head>
 <body>
-  <a class="back" href="other-stuff.html">‹</a>
-  <div class="page-title" data-i18n="fav-emoji-title">den her</div>
+<a class="home-fly" href="index.html" aria-label="Go to home" style="position:fixed;top:16px;left:16px;right:auto;z-index:2147483647;width:30px;height:30px;display:block;padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;line-height:0;overflow:visible;opacity:0.9;text-decoration:none;pointer-events:auto;"><img src="images/fly emoji.webp" alt="Fly home" style="display:block;width:30px;height:30px;object-fit:contain;pointer-events:none;" /></a>
+<div class="page-title" data-i18n="fav-emoji-title">den her</div>
   <div class="fly-wrap">
     <img id="the-fly" src="images/fly emoji.webp" alt="🪰" />
     <div class="sad-face" id="sad-face">:(</div>
