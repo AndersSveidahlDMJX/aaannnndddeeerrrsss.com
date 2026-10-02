@@ -820,7 +820,7 @@ body{background:#000!important}
     'images/Bones.webp',
     'images/le_ice.webp',
     'images/redanig.webp',
-    'images/agnostic-intelligence-card.svg',
+    null,
   ];
   var STYLES = [
     {bg:'',        fit:'contain', t:'translateY(7px) scale(1.178)'},
@@ -839,8 +839,30 @@ body{background:#000!important}
 
   var saver      = document.getElementById('dvd-saver');
   var folder     = document.getElementById('dvd-folder');
+  var folderInner = document.getElementById('dvd-folder-inner');
   var img        = document.getElementById('dvd-img');
   var bg         = document.getElementById('dvd-folder-bg');
+  var galleryAiCard = document.querySelector('.card-link:nth-child(6) .card');
+  var dvdAiGrid = document.createElement('div');
+  dvdAiGrid.className = 'dvd-ai-card-grid';
+  dvdAiGrid.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;opacity:1;transform:none;--card:' + getComputedStyle(galleryAiCard).width + ';pointer-events:none;';
+  for (var placeholderIndex = 0; placeholderIndex < 5; placeholderIndex++) {
+    var placeholder = document.createElement('div');
+    placeholder.style.display = 'none';
+    dvdAiGrid.appendChild(placeholder);
+  }
+  var dvdAiLink = document.createElement('div');
+  dvdAiLink.className = 'card-link';
+  var dvdAiWrap = document.createElement('div');
+  dvdAiWrap.className = 'card-wrap';
+  var dvdAiCard = galleryAiCard.cloneNode(true);
+  var galleryCardSize = parseFloat(getComputedStyle(galleryAiCard).width);
+  dvdAiCard.style.transform = 'scale(' + (SIZE / galleryCardSize) + ')';
+  dvdAiCard.style.transformOrigin = 'center center';
+  dvdAiWrap.appendChild(dvdAiCard);
+  dvdAiLink.appendChild(dvdAiWrap);
+  dvdAiGrid.appendChild(dvdAiLink);
+  folderInner.appendChild(dvdAiGrid);
 
   var thumbIdx  = 0;
   var x = 0, y = 0, vx = 0, vy = 0;
@@ -854,14 +876,17 @@ body{background:#000!important}
   function setThumb(idx) {
     thumbIdx = ((idx % THUMBS.length) + THUMBS.length) % THUMBS.length;
     var s = STYLES[thumbIdx];
-    img.src = THUMBS[thumbIdx];
+    var isAiCard = thumbIdx === THUMBS.length - 1;
+    if (!isAiCard) img.src = THUMBS[thumbIdx];
+    img.style.display = isAiCard ? 'none' : 'block';
+    dvdAiGrid.style.display = isAiCard ? 'flex' : 'none';
     img.style.objectFit = s.fit;
     img.style.transform = s.t;
     bg.style.background = s.bg || '#fff';
-    bg.style.opacity    = s.bg ? '1' : '0';
-    folder.style.filter = thumbIdx === THUMBS.length - 1
+    bg.style.opacity    = s.bg && !isAiCard ? '1' : '0';
+    folder.style.filter = isAiCard
       ? 'drop-shadow(0 0 2px rgba(255,255,255,0.58)) drop-shadow(0 0 5px rgba(176,211,255,0.42)) drop-shadow(0 0 8px rgba(126,164,255,0.2))'
-      : 'drop-shadow(0 0 1px rgba(255,255,255,0.65)) drop-shadow(0 0 5px rgba(176,211,255,0.28))';
+      : 'none';
   }
 
   function setPos() {
@@ -955,7 +980,7 @@ body{background:#000!important}
     hide();
   });
 
-  THUMBS.forEach(function (s) { var i = new Image(); i.src = s; });
+  THUMBS.slice(0, -1).forEach(function (s) { var i = new Image(); i.src = s; });
 
   resetIdle();
 })();

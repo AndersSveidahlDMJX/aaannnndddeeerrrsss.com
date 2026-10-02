@@ -250,9 +250,9 @@
       '.home-fly img{',
         'display:block;width:40px;height:40px;object-fit:contain;pointer-events:none;',
       '}',
-      '.project-work-nav{left:70px;width:46px;height:46px;}',
-      '.project-work-nav img{display:block;width:46px;height:46px;object-fit:contain;pointer-events:none;}',
-      '@media (max-width:768px){.home-fly{width:34px;height:34px;}.home-fly img{width:34px;height:34px;}.project-work-nav{left:58px;width:39px;height:39px;}.project-work-nav img{width:39px;height:39px;}}',
+      '.project-work-nav{top:7px;left:66px;width:53px;height:53px;}',
+      '.project-work-nav img{display:block;width:53px;height:53px;object-fit:contain;pointer-events:none;}',
+      '@media (max-width:768px){.home-fly{width:34px;height:34px;}.home-fly img{width:34px;height:34px;}.project-work-nav{top:12px;left:58px;width:45px;height:45px;}.project-work-nav img{width:45px;height:45px;}}',
     ].join('');
     document.head.appendChild(projectNavStyle);
 
@@ -288,10 +288,10 @@
           document.body.insertBefore(workNav, document.body.firstChild);
         }
       }
-      workNav.style.left = window.matchMedia('(max-width:768px)').matches ? '58px' : '70px';
-      workNav.style.top = '16px';
-      workNav.style.width = window.matchMedia('(max-width:768px)').matches ? '39px' : '46px';
-      workNav.style.height = window.matchMedia('(max-width:768px)').matches ? '39px' : '46px';
+      workNav.style.left = window.matchMedia('(max-width:768px)').matches ? '58px' : '66px';
+      workNav.style.top = window.matchMedia('(max-width:768px)').matches ? '12px' : '7px';
+      workNav.style.width = window.matchMedia('(max-width:768px)').matches ? '45px' : '53px';
+      workNav.style.height = window.matchMedia('(max-width:768px)').matches ? '45px' : '53px';
       workNav.style.zIndex = '10';
       workNav.style.opacity = '1';
       workNav.setAttribute('aria-label', 'Go to work');

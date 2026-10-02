@@ -466,6 +466,7 @@
     }
 
     @media (max-width: 768px) {
+      #index-fly { display: none !important; }
       body {
         background: #000;
         height: 100dvh;
@@ -770,6 +771,7 @@
       let vx = 1.8;
       let vy = 1.3;
       let alive = true;
+      let lastFrameTime = null;
       const pointer = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.5 };
 
       function renderFly() {
@@ -780,8 +782,10 @@
         fly.style.transform = 'translate(-50%, -50%) rotate(' + angle + 'rad)';
       }
 
-      function tick() {
+      function tick(now) {
         if (!alive) return;
+        const frameScale = lastFrameTime === null ? 1 : Math.min((now - lastFrameTime) / (1000 / 60), 3);
+        lastFrameTime = now;
 
         const dx = pointer.x - x;
         const dy = pointer.y - y;
@@ -789,8 +793,8 @@
 
         if (dist < 220) {
           const repel = (220 - dist) / 220;
-          vx -= (dx / dist) * repel * 1.8;
-          vy -= (dy / dist) * repel * 1.8;
+          vx -= (dx / dist) * repel * 1.8 * frameScale;
+          vy -= (dy / dist) * repel * 1.8 * frameScale;
         }
 
         const half = fly.offsetWidth / 2;
@@ -799,28 +803,29 @@
         const viewportH = window.innerHeight;
 
         if (x < edgeMargin + half) {
-          vx += (edgeMargin + half - x) * 0.015 + 0.45;
+          vx += ((edgeMargin + half - x) * 0.015 + 0.45) * frameScale;
         }
         if (x > viewportW - edgeMargin - half) {
-          vx -= (x - (viewportW - edgeMargin - half)) * 0.015 + 0.45;
+          vx -= ((x - (viewportW - edgeMargin - half)) * 0.015 + 0.45) * frameScale;
         }
         if (y < edgeMargin + half) {
-          vy += (edgeMargin + half - y) * 0.015 + 0.35;
+          vy += ((edgeMargin + half - y) * 0.015 + 0.35) * frameScale;
         }
         if (y > viewportH - edgeMargin - half) {
-          vy -= (y - (viewportH - edgeMargin - half)) * 0.015 + 0.35;
+          vy -= ((y - (viewportH - edgeMargin - half)) * 0.015 + 0.35) * frameScale;
         }
 
-        vx += (Math.random() - 0.5) * 0.8;
-        vy += (Math.random() - 0.5) * 0.7;
+        const noiseScale = Math.sqrt(frameScale);
+        vx += (Math.random() - 0.5) * 0.8 * noiseScale;
+        vy += (Math.random() - 0.5) * 0.7 * noiseScale;
 
         const speed = Math.hypot(vx, vy) || 1;
-        const maxSpeed = 3.6;
+        const maxSpeed = 6;
         vx = (vx / speed) * maxSpeed;
         vy = (vy / speed) * maxSpeed;
 
-        x += vx;
-        y += vy;
+        x += vx * frameScale;
+        y += vy * frameScale;
 
         const margin = 10;
         const maxX = window.innerWidth - margin - half;

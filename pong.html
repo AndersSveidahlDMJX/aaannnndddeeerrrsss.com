@@ -55,6 +55,11 @@ body{background:#000!important}
   <meta name="twitter:description" content="A browser PONG game by Anders Sveidahl." />
   <meta name="twitter:image" content="https://anderssveidahl.com/images/le_ice.webp" />
   <style>
+    @font-face {
+      font-family: 'EurostileExtBlk';
+      src: url('fonts/Eurostile-BoldExtendedTwo.otf') format('opentype');
+      font-display: swap;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { width: 100vw; height: 100vh; overflow: hidden; background: #000; }
 
@@ -167,6 +172,7 @@ body{background:#000!important}
     const MAX_SPEED  = 1500;
     const SPEED_INC  = 55;
     const CPU_SPEED  = 510;
+    const PROJECT_6_IDX = 5;
     const BONES_IDX  = 2;   // thumbnail index that needs white backing
 
     /* ── thumbnails ── */
@@ -176,7 +182,6 @@ body{background:#000!important}
       'images/Bones.webp',
       'images/le_ice.webp',
       'images/redanig.webp',
-      'images/agnostic-intelligence-card.svg',
     ];
     const THUMB_STYLE = [
       { fit: 'contain', scale: 1.178, dx: 0, dy: 7 },
@@ -184,11 +189,10 @@ body{background:#000!important}
       { fit: 'contain', scale: 0.8, dx: 0, dy: 0 },
       { fit: 'cover', scale: 0.93, dx: 0, dy: 4 },
       { fit: 'cover', scale: 0.95, dx: 0, dy: 8 },
-      { fit: 'cover', scale: 0.98, dx: -0.05, relativeX: true, dy: 0 },
     ];
-    const THUMB_BG = ['', '', '#fff', '#ec702e', '', '#000'];
+    const THUMB_BG = ['', '', '#fff', '#ec702e', ''];
     // Rotation in degrees for each thumbnail (for canvas drawing)
-    const THUMB_ROT = [0, 0, 0, 0, 0, 0];
+    const THUMB_ROT = [0, 0, 0, 0, 0];
     const folderMaskCanvas = document.createElement('canvas');
     const folderMaskCtx = folderMaskCanvas.getContext('2d');
     const cardCanvas = document.createElement('canvas');
@@ -206,6 +210,7 @@ body{background:#000!important}
     ballCanvas.width = BALL_R * 2; ballCanvas.height = BALL_R * 2;
     var ballCtx2 = ballCanvas.getContext('2d');
     var ballCacheIdx = -1;
+    var projectSixFontRequested = false;
 
     /* ── Web Audio sound effects ── */
     var audioCtx = null;
@@ -242,7 +247,7 @@ body{background:#000!important}
 
     /* ── canvas ── */
     const canvas = document.getElementById('game');
-    const ctx    = canvas.getContext('2d');
+    const ctx    = canvas.getContext('2d', { desynchronized: true });
     let W = 0, H = 0, GH = 0;
 
     function resize() {
@@ -355,7 +360,7 @@ body{background:#000!important}
         ballSpeed = Math.min(ballSpeed + SPEED_INC, MAX_SPEED);
         ball.vx   = ballSpeed * Math.cos(ang);
         ball.vy   = ballSpeed * Math.sin(ang);
-        thumbIdx  = (thumbIdx + 1) % imgs.length;
+        thumbIdx  = (thumbIdx + 1) % (imgs.length + 1);
         sndHitPlayer();
       }
 
@@ -372,12 +377,13 @@ body{background:#000!important}
         ballSpeed  = Math.min(ballSpeed + SPEED_INC, MAX_SPEED);
         ball.vx    = -ballSpeed * Math.cos(ang2);
         ball.vy    =  ballSpeed * Math.sin(ang2);
+        thumbIdx   = (thumbIdx + 1) % (imgs.length + 1);
         sndHitCPU();
       }
 
       /* scoring */
       if (ball.x + BALL_R < 0) {
-        cpuScore++; thumbIdx = (thumbIdx + 1) % imgs.length; sndScore();
+        cpuScore++; thumbIdx = (thumbIdx + 1) % (imgs.length + 1); sndScore();
         if (cpuScore >= WIN_SCORE) { state = 'lost'; endTimer = 3.8; endSoundPlayed = false; }
         else { resetPos(); launch(false); }
       }
@@ -391,6 +397,61 @@ body{background:#000!important}
     /* ── draw helpers ── */
     function glow(col, blur) { ctx.shadowColor = col; ctx.shadowBlur = blur; }
     function noGlow()         { ctx.shadowBlur = 0; }
+
+    function drawProjectSixCard(target, size) {
+      if (!projectSixFontRequested && document.fonts && document.fonts.load) {
+        projectSixFontRequested = true;
+        document.fonts.load('600 18px EurostileExtBlk').then(function () {
+          ballCacheIdx = -1;
+        }).catch(function () {});
+      }
+      var cardSize = Math.max(180, window.innerWidth * 0.1653);
+      var scale = size / cardSize;
+      var markFont = Math.max(18, Math.min(36, window.innerWidth * 0.0216));
+      var subFont = Math.max(5.6, Math.min(9.6, window.innerWidth * 0.0072));
+      var markLine = markFont * 0.9;
+      var subLine = subFont * 1.1;
+      var groupTop = (cardSize - markLine - 4 - subLine) / 2;
+      var markTop = (groupTop + 10) * scale;
+      var subTop = (groupTop + markLine + 4 + 10) * scale;
+
+      target.save();
+      target.textAlign = 'center';
+      target.textBaseline = 'middle';
+      target.font = '600 ' + (markFont * scale) + 'px EurostileExtBlk, sans-serif';
+      target.letterSpacing = (markFont * 0.08 * scale) + 'px';
+      var markGradient = target.createLinearGradient(0, markTop, 0, markTop + markLine * scale);
+      markGradient.addColorStop(0, '#ffffff');
+      markGradient.addColorStop(0.2, '#e8e8e8');
+      markGradient.addColorStop(0.55, '#b0b0b0');
+      markGradient.addColorStop(1, '#7a7a7a');
+      target.fillStyle = markGradient;
+      target.shadowColor = 'rgba(255,255,255,0.55)';
+      target.shadowBlur = 8 * scale;
+      target.shadowOffsetY = -1 * scale;
+      target.fillText('AI', size / 2, markTop + markLine * scale / 2);
+      target.shadowColor = 'rgba(0,0,0,0.35)';
+      target.shadowOffsetY = 2 * scale;
+      target.fillText('AI', size / 2, markTop + markLine * scale / 2);
+
+      target.globalAlpha = 0.95;
+      target.font = '300 ' + (subFont * scale) + 'px EurostileExtBlk, sans-serif';
+      target.letterSpacing = (subFont * 0.08 * scale) + 'px';
+      var subGradient = target.createLinearGradient(0, subTop, 0, subTop + subLine * scale);
+      subGradient.addColorStop(0, '#ffffff');
+      subGradient.addColorStop(0.2, '#e8e8e8');
+      subGradient.addColorStop(0.55, '#b0b0b0');
+      subGradient.addColorStop(1, '#7a7a7a');
+      target.fillStyle = subGradient;
+      target.shadowColor = 'rgba(255,255,255,0.45)';
+      target.shadowBlur = 8 * scale;
+      target.shadowOffsetY = -1 * scale;
+      target.fillText('Agnostic Intelligence', size / 2, subTop + subLine * scale / 2);
+      target.shadowColor = 'rgba(0,0,0,0.3)';
+      target.shadowOffsetY = 2 * scale;
+      target.fillText('Agnostic Intelligence', size / 2, subTop + subLine * scale / 2);
+      target.restore();
+    }
 
     function drawPaddle(x, y, col) {
       glow(col, 8); ctx.fillStyle = '#fff';
@@ -416,13 +477,18 @@ body{background:#000!important}
         ot.clearRect(0, 0, s, s);
         cardCtx.clearRect(0, 0, s, s);
         cardCtx.globalCompositeOperation = 'source-over';
-        if (THUMB_BG[thumbIdx]) {
+        var isProjectSix = thumbIdx === PROJECT_6_IDX;
+        if (isProjectSix) {
+          cardCtx.fillStyle = '#000';
+          cardCtx.fillRect(0, 0, s, s);
+          drawProjectSixCard(cardCtx, s);
+        } else if (THUMB_BG[thumbIdx]) {
           cardCtx.fillStyle = THUMB_BG[thumbIdx];
           cardCtx.fillRect(0, 0, s, s);
         }
 
         var thumb = imgs[thumbIdx];
-        if (thumb.complete && thumb.naturalWidth > 0) {
+        if (!isProjectSix && thumb && thumb.complete && thumb.naturalWidth > 0) {
           var style = THUMB_STYLE[thumbIdx] || { fit: 'cover', scale: 1, dx: 0, dy: 0 };
           var rot = THUMB_ROT[thumbIdx];
           var iw = thumb.naturalWidth, ih = thumb.naturalHeight;
@@ -454,7 +520,7 @@ body{background:#000!important}
         ot.drawImage(cardCanvas, 0, 0, s, s);
         ballCacheIdx = thumbIdx;
       }
-      if (thumbIdx === THUMB_SRCS.length - 1) {
+      if (thumbIdx === PROJECT_6_IDX) {
         ctx.save();
         ctx.shadowColor = 'rgba(176,211,255,0.5)';
         ctx.shadowBlur = 7;
