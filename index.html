@@ -365,9 +365,9 @@
       position: fixed;
       left: 10px;
       top: 10px;
-      z-index: 1;
-      width: 19.5px;
-      height: 19.5px;
+      z-index: 20;
+      width: 26px;
+      height: 26px;
       pointer-events: auto;
       user-select: none;
       cursor: pointer;
@@ -377,8 +377,8 @@
     }
     #index-fly img {
       display: block;
-      width: 19.5px;
-      height: 19.5px;
+      width: 26px;
+      height: 26px;
       object-fit: contain;
       pointer-events: none;
       transform-origin: center center;
@@ -720,8 +720,8 @@
     <div class="item-col">
       <a href="work.html">
         <div class="toshiba-wrap">
-          <img class="toshiba2" src="images/toshiba2.webp" alt="" loading="lazy" />
-          <img class="toshiba1" src="images/toshiba1.webp" alt="" loading="lazy" />
+          <img class="toshiba2" src="images/toshiba2.webp" alt="" loading="eager" />
+          <img class="toshiba1" src="images/toshiba1.webp" alt="" loading="eager" />
         </div>
       </a>
       <span class="item-label work-label" data-i18n="nav-work">Work</span>
@@ -793,7 +793,7 @@
           vy -= (dy / dist) * repel * 1.8;
         }
 
-        const half = 9.75;
+        const half = fly.offsetWidth / 2;
         const edgeMargin = 52;
         const viewportW = window.innerWidth;
         const viewportH = window.innerHeight;
@@ -815,7 +815,7 @@
         vy += (Math.random() - 0.5) * 0.7;
 
         const speed = Math.hypot(vx, vy) || 1;
-        const maxSpeed = 2.6;
+        const maxSpeed = 3.6;
         vx = (vx / speed) * maxSpeed;
         vy = (vy / speed) * maxSpeed;
 
@@ -883,32 +883,27 @@
       requestAnimationFrame(tick);
     })();
 
-    const wrap = document.querySelector('.toshiba-wrap');
-    const t2 = wrap.querySelector('.toshiba2');
-    const t1 = wrap.querySelector('.toshiba1');
-    let loopTimeout = null;
-    let hovering = false;
+    const toshibaWrap = document.querySelector('.toshiba-wrap');
+    const toshibaFrame1 = document.querySelector('.toshiba1');
+    let toshibaFrameTimer = null;
 
-    function loop() {
-      if (!hovering) return;
-      t1.style.display = 'block';
-      loopTimeout = setTimeout(() => {
-        t1.style.display = 'none';
-        loopTimeout = setTimeout(() => {
-          loop();
-        }, 500);
+    function startToshibaFrameSwap() {
+      if (!toshibaWrap.matches(':hover') || !toshibaFrame1.complete || !toshibaFrame1.naturalWidth) return;
+      clearInterval(toshibaFrameTimer);
+      toshibaFrame1.style.display = 'block';
+      toshibaFrameTimer = setInterval(() => {
+        toshibaFrame1.style.display = toshibaFrame1.style.display === 'none' ? 'block' : 'none';
       }, 500);
     }
 
-    wrap.addEventListener('mouseenter', () => {
-      hovering = true;
-      loopTimeout = setTimeout(loop, 300);
+    toshibaWrap.addEventListener('mouseenter', () => {
+      if (toshibaFrame1.complete && toshibaFrame1.naturalWidth) startToshibaFrameSwap();
+      else toshibaFrame1.addEventListener('load', startToshibaFrameSwap, { once: true });
     });
 
-    wrap.addEventListener('mouseleave', () => {
-      hovering = false;
-      clearTimeout(loopTimeout);
-      t1.style.display = 'none';
+    toshibaWrap.addEventListener('mouseleave', () => {
+      clearInterval(toshibaFrameTimer);
+      toshibaFrame1.style.display = 'none';
     });
 
   </script>
